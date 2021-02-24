@@ -4,19 +4,18 @@
   <meta charset="utf-8">
   
   
-  <title>基本GPIO操作 | Welcome to smallcracker&#39;s personal website</title>
+  <title>Welcome to smallcracker&#39;s personal website</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="单片机工作前需要使能系统时钟 1MAP_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN);  可以将系统时钟设置到50Mhz; 时钟的学习参见时钟 接下来使能GPIO接口 12&#x2F;&#x2F;使能F组外设时钟SysCtlPeripheralEnable(SYSCTL_PERIPH_GPI">
+  <meta name="description" content="title：基本GPIO操作date：2021-1-29 tag：单片机GPIO 输出首先使能GPIO接口SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF); 接下来设置GPIO模式为输出GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);    如果要设置多个pin的话GPIOPinTypeGPIOOutpu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基本GPIO操作">
-<meta property="og:url" content="http://example.com/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:title" content="Welcome to smallcracker&#39;s personal website">
+<meta property="og:url" content="http://example.com/2021/02/24/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/index.html">
 <meta property="og:site_name" content="Welcome to smallcracker&#39;s personal website">
-<meta property="og:description" content="单片机工作前需要使能系统时钟 1MAP_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN);  可以将系统时钟设置到50Mhz; 时钟的学习参见时钟 接下来使能GPIO接口 12&#x2F;&#x2F;使能F组外设时钟SysCtlPeripheralEnable(SYSCTL_PERIPH_GPI">
+<meta property="og:description" content="title：基本GPIO操作date：2021-1-29 tag：单片机GPIO 输出首先使能GPIO接口SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF); 接下来设置GPIO模式为输出GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);    如果要设置多个pin的话GPIOPinTypeGPIOOutpu">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-01-28T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-28T17:53:34.652Z">
+<meta property="article:published_time" content="2021-02-24T15:48:37.161Z">
+<meta property="article:modified_time" content="2021-02-24T15:13:27.632Z">
 <meta property="article:author" content="smallcracker">
-<meta property="article:tag" content="单片机">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Welcome to smallcracker's personal website" type="application/atom+xml">
@@ -74,38 +73,27 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-基本GPIO操作" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-GPIO输出和输入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+    <a href="/2021/02/24/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" class="article-date">
+  <time class="dt-published" datetime="2021-02-24T15:48:37.161Z" itemprop="datePublished">2021-02-24</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      基本GPIO操作
-    </h1>
-  
-
-      </header>
-    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>单片机工作前需要使能系统时钟</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAP_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN); </span><br></pre></td></tr></table></figure>
-<p>可以将系统时钟设置到50Mhz;</p>
-<p>时钟的学习参见<a target="_blank" rel="noopener" href="https://blog.csdn.net/wxc971231/article/details/95043609">时钟</a></p>
-<p>接下来使能GPIO接口</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能F组外设时钟</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br></pre></td></tr></table></figure>
-<p>接下来设置GPIO接口模式</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//表示将F口的3引脚设置为输出</span></span><br><span class="line">GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</span><br><span class="line"><span class="comment">//如果要设置多个pin的话</span></span><br><span class="line">GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5);</span><br></pre></td></tr></table></figure>
-<p>接下来设置输出</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置</span></span><br><span class="line">GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, <span class="number">0</span>);</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIOPinWrite</span><span class="params">(Port,Pins,which_pin)</span></span>;</span><br></pre></td></tr></table></figure>
+        <hr>
+<p>title：基本GPIO操作<br>date：2021-1-29</p>
+<h2 id="tag：单片机"><a href="#tag：单片机" class="headerlink" title="tag：单片机"></a>tag：单片机</h2><h1 id="GPIO-输出"><a href="#GPIO-输出" class="headerlink" title="GPIO 输出"></a>GPIO 输出</h1><p>首先使能GPIO接口<br><code>SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</code></p>
+<p>接下来设置GPIO模式为输出<br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</code>  </p>
+<ul>
+<li><em>如果要设置多个pin的话</em><br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5);</code>  </li>
+</ul>
+<p>最后进行输出<br><code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0);或者
+void GPIOPinWrite(Port,Pins,which_pin);</code></p>
 <p>GPIO函数一共有三种</p>
 <ol>
 <li>配置GPIO pins的函数</li>
@@ -116,39 +104,25 @@
 <p>TI的普通配置只需要进行GPIO外设使能和方向控制即可。也不是说前面说到的功能模式就不能配置了，如果有需要可以进行其他类型的配置。<br>如果要进行端口高低电平的输出控制，３２和TI也是一样的调用函数来进行配置，分别是：<code>GPIO_SetBits(GPIOE,GPIO_Pin_5);</code>　和　<code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0);</code></p>
 <p>注意：TI的输出高低电平使用的是同一个函数GPIOPinWrite（），对于３２则使用的是两个函数：GPIO_SetBits（）和GPIO_ResetBit（）即可输出高低电平。TI呢，则不是这样的，就连入口参数也不是和３２一样那么简单，GPIOPinWrite（）入口参数就有三个，分别是GPIO_PORTｘ_BASE，GPIO＿PIN＿ｘ，和０（低电平时候为０，但是高电平时候不是１，而是GPIO＿PIN＿ｘ）。例如PF１输出高电平　：<br>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);</p>
 <p>输入输出的模式一般不用管，但应了解浮空输入 上拉输入 下拉输入 模拟输入 开漏输出 推挽输出 复用推挽输出 复用开漏输出</p>
-<p>附：延时函数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SysCtlDelay ( SysCtlClockGet() * 秒数 / <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
 <p>怎样读入呢？</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//检测</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123; <span class="comment">//如果按下</span></span><br><span class="line"></span><br><span class="line">       </span><br><span class="line">            SysCtlDelay(<span class="number">20</span>*(SysCtlClockGet()/<span class="number">3000</span>));<span class="comment">//消抖</span></span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">            ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//再次检测</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123;<span class="comment">//再次判断</span></span><br><span class="line">                KeyPress1 = <span class="literal">true</span>;<span class="comment">//如果按下，则置一个标志位</span></span><br><span class="line"></span><br><span class="line">               </span><br><span class="line">                <span class="keyword">while</span>(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4)) &#123;</span><br><span class="line">                    ;<span class="comment">//等按键松开</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
-
+<h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//检测</span></span><br><span class="line"><span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123; <span class="comment">//如果按下</span></span><br><span class="line">    SysCtlDelay(<span class="number">20</span>*(SysCtlClockGet()/<span class="number">3000</span>));<span class="comment">//消抖</span></span><br><span class="line">    ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//再次检测</span></span><br><span class="line">    <span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123;<span class="comment">//再次判断</span></span><br><span class="line">        KeyPress1 = <span class="literal">true</span>;<span class="comment">//如果按下，则置一个标志位</span></span><br><span class="line">        <span class="keyword">while</span>(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4))&#123;&#125;<span class="comment">//等按键松开</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></h2><h2 id="GPIO输出最终模板"><a href="#GPIO输出最终模板" class="headerlink" title="GPIO输出最终模板"></a>GPIO输出最终模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能GPIO外设</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line"><span class="comment">//设置引脚为GPIO输出模式</span></span><br><span class="line">GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</span><br><span class="line"><span class="comment">//引脚输出</span></span><br><span class="line">GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/" data-id="ckljm4t3x000jqo3d9jbm2bnm" data-title="基本GPIO操作" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/24/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="ckljm4t3m0004qo3d8fom7qlp" data-title="" class="article-share-link">Share</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          midi
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/01/15/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/02/24/sg90/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">如何上传博客</div>
+      <div class="article-nav-title">sg90操作</div>
     </a>
   
 </nav>

@@ -4,22 +4,20 @@
   <meta charset="utf-8">
   
   
-  <title>SysTick | Welcome to smallcracker&#39;s personal website</title>
+  <title>FPU | Welcome to smallcracker&#39;s personal website</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="SysTickSysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Itsintended purpose is to provide a periodic interrupt for an RTOS, but it can be used for other si">
+  <meta name="description" content="FPU简介FPU指的是浮点运算单元。默认情况下，我们不能使用浮点数，只有使能了FPU才能浮点数。如果不打开浮点运算单元就用浮点数的话，单片机就会产生一个NOCP错误。（RTOS可以利用这个特性判断哪一项任务使用了浮点运算单元，以此只在涉及到这些任务的task switch中执行FPU。） 当处理器执行一条中断命令时，有三种办法处理浮点运算内容：1.不去算 2.总是存下来浮点运算内容 3.对浮点运算">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SysTick">
-<meta property="og:url" content="http://example.com/2021/01/29/System%20Tick/index.html">
+<meta property="og:title" content="FPU">
+<meta property="og:url" content="http://example.com/2021/01/30/FPU/index.html">
 <meta property="og:site_name" content="Welcome to smallcracker&#39;s personal website">
-<meta property="og:description" content="SysTickSysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Itsintended purpose is to provide a periodic interrupt for an RTOS, but it can be used for other si">
+<meta property="og:description" content="FPU简介FPU指的是浮点运算单元。默认情况下，我们不能使用浮点数，只有使能了FPU才能浮点数。如果不打开浮点运算单元就用浮点数的话，单片机就会产生一个NOCP错误。（RTOS可以利用这个特性判断哪一项任务使用了浮点运算单元，以此只在涉及到这些任务的task switch中执行FPU。） 当处理器执行一条中断命令时，有三种办法处理浮点运算内容：1.不去算 2.总是存下来浮点运算内容 3.对浮点运算">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="c:/Users/smallcannabis/AppData/Roaming/Typora/typora-user-images/image-20201212171840774.png">
-<meta property="article:published_time" content="2021-01-28T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-28T17:55:08.165Z">
+<meta property="article:published_time" content="2021-01-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-02-24T15:45:26.859Z">
 <meta property="article:author" content="smallcracker">
 <meta property="article:tag" content="单片机">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:/Users/smallcannabis/AppData/Roaming/Typora/typora-user-images/image-20201212171840774.png">
   
     <link rel="alternate" href="/atom.xml" title="Welcome to smallcracker's personal website" type="application/atom+xml">
   
@@ -76,10 +74,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-System Tick" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-FPU" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/01/29/System%20Tick/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+    <a href="/2021/01/30/FPU/" class="article-date">
+  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
 </a>
     
   </div>
@@ -90,7 +88,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      SysTick
+      FPU
     </h1>
   
 
@@ -98,34 +96,19 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="SysTick"><a href="#SysTick" class="headerlink" title="SysTick"></a>SysTick</h1><p>SysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Its<br>intended purpose is to provide a periodic interrupt for an RTOS, but it can be used for other simple<br>timing purposes.<br>The SysTick interrupt handler does not need to clear the SysTick interrupt source as it is cleared<br>automatically by the NVIC when the SysTick interrupt handler is called.<br>This driver is contained in driverlib/systick.c, with driverlib/systick.h containing the<br>API declarations for use by applications.</p>
-<p>大概的翻译一下</p>
-<p>SysTick是一个简单的定时器，是Cortex-M微处理器中NVIXC控制器的一部分。他的目的在于为RTOS提供一个周期性的中断，也可以被用于其他简单的计时目的。</p>
-<p>Systick 中断处理不需要清除Sys tick中断源，当SysTick中断处理被调用时NVIC会自动清理中断源。</p>
-<p>头文件是driverlib/systick.h</p>
-<p>The SysTick API is fairly simple, like SysTick itself. There are functions for configuring and enabling<br>SysTick (SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet()) and functions for dealing with an interrupt handler for SysTick (SysTickIntRegister(),<br>SysTickIntUnregister(), SysTickIntEnable(), and SysTickIntDisable()).</p>
-<p>他所包含的函数也特别少</p>
-<p>主要有设置和使能函数还有处理中断的函数</p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212171840774.png" alt="image-20201212171840774"></p>
-<p>设置和使能的函数有</p>
-<p>(SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet())</p>
-<p>先看头两个SysTickEnable(), SysTickDisable(), 使能和停止SysTick</p>
-<p>如果中断处理已经注册，那就等中断重启时再停止。</p>
-<p>其中SysTickEnable还有个note</p>
-<blockquote>
-<p>Calling this function causes the SysTick counter to (re)commence counting from its current<br>value. The counter is not automatically reloaded with the period as specified in a previous call<br>to SysTickPeriodSet(). If an immediate reload is required, the NVIC_ST_CURRENT register<br>must be written to force the reload. Any write to this register clears the SysTick counter to 0<br>and causes a reload with the supplied period on the next clock.</p>
-</blockquote>
-<p>上面是使能定时器的函数，接下来是使能定时器中断的函数SysTickIntEnable(), and SysTickIntDisable()</p>
-<p>然后时注册/去除注册的函数SysTickIntRegister(),SysTickIntUnregister(),</p>
-<p>其中SysTickIntRegister(),的参数是一个函数指针，表示中断发生时要调用的函数</p>
-<p>还有两个函数能设置/返回计时器周期</p>
-<p>周期可以设置在1到16777216之间，单位是处理器的时钟数</p>
-<p>最后一个函数是获取定时器counter的函数SysTickValueGet()</p>
+        <h1 id="FPU"><a href="#FPU" class="headerlink" title="FPU"></a>FPU</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>FPU指的是浮点运算单元。默认情况下，我们不能使用浮点数，只有使能了FPU才能浮点数。如果不打开浮点运算单元就用浮点数的话，单片机就会产生一个NOCP错误。（RTOS可以利用这个特性判断哪一项任务使用了浮点运算单元，以此只在涉及到这些任务的task switch中执行FPU。）</p>
+<p>当处理器执行一条中断命令时，有三种办法处理浮点运算内容：1.不去算 2.总是存下来浮点运算内容 3.对浮点运算内容执行一个 lazy save/restore 。</p>
+<p>如果不去算的话，中断栈帧就和没有浮点运算单元的Cortex-M 处理器的就一样了。（当那些主程序用到浮点运算，中断函数不用浮点运算时，这种方法会特别好用）(没看出来)（我们像这样不存储浮点运算内容的话，就能减少对栈的使用，降低中断延迟）</p>
+<p>除此以外，我们还能把浮点运算内容存储总是到栈里面。这种方法允许在中断函数里面使用浮点运算，代价是栈的使用会增加，中断延迟会增加（因为我们还要向栈里面多写一些东西）。这种方法还有一个优点，那就是在中断函数的栈帧内一直存着浮点运算单元。</p>
+<p>对浮点运算内容的默认处理是执行一个lazy save/restore。当我们开始一个中断时，在栈里面我们为浮点运算内容预留出一部分空间（留着一会往里面写内容）。这种方法能降低中断的延迟，因为一会我们就只用去声明整数了。然后如果要执行一个浮点运算的话，我们就把浮点运算内容写到这个浮点运算指令前面。最终，当从中断返回的时候，浮点运算内容就会留在栈里面，直到它被复写。这种方法既保证了中断的快速反应，用能让我们在中断函数 里面使用浮点运算指令。</p>
+<p>FPU在异常出现时会产生一个中断（比如说向下、向上溢出、除以零、无效操作，非法输入等情况下）。我们可以利用这些中断搞事情。</p>
+<p>FPU也是可以被改造的。我们可以改造半精度浮点数值得格式，对无穷大数的处理，清零模式（这会牺牲完整的IEEE规范来提升速度）以及结果的循环模式。</p>
+<p>头文件是driverlib/fpu.h</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/System%20Tick/" data-id="ckkh5uzye00046s3d6nnogqq0" data-title="SysTick" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/30/FPU/" data-id="ckljm4t3i0001qo3df2h66f78" data-title="FPU" class="article-share-link">Share</a>
       
       
       
@@ -137,19 +120,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2021/01/29/GPIO_interrupt/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          GPIO中断
+          DHT11温湿度传感器
         
       </div>
     </a>
   
   
-    <a href="/2021/01/29/Pulse%20Width%20Modulator/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">PWM</div>
+      <div class="article-nav-title">Analog Comparator</div>
     </a>
   
 </nav>
@@ -188,7 +171,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li></ul>
     </div>
   </div>
 
@@ -201,23 +184,23 @@
       <ul>
         
           <li>
-            <a href="/2021/01/29/GPIO_PWM/">GPIO PWM</a>
+            <a href="/2021/02/24/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2021/01/29/Interrupt%20Controller(NVIC)/">中断控制器</a>
+            <a href="/2021/02/24/sg90/">sg90操作</a>
           </li>
         
           <li>
-            <a href="/2021/01/29/GPIO_interrupt/">GPIO中断</a>
+            <a href="/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/">DHT11温湿度传感器</a>
           </li>
         
           <li>
-            <a href="/2021/01/29/System%20Tick/">SysTick</a>
+            <a href="/2021/01/30/FPU/">FPU</a>
           </li>
         
           <li>
-            <a href="/2021/01/29/Pulse%20Width%20Modulator/">PWM</a>
+            <a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">Analog Comparator</a>
           </li>
         
       </ul>
