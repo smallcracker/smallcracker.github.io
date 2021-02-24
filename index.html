@@ -84,8 +84,8 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <hr>
-<p>title：基本GPIO操作<br>date：2021-1-29</p>
-<h2 id="tag：单片机"><a href="#tag：单片机" class="headerlink" title="tag：单片机"></a>tag：单片机</h2><h1 id="GPIO-输出"><a href="#GPIO-输出" class="headerlink" title="GPIO 输出"></a>GPIO 输出</h1><p>首先使能GPIO接口<br><code>SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</code></p>
+<p>title：GPIO输入和输出<br>date：2021-1-29</p>
+<h2 id="tag：单片机"><a href="#tag：单片机" class="headerlink" title="tag：单片机"></a>tag：单片机</h2><h1 id="GPIO-输入和输出"><a href="#GPIO-输入和输出" class="headerlink" title="GPIO 输入和输出"></a>GPIO 输入和输出</h1><p>首先使能GPIO接口<br><code>SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</code></p>
 <p>接下来设置GPIO模式为输出<br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</code>  </p>
 <ul>
 <li><em>如果要设置多个pin的话</em><br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5);</code>  </li>
@@ -107,7 +107,7 @@ void GPIOPinWrite(Port,Pins,which_pin);</code></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/24/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="ckljm4t3m0004qo3d8fom7qlp" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/24/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="ckljm8ffq0005l03dca0z3n7o" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -145,7 +145,7 @@ void GPIOPinWrite(Port,Pins,which_pin);</code></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/24/sg90/" data-id="ckljm4t3v000eqo3da2mo3x9j" data-title="sg90操作" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/24/sg90/" data-id="ckljm8ffu000dl03d84na740q" data-title="sg90操作" class="article-share-link">Share</a>
       
       
       
@@ -195,55 +195,7 @@ void GPIOPinWrite(Port,Pins,which_pin);</code></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" data-id="ckljm4t2z0000qo3d2dypc34o" data-title="DHT11温湿度传感器" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-FPU" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/30/FPU/" class="article-date">
-  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/30/FPU/">FPU</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="FPU"><a href="#FPU" class="headerlink" title="FPU"></a>FPU</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>FPU指的是浮点运算单元。默认情况下，我们不能使用浮点数，只有使能了FPU才能浮点数。如果不打开浮点运算单元就用浮点数的话，单片机就会产生一个NOCP错误。（RTOS可以利用这个特性判断哪一项任务使用了浮点运算单元，以此只在涉及到这些任务的task switch中执行FPU。）</p>
-<p>当处理器执行一条中断命令时，有三种办法处理浮点运算内容：1.不去算 2.总是存下来浮点运算内容 3.对浮点运算内容执行一个 lazy save/restore 。</p>
-<p>如果不去算的话，中断栈帧就和没有浮点运算单元的Cortex-M 处理器的就一样了。（当那些主程序用到浮点运算，中断函数不用浮点运算时，这种方法会特别好用）(没看出来)（我们像这样不存储浮点运算内容的话，就能减少对栈的使用，降低中断延迟）</p>
-<p>除此以外，我们还能把浮点运算内容存储总是到栈里面。这种方法允许在中断函数里面使用浮点运算，代价是栈的使用会增加，中断延迟会增加（因为我们还要向栈里面多写一些东西）。这种方法还有一个优点，那就是在中断函数的栈帧内一直存着浮点运算单元。</p>
-<p>对浮点运算内容的默认处理是执行一个lazy save/restore。当我们开始一个中断时，在栈里面我们为浮点运算内容预留出一部分空间（留着一会往里面写内容）。这种方法能降低中断的延迟，因为一会我们就只用去声明整数了。然后如果要执行一个浮点运算的话，我们就把浮点运算内容写到这个浮点运算指令前面。最终，当从中断返回的时候，浮点运算内容就会留在栈里面，直到它被复写。这种方法既保证了中断的快速反应，用能让我们在中断函数 里面使用浮点运算指令。</p>
-<p>FPU在异常出现时会产生一个中断（比如说向下、向上溢出、除以零、无效操作，非法输入等情况下）。我们可以利用这些中断搞事情。</p>
-<p>FPU也是可以被改造的。我们可以改造半精度浮点数值得格式，对无穷大数的处理，清零模式（这会牺牲完整的IEEE规范来提升速度）以及结果的循环模式。</p>
-<p>头文件是driverlib/fpu.h</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/FPU/" data-id="ckljm4t3i0001qo3df2h66f78" data-title="FPU" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" data-id="ckljm8ffp0004l03d4hgf371c" data-title="DHT11温湿度传感器" class="article-share-link">Share</a>
       
       
       
@@ -305,7 +257,55 @@ void GPIOPinWrite(Port,Pins,which_pin);</code></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" data-id="ckljm4t3n0005qo3df0vjazsw" data-title="Analog Comparator" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" data-id="ckljm8ffl0001l03dcdtw4jq0" data-title="Analog Comparator" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-FPU" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/30/FPU/" class="article-date">
+  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/30/FPU/">FPU</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="FPU"><a href="#FPU" class="headerlink" title="FPU"></a>FPU</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>FPU指的是浮点运算单元。默认情况下，我们不能使用浮点数，只有使能了FPU才能浮点数。如果不打开浮点运算单元就用浮点数的话，单片机就会产生一个NOCP错误。（RTOS可以利用这个特性判断哪一项任务使用了浮点运算单元，以此只在涉及到这些任务的task switch中执行FPU。）</p>
+<p>当处理器执行一条中断命令时，有三种办法处理浮点运算内容：1.不去算 2.总是存下来浮点运算内容 3.对浮点运算内容执行一个 lazy save/restore 。</p>
+<p>如果不去算的话，中断栈帧就和没有浮点运算单元的Cortex-M 处理器的就一样了。（当那些主程序用到浮点运算，中断函数不用浮点运算时，这种方法会特别好用）(没看出来)（我们像这样不存储浮点运算内容的话，就能减少对栈的使用，降低中断延迟）</p>
+<p>除此以外，我们还能把浮点运算内容存储总是到栈里面。这种方法允许在中断函数里面使用浮点运算，代价是栈的使用会增加，中断延迟会增加（因为我们还要向栈里面多写一些东西）。这种方法还有一个优点，那就是在中断函数的栈帧内一直存着浮点运算单元。</p>
+<p>对浮点运算内容的默认处理是执行一个lazy save/restore。当我们开始一个中断时，在栈里面我们为浮点运算内容预留出一部分空间（留着一会往里面写内容）。这种方法能降低中断的延迟，因为一会我们就只用去声明整数了。然后如果要执行一个浮点运算的话，我们就把浮点运算内容写到这个浮点运算指令前面。最终，当从中断返回的时候，浮点运算内容就会留在栈里面，直到它被复写。这种方法既保证了中断的快速反应，用能让我们在中断函数 里面使用浮点运算指令。</p>
+<p>FPU在异常出现时会产生一个中断（比如说向下、向上溢出、除以零、无效操作，非法输入等情况下）。我们可以利用这些中断搞事情。</p>
+<p>FPU也是可以被改造的。我们可以改造半精度浮点数值得格式，对无穷大数的处理，清零模式（这会牺牲完整的IEEE规范来提升速度）以及结果的循环模式。</p>
+<p>头文件是driverlib/fpu.h</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/30/FPU/" data-id="ckljm8ffo0003l03d1z5nf28a" data-title="FPU" class="article-share-link">Share</a>
       
       
       
@@ -355,7 +355,7 @@ void GPIOPinWrite(Port,Pins,which_pin);</code></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" data-id="ckljm4t3w000hqo3d1y0y0fsi" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" data-id="ckljm8ffy000jl03d2iu4a2e2" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -389,7 +389,7 @@ void GPIOPinWrite(Port,Pins,which_pin);</code></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E8%BD%AF%E4%BB%B6%E6%B6%88%E6%8A%96/" data-id="ckljm4t3y000lqo3dauiaajbr" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/%E8%BD%AF%E4%BB%B6%E6%B6%88%E6%8A%96/" data-id="ckljm8fg1000ol03d90q2gj8q" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -440,7 +440,7 @@ void GPIOPinWrite(Port,Pins,which_pin);</code></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckljm4t3u000dqo3dd8wuhi3o" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckljm8ffx000hl03d4ehw3heu" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -487,7 +487,7 @@ void GPIOPinWrite(Port,Pins,which_pin);</code></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="ckljm4t3l0003qo3d3v0aaihc" data-title="ADC中断" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="ckljm8ff20000l03defmcggt4" data-title="ADC中断" class="article-share-link">Share</a>
       
       
       
@@ -770,7 +770,7 @@ void GPIOPinWrite(Port,Pins,which_pin);</code></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="ckljm4t3q0008qo3df9ey0rtv" data-title="midi" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="ckljm8ffs0008l03d28k65vjy" data-title="midi" class="article-share-link">Share</a>
       
       
       
@@ -846,11 +846,11 @@ void GPIOPinWrite(Port,Pins,which_pin);</code></p>
           </li>
         
           <li>
-            <a href="/2021/01/30/FPU/">FPU</a>
+            <a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">Analog Comparator</a>
           </li>
         
           <li>
-            <a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">Analog Comparator</a>
+            <a href="/2021/01/30/FPU/">FPU</a>
           </li>
         
       </ul>
@@ -900,21 +900,5 @@ void GPIOPinWrite(Port,Pins,which_pin);</code></p>
 
 
   </div>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
