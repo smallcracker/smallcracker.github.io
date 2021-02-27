@@ -6,15 +6,15 @@
   
   <title>sg90操作 | Welcome to smallcracker&#39;s personal website</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="sg90舵机操作模板版本一：使用延时函数实现123456789101112131415int angle;void rotate()&amp;#123;    int cnt&#x3D;0,door&#x3D;50;    &#x2F;&#x2F;定义接入sg90舵机信号线的引脚    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);    GPIOPinTypeGPIOOutput(GPIO_PORTF">
+  <meta name="description" content="sg90舵机操作模板接线：上线黄色为PWM输入信号；中线橙色接入电源正极；bai下线棕色接入电源负极。 版本一：使用延时函数实现123456789101112131415int angle;void rotate()&amp;#123;    int cnt&#x3D;0,door&#x3D;50;    &#x2F;&#x2F;定义接入sg90舵机信号线的引脚    SysCtlPeripheralEnable(SYSCTL_PERIPH_G">
 <meta property="og:type" content="article">
 <meta property="og:title" content="sg90操作">
 <meta property="og:url" content="http://example.com/2021/02/24/sg90/index.html">
 <meta property="og:site_name" content="Welcome to smallcracker&#39;s personal website">
-<meta property="og:description" content="sg90舵机操作模板版本一：使用延时函数实现123456789101112131415int angle;void rotate()&amp;#123;    int cnt&#x3D;0,door&#x3D;50;    &#x2F;&#x2F;定义接入sg90舵机信号线的引脚    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);    GPIOPinTypeGPIOOutput(GPIO_PORTF">
+<meta property="og:description" content="sg90舵机操作模板接线：上线黄色为PWM输入信号；中线橙色接入电源正极；bai下线棕色接入电源负极。 版本一：使用延时函数实现123456789101112131415int angle;void rotate()&amp;#123;    int cnt&#x3D;0,door&#x3D;50;    &#x2F;&#x2F;定义接入sg90舵机信号线的引脚    SysCtlPeripheralEnable(SYSCTL_PERIPH_G">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-23T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-02-24T14:59:35.026Z">
+<meta property="article:modified_time" content="2021-02-26T07:22:09.962Z">
 <meta property="article:author" content="smallcracker">
 <meta property="article:tag" content="单片机">
 <meta name="twitter:card" content="summary">
@@ -96,11 +96,12 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="sg90舵机操作模板"><a href="#sg90舵机操作模板" class="headerlink" title="sg90舵机操作模板"></a>sg90舵机操作模板</h1><h2 id="版本一：使用延时函数实现"><a href="#版本一：使用延时函数实现" class="headerlink" title="版本一：使用延时函数实现"></a>版本一：使用延时函数实现</h2><h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> angle;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rotate</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cnt=<span class="number">0</span>,door=<span class="number">50</span>;</span><br><span class="line">    <span class="comment">//定义接入sg90舵机信号线的引脚</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2);</span><br><span class="line">    <span class="keyword">for</span>(;;)&#123;</span><br><span class="line">        door=angle*<span class="number">10</span>/<span class="number">9</span>+<span class="number">50</span>;</span><br><span class="line">        cnt++;</span><br><span class="line">        <span class="keyword">if</span>(cnt&gt;<span class="number">2000</span>)cnt=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(cnt==<span class="number">0</span>)GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2),UARTprintf(<span class="string">&quot;%d\n&quot;</span>,angle);</span><br><span class="line">        <span class="keyword">if</span>(cnt==door)GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, <span class="number">0</span>);</span><br><span class="line">        ROM_SysCtlDelay (clock/ <span class="number">300000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></h2><h2 id="版本二：使用PWM实现"><a href="#版本二：使用PWM实现" class="headerlink" title="版本二：使用PWM实现"></a>版本二：使用PWM实现</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//首先配置PWM</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigurePWM</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//系统时钟是50Mhz 这里进行64分频 得到7812500hzPWM频率</span></span><br><span class="line">    SysCtlPWMClockSet(SYSCTL_PWMDIV_64);</span><br><span class="line">    <span class="comment">//选择使用的引脚</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM1);</span><br><span class="line">    GPIOPinTypePWM(GPIO_PORTF_BASE, GPIO_PIN_2);</span><br><span class="line">    <span class="comment">//配置信号分配</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF2_M1PWM6);</span><br><span class="line">    <span class="comment">//配置PWM发生器</span></span><br><span class="line">    PWMGenConfigure(PWM1_BASE, PWM_GEN_3, PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);</span><br><span class="line">    <span class="comment">//配置周期 表示50hz</span></span><br><span class="line">    PWMGenPeriodSet(PWM1_BASE, PWM_GEN_3, <span class="number">15625</span>);</span><br><span class="line">    <span class="comment">//配置占空比</span></span><br><span class="line">    PWMPulseWidthSet(PWM1_BASE, PWM_OUT_6, <span class="number">390</span>);</span><br><span class="line">    <span class="comment">//使能PWM模块1输出</span></span><br><span class="line">    PWMOutputState(PWM1_BASE, PWM_OUT_6_BIT, <span class="literal">true</span>);</span><br><span class="line">    <span class="comment">//使能PWM发生器</span></span><br><span class="line">    PWMGenEnable(PWM1_BASE, PWM_GEN_3);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//然后是旋转函数</span></span><br><span class="line"><span class="keyword">int</span> angle;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rotate</span><span class="params">()</span></span>&#123;</span><br><span class="line">    PWMPulseWidthSet(PWM1_BASE, PWM_OUT_6, <span class="number">625</span>*angle/<span class="number">72</span>+<span class="number">15625</span>/<span class="number">40</span>);</span><br><span class="line">    PWMGenEnable(PWM1_BASE, PWM_GEN_3);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="sg90舵机操作模板"><a href="#sg90舵机操作模板" class="headerlink" title="sg90舵机操作模板"></a>sg90舵机操作模板</h1><h2 id="接线："><a href="#接线：" class="headerlink" title="接线："></a>接线：</h2><p>上线黄色为PWM输入信号；中线橙色接入电源正极；bai下线棕色接入电源负极。</p>
+<h2 id="版本一：使用延时函数实现"><a href="#版本一：使用延时函数实现" class="headerlink" title="版本一：使用延时函数实现"></a>版本一：使用延时函数实现</h2><h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> angle;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rotate</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cnt=<span class="number">0</span>,door=<span class="number">50</span>;</span><br><span class="line">    <span class="comment">//定义接入sg90舵机信号线的引脚</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2);</span><br><span class="line">    <span class="keyword">for</span>(;;)&#123;</span><br><span class="line">        door=angle*<span class="number">10</span>/<span class="number">9</span>+<span class="number">50</span>;</span><br><span class="line">        cnt++;</span><br><span class="line">        <span class="keyword">if</span>(cnt&gt;<span class="number">2000</span>)cnt=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(cnt==<span class="number">0</span>)GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2),UARTprintf(<span class="string">&quot;%d\n&quot;</span>,angle);</span><br><span class="line">        <span class="keyword">if</span>(cnt==door)GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, <span class="number">0</span>);</span><br><span class="line">        ROM_SysCtlDelay (clock/ <span class="number">300000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></h2><h2 id="版本二：使用PWM实现"><a href="#版本二：使用PWM实现" class="headerlink" title="版本二：使用PWM实现"></a>版本二：使用PWM实现</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//首先配置PWM</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigurePWM</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//系统时钟是50Mhz 这里进行64分频 得到7812500hzPWM频率</span></span><br><span class="line">    SysCtlPWMClockSet(SYSCTL_PWMDIV_64);</span><br><span class="line">    <span class="comment">//选择使用的引脚</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM1);</span><br><span class="line">    GPIOPinTypePWM(GPIO_PORTF_BASE, GPIO_PIN_2);</span><br><span class="line">    <span class="comment">//配置信号分配</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF2_M1PWM6);</span><br><span class="line">    <span class="comment">//配置PWM发生器</span></span><br><span class="line">    PWMGenConfigure(PWM1_BASE, PWM_GEN_3, PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);</span><br><span class="line">    <span class="comment">//配置周期 表示50hz</span></span><br><span class="line">    PWMGenPeriodSet(PWM1_BASE, PWM_GEN_3, <span class="number">15625</span>);</span><br><span class="line">    <span class="comment">//配置占空比</span></span><br><span class="line">    PWMPulseWidthSet(PWM1_BASE, PWM_OUT_6, <span class="number">390</span>);</span><br><span class="line">    <span class="comment">//使能PWM模块1输出</span></span><br><span class="line">    PWMOutputState(PWM1_BASE, PWM_OUT_6_BIT, <span class="literal">true</span>);</span><br><span class="line">    <span class="comment">//使能PWM发生器</span></span><br><span class="line">    PWMGenEnable(PWM1_BASE, PWM_GEN_3);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//然后是旋转函数</span></span><br><span class="line"><span class="keyword">int</span> angle;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rotate</span><span class="params">()</span></span>&#123;</span><br><span class="line">    PWMPulseWidthSet(PWM1_BASE, PWM_OUT_6, <span class="number">625</span>*angle/<span class="number">72</span>+<span class="number">15625</span>/<span class="number">40</span>);</span><br><span class="line">    PWMGenEnable(PWM1_BASE, PWM_GEN_3);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/24/sg90/" data-id="ckljmdoyf000d6k3dhel5hin9" data-title="sg90操作" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/24/sg90/" data-id="cklnr0aam000ito3dcyvt9agi" data-title="sg90操作" class="article-share-link">Share</a>
       
       
       
@@ -111,6 +112,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2021/02/26/IIC/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          IIC
+        
+      </div>
+    </a>
   
   
     <a href="/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" id="article-nav-older" class="article-nav-link-wrap">
@@ -167,6 +177,14 @@
       <ul>
         
           <li>
+            <a href="/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/">max30102 stm32代码</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/26/IIC/">IIC</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/24/sg90/">sg90操作</a>
           </li>
         
@@ -176,14 +194,6 @@
         
           <li>
             <a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">Analog Comparator</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/30/FPU/">FPU</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/">(no title)</a>
           </li>
         
       </ul>
@@ -233,5 +243,21 @@
 
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
