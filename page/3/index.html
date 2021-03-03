@@ -340,11 +340,74 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="ckltlln42000r703d4q5ufja8" data-title="midi" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="ckltlms71000ruw3d133b414v" data-title="midi" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/midi/" rel="tag">midi</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-System Tick" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/System%20Tick/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/System%20Tick/">SysTick</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="SysTick"><a href="#SysTick" class="headerlink" title="SysTick"></a>SysTick</h1><p>SysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Its<br>intended purpose is to provide a periodic interrupt for an RTOS, but it can be used for other simple<br>timing purposes.<br>The SysTick interrupt handler does not need to clear the SysTick interrupt source as it is cleared<br>automatically by the NVIC when the SysTick interrupt handler is called.<br>This driver is contained in driverlib/systick.c, with driverlib/systick.h containing the<br>API declarations for use by applications.</p>
+<p>大概的翻译一下</p>
+<p>SysTick是一个简单的定时器，是Cortex-M微处理器中NVIXC控制器的一部分。他的目的在于为RTOS提供一个周期性的中断，也可以被用于其他简单的计时目的。</p>
+<p>Systick 中断处理不需要清除Sys tick中断源，当SysTick中断处理被调用时NVIC会自动清理中断源。</p>
+<p>头文件是driverlib/systick.h</p>
+<p>The SysTick API is fairly simple, like SysTick itself. There are functions for configuring and enabling<br>SysTick (SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet()) and functions for dealing with an interrupt handler for SysTick (SysTickIntRegister(),<br>SysTickIntUnregister(), SysTickIntEnable(), and SysTickIntDisable()).</p>
+<p>他所包含的函数也特别少</p>
+<p>主要有设置和使能函数还有处理中断的函数</p>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212171840774.png" alt="image-20201212171840774"></p>
+<p>设置和使能的函数有</p>
+<p>(SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet())</p>
+<p>先看头两个SysTickEnable(), SysTickDisable(), 使能和停止SysTick</p>
+<p>如果中断处理已经注册，那就等中断重启时再停止。</p>
+<p>其中SysTickEnable还有个note</p>
+<blockquote>
+<p>Calling this function causes the SysTick counter to (re)commence counting from its current<br>value. The counter is not automatically reloaded with the period as specified in a previous call<br>to SysTickPeriodSet(). If an immediate reload is required, the NVIC_ST_CURRENT register<br>must be written to force the reload. Any write to this register clears the SysTick counter to 0<br>and causes a reload with the supplied period on the next clock.</p>
+</blockquote>
+<p>上面是使能定时器的函数，接下来是使能定时器中断的函数SysTickIntEnable(), and SysTickIntDisable()</p>
+<p>然后时注册/去除注册的函数SysTickIntRegister(),SysTickIntUnregister(),</p>
+<p>其中SysTickIntRegister(),的参数是一个函数指针，表示中断发生时要调用的函数</p>
+<p>还有两个函数能设置/返回计时器周期</p>
+<p>周期可以设置在1到16777216之间，单位是处理器的时钟数</p>
+<p>最后一个函数是获取定时器counter的函数SysTickValueGet()</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/System%20Tick/" data-id="ckltlms72000tuw3d50fvb0qg" data-title="SysTick" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
 
     </footer>
   </div>
@@ -477,70 +540,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="ckltlln43000t703d12hk14wj" data-title="PWM" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-System Tick" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/System%20Tick/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/System%20Tick/">SysTick</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="SysTick"><a href="#SysTick" class="headerlink" title="SysTick"></a>SysTick</h1><p>SysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Its<br>intended purpose is to provide a periodic interrupt for an RTOS, but it can be used for other simple<br>timing purposes.<br>The SysTick interrupt handler does not need to clear the SysTick interrupt source as it is cleared<br>automatically by the NVIC when the SysTick interrupt handler is called.<br>This driver is contained in driverlib/systick.c, with driverlib/systick.h containing the<br>API declarations for use by applications.</p>
-<p>大概的翻译一下</p>
-<p>SysTick是一个简单的定时器，是Cortex-M微处理器中NVIXC控制器的一部分。他的目的在于为RTOS提供一个周期性的中断，也可以被用于其他简单的计时目的。</p>
-<p>Systick 中断处理不需要清除Sys tick中断源，当SysTick中断处理被调用时NVIC会自动清理中断源。</p>
-<p>头文件是driverlib/systick.h</p>
-<p>The SysTick API is fairly simple, like SysTick itself. There are functions for configuring and enabling<br>SysTick (SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet()) and functions for dealing with an interrupt handler for SysTick (SysTickIntRegister(),<br>SysTickIntUnregister(), SysTickIntEnable(), and SysTickIntDisable()).</p>
-<p>他所包含的函数也特别少</p>
-<p>主要有设置和使能函数还有处理中断的函数</p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212171840774.png" alt="image-20201212171840774"></p>
-<p>设置和使能的函数有</p>
-<p>(SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet())</p>
-<p>先看头两个SysTickEnable(), SysTickDisable(), 使能和停止SysTick</p>
-<p>如果中断处理已经注册，那就等中断重启时再停止。</p>
-<p>其中SysTickEnable还有个note</p>
-<blockquote>
-<p>Calling this function causes the SysTick counter to (re)commence counting from its current<br>value. The counter is not automatically reloaded with the period as specified in a previous call<br>to SysTickPeriodSet(). If an immediate reload is required, the NVIC_ST_CURRENT register<br>must be written to force the reload. Any write to this register clears the SysTick counter to 0<br>and causes a reload with the supplied period on the next clock.</p>
-</blockquote>
-<p>上面是使能定时器的函数，接下来是使能定时器中断的函数SysTickIntEnable(), and SysTickIntDisable()</p>
-<p>然后时注册/去除注册的函数SysTickIntRegister(),SysTickIntUnregister(),</p>
-<p>其中SysTickIntRegister(),的参数是一个函数指针，表示中断发生时要调用的函数</p>
-<p>还有两个函数能设置/返回计时器周期</p>
-<p>周期可以设置在1到16777216之间，单位是处理器的时钟数</p>
-<p>最后一个函数是获取定时器counter的函数SysTickValueGet()</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/System%20Tick/" data-id="ckltlln44000w703d6iyy3tay" data-title="SysTick" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="ckltlms73000wuw3d0jor0yvr" data-title="PWM" class="article-share-link">Share</a>
       
       
       
@@ -585,7 +585,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/TIMER_CAPTURE/" data-id="ckltlln44000y703d1bmn7c4p" data-title="Timer Capture" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/TIMER_CAPTURE/" data-id="ckltlms73000yuw3da4moh7cz" data-title="Timer Capture" class="article-share-link">Share</a>
       
       
       
@@ -725,7 +725,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Timer/" data-id="ckltlln450010703d9cv01wno" data-title="Timer" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Timer/" data-id="ckltlms740010uw3dfnyi376e" data-title="Timer" class="article-share-link">Share</a>
       
       
       
@@ -812,7 +812,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/UART/" data-id="ckltlln450012703d0bs02vej" data-title="UART" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/UART/" data-id="ckltlms750012uw3d3me8g9el" data-title="UART" class="article-share-link">Share</a>
       
       
       
@@ -853,7 +853,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/boosterpacks/" data-id="ckltlln460016703d7vhc4jit" data-title="BoosterPacks使用" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/boosterpacks/" data-id="ckltlms750014uw3d7rg41272" data-title="BoosterPacks使用" class="article-share-link">Share</a>
       
       
       
@@ -906,7 +906,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="ckltlln470018703d0ywobk76" data-title="关于怎样写c文件和头文件" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="ckltlms760018uw3d7lj1gxfd" data-title="关于怎样写c文件和头文件" class="article-share-link">Share</a>
       
       
       
@@ -969,7 +969,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/phripheral-list/" data-id="ckltlln48001c703dggqfdc8w" data-title="该单片机外设清单" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/phripheral-list/" data-id="ckltlms78001fuw3dd74l76nv" data-title="该单片机外设清单" class="article-share-link">Share</a>
       
       
       
@@ -1009,7 +1009,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/pin_map/" data-id="ckltlln49001h703dd18saeef" data-title="该单片机pin map" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/pin_map/" data-id="ckltlms79001juw3d35tb0cj5" data-title="该单片机pin map" class="article-share-link">Share</a>
       
       
       
