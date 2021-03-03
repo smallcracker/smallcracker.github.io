@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>PWM | Welcome to smallcracker&#39;s personal website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="PWM概述Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has two PWM output signals, which can be operated inde">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PWM">
+<meta property="og:url" content="http://example.com/2021/01/29/Pulse%20Width%20Modulator/index.html">
+<meta property="og:site_name" content="Welcome to smallcracker&#39;s personal website">
+<meta property="og:description" content="PWM概述Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has two PWM output signals, which can be operated inde">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:/Users/smallcannabis/AppData/Roaming/Typora/typora-user-images/image-20201212211525865.png">
+<meta property="article:published_time" content="2021-01-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-03T15:24:20.875Z">
+<meta property="article:author" content="smallcracker">
+<meta property="article:tag" content="单片机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:/Users/smallcannabis/AppData/Roaming/Typora/typora-user-images/image-20201212211525865.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Welcome to smallcracker's personal website" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Welcome to smallcracker&#39;s personal website</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Pulse Width Modulator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/Pulse%20Width%20Modulator/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      PWM
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="PWM"><a href="#PWM" class="headerlink" title="PWM"></a>PWM</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has two PWM output signals, which can be operated independently or as a pair of signals with dead band delays inserted. Each generator block also has an interrupt output and a trigger output. The control block determines the polarity of the PWM signals and which signals are passed through to the pins.</p>
+<blockquote>
+<p>每个PWM提供了最多4个PWM发生器和一个输出控制模块，每一个发生器能产生两个PWM输出信号，可以独立操作，也可以作为一对插入了死区延迟的信号运行。每一个生成器块还有一个中断输出和一个触发输出，控制块确定PWM信号的极性以及哪些信号传递到引脚。</p>
+</blockquote>
+<p>Some of the features of the Tiva PWM module are:<br>Up to four generator blocks, each containing<br>• One 16-bit down or up/down counter<br>• Two comparators<br>• PWM generator<br>• Dead band generator</p>
+<blockquote>
+<p>至多4个产生模块，每一个产生模块包括</p>
+<blockquote>
+<p>一个十六位的向上/向下计数器</p>
+<p>两个比较器</p>
+<p>PWM产生器</p>
+<p>死区产生器</p>
+</blockquote>
+</blockquote>
+<p>Control block<br>• PWM output enable<br>• Output polarity control<br>• Synchronization<br>• Fault handling<br>• Interrupt status</p>
+<blockquote>
+<p>控制模块有</p>
+<blockquote>
+<p>PWM输出使能</p>
+<p>输出极性控制</p>
+<p>错误处理</p>
+<p>中断状态</p>
+</blockquote>
+</blockquote>
+<p>This driver is contained in driverlib/pwm.c, with driverlib/pwm.h containing the API declarations for use by applications.</p>
+<h2 id="细节描述"><a href="#细节描述" class="headerlink" title="细节描述"></a>细节描述</h2><p>These functions perform high-level operations on PWM modules.</p>
+<blockquote>
+<p>这些模块表现了高水平的对PWM的操作</p>
+</blockquote>
+<p>The following functions provide the user with a way to configure the PWM for the most common operations, such as setting the period, generating left- and center-aligned pulses, modifying the pulse width, and controlling interrupts, triggers, and output characteristics. However, the PWM module is very versatile and can be configured in a number of different ways, many of which are beyond the scope of this API. In order to fully exploit the many features of the PWM module, users are advised to use register access macros.</p>
+<blockquote>
+<p>接下来的函数为用户提供了一种配置PWM做最普通操作的方式，这些操作有设定周期，产生左对齐/中心对齐的脉冲，调节脉冲宽度，控制中断/触发/输出特征等功能。然而，PWM模块非常的强大，可以用很多种方式设置，许多用的都不是这些API。为了能充分利用PWM模块的诸多功能，我们推荐用户使用寄存器。</p>
+</blockquote>
+<p>When discussing the various components of a PWM module, this API uses the following labeling convention:</p>
+<p>The generator blocks are called Gen0, Gen1, Gen2 and Gen3.</p>
+<blockquote>
+<p>产生器模块被称为Gen0, Gen1, Gen2 and Gen3.</p>
+</blockquote>
+<p>The two PWM output signals associated with each generator block are called OutA and OutB.</p>
+<blockquote>
+<p>与产生器模块相关的两个PWM输出信号被称为OutA和OutB</p>
+</blockquote>
+<p>The output signals are called PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 and PWM7.</p>
+<blockquote>
+<p>输出信号被称为PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 and PWM7.</p>
+</blockquote>
+<p>PWM0 and PWM1 are associated with Gen0, PWM2 and PWM3 are associated with Gen1, PWM4 and PWM5 are associated with Gen2 and PWM6 and PWM7 are associated with Gen3.</p>
+<blockquote>
+<p>PWM0和PWM1与Gen0相关联，PWM2和PWM3与Gen1相关联，PWM4和PWM5与Gen2相关联，PWM6和PWM7与Gen3相关联。</p>
+</blockquote>
+<p>Also, as a simplifying assumption for this API, comparator A for each generator block is used exclusively to adjust the pulse width of the even numbered PWM outputs (PWM0, PWM2, PWM4 and PWM6). In addition, comparator B is used exclusively for the odd numbered PWM outputs (PWM1, PWM3, PWM5 and PWM7).<br>Note that the number of generators and PWM outputs supported varies depending upon the Tiva part in use. Please consult the datasheet for the part you are using to determine whether it supports 1 or 2 modules with 3 or 4 generators each and 6 or 8 outputs each. </p>
+<blockquote>
+<p>另外，作为对此API的简化假设，每个生成器模块的比较器仅用于调整偶数个PWM输出的脉冲高度，比较器A仅用于计数PWM输出</p>
+<p>请注意，支持的生成器和 PWM 输出的数量因使用的 Tiva 部件而异。请参阅您使用的部件的数据表，以确定它是否支持 1 个或 2 个模块，每个模块有 3 个或 4 个生成器，每个模块有 6 个或 8 个输出。</p>
+</blockquote>
+<p><strong>我们这款单片机包括两个PWM模块，总共有16个输出</strong></p>
+<p>这次我们直接看例程</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the PWM0 peripheral</span></span><br><span class="line"><span class="comment">// 使能PWM外设</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Wait for the PWM0 module to be ready.</span></span><br><span class="line"><span class="comment">// 等待PWM模块准备好</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_PWM0))</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Configure the PWM generator for count down mode with immediate updates</span></span><br><span class="line"><span class="comment">// to the parameters.</span></span><br><span class="line"><span class="comment">// 配置PWM产生器，并设置器为向下计数模式，和非同步模式</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenConfigure(PWM_BASE, PWM_GEN_0,PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the period. For a 50 KHz frequency, the period = 1/50,000, or 20</span></span><br><span class="line"><span class="comment">// microseconds. For a 20 MHz clock, this translates to 400 clock ticks.</span></span><br><span class="line"><span class="comment">// Use this value to set the period.</span></span><br><span class="line"><span class="comment">// 设置周期。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenPeriodSet(PWM_BASE, PWM_GEN_0, <span class="number">400</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the pulse width of PWM0 for a 25% duty cycle.</span></span><br><span class="line"><span class="comment">// 脉冲宽度设置</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMPulseWidthSet(PWM_BASE, PWM_OUT_0, <span class="number">100</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the pulse width of PWM1 for a 75% duty cycle.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMPulseWidthSet(PWM_BASE, PWM_OUT_1, <span class="number">300</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Start the timers in generator 0.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenEnable(PWM_BASE, PWM_GEN_0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the outputs.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMOutputState(PWM_BASE, (PWM_OUT_0_BIT | PWM_OUT_1_BIT), <span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="关注如下函数"><a href="#关注如下函数" class="headerlink" title="关注如下函数"></a>关注如下函数</h2><h4 id="PWMGenConfigure"><a href="#PWMGenConfigure" class="headerlink" title="PWMGenConfigure"></a>PWMGenConfigure</h4><p>用于配置PWM</p>
+<p>This function is used to set the mode of operation for a PWM generator. The counting mode, synchronization mode, and debug behavior are all configured. After configuration, the generator is left in the disabled state.</p>
+<blockquote>
+<p>这个函数用于设置PWM产生器的操作模式。计数模式，同步模式，调试模式都在这里设置。设置之后，产生器处于关闭状态。</p>
+</blockquote>
+<p>A PWM generator can count in two different modes: count down mode or count up/down mode. In count down mode, it counts from a value down to zero, and then resets to the preset value, producing left-aligned PWM signals (that is, the rising edge of the two PWM signals produced by the generator occur at the same time). In count up/down mode, it counts up from zero to the preset value, counts back down to zero, and then repeats the process, producing centeraligned PWM signals (that is, the middle of the high/low period of the PWM signals produced by the generator occurs at the same time).</p>
+<blockquote>
+<p>PWM产生器可以用两种计数模式计数，向下计数模式和向上/向下计数模式。</p>
+<p>在向下计数模式中，它从一个值向下数到零，然后恢复到预设值，产生一个左对齐的PWM信号（也就是说，两个产生器产生的信号的升边同时出现）在向上向下计数模式中，它从零数到预设值，再数回到零，反复这个过程，产生的是中心对齐的PWM信号（也就是说，产生器产生的PWM信号的周期的中间时刻是同时发生的）<strong>每个生成器不是能产生两个PWM信号嘛</strong></p>
+</blockquote>
+<p>When the PWM generator parameters (period and pulse width) are modified, their effect on the output PWM signals can be delayed. In synchronous mode, the parameter updates are not applied until a synchronization event occurs. This mode allows multiple parameters to be modified and take effect simultaneously, instead of one at a time. Additionally, parameters to multiple PWM generators in synchronous mode can be updated simultaneously, allowing them to be treated as if they were a unified generator. In non-synchronous mode, the parameter updates are not delayed until a synchronization event. In either mode, the parameter updates only occur when the counter is at zero to help prevent oddly formed PWM signals during the update (that is, a PWM pulse that is too short or too long).</p>
+<blockquote>
+<p>当PWM脉冲产生器的参数（周期和脉冲宽度）被修改时，它们对PWM信号的影响可能会延迟。</p>
+<p>在同步模式下，直到发生同步时间时应用参数才被更新。此模式允许多个参数同时修改并生效，而不是一次一个参数。此外，同步模式下多个 PWM 生成器的参数可以同时更新，从而可以将它们视为统一生成器。</p>
+<p>在非同步模式下，参数 更新不会延迟到同步事件，在任意模式下，参数更新仅在计数器为零时在会发生，用以防止更新期间产生奇怪的PWM信号。</p>
+</blockquote>
+<p>The PWM generator can either pause or continue running when the processor is stopped via the debugger. If configured to pause, it continues to count until it reaches zero, at which point it pauses until the processor is restarted. If configured to continue running, it keeps counting as if nothing had happened.</p>
+<blockquote>
+<p>当调试器使处理器停止时，PWM产生器可以停止/继续运行如果配置为暂停，则它将继续计数，直到达到零，此时它会暂停，直到重新启动处理器。如果配置为继续运行，则继续计数，就像什么都没发生一样。</p>
+</blockquote>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212211525865.png" alt="image-20201212211525865"></p>
+<p>这是这个函数的参数，第一部分是PWM模块的基址，第二部分是PWM产生器，究竟是GEN几，最后是配置参数。</p>
+<p>那么有哪些参数呢？</p>
+<p>PWM_GEN_MODE_DOWN or PWM_GEN_MODE_UP_DOWN to specify the counting<br>mode</p>
+<p><strong>计数模式，就是向上模式还是向上向下模式</strong></p>
+<p>PWM_GEN_MODE_SYNC or PWM_GEN_MODE_NO_SYNC to specify the counter load<br>and comparator update synchronization mode</p>
+<p><strong>不晓得</strong></p>
+<p>PWM_GEN_MODE_DBG_RUN or PWM_GEN_MODE_DBG_STOP to specify the debug<br>behavior</p>
+<p><strong>配置了debug的行为</strong></p>
+<p>PWM_GEN_MODE_GEN_NO_SYNC, PWM_GEN_MODE_GEN_SYNC_LOCAL, or<br>PWM_GEN_MODE_GEN_SYNC_GLOBAL to specify the update synchronization mode<br>for generator counting mode changes</p>
+<p><strong>不晓得</strong></p>
+<p>PWM_GEN_MODE_DB_NO_SYNC, PWM_GEN_MODE_DB_SYNC_LOCAL, or<br>PWM_GEN_MODE_DB_SYNC_GLOBAL to specify the deadband parameter synchronization<br>mode</p>
+<p><strong>指定死区参数同步模式</strong></p>
+<p>PWM_GEN_MODE_FAULT_LATCHED or PWM_GEN_MODE_FAULT_UNLATCHED to<br>specify whether fault conditions are latched or not</p>
+<p><strong>指定是否锁定故障条件</strong></p>
+<p>PWM_GEN_MODE_FAULT_MINPER or PWM_GEN_MODE_FAULT_NO_MINPER to<br>specify whether minimum fault period support is required</p>
+<p><strong>确定是否需要最小错误周期支持</strong></p>
+<p>PWM_GEN_MODE_FAULT_EXT or PWM_GEN_MODE_FAULT_LEGACY to specify<br>whether extended fault source selection support is enabled or not</p>
+<p><strong>指定是否启用扩展故障源选择支持</strong></p>
+<!--死区就是中性区或者是不作用区-->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="ckltliez4000t5c3d5wa1fpin" data-title="PWM" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          midi
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/01/29/TIMER_CAPTURE/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Timer Capture</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/03/02/1-Wire_Master/">1-Wire_Master</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/01/ESP8266/">esp8266</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/01/bottom/">bottom</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/">通用定时器</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/">max30102 stm32代码</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 smallcracker<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
