@@ -6,10 +6,12 @@
   
   <title>Welcome to smallcracker&#39;s personal website</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
+  <meta name="description" content="联系方式：1426090870">
+<meta property="og:type" content="website">
 <meta property="og:title" content="Welcome to smallcracker&#39;s personal website">
 <meta property="og:url" content="http://example.com/page/2/index.html">
 <meta property="og:site_name" content="Welcome to smallcracker&#39;s personal website">
+<meta property="og:description" content="联系方式：1426090870">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="smallcracker">
 <meta name="twitter:card" content="summary">
@@ -71,68 +73,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Analog Comparator（待完成）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" class="article-date">
-  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">Analog Comparator</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Analog-Comparator"><a href="#Analog-Comparator" class="headerlink" title="Analog Comparator"></a>Analog Comparator</h1><h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、触发ADC采样。它的中断产生逻辑是独立于ADC触发逻辑的，所以，AC可以基于一个事件产生一个中断，ADC可以基于另一个事件产生触发。比如说，让上升沿触发一次中断，让下降沿触发一次ADC。</p>
-<p>该芯片提供了两个独立的模拟比较器。</p>
-<p><img src="image-20210130173507102.png" alt="照片"><br><img src="image-20210130173536884.png" alt="image-20210130173536884"><br>原理演示图<br><img src="image-20210130173642377.png" alt="image-20210130173642377"><br>它的头文件是driverlib/comp.h</p>
-<h3 id="二、函数介绍"><a href="#二、函数介绍" class="headerlink" title="二、函数介绍"></a>二、函数介绍</h3><p><img src="image-20210130100105290.png" alt="image-20210130100105290"></p>
-<ol>
-<li><code>ComparatorConfigure()</code> 用来配置一个AC模块触发ADC模块的条件、触发中断的条件、和谁比较、正常输出还是反转输出</li>
-<li><code>ComparatorIntClear()</code> 用于清除比较器中断标志，<em>（ 小贴士，因为在Contex-M处理器中写入有缓冲，所以执行函数之后过几个周期中断源才可能真正被清除，所以我们推荐在中断函数的一开始就清除中断标识）</em></li>
-<li><code>ComparatorIntDisable()</code> 失能一个比较器中断</li>
-<li><code>ComparatorIntEnable()</code> 使能一个比较器中断</li>
-<li><code>ComparatorIntRegister()</code> 注册中断函数</li>
-<li><code>ComparatorIntStatus()</code> 获取当前中断状态</li>
-<li><code>ComparatorIntUnregister()</code> 注销一个中断函数</li>
-<li><code>ComparatorRefSet()</code> 设定内部参考电压</li>
-<li><code>ComparatorValueGet()</code> 获取当前比较器输出值，<strong>true</strong>表示比较器输出是高，<strong>false</strong>表示比较器输出是低</li>
-</ol>
-<ul>
-<li>此外还需要用到一些GPIO函数来实现比较器功能<ol>
-<li><code>GPIOPinTypeComparator()</code> 配置引脚用于模拟比较器输入</li>
-<li><code>GPIOPinTypeComparatorOutput()</code> 配置引脚作为模拟比较器输出</li>
-</ol>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" data-id="cklylilnd0004hs3dhcop7lvo" data-title="Analog Comparator" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
     <article id="post-Analog Comparator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/01/30/Analog%20Comparator/" class="article-date">
@@ -188,7 +128,69 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/Analog%20Comparator/" data-id="cklylilnm0008hs3d3el09ns8" data-title="Analog Comparator" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/30/Analog%20Comparator/" data-id="cklymn3pn0003083d6lagf5r3" data-title="Analog Comparator" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Analog Comparator（待完成）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">Analog Comparator</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Analog-Comparator"><a href="#Analog-Comparator" class="headerlink" title="Analog Comparator"></a>Analog Comparator</h1><h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、触发ADC采样。它的中断产生逻辑是独立于ADC触发逻辑的，所以，AC可以基于一个事件产生一个中断，ADC可以基于另一个事件产生触发。比如说，让上升沿触发一次中断，让下降沿触发一次ADC。</p>
+<p>该芯片提供了两个独立的模拟比较器。</p>
+<p><img src="image-20210130173507102.png" alt="照片"><br><img src="image-20210130173536884.png" alt="image-20210130173536884"><br>原理演示图<br><img src="image-20210130173642377.png" alt="image-20210130173642377"><br>它的头文件是driverlib/comp.h</p>
+<h3 id="二、函数介绍"><a href="#二、函数介绍" class="headerlink" title="二、函数介绍"></a>二、函数介绍</h3><p><img src="image-20210130100105290.png" alt="image-20210130100105290"></p>
+<ol>
+<li><code>ComparatorConfigure()</code> 用来配置一个AC模块触发ADC模块的条件、触发中断的条件、和谁比较、正常输出还是反转输出</li>
+<li><code>ComparatorIntClear()</code> 用于清除比较器中断标志，<em>（ 小贴士，因为在Contex-M处理器中写入有缓冲，所以执行函数之后过几个周期中断源才可能真正被清除，所以我们推荐在中断函数的一开始就清除中断标识）</em></li>
+<li><code>ComparatorIntDisable()</code> 失能一个比较器中断</li>
+<li><code>ComparatorIntEnable()</code> 使能一个比较器中断</li>
+<li><code>ComparatorIntRegister()</code> 注册中断函数</li>
+<li><code>ComparatorIntStatus()</code> 获取当前中断状态</li>
+<li><code>ComparatorIntUnregister()</code> 注销一个中断函数</li>
+<li><code>ComparatorRefSet()</code> 设定内部参考电压</li>
+<li><code>ComparatorValueGet()</code> 获取当前比较器输出值，<strong>true</strong>表示比较器输出是高，<strong>false</strong>表示比较器输出是低</li>
+</ol>
+<ul>
+<li>此外还需要用到一些GPIO函数来实现比较器功能<ol>
+<li><code>GPIOPinTypeComparator()</code> 配置引脚用于模拟比较器输入</li>
+<li><code>GPIOPinTypeComparatorOutput()</code> 配置引脚作为模拟比较器输出</li>
+</ol>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" data-id="cklymn3pr0008083db9flc8pe" data-title="Analog Comparator" class="article-share-link">Share</a>
       
       
       
@@ -236,7 +238,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/FPU/" data-id="cklylilnv000fhs3d63754v8p" data-title="FPU" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/30/FPU/" data-id="cklymn3pv000h083dag7t5q3k" data-title="FPU" class="article-share-link">Share</a>
       
       
       
@@ -289,59 +291,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="cklylilp9001ths3d6l4bcnir" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="cklymn3qb001t083d05pn62xc" data-title="" class="article-share-link">Share</a>
       
       
       
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-ADC interrupt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/ADC%20interrupt/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/ADC%20interrupt/">ADC中断</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="ADC中断"><a href="#ADC中断" class="headerlink" title="ADC中断"></a>ADC中断</h1><h3 id="一、相关函数介绍"><a href="#一、相关函数介绍" class="headerlink" title="一、相关函数介绍"></a>一、相关函数介绍</h3><ol>
-<li><code>ADCIntRegister()</code> 和<code>ADCIntUnregister()</code>用于为ADC中断注册（注销）一个中断函数</li>
-<li><code>ADCIntEnable()</code> 和 <code>ADCIntDisable</code> 使能（失能）一个采样序列中断</li>
-<li><code>ADCIntClear()</code> 清除采样序列中断源</li>
-<li><code>ADCIntStatus()</code> 获取当前中断状态</li>
-</ol>
-<h3 id="二、怎样触发中断"><a href="#二、怎样触发中断" class="headerlink" title="二、怎样触发中断"></a>二、怎样触发中断</h3><p>在配置采样通道的时候，如果参数设置有 <code>ADC_CTL_IE</code> 那么当这个通道采集完之后就会产生一个中断。</p>
-<h3 id="三、例子"><a href="#三、例子" class="headerlink" title="三、例子"></a>三、例子</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">configureADC</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//选择E3引脚（即CH0）作为ADC输入</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);</span><br><span class="line">    GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_3);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置采样序列发生器等</span></span><br><span class="line">    ADCSequenceConfigure(ADC0_BASE, <span class="number">0</span>, ADC_TRIGGER_PROCESSOR, <span class="number">0</span>);</span><br><span class="line">    ADCSequenceStepConfigure(ADC0_BASE, <span class="number">0</span>, <span class="number">0</span>,ADC_CTL_IE | ADC_CTL_END | ADC_CTL_CH0);</span><br><span class="line">	</span><br><span class="line">    ADCSequenceEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置ADC中断</span></span><br><span class="line">    ADCIntRegister(ADC0_BASE, <span class="number">0</span> , convet);</span><br><span class="line">    ADCIntEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="四、注意"><a href="#四、注意" class="headerlink" title="四、注意"></a>四、注意</h3><p>在写中断函数的时候记得清除中断标记，因为清除中断需要几个时钟周期，所以，我们需要在中断函数一开始就清除中断。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="cklylilmq0000hs3d74z66n7q" data-title="ADC中断" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
     </footer>
   </div>
   
@@ -397,7 +350,56 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="cklyliln90003hs3d52rb2jq8" data-title="怎样新建一个项目" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="cklymn3pg0000083delj8g41p" data-title="怎样新建一个项目" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ADC interrupt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/ADC%20interrupt/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/ADC%20interrupt/">ADC中断</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="ADC中断"><a href="#ADC中断" class="headerlink" title="ADC中断"></a>ADC中断</h1><h3 id="一、相关函数介绍"><a href="#一、相关函数介绍" class="headerlink" title="一、相关函数介绍"></a>一、相关函数介绍</h3><ol>
+<li><code>ADCIntRegister()</code> 和<code>ADCIntUnregister()</code>用于为ADC中断注册（注销）一个中断函数</li>
+<li><code>ADCIntEnable()</code> 和 <code>ADCIntDisable</code> 使能（失能）一个采样序列中断</li>
+<li><code>ADCIntClear()</code> 清除采样序列中断源</li>
+<li><code>ADCIntStatus()</code> 获取当前中断状态</li>
+</ol>
+<h3 id="二、怎样触发中断"><a href="#二、怎样触发中断" class="headerlink" title="二、怎样触发中断"></a>二、怎样触发中断</h3><p>在配置采样通道的时候，如果参数设置有 <code>ADC_CTL_IE</code> 那么当这个通道采集完之后就会产生一个中断。</p>
+<h3 id="三、例子"><a href="#三、例子" class="headerlink" title="三、例子"></a>三、例子</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">configureADC</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//选择E3引脚（即CH0）作为ADC输入</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);</span><br><span class="line">    GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_3);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置采样序列发生器等</span></span><br><span class="line">    ADCSequenceConfigure(ADC0_BASE, <span class="number">0</span>, ADC_TRIGGER_PROCESSOR, <span class="number">0</span>);</span><br><span class="line">    ADCSequenceStepConfigure(ADC0_BASE, <span class="number">0</span>, <span class="number">0</span>,ADC_CTL_IE | ADC_CTL_END | ADC_CTL_CH0);</span><br><span class="line">	</span><br><span class="line">    ADCSequenceEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置ADC中断</span></span><br><span class="line">    ADCIntRegister(ADC0_BASE, <span class="number">0</span> , convet);</span><br><span class="line">    ADCIntEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="四、注意"><a href="#四、注意" class="headerlink" title="四、注意"></a>四、注意</h3><p>在写中断函数的时候记得清除中断标记，因为清除中断需要几个时钟周期，所以，我们需要在中断函数一开始就清除中断。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="cklymn3pp0005083dh14606pe" data-title="ADC中断" class="article-share-link">Share</a>
       
       
       
@@ -474,7 +476,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Analog%20to%20Digital%20Converter/" data-id="cklylilnf0005hs3d4bmc9mm0" data-title="ADC简介" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Analog%20to%20Digital%20Converter/" data-id="cklymn3ps000a083d274mhz4r" data-title="ADC简介" class="article-share-link">Share</a>
       
       
       
@@ -532,72 +534,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO_PWM/" data-id="cklylilny000hhs3d59vn7js1" data-title="GPIO PWM" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-GPIO输出和输入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">GPIO输入和输出</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="GPIO-输入和输出"><a href="#GPIO-输入和输出" class="headerlink" title="GPIO 输入和输出"></a>GPIO 输入和输出</h1><p>首先使能GPIO接口<br><code>SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</code></p>
-<p>接下来设置GPIO模式为输出<br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</code>  </p>
-<ul>
-<li><em>如果要设置多个pin的话</em><br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5);</code>  </li>
-</ul>
-<p>最后进行输出<br><code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0); 或者 void GPIOPinWrite(Port,Pins,which_pin);</code></p>
-<p>GPIO函数一共有三种</p>
-<ol>
-<li>配置GPIO pins的函数</li>
-<li>处理中断的函数</li>
-<li>获取pins value的函数</li>
-</ol>
-<p>配置３２和TI的方式就是不一样的，３２的GPIO是用结构体进行配置，TI则使用函数来进行配置。</p>
-<p>TI的普通配置只需要进行GPIO外设使能和方向控制即可。也不是说前面说到的功能模式就不能配置了，如果有需要可以进行其他类型的配置。<br>如果要进行端口高低电平的输出控制，３２和TI也是一样的调用函数来进行配置，分别是：<code>GPIO_SetBits(GPIOE,GPIO_Pin_5);</code>　和　<code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0);</code></p>
-<p>注意：TI的输出高低电平使用的是同一个函数GPIOPinWrite（），对于３２则使用的是两个函数：GPIO_SetBits（）和GPIO_ResetBit（）即可输出高低电平。TI呢，则不是这样的，就连入口参数也不是和３２一样那么简单，GPIOPinWrite（）入口参数就有三个，分别是GPIO_PORTｘ_BASE，GPIO＿PIN＿ｘ，和０（低电平时候为０，但是高电平时候不是１，而是GPIO＿PIN＿ｘ）。例如PF１输出高电平　：<br>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);</p>
-<p>输入输出的模式一般不用管，但应了解浮空输入 上拉输入 下拉输入 模拟输入 开漏输出 推挽输出 复用推挽输出 复用开漏输出</p>
-<p>怎样读入呢？</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//检测</span></span><br><span class="line"><span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123; <span class="comment">//如果按下</span></span><br><span class="line">    SysCtlDelay(<span class="number">20</span>*(SysCtlClockGet()/<span class="number">3000</span>));<span class="comment">//消抖</span></span><br><span class="line">    ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//再次检测</span></span><br><span class="line">    <span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123;<span class="comment">//再次判断</span></span><br><span class="line">        KeyPress1 = <span class="literal">true</span>;<span class="comment">//如果按下，则置一个标志位</span></span><br><span class="line">        <span class="keyword">while</span>(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4))&#123;&#125;<span class="comment">//等按键松开</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></h2><h2 id="GPIO输出最终模板"><a href="#GPIO输出最终模板" class="headerlink" title="GPIO输出最终模板"></a>GPIO输出最终模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能GPIO外设</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line"><span class="comment">//设置引脚为GPIO输出模式</span></span><br><span class="line">GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</span><br><span class="line"><span class="comment">//引脚输出</span></span><br><span class="line">GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
-<h2 id="部分函数研究"><a href="#部分函数研究" class="headerlink" title="部分函数研究"></a>部分函数研究</h2><ol>
-<li><code>GPIODirModeSet()</code><br>描述：设置了管脚的方向是向内、向外还是硬件控制</li>
-<li><code>GPIOPadConfigSet()</code><br> 描述：设置了一些引脚的输出驱动强度，和引脚类型<br> GPIO_PIN_TYPE_STD 推挽输出 可以输出高低电平<br> GPIO_PIN_TYPE_STD_WPU 推挽——弱上拉<br> GPIO_PIN_TYPE_STD_WPD 推挽——弱下拉<br> GPIO_PIN_TYPE_OD 开漏输出 IO 输出 0 接 GND， IO 输出 1，悬空，需要外接上拉电阻，才能实现输出<br> GPIO_PIN_TYPE_ANALOG 模拟输出<br> GPIO_PIN_TYPE_WAKE_HIGH 于hibernation mode 有关<br> GPIO_PIN_TYPE_WAKE_LOW  </li>
-<li><code>GPIOPinConfigure()</code></li>
-<li><code>GPIOPinRead()</code></li>
-<li><code>GPIOPinWrite()</code></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="cklylilo2000jhs3d4pbz4dul" data-title="GPIO输入和输出" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO_PWM/" data-id="cklymn3pu000f083d0v5w4k1h" data-title="GPIO PWM" class="article-share-link">Share</a>
       
       
       
@@ -688,7 +625,72 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO_interrupt/" data-id="cklylilo4000lhs3d1tr5e1vv" data-title="GPIO中断" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO_interrupt/" data-id="cklymn3pw000j083d53msf3ux" data-title="GPIO中断" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-GPIO输出和输入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">GPIO输入和输出</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="GPIO-输入和输出"><a href="#GPIO-输入和输出" class="headerlink" title="GPIO 输入和输出"></a>GPIO 输入和输出</h1><p>首先使能GPIO接口<br><code>SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</code></p>
+<p>接下来设置GPIO模式为输出<br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</code>  </p>
+<ul>
+<li><em>如果要设置多个pin的话</em><br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5);</code>  </li>
+</ul>
+<p>最后进行输出<br><code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0); 或者 void GPIOPinWrite(Port,Pins,which_pin);</code></p>
+<p>GPIO函数一共有三种</p>
+<ol>
+<li>配置GPIO pins的函数</li>
+<li>处理中断的函数</li>
+<li>获取pins value的函数</li>
+</ol>
+<p>配置３２和TI的方式就是不一样的，３２的GPIO是用结构体进行配置，TI则使用函数来进行配置。</p>
+<p>TI的普通配置只需要进行GPIO外设使能和方向控制即可。也不是说前面说到的功能模式就不能配置了，如果有需要可以进行其他类型的配置。<br>如果要进行端口高低电平的输出控制，３２和TI也是一样的调用函数来进行配置，分别是：<code>GPIO_SetBits(GPIOE,GPIO_Pin_5);</code>　和　<code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0);</code></p>
+<p>注意：TI的输出高低电平使用的是同一个函数GPIOPinWrite（），对于３２则使用的是两个函数：GPIO_SetBits（）和GPIO_ResetBit（）即可输出高低电平。TI呢，则不是这样的，就连入口参数也不是和３２一样那么简单，GPIOPinWrite（）入口参数就有三个，分别是GPIO_PORTｘ_BASE，GPIO＿PIN＿ｘ，和０（低电平时候为０，但是高电平时候不是１，而是GPIO＿PIN＿ｘ）。例如PF１输出高电平　：<br>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);</p>
+<p>输入输出的模式一般不用管，但应了解浮空输入 上拉输入 下拉输入 模拟输入 开漏输出 推挽输出 复用推挽输出 复用开漏输出</p>
+<p>怎样读入呢？</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//检测</span></span><br><span class="line"><span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123; <span class="comment">//如果按下</span></span><br><span class="line">    SysCtlDelay(<span class="number">20</span>*(SysCtlClockGet()/<span class="number">3000</span>));<span class="comment">//消抖</span></span><br><span class="line">    ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//再次检测</span></span><br><span class="line">    <span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123;<span class="comment">//再次判断</span></span><br><span class="line">        KeyPress1 = <span class="literal">true</span>;<span class="comment">//如果按下，则置一个标志位</span></span><br><span class="line">        <span class="keyword">while</span>(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4))&#123;&#125;<span class="comment">//等按键松开</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></h2><h2 id="GPIO输出最终模板"><a href="#GPIO输出最终模板" class="headerlink" title="GPIO输出最终模板"></a>GPIO输出最终模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能GPIO外设</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line"><span class="comment">//设置引脚为GPIO输出模式</span></span><br><span class="line">GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</span><br><span class="line"><span class="comment">//引脚输出</span></span><br><span class="line">GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="部分函数研究"><a href="#部分函数研究" class="headerlink" title="部分函数研究"></a>部分函数研究</h2><ol>
+<li><code>GPIODirModeSet()</code><br>描述：设置了管脚的方向是向内、向外还是硬件控制</li>
+<li><code>GPIOPadConfigSet()</code><br> 描述：设置了一些引脚的输出驱动强度，和引脚类型<br> GPIO_PIN_TYPE_STD 推挽输出 可以输出高低电平<br> GPIO_PIN_TYPE_STD_WPU 推挽——弱上拉<br> GPIO_PIN_TYPE_STD_WPD 推挽——弱下拉<br> GPIO_PIN_TYPE_OD 开漏输出 IO 输出 0 接 GND， IO 输出 1，悬空，需要外接上拉电阻，才能实现输出<br> GPIO_PIN_TYPE_ANALOG 模拟输出<br> GPIO_PIN_TYPE_WAKE_HIGH 于hibernation mode 有关<br> GPIO_PIN_TYPE_WAKE_LOW  </li>
+<li><code>GPIOPinConfigure()</code></li>
+<li><code>GPIOPinRead()</code></li>
+<li><code>GPIOPinWrite()</code></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="cklymn3px000l083d7aoe92d1" data-title="GPIO输入和输出" class="article-share-link">Share</a>
       
       
       
@@ -818,21 +820,5 @@
 
 
   </div>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
