@@ -6,12 +6,10 @@
   
   <title>Welcome to smallcracker&#39;s personal website</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="联系方式：1426090870">
-<meta property="og:type" content="website">
+  <meta property="og:type" content="website">
 <meta property="og:title" content="Welcome to smallcracker&#39;s personal website">
 <meta property="og:url" content="http://example.com/page/3/index.html">
 <meta property="og:site_name" content="Welcome to smallcracker&#39;s personal website">
-<meta property="og:description" content="联系方式：1426090870">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="smallcracker">
 <meta name="twitter:card" content="summary">
@@ -46,6 +44,10 @@
       <h1 id="logo-wrap">
         <a href="/" id="logo">Welcome to smallcracker&#39;s personal website</a>
       </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">联系方式：1426090870</a>
+        </h2>
       
     </div>
     <div id="header-inner" class="inner">
@@ -162,52 +164,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Interrupt%20Controller(NVIC)/" data-id="cklymn3pz000p083dh3reg8ql" data-title="中断控制器" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-TIMER_CAPTURE" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/TIMER_CAPTURE/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/TIMER_CAPTURE/">Timer Capture</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="TIMER-CAPTURE"><a href="#TIMER-CAPTURE" class="headerlink" title="TIMER_CAPTURE"></a>TIMER_CAPTURE</h1><h3 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h3><p>计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位</p>
-<p>计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。</p>
-<p>加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，计数器会自动清零重新计数，减计数模式下，计数器会恢复preload值，但是会停止计数，需要重新使能。</p>
-<h3 id="功能一，边沿计数"><a href="#功能一，边沿计数" class="headerlink" title="功能一，边沿计数"></a>功能一，边沿计数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);</span><br><span class="line">    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> ulstatus = TimerIntStatus(TIMER2_BASE, TIMER_CAPA_MATCH | TIMER_CAPB_MATCH);</span><br><span class="line">    TimerIntClear(TIMER2_BASE, ulstatus);</span><br><span class="line">        t++;</span><br><span class="line">        <span class="keyword">if</span>(t%<span class="number">2</span>)&#123;</span><br><span class="line">            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_ccp</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使能GPIO时钟</span></span><br><span class="line">    <span class="comment">//SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span></span><br><span class="line">    <span class="comment">//使能Timer模块</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    <span class="comment">//配置GPIO引脚为Timer捕捉模式</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    <span class="comment">//配置管脚为弱上拉模式</span></span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    <span class="comment">//配置Timer的A模块为边沿触发 加计数模式</span></span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_COUNT_UP);</span><br><span class="line">    <span class="comment">//设置下降沿触发</span></span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_POS_EDGE);</span><br><span class="line">    TimerMatchSet(TIMER2_BASE, TIMER_A, <span class="number">3</span>);</span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_MATCH);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="功能二，边沿计时"><a href="#功能二，边沿计时" class="headerlink" title="功能二，边沿计时"></a>功能二，边沿计时</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> s=TimerIntStatus(TIMER2_BASE,TIMER_CAPA_EVENT);</span><br><span class="line">    TimerIntClear(TIMER2_BASE,s);</span><br><span class="line">    UARTprintf(<span class="string">&quot;Captured Value: 0x%04X\n&quot;</span>, TimerValueGet(TIMER2_BASE, TIMER_A));</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TIMER_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使能定时器和GPIO</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    <span class="comment">//配置GPIO引脚为timer捕捉模式</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    <span class="comment">//配置管脚为弱上拉模式</span></span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    <span class="comment">//配置Timer模块为沿触发加计时模式</span></span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_TIME_UP);</span><br><span class="line">    <span class="comment">//使用下降沿触发</span></span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_NEG_EDGE);</span><br><span class="line">    <span class="comment">//设置计数范围</span></span><br><span class="line">    TimerLoadSet(TIMER2_BASE, TIMER_A, <span class="number">0x8FFF</span>);</span><br><span class="line">    <span class="comment">//注册定时器中断</span></span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    <span class="comment">//使能中断，定时器，定时器中断</span></span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_EVENT);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/TIMER_CAPTURE/" data-id="cklymn3pz000r083dh2d22t27" data-title="Timer Capture" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Interrupt%20Controller(NVIC)/" data-id="cklymqefa000pqc3df92oc0eu" data-title="中断控制器" class="article-share-link">Share</a>
       
       
       
@@ -490,11 +447,74 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="cklymn3q0000t083db313awn7" data-title="midi" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="cklymqefa000rqc3d1nia66e9" data-title="midi" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/midi/" rel="tag">midi</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-System Tick" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/System%20Tick/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/System%20Tick/">SysTick</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="SysTick"><a href="#SysTick" class="headerlink" title="SysTick"></a>SysTick</h1><p>SysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Its<br>intended purpose is to provide a periodic interrupt for an RTOS, but it can be used for other simple<br>timing purposes.<br>The SysTick interrupt handler does not need to clear the SysTick interrupt source as it is cleared<br>automatically by the NVIC when the SysTick interrupt handler is called.<br>This driver is contained in driverlib/systick.c, with driverlib/systick.h containing the<br>API declarations for use by applications.</p>
+<p>大概的翻译一下</p>
+<p>SysTick是一个简单的定时器，是Cortex-M微处理器中NVIXC控制器的一部分。他的目的在于为RTOS提供一个周期性的中断，也可以被用于其他简单的计时目的。</p>
+<p>Systick 中断处理不需要清除Sys tick中断源，当SysTick中断处理被调用时NVIC会自动清理中断源。</p>
+<p>头文件是driverlib/systick.h</p>
+<p>The SysTick API is fairly simple, like SysTick itself. There are functions for configuring and enabling<br>SysTick (SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet()) and functions for dealing with an interrupt handler for SysTick (SysTickIntRegister(),<br>SysTickIntUnregister(), SysTickIntEnable(), and SysTickIntDisable()).</p>
+<p>他所包含的函数也特别少</p>
+<p>主要有设置和使能函数还有处理中断的函数</p>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212171840774.png" alt="image-20201212171840774"></p>
+<p>设置和使能的函数有</p>
+<p>(SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet())</p>
+<p>先看头两个SysTickEnable(), SysTickDisable(), 使能和停止SysTick</p>
+<p>如果中断处理已经注册，那就等中断重启时再停止。</p>
+<p>其中SysTickEnable还有个note</p>
+<blockquote>
+<p>Calling this function causes the SysTick counter to (re)commence counting from its current<br>value. The counter is not automatically reloaded with the period as specified in a previous call<br>to SysTickPeriodSet(). If an immediate reload is required, the NVIC_ST_CURRENT register<br>must be written to force the reload. Any write to this register clears the SysTick counter to 0<br>and causes a reload with the supplied period on the next clock.</p>
+</blockquote>
+<p>上面是使能定时器的函数，接下来是使能定时器中断的函数SysTickIntEnable(), and SysTickIntDisable()</p>
+<p>然后时注册/去除注册的函数SysTickIntRegister(),SysTickIntUnregister(),</p>
+<p>其中SysTickIntRegister(),的参数是一个函数指针，表示中断发生时要调用的函数</p>
+<p>还有两个函数能设置/返回计时器周期</p>
+<p>周期可以设置在1到16777216之间，单位是处理器的时钟数</p>
+<p>最后一个函数是获取定时器counter的函数SysTickValueGet()</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/System%20Tick/" data-id="cklymqefb000tqc3d6mj0a3ik" data-title="SysTick" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
 
     </footer>
   </div>
@@ -627,7 +647,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="cklymn3q1000v083d14hs34zv" data-title="PWM" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="cklymqefc000wqc3d4paufv6a" data-title="PWM" class="article-share-link">Share</a>
       
       
       
@@ -641,9 +661,9 @@
 
 
   
-    <article id="post-System Tick" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-TIMER_CAPTURE" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/01/29/System%20Tick/" class="article-date">
+    <a href="/2021/01/29/TIMER_CAPTURE/" class="article-date">
   <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
 </a>
     
@@ -655,7 +675,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/System%20Tick/">SysTick</a>
+      <a class="p-name article-title" href="/2021/01/29/TIMER_CAPTURE/">Timer Capture</a>
     </h1>
   
 
@@ -663,34 +683,16 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="SysTick"><a href="#SysTick" class="headerlink" title="SysTick"></a>SysTick</h1><p>SysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Its<br>intended purpose is to provide a periodic interrupt for an RTOS, but it can be used for other simple<br>timing purposes.<br>The SysTick interrupt handler does not need to clear the SysTick interrupt source as it is cleared<br>automatically by the NVIC when the SysTick interrupt handler is called.<br>This driver is contained in driverlib/systick.c, with driverlib/systick.h containing the<br>API declarations for use by applications.</p>
-<p>大概的翻译一下</p>
-<p>SysTick是一个简单的定时器，是Cortex-M微处理器中NVIXC控制器的一部分。他的目的在于为RTOS提供一个周期性的中断，也可以被用于其他简单的计时目的。</p>
-<p>Systick 中断处理不需要清除Sys tick中断源，当SysTick中断处理被调用时NVIC会自动清理中断源。</p>
-<p>头文件是driverlib/systick.h</p>
-<p>The SysTick API is fairly simple, like SysTick itself. There are functions for configuring and enabling<br>SysTick (SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet()) and functions for dealing with an interrupt handler for SysTick (SysTickIntRegister(),<br>SysTickIntUnregister(), SysTickIntEnable(), and SysTickIntDisable()).</p>
-<p>他所包含的函数也特别少</p>
-<p>主要有设置和使能函数还有处理中断的函数</p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212171840774.png" alt="image-20201212171840774"></p>
-<p>设置和使能的函数有</p>
-<p>(SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet())</p>
-<p>先看头两个SysTickEnable(), SysTickDisable(), 使能和停止SysTick</p>
-<p>如果中断处理已经注册，那就等中断重启时再停止。</p>
-<p>其中SysTickEnable还有个note</p>
-<blockquote>
-<p>Calling this function causes the SysTick counter to (re)commence counting from its current<br>value. The counter is not automatically reloaded with the period as specified in a previous call<br>to SysTickPeriodSet(). If an immediate reload is required, the NVIC_ST_CURRENT register<br>must be written to force the reload. Any write to this register clears the SysTick counter to 0<br>and causes a reload with the supplied period on the next clock.</p>
-</blockquote>
-<p>上面是使能定时器的函数，接下来是使能定时器中断的函数SysTickIntEnable(), and SysTickIntDisable()</p>
-<p>然后时注册/去除注册的函数SysTickIntRegister(),SysTickIntUnregister(),</p>
-<p>其中SysTickIntRegister(),的参数是一个函数指针，表示中断发生时要调用的函数</p>
-<p>还有两个函数能设置/返回计时器周期</p>
-<p>周期可以设置在1到16777216之间，单位是处理器的时钟数</p>
-<p>最后一个函数是获取定时器counter的函数SysTickValueGet()</p>
+        <h1 id="TIMER-CAPTURE"><a href="#TIMER-CAPTURE" class="headerlink" title="TIMER_CAPTURE"></a>TIMER_CAPTURE</h1><h3 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h3><p>计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位</p>
+<p>计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。</p>
+<p>加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，计数器会自动清零重新计数，减计数模式下，计数器会恢复preload值，但是会停止计数，需要重新使能。</p>
+<h3 id="功能一，边沿计数"><a href="#功能一，边沿计数" class="headerlink" title="功能一，边沿计数"></a>功能一，边沿计数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);</span><br><span class="line">    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> ulstatus = TimerIntStatus(TIMER2_BASE, TIMER_CAPA_MATCH | TIMER_CAPB_MATCH);</span><br><span class="line">    TimerIntClear(TIMER2_BASE, ulstatus);</span><br><span class="line">        t++;</span><br><span class="line">        <span class="keyword">if</span>(t%<span class="number">2</span>)&#123;</span><br><span class="line">            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_ccp</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使能GPIO时钟</span></span><br><span class="line">    <span class="comment">//SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span></span><br><span class="line">    <span class="comment">//使能Timer模块</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    <span class="comment">//配置GPIO引脚为Timer捕捉模式</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    <span class="comment">//配置管脚为弱上拉模式</span></span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    <span class="comment">//配置Timer的A模块为边沿触发 加计数模式</span></span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_COUNT_UP);</span><br><span class="line">    <span class="comment">//设置下降沿触发</span></span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_POS_EDGE);</span><br><span class="line">    TimerMatchSet(TIMER2_BASE, TIMER_A, <span class="number">3</span>);</span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_MATCH);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="功能二，边沿计时"><a href="#功能二，边沿计时" class="headerlink" title="功能二，边沿计时"></a>功能二，边沿计时</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> s=TimerIntStatus(TIMER2_BASE,TIMER_CAPA_EVENT);</span><br><span class="line">    TimerIntClear(TIMER2_BASE,s);</span><br><span class="line">    UARTprintf(<span class="string">&quot;Captured Value: 0x%04X\n&quot;</span>, TimerValueGet(TIMER2_BASE, TIMER_A));</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TIMER_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使能定时器和GPIO</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    <span class="comment">//配置GPIO引脚为timer捕捉模式</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    <span class="comment">//配置管脚为弱上拉模式</span></span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    <span class="comment">//配置Timer模块为沿触发加计时模式</span></span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_TIME_UP);</span><br><span class="line">    <span class="comment">//使用下降沿触发</span></span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_NEG_EDGE);</span><br><span class="line">    <span class="comment">//设置计数范围</span></span><br><span class="line">    TimerLoadSet(TIMER2_BASE, TIMER_A, <span class="number">0x8FFF</span>);</span><br><span class="line">    <span class="comment">//注册定时器中断</span></span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    <span class="comment">//使能中断，定时器，定时器中断</span></span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_EVENT);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/System%20Tick/" data-id="cklymn3q2000y083d5cjy98of" data-title="SysTick" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/TIMER_CAPTURE/" data-id="cklymqefd000yqc3d34wraw4e" data-title="Timer Capture" class="article-share-link">Share</a>
       
       
       
@@ -777,7 +779,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/UART/" data-id="cklymn3q20010083dcoruhiwm" data-title="UART" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/UART/" data-id="cklymqefd0010qc3d7c8s54fv" data-title="UART" class="article-share-link">Share</a>
       
       
       
@@ -917,7 +919,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Timer/" data-id="cklymn3q30012083deoclbnsf" data-title="Timer" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Timer/" data-id="cklymqefe0012qc3d02568ddj" data-title="Timer" class="article-share-link">Share</a>
       
       
       
@@ -958,7 +960,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/boosterpacks/" data-id="cklymn3q30014083dc55m37jw" data-title="BoosterPacks使用" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/boosterpacks/" data-id="cklymqeff0016qc3d93xh4fnz" data-title="BoosterPacks使用" class="article-share-link">Share</a>
       
       
       
@@ -1011,7 +1013,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="cklymn3q40018083d0bund5ob" data-title="关于怎样写c文件和头文件" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="cklymqeff0018qc3d56e141jn" data-title="关于怎样写c文件和头文件" class="article-share-link">Share</a>
       
       
       
@@ -1074,7 +1076,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/phripheral-list/" data-id="cklymn3q6001f083d4x415nl2" data-title="该单片机外设清单" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/phripheral-list/" data-id="cklymqefh001fqc3dgxes4bze" data-title="该单片机外设清单" class="article-share-link">Share</a>
       
       
       
