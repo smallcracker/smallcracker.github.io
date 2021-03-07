@@ -119,7 +119,76 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" data-id="ckltlms6r0005uw3d3ixb6gs6" data-title="Analog Comparator" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" data-id="cklylilnd0004hs3dhcop7lvo" data-title="Analog Comparator" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Analog Comparator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/30/Analog%20Comparator/" class="article-date">
+  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/30/Analog%20Comparator/">Analog Comparator</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Analog-Comparator"><a href="#Analog-Comparator" class="headerlink" title="Analog Comparator"></a>Analog Comparator</h1><h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>模拟比较器是一个外设，它能比较两个模拟电压的大小，并通过自身提供的逻辑输出端将比较结果以信号的形式输出。</p>
+<p>模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、触发ADC采样。它的中断产生逻辑是独立于ADC触发逻辑的，所以，AC可以基于一个事件产生一个中断，ADC可以基于另一个事件产生触发。比如说，让上升沿触发一次中断，让下降沿触发一次ADC。<br>比较器可以将测试电压和下面的其中一种电压进行比较</p>
+<ul>
+<li>独立的外部参考电压</li>
+<li>共用的外部参考电压</li>
+<li>共用的内部参考电压<br>该芯片提供了两个独立的模拟比较器。</li>
+</ul>
+<p><img src="AC模拟比较器触发引脚.png" alt="照片"><br>原理演示图<br><img src="image-20210130173642377.png" alt="image-20210130173642377"><br>它的头文件是driverlib/comp.h</p>
+<h2 id="二、功能说明"><a href="#二、功能说明" class="headerlink" title="二、功能说明"></a>二、功能说明</h2><p>比较器通过比较VIN-和VIN+来产生输出VOUT<br>VIN- &lt; VIN+ , VOUT = 1<br>VIN- &gt; VIN+ , VOUT = 0<br>VIN- 的输入源是外部输入，VIN+ 的输入源可以使Cn+，C0+，或者是内部参考源VIREF</p>
+<h2 id="三、函数介绍"><a href="#三、函数介绍" class="headerlink" title="三、函数介绍"></a>三、函数介绍</h2><p><img src="image-20210130100105290.png" alt="image-20210130100105290"></p>
+<ol>
+<li><code>ComparatorConfigure()</code> 用来配置一个AC模块触发ADC模块的条件、触发中断的条件、和谁比较、正常输出还是反转输出</li>
+<li><code>ComparatorIntClear()</code> 用于清除比较器中断标志，<em>（ 小贴士，因为在Contex-M处理器中写入有缓冲，所以执行函数之后过几个周期中断源才可能真正被清除，所以我们推荐在中断函数的一开始就清除中断标识）</em></li>
+<li><code>ComparatorIntDisable()</code> 失能一个比较器中断</li>
+<li><code>ComparatorIntEnable()</code> 使能一个比较器中断</li>
+<li><code>ComparatorIntRegister()</code> 注册中断函数</li>
+<li><code>ComparatorIntStatus()</code> 获取当前中断状态</li>
+<li><code>ComparatorIntUnregister()</code> 注销一个中断函数</li>
+<li><code>ComparatorRefSet()</code> 设定内部参考电压</li>
+<li><code>ComparatorValueGet()</code> 获取当前比较器输出值，<strong>true</strong>表示比较器输出是高，<strong>false</strong>表示比较器输出是低</li>
+</ol>
+<ul>
+<li>此外还需要用到一些GPIO函数来实现比较器功能<ol>
+<li><code>GPIOPinTypeComparator()</code> 配置引脚用于模拟比较器输入（注意：数据手册中说调用这个函数时还需要<code>PIOPinConfigure()</code>，但是例程中并没有调用此函数，查看pin_map中也没有对应的宏定义，可能并不需要调用这个函数吧）</li>
+<li><code>GPIOPinTypeComparatorOutput()</code> 配置引脚作为模拟比较器输出</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="四、例程"><a href="#四、例程" class="headerlink" title="四、例程"></a>四、例程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_COMP0);</span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_COMP0))&#123;&#125;</span><br><span class="line">ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);</span><br><span class="line">ROM_GPIOPinTypeComparator(GPIO_PORTC_BASE, GPIO_PIN_7);</span><br><span class="line">ComparatorRefSet(COMP_BASE, COMP_REF_1_65V);</span><br><span class="line">ComparatorConfigure(COMP_BASE, <span class="number">0</span>,(COMP_TRIG_NONE | COMP_INT_BOTH |COMP_ASRCP_REF | COMP_OUTPUT_NORMAL));</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Delay for some time...</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Read the comparator output value.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">ComparatorValueGet(COMP_BASE, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/30/Analog%20Comparator/" data-id="cklylilnm0008hs3d3el09ns8" data-title="Analog Comparator" class="article-share-link">Share</a>
       
       
       
@@ -167,7 +236,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/FPU/" data-id="ckltlms6x000fuw3dhjnr1po5" data-title="FPU" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/30/FPU/" data-id="cklylilnv000fhs3d63754v8p" data-title="FPU" class="article-share-link">Share</a>
       
       
       
@@ -220,7 +289,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckltlms7a001nuw3dghsr87ng" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="cklylilp9001ths3d6l4bcnir" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -267,7 +336,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="ckltlms6i0000uw3deroq1eya" data-title="ADC中断" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="cklylilmq0000hs3d74z66n7q" data-title="ADC中断" class="article-share-link">Share</a>
       
       
       
@@ -328,7 +397,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckltlms6r0004uw3d0ws14y6y" data-title="怎样新建一个项目" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="cklyliln90003hs3d52rb2jq8" data-title="怎样新建一个项目" class="article-share-link">Share</a>
       
       
       
@@ -405,7 +474,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Analog%20to%20Digital%20Converter/" data-id="ckltlms6t0008uw3deustfh22" data-title="ADC简介" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Analog%20to%20Digital%20Converter/" data-id="cklylilnf0005hs3d4bmc9mm0" data-title="ADC简介" class="article-share-link">Share</a>
       
       
       
@@ -463,7 +532,72 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO_PWM/" data-id="ckltlms6v000duw3d8n3laoum" data-title="GPIO PWM" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO_PWM/" data-id="cklylilny000hhs3d59vn7js1" data-title="GPIO PWM" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-GPIO输出和输入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">GPIO输入和输出</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="GPIO-输入和输出"><a href="#GPIO-输入和输出" class="headerlink" title="GPIO 输入和输出"></a>GPIO 输入和输出</h1><p>首先使能GPIO接口<br><code>SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</code></p>
+<p>接下来设置GPIO模式为输出<br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</code>  </p>
+<ul>
+<li><em>如果要设置多个pin的话</em><br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5);</code>  </li>
+</ul>
+<p>最后进行输出<br><code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0); 或者 void GPIOPinWrite(Port,Pins,which_pin);</code></p>
+<p>GPIO函数一共有三种</p>
+<ol>
+<li>配置GPIO pins的函数</li>
+<li>处理中断的函数</li>
+<li>获取pins value的函数</li>
+</ol>
+<p>配置３２和TI的方式就是不一样的，３２的GPIO是用结构体进行配置，TI则使用函数来进行配置。</p>
+<p>TI的普通配置只需要进行GPIO外设使能和方向控制即可。也不是说前面说到的功能模式就不能配置了，如果有需要可以进行其他类型的配置。<br>如果要进行端口高低电平的输出控制，３２和TI也是一样的调用函数来进行配置，分别是：<code>GPIO_SetBits(GPIOE,GPIO_Pin_5);</code>　和　<code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0);</code></p>
+<p>注意：TI的输出高低电平使用的是同一个函数GPIOPinWrite（），对于３２则使用的是两个函数：GPIO_SetBits（）和GPIO_ResetBit（）即可输出高低电平。TI呢，则不是这样的，就连入口参数也不是和３２一样那么简单，GPIOPinWrite（）入口参数就有三个，分别是GPIO_PORTｘ_BASE，GPIO＿PIN＿ｘ，和０（低电平时候为０，但是高电平时候不是１，而是GPIO＿PIN＿ｘ）。例如PF１输出高电平　：<br>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);</p>
+<p>输入输出的模式一般不用管，但应了解浮空输入 上拉输入 下拉输入 模拟输入 开漏输出 推挽输出 复用推挽输出 复用开漏输出</p>
+<p>怎样读入呢？</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//检测</span></span><br><span class="line"><span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123; <span class="comment">//如果按下</span></span><br><span class="line">    SysCtlDelay(<span class="number">20</span>*(SysCtlClockGet()/<span class="number">3000</span>));<span class="comment">//消抖</span></span><br><span class="line">    ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//再次检测</span></span><br><span class="line">    <span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123;<span class="comment">//再次判断</span></span><br><span class="line">        KeyPress1 = <span class="literal">true</span>;<span class="comment">//如果按下，则置一个标志位</span></span><br><span class="line">        <span class="keyword">while</span>(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4))&#123;&#125;<span class="comment">//等按键松开</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></h2><h2 id="GPIO输出最终模板"><a href="#GPIO输出最终模板" class="headerlink" title="GPIO输出最终模板"></a>GPIO输出最终模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能GPIO外设</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line"><span class="comment">//设置引脚为GPIO输出模式</span></span><br><span class="line">GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</span><br><span class="line"><span class="comment">//引脚输出</span></span><br><span class="line">GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="部分函数研究"><a href="#部分函数研究" class="headerlink" title="部分函数研究"></a>部分函数研究</h2><ol>
+<li><code>GPIODirModeSet()</code><br>描述：设置了管脚的方向是向内、向外还是硬件控制</li>
+<li><code>GPIOPadConfigSet()</code><br> 描述：设置了一些引脚的输出驱动强度，和引脚类型<br> GPIO_PIN_TYPE_STD 推挽输出 可以输出高低电平<br> GPIO_PIN_TYPE_STD_WPU 推挽——弱上拉<br> GPIO_PIN_TYPE_STD_WPD 推挽——弱下拉<br> GPIO_PIN_TYPE_OD 开漏输出 IO 输出 0 接 GND， IO 输出 1，悬空，需要外接上拉电阻，才能实现输出<br> GPIO_PIN_TYPE_ANALOG 模拟输出<br> GPIO_PIN_TYPE_WAKE_HIGH 于hibernation mode 有关<br> GPIO_PIN_TYPE_WAKE_LOW  </li>
+<li><code>GPIOPinConfigure()</code></li>
+<li><code>GPIOPinRead()</code></li>
+<li><code>GPIOPinWrite()</code></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="cklylilo2000jhs3d4pbz4dul" data-title="GPIO输入和输出" class="article-share-link">Share</a>
       
       
       
@@ -554,175 +688,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO_interrupt/" data-id="ckltlms6z000juw3d4lyj1pql" data-title="GPIO中断" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-GPIO输出和输入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">GPIO输入和输出</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="GPIO-输入和输出"><a href="#GPIO-输入和输出" class="headerlink" title="GPIO 输入和输出"></a>GPIO 输入和输出</h1><p>首先使能GPIO接口<br><code>SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</code></p>
-<p>接下来设置GPIO模式为输出<br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</code>  </p>
-<ul>
-<li><em>如果要设置多个pin的话</em><br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5);</code>  </li>
-</ul>
-<p>最后进行输出<br><code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0); 或者 void GPIOPinWrite(Port,Pins,which_pin);</code></p>
-<p>GPIO函数一共有三种</p>
-<ol>
-<li>配置GPIO pins的函数</li>
-<li>处理中断的函数</li>
-<li>获取pins value的函数</li>
-</ol>
-<p>配置３２和TI的方式就是不一样的，３２的GPIO是用结构体进行配置，TI则使用函数来进行配置。</p>
-<p>TI的普通配置只需要进行GPIO外设使能和方向控制即可。也不是说前面说到的功能模式就不能配置了，如果有需要可以进行其他类型的配置。<br>如果要进行端口高低电平的输出控制，３２和TI也是一样的调用函数来进行配置，分别是：<code>GPIO_SetBits(GPIOE,GPIO_Pin_5);</code>　和　<code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0);</code></p>
-<p>注意：TI的输出高低电平使用的是同一个函数GPIOPinWrite（），对于３２则使用的是两个函数：GPIO_SetBits（）和GPIO_ResetBit（）即可输出高低电平。TI呢，则不是这样的，就连入口参数也不是和３２一样那么简单，GPIOPinWrite（）入口参数就有三个，分别是GPIO_PORTｘ_BASE，GPIO＿PIN＿ｘ，和０（低电平时候为０，但是高电平时候不是１，而是GPIO＿PIN＿ｘ）。例如PF１输出高电平　：<br>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);</p>
-<p>输入输出的模式一般不用管，但应了解浮空输入 上拉输入 下拉输入 模拟输入 开漏输出 推挽输出 复用推挽输出 复用开漏输出</p>
-<p>怎样读入呢？</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//检测</span></span><br><span class="line"><span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123; <span class="comment">//如果按下</span></span><br><span class="line">    SysCtlDelay(<span class="number">20</span>*(SysCtlClockGet()/<span class="number">3000</span>));<span class="comment">//消抖</span></span><br><span class="line">    ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//再次检测</span></span><br><span class="line">    <span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123;<span class="comment">//再次判断</span></span><br><span class="line">        KeyPress1 = <span class="literal">true</span>;<span class="comment">//如果按下，则置一个标志位</span></span><br><span class="line">        <span class="keyword">while</span>(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4))&#123;&#125;<span class="comment">//等按键松开</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></h2><h2 id="GPIO输出最终模板"><a href="#GPIO输出最终模板" class="headerlink" title="GPIO输出最终模板"></a>GPIO输出最终模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能GPIO外设</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line"><span class="comment">//设置引脚为GPIO输出模式</span></span><br><span class="line">GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</span><br><span class="line"><span class="comment">//引脚输出</span></span><br><span class="line">GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
-<h2 id="部分函数研究"><a href="#部分函数研究" class="headerlink" title="部分函数研究"></a>部分函数研究</h2><ol>
-<li><code>GPIODirModeSet()</code><br>描述：设置了管脚的方向是向内、向外还是硬件控制</li>
-<li><code>GPIOPadConfigSet()</code><br> 描述：设置了一些引脚的输出驱动强度，和引脚类型<br> GPIO_PIN_TYPE_STD 推挽输出 可以输出高低电平<br> GPIO_PIN_TYPE_STD_WPU 推挽——弱上拉<br> GPIO_PIN_TYPE_STD_WPD 推挽——弱下拉<br> GPIO_PIN_TYPE_OD 开漏输出 IO 输出 0 接 GND， IO 输出 1，悬空，需要外接上拉电阻，才能实现输出<br> GPIO_PIN_TYPE_ANALOG 模拟输出<br> GPIO_PIN_TYPE_WAKE_HIGH 于hibernation mode 有关<br> GPIO_PIN_TYPE_WAKE_LOW  </li>
-<li><code>GPIOPinConfigure()</code></li>
-<li><code>GPIOPinRead()</code></li>
-<li><code>GPIOPinWrite()</code></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="ckltlms6z000luw3d20ribi1m" data-title="GPIO输入和输出" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Interrupt Controller(NVIC)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/Interrupt%20Controller(NVIC)/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/Interrupt%20Controller(NVIC)/">中断控制器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Interrupt-Controller-NVIC"><a href="#Interrupt-Controller-NVIC" class="headerlink" title="Interrupt Controller(NVIC)"></a>Interrupt Controller(NVIC)</h1><p>The interrupt controller API provides a set of functions for dealing with the Nested Vectored Interrupt<br>Controller (NVIC). Functions are provided to enable and disable interrupts, register interrupt<br>handlers, and set the priority of interrupts.</p>
-<blockquote>
-<p>中断控制器API提供了一系列与内置向量式中断控制器有关的函数，这些函数能使能/使不能中断，注册中断，设置中断优先级等</p>
-</blockquote>
-<p>The NVIC provides global interrupt masking, prioritization, and handler dispatching. Devices within<br>the Tiva family support up to 154 interrupt sources and eight priority levels. Individual interrupt<br>sources can be masked, and the processor interrupt can be globally masked as well (without affecting<br>the individual source masks).</p>
-<blockquote>
-<p>NVIC提供了全局中断屏蔽，优先级和处理器调度功能，在Tiva系列设备里至多支持154个中断和8个中断级，单个中断源可以被屏蔽，处理器屏蔽也可以被全局屏蔽（不影响单个中断源的屏蔽哦）</p>
-</blockquote>
-<p>The NVIC is tightly coupled with the Cortex-M microprocessor. When the processor responds to<br>an interrupt, the NVIC supplies the address of the function to handle the interrupt directly to the<br>processor. This action eliminates the need for a global interrupt handler that queries the interrupt<br>controller to determine the cause of the interrupt and branch to the appropriate handler, reducing<br>interrupt response time.</p>
-<blockquote>
-<p>NVIC紧密搭配着cortex_M微处理器。当处理器对中断作出反应时，NVIC直接把处理中断的函数的地址提供给处理器，此操作无需使用全局中断处理程序来查询中断控制器以确定中断的原因，并分支到相应的处理程序，从而减少中断响应时间。  </p>
-</blockquote>
-<p>The interrupt prioritization in the NVIC allows higher priority interrupts to be handled before lower<br>priority interrupts, as well as allowing preemption of lower priority interrupt handlers by higher priority<br>interrupts. Again, this helps reduce interrupt response time (for example, a 1 ms system control<br>interrupt is not held off by the execution of a lower priority 1 second housekeeping interrupt handler).</p>
-<blockquote>
-<p>中断处理优先级使得高优先级的中断在低优先级中断之前处理，并允许高优先级中断抢占低优先级中断。这还能减少中断响应时间，比如1ms的系统控制中断不会被更低优先级的1ms中断所延迟。</p>
-</blockquote>
-<p>Sub-prioritization is also possible; instead of having N bits of preemptable prioritization, the NVIC<br>can be configured (via software) for N - M bits of preemptable prioritization and M bits of sub-priority.<br>In this scheme, two interrupts with the same preemptable prioritization but different sub-priorities<br>do not cause a preemption; tail chaining is used instead to process the two interrupts back-to-back.</p>
-<blockquote>
-<p>还可以设置子优先级，如果不设置N位可抢占优先级的话，可以通过软件设置N-M个可抢占优先级和M个子优先级，在这种方案下，两个仅仅子优先级不同的可抢占中断不会导致抢占，单片机会使用尾链来来回处理两个中断</p>
-</blockquote>
-<p>If two interrupts with the same priority (and sub-priority if so configured) are asserted at the same<br>time, the one with the lower interrupt number is processed first. The NVIC keeps track of the nesting<br>of interrupt handlers, allowing the processor to return from interrupt context only once all nested<br>and pending interrupts have been handled.</p>
-<blockquote>
-<p>如果两个中断有相同的优先级（和子优先级）还被同时触发了，中断数更低的有限执行，NVIC会跟踪中断处理程序的嵌套，要求处理器在处理完所有被嵌套和挂起的中断后再返回</p>
-</blockquote>
-<p>Interrupt handlers can be configured in one of two ways; statically at compile time or dynamically at<br>run time. Static configuration of interrupt handlers is accomplished by editing the interrupt handler<br>table in the application’s startup code. When statically configured, the interrupts must be explicitly<br>enabled in the NVIC via IntEnable() before the processor can respond to the interrupt (in addition to<br>any interrupt enabling required within the peripheral itself). Statically configuring the interrupt table<br>provides the fastest interrupt response time because the stacking operation (a write to SRAM) can<br>be performed in parallel with the interrupt handler table fetch (a read from Flash), as well as the<br>prefetch of the interrupt handler itself (assuming it is also in Flash).</p>
-<blockquote>
-<p>中断处理程序可以用两种方式中的一种来设置，编译时设置或者运行时动态设置。静态配置使用的是IntEnable（）函数完成的，运行的时候静态配置的中断处理程序更快一点。</p>
-</blockquote>
-<p>Alternatively, interrupts can be configured at run-time using IntRegister() (or the analog in each<br>individual driver). When using IntRegister(), the interrupt must also be enabled as before; when<br>using the analogue in each individual driver, IntEnable() is called by the driver and does not need<br>to be called by the application. Run-time configuration of interrupts adds a small latency to the<br>interrupt response time because the stacking operation (a write to SRAM) and the interrupt handler<br>table fetch (a read from SRAM) must be performed sequentially.</p>
-<blockquote>
-<p>在运行时设置的话，需要用到IntRegister()函数，会有延迟。</p>
-</blockquote>
-<p>Run-time configuration of interrupt handlers requires that the interrupt handler table be placed on a<br>1-kB boundary in SRAM (typically this is at the beginning of SRAM). Failure to do so results in an<br>incorrect vector address being fetched in response to an interrupt. The vector table is in a section<br>called “vtable” and must be placed appropriately with a linker script.</p>
-<blockquote>
-<p>中断处理程序的配置需要将中断处理表放在SARM1kb的边缘上。。。。。</p>
-</blockquote>
-<p>This driver is contained in driverlib/interrupt.c, with driverlib/interrupt.h containing<br>the API declarations for use by applications.</p>
-<p>他的函数非常少</p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212164149113.png" alt="image-20201212164149113"></p>
-<p>前两个是使能/使不能一个中断</p>
-<p>第三个 确认一个中断是否在运行，如果一个中断在运行的话，会返回一个非零数</p>
-<p>第四个 第五个 使能/使不能处理器中断</p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212164210385.png" alt="image-20201212164210385"></p>
-<p>第一个 第二个 挂起/放下一个中断</p>
-<p>第三个 获取一个中断的优先级</p>
-<p>第四个 获取中断控制器的优先级分组 就是返回可抢占优先级的位数</p>
-<p>第五个 设置可抢占优先级的位数</p>
-<p>第六个 获取优先级屏蔽 </p>
-<blockquote>
-<p>This function gets the current setting of the interrupt priority masking level. The value returned is the priority level such that all interrupts of that and lesser priority are masked. A value of 0 means that priority masking is disabled.<br>Smaller numbers correspond to higher interrupt priorities. So for example a priority level mask of 4 allows interrupts of priority level 0-3, and interrupts with a numerical priority of 4 and greater are blocked.<br>The hardware priority mechanism only looks at the upper 3 bits of the priority level, so any prioritization must be performed in those bits.</p>
-</blockquote>
-<p>第七个 设置优先级屏蔽</p>
-<p>第八个 设置中断优先级</p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212165114559.png" alt="image-20201212165114559"></p>
-<p>第一个 注册一个函数，中断发生是就调用它</p>
-<blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// UART 0 interrupt handler.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">UART0Handler(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Handle interrupt.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the UART 0 interrupt handler.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">IntRegister(INT_UART0, UART0Handler);</span><br></pre></td></tr></table></figure>
-<p>第二个 触发一个中断 （直接触发）</p>
-</blockquote>
-<p>第三个 解注册一个中断</p>
-<p>所以怎样使用中断呢？</p>
-<p>直接去对应外设那里去查询中断怎样使用，然后回来使能中断即可，有需要就设置优先级啊，子优先级啊，屏蔽啊等等。</p>
-<p>有需要还可以直接触发一个中断的。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Interrupt%20Controller(NVIC)/" data-id="ckltlms71000puw3d8gfz1j0l" data-title="中断控制器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO_interrupt/" data-id="cklylilo4000lhs3d1tr5e1vv" data-title="GPIO中断" class="article-share-link">Share</a>
       
       
       
@@ -754,7 +720,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
     </div>
   </div>
 
@@ -764,7 +730,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a>
+      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a>
     </div>
   </div>
 
@@ -786,6 +752,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/07/permutation/">generate permutation</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/02/1-Wire_Master/">1-Wire_Master</a>
           </li>
         
@@ -799,10 +769,6 @@
         
           <li>
             <a href="/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/">通用定时器</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/">max30102 stm32代码</a>
           </li>
         
       </ul>

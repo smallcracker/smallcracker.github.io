@@ -71,6 +71,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-permutation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/07/permutation/" class="article-date">
+  <time class="dt-published" datetime="2021-03-06T16:00:00.000Z" itemprop="datePublished">2021-03-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/07/permutation/">generate permutation</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="全排列生成算法"><a href="#全排列生成算法" class="headerlink" title="全排列生成算法"></a>全排列生成算法</h1><h2 id="wikipedia上提供的一种方法"><a href="#wikipedia上提供的一种方法" class="headerlink" title="wikipedia上提供的一种方法"></a><em>wikipedia</em>上提供的一种方法</h2><p>这个方法可以以字典序生成一组数的全排列。方法非常简便，在14世纪由<em>Narayana Pandita</em>发现。</p>
+<ol>
+<li><p>Find the largest index k such that a[k] &lt; a[k + 1]. If no such index exists, the permutation is the last permutation.</p>
+</li>
+<li><p>Find the largest index l greater than k such that a[k] &lt; a[l].</p>
+</li>
+<li><p>Swap the value of a[k] with that of a[l].</p>
+</li>
+<li><p>Reverse the sequence from a[k + 1] up to and including the final element a[n].</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">1010</span>]; </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>* x,<span class="keyword">int</span>* y)</span></span>&#123;</span><br><span class="line">	*x^=*y^=*x^=*y;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">		a[i]=i+<span class="number">1</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	<span class="keyword">int</span> k=<span class="number">0</span>,l=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(;;)&#123;</span><br><span class="line">		k=<span class="number">-1</span>,l=<span class="number">-1</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=n<span class="number">-1</span><span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">			<span class="keyword">if</span>(a[i]&lt;a[i+<span class="number">1</span>])&#123;</span><br><span class="line">				k=i;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(k==<span class="number">-1</span>)<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=n<span class="number">-1</span>;i&gt;k;i--)&#123;</span><br><span class="line">			<span class="keyword">if</span>(a[i]&gt;a[k])&#123;</span><br><span class="line">				l=i;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		swap(&amp;a[k],&amp;a[l]);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=k+<span class="number">1</span>;i&lt;(k+<span class="number">1</span>+n<span class="number">-1</span>)/<span class="number">2</span>;i++)&#123;</span><br><span class="line">			swap(&amp;a[i],&amp;a[k+<span class="number">1</span>+n<span class="number">-1</span>-i]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="然后是常规的递归生成方法"><a href="#然后是常规的递归生成方法" class="headerlink" title="然后是常规的递归生成方法"></a>然后是常规的递归生成方法</h2></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">int</span> flag,a[<span class="number">100</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> t)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(t==n+<span class="number">1</span>)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> ;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(!(flag&amp;(<span class="number">1</span>&lt;&lt;i)))&#123;</span><br><span class="line">			a[t]=i;</span><br><span class="line">			flag|=<span class="number">1</span>&lt;&lt;i;</span><br><span class="line">			dfs(t+<span class="number">1</span>);</span><br><span class="line">			flag^=<span class="number">1</span>&lt;&lt;i;			</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">	dfs(<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/07/permutation/" data-id="cklylilot001chs3df5ev5ghx" data-title="generate permutation" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-1-Wire_Master" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/03/02/1-Wire_Master/" class="article-date">
@@ -97,7 +150,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/02/1-Wire_Master/" data-id="ckltlms6m0001uw3dhyn4cm5t" data-title="1-Wire_Master" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/02/1-Wire_Master/" data-id="cklyliln10001hs3dhkr64gz4" data-title="1-Wire_Master" class="article-share-link">Share</a>
       
       
       
@@ -142,7 +195,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/01/ESP8266/" data-id="ckltlms6x000huw3d4au80jau" data-title="esp8266" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/01/ESP8266/" data-id="cklylilnr000dhs3dbvd6f5zd" data-title="esp8266" class="article-share-link">Share</a>
       
       
       
@@ -182,7 +235,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/01/bottom/" data-id="ckltlms760016uw3dagdf89xg" data-title="bottom" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/01/bottom/" data-id="cklylilom0012hs3daix540dz" data-title="bottom" class="article-share-link">Share</a>
       
       
       
@@ -227,7 +280,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/" data-id="ckltlms7d001vuw3d6n0r2hsu" data-title="通用定时器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/" data-id="cklylilpd001whs3dcx7l41lj" data-title="通用定时器" class="article-share-link">Share</a>
       
       
       
@@ -267,7 +320,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/" data-id="ckltlms78001cuw3dbb4z5024" data-title="max30102 stm32代码" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/" data-id="cklylilow001fhs3d1pkp35ys" data-title="max30102 stm32代码" class="article-share-link">Share</a>
       
       
       
@@ -362,7 +415,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/27/tasks/" data-id="ckltlms7a001luw3df73lfovo" data-title="tasks" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/27/tasks/" data-id="cklylilp8001shs3d4sv9aksb" data-title="tasks" class="article-share-link">Share</a>
       
       
       
@@ -454,7 +507,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/26/IIC/" data-id="ckltlms70000nuw3d1nydhrtq" data-title="IIC" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/26/IIC/" data-id="cklylilo7000nhs3dglhrb0wc" data-title="IIC" class="article-share-link">Share</a>
       
       
       
@@ -495,7 +548,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/24/sg90/" data-id="ckltlms79001huw3dd9wjf7gf" data-title="sg90操作" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/24/sg90/" data-id="cklylilp1001mhs3d2yg914m5" data-title="sg90操作" class="article-share-link">Share</a>
       
       
       
@@ -546,76 +599,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" data-id="ckltlms6u000auw3dg1xv2scw" data-title="DHT11温湿度传感器" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Analog Comparator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/30/Analog%20Comparator/" class="article-date">
-  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/30/Analog%20Comparator/">Analog Comparator</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Analog-Comparator"><a href="#Analog-Comparator" class="headerlink" title="Analog Comparator"></a>Analog Comparator</h1><h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>模拟比较器是一个外设，它能比较两个模拟电压的大小，并通过自身提供的逻辑输出端将比较结果以信号的形式输出。</p>
-<p>模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、触发ADC采样。它的中断产生逻辑是独立于ADC触发逻辑的，所以，AC可以基于一个事件产生一个中断，ADC可以基于另一个事件产生触发。比如说，让上升沿触发一次中断，让下降沿触发一次ADC。<br>比较器可以将测试电压和下面的其中一种电压进行比较</p>
-<ul>
-<li>独立的外部参考电压</li>
-<li>共用的外部参考电压</li>
-<li>共用的内部参考电压<br>该芯片提供了两个独立的模拟比较器。</li>
-</ul>
-<p><img src="AC模拟比较器触发引脚.png" alt="照片"><br>原理演示图<br><img src="image-20210130173642377.png" alt="image-20210130173642377"><br>它的头文件是driverlib/comp.h</p>
-<h2 id="二、功能说明"><a href="#二、功能说明" class="headerlink" title="二、功能说明"></a>二、功能说明</h2><p>比较器通过比较VIN-和VIN+来产生输出VOUT<br>VIN- &lt; VIN+ , VOUT = 1<br>VIN- &gt; VIN+ , VOUT = 0<br>VIN- 的输入源是外部输入，VIN+ 的输入源可以使Cn+，C0+，或者是内部参考源VIREF</p>
-<h2 id="三、函数介绍"><a href="#三、函数介绍" class="headerlink" title="三、函数介绍"></a>三、函数介绍</h2><p><img src="image-20210130100105290.png" alt="image-20210130100105290"></p>
-<ol>
-<li><code>ComparatorConfigure()</code> 用来配置一个AC模块触发ADC模块的条件、触发中断的条件、和谁比较、正常输出还是反转输出</li>
-<li><code>ComparatorIntClear()</code> 用于清除比较器中断标志，<em>（ 小贴士，因为在Contex-M处理器中写入有缓冲，所以执行函数之后过几个周期中断源才可能真正被清除，所以我们推荐在中断函数的一开始就清除中断标识）</em></li>
-<li><code>ComparatorIntDisable()</code> 失能一个比较器中断</li>
-<li><code>ComparatorIntEnable()</code> 使能一个比较器中断</li>
-<li><code>ComparatorIntRegister()</code> 注册中断函数</li>
-<li><code>ComparatorIntStatus()</code> 获取当前中断状态</li>
-<li><code>ComparatorIntUnregister()</code> 注销一个中断函数</li>
-<li><code>ComparatorRefSet()</code> 设定内部参考电压</li>
-<li><code>ComparatorValueGet()</code> 获取当前比较器输出值，<strong>true</strong>表示比较器输出是高，<strong>false</strong>表示比较器输出是低</li>
-</ol>
-<ul>
-<li>此外还需要用到一些GPIO函数来实现比较器功能<ol>
-<li><code>GPIOPinTypeComparator()</code> 配置引脚用于模拟比较器输入（注意：数据手册中说调用这个函数时还需要<code>PIOPinConfigure()</code>，但是例程中并没有调用此函数，查看pin_map中也没有对应的宏定义，可能并不需要调用这个函数吧）</li>
-<li><code>GPIOPinTypeComparatorOutput()</code> 配置引脚作为模拟比较器输出</li>
-</ol>
-</li>
-</ul>
-<hr>
-<h2 id="四、例程"><a href="#四、例程" class="headerlink" title="四、例程"></a>四、例程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_COMP0);</span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_COMP0))&#123;&#125;</span><br><span class="line">ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);</span><br><span class="line">ROM_GPIOPinTypeComparator(GPIO_PORTC_BASE, GPIO_PIN_7);</span><br><span class="line">ComparatorRefSet(COMP_BASE, COMP_REF_1_65V);</span><br><span class="line">ComparatorConfigure(COMP_BASE, <span class="number">0</span>,(COMP_TRIG_NONE | COMP_INT_BOTH |COMP_ASRCP_REF | COMP_OUTPUT_NORMAL));</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Delay for some time...</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Read the comparator output value.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">ComparatorValueGet(COMP_BASE, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/Analog%20Comparator/" data-id="ckltlms6q0003uw3d918p2j19" data-title="Analog Comparator" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" data-id="cklylilno000ahs3daj1971i7" data-title="DHT11温湿度传感器" class="article-share-link">Share</a>
       
       
       
@@ -647,7 +631,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
     </div>
   </div>
 
@@ -657,7 +641,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a>
+      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a>
     </div>
   </div>
 
@@ -679,6 +663,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/07/permutation/">generate permutation</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/02/1-Wire_Master/">1-Wire_Master</a>
           </li>
         
@@ -692,10 +680,6 @@
         
           <li>
             <a href="/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/">通用定时器</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/">max30102 stm32代码</a>
           </li>
         
       </ul>
