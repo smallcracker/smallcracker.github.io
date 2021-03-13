@@ -75,6 +75,71 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-GPIO输出和输入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">GPIO输入和输出</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="GPIO-输入和输出"><a href="#GPIO-输入和输出" class="headerlink" title="GPIO 输入和输出"></a>GPIO 输入和输出</h1><p>首先使能GPIO接口<br><code>SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</code></p>
+<p>接下来设置GPIO模式为输出<br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</code>  </p>
+<ul>
+<li><em>如果要设置多个pin的话</em><br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5);</code>  </li>
+</ul>
+<p>最后进行输出<br><code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0); 或者 void GPIOPinWrite(Port,Pins,which_pin);</code></p>
+<p>GPIO函数一共有三种</p>
+<ol>
+<li>配置GPIO pins的函数</li>
+<li>处理中断的函数</li>
+<li>获取pins value的函数</li>
+</ol>
+<p>配置３２和TI的方式就是不一样的，３２的GPIO是用结构体进行配置，TI则使用函数来进行配置。</p>
+<p>TI的普通配置只需要进行GPIO外设使能和方向控制即可。也不是说前面说到的功能模式就不能配置了，如果有需要可以进行其他类型的配置。<br>如果要进行端口高低电平的输出控制，３２和TI也是一样的调用函数来进行配置，分别是：<code>GPIO_SetBits(GPIOE,GPIO_Pin_5);</code>　和　<code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0);</code></p>
+<p>注意：TI的输出高低电平使用的是同一个函数GPIOPinWrite（），对于３２则使用的是两个函数：GPIO_SetBits（）和GPIO_ResetBit（）即可输出高低电平。TI呢，则不是这样的，就连入口参数也不是和３２一样那么简单，GPIOPinWrite（）入口参数就有三个，分别是GPIO_PORTｘ_BASE，GPIO＿PIN＿ｘ，和０（低电平时候为０，但是高电平时候不是１，而是GPIO＿PIN＿ｘ）。例如PF１输出高电平　：<br>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);</p>
+<p>输入输出的模式一般不用管，但应了解浮空输入 上拉输入 下拉输入 模拟输入 开漏输出 推挽输出 复用推挽输出 复用开漏输出</p>
+<p>怎样读入呢？</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//检测</span></span><br><span class="line"><span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123; <span class="comment">//如果按下</span></span><br><span class="line">    SysCtlDelay(<span class="number">20</span>*(SysCtlClockGet()/<span class="number">3000</span>));<span class="comment">//消抖</span></span><br><span class="line">    ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//再次检测</span></span><br><span class="line">    <span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123;<span class="comment">//再次判断</span></span><br><span class="line">        KeyPress1 = <span class="literal">true</span>;<span class="comment">//如果按下，则置一个标志位</span></span><br><span class="line">        <span class="keyword">while</span>(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4))&#123;&#125;<span class="comment">//等按键松开</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></h2><h2 id="GPIO输出最终模板"><a href="#GPIO输出最终模板" class="headerlink" title="GPIO输出最终模板"></a>GPIO输出最终模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能GPIO外设</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line"><span class="comment">//设置引脚为GPIO输出模式</span></span><br><span class="line">GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</span><br><span class="line"><span class="comment">//引脚输出</span></span><br><span class="line">GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="部分函数研究"><a href="#部分函数研究" class="headerlink" title="部分函数研究"></a>部分函数研究</h2><ol>
+<li><code>GPIODirModeSet()</code><br>描述：设置了管脚的方向是向内、向外还是硬件控制</li>
+<li><code>GPIOPadConfigSet()</code><br> 描述：设置了一些引脚的输出驱动强度，和引脚类型<br> GPIO_PIN_TYPE_STD 推挽输出 可以输出高低电平<br> GPIO_PIN_TYPE_STD_WPU 推挽——弱上拉<br> GPIO_PIN_TYPE_STD_WPD 推挽——弱下拉<br> GPIO_PIN_TYPE_OD 开漏输出 IO 输出 0 接 GND， IO 输出 1，悬空，需要外接上拉电阻，才能实现输出<br> GPIO_PIN_TYPE_ANALOG 模拟输出<br> GPIO_PIN_TYPE_WAKE_HIGH 于hibernation mode 有关<br> GPIO_PIN_TYPE_WAKE_LOW  </li>
+<li><code>GPIOPinConfigure()</code></li>
+<li><code>GPIOPinRead()</code></li>
+<li><code>GPIOPinWrite()</code></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="ckm7stqjs000l303ddkgy1mjg" data-title="GPIO输入和输出" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Interrupt Controller(NVIC)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/01/29/Interrupt%20Controller(NVIC)/" class="article-date">
@@ -164,7 +229,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Interrupt%20Controller(NVIC)/" data-id="cklymqefa000pqc3df92oc0eu" data-title="中断控制器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Interrupt%20Controller(NVIC)/" data-id="ckm7stqjs000n303df8j7aijq" data-title="中断控制器" class="article-share-link">Share</a>
       
       
       
@@ -447,7 +512,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="cklymqefa000rqc3d1nia66e9" data-title="midi" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="ckm7stqjt000r303d26mseozu" data-title="midi" class="article-share-link">Share</a>
       
       
       
@@ -461,9 +526,9 @@
 
 
   
-    <article id="post-System Tick" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-UART" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/01/29/System%20Tick/" class="article-date">
+    <a href="/2021/01/29/UART/" class="article-date">
   <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
 </a>
     
@@ -475,7 +540,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/System%20Tick/">SysTick</a>
+      <a class="p-name article-title" href="/2021/01/29/UART/">UART</a>
     </h1>
   
 
@@ -483,34 +548,58 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="SysTick"><a href="#SysTick" class="headerlink" title="SysTick"></a>SysTick</h1><p>SysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Its<br>intended purpose is to provide a periodic interrupt for an RTOS, but it can be used for other simple<br>timing purposes.<br>The SysTick interrupt handler does not need to clear the SysTick interrupt source as it is cleared<br>automatically by the NVIC when the SysTick interrupt handler is called.<br>This driver is contained in driverlib/systick.c, with driverlib/systick.h containing the<br>API declarations for use by applications.</p>
-<p>大概的翻译一下</p>
-<p>SysTick是一个简单的定时器，是Cortex-M微处理器中NVIXC控制器的一部分。他的目的在于为RTOS提供一个周期性的中断，也可以被用于其他简单的计时目的。</p>
-<p>Systick 中断处理不需要清除Sys tick中断源，当SysTick中断处理被调用时NVIC会自动清理中断源。</p>
-<p>头文件是driverlib/systick.h</p>
-<p>The SysTick API is fairly simple, like SysTick itself. There are functions for configuring and enabling<br>SysTick (SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet()) and functions for dealing with an interrupt handler for SysTick (SysTickIntRegister(),<br>SysTickIntUnregister(), SysTickIntEnable(), and SysTickIntDisable()).</p>
-<p>他所包含的函数也特别少</p>
-<p>主要有设置和使能函数还有处理中断的函数</p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212171840774.png" alt="image-20201212171840774"></p>
-<p>设置和使能的函数有</p>
-<p>(SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet())</p>
-<p>先看头两个SysTickEnable(), SysTickDisable(), 使能和停止SysTick</p>
-<p>如果中断处理已经注册，那就等中断重启时再停止。</p>
-<p>其中SysTickEnable还有个note</p>
+        <h1 id="UART"><a href="#UART" class="headerlink" title="UART"></a>UART</h1><p>UART能干什么？</p>
+<p>能用来通信。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wxc971231/article/details/95624942?utm_medium=distribute.pc_relevant.none-task-blog-OPENSEARCH-1.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-OPENSEARCH-1.control">感谢这个人的博客</a></p>
+<h3 id="基本功能-向上位机输出一个字符"><a href="#基本功能-向上位机输出一个字符" class="headerlink" title="基本功能 向上位机输出一个字符"></a>基本功能 向上位机输出一个字符</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能UART和GPIO</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);</span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);</span><br><span class="line"><span class="comment">//复用GPIO口为UART功能</span></span><br><span class="line">GPIOPinConfigure(GPIO_PA0_U0RX);</span><br><span class="line">GPIOPinConfigure(GPIO_PA1_U0TX);</span><br><span class="line">GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);</span><br><span class="line"><span class="comment">//设置UART组、频率、波特率、模式</span></span><br><span class="line">UARTConfigSetExpClk(UART0_BASE, SysCtlClockGet(), <span class="number">115200</span>, (UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE | UART_CONFIG_PAR_NONE));</span><br><span class="line"><span class="comment">//输出字符</span></span><br><span class="line">UARTCharPut(UART0_BASE, <span class="string">&#x27;E&#x27;</span>);</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>Calling this function causes the SysTick counter to (re)commence counting from its current<br>value. The counter is not automatically reloaded with the period as specified in a previous call<br>to SysTickPeriodSet(). If an immediate reload is required, the NVIC_ST_CURRENT register<br>must be written to force the reload. Any write to this register clears the SysTick counter to 0<br>and causes a reload with the supplied period on the next clock.</p>
+<p>模式说明：The ui32Config parameter is the logical OR of three values: the number of data bits, the number of stop bits, and the parity. UART_CONFIG_WLEN_8, UART_CONFIG_WLEN_7, UART_CONFIG_WLEN_6, and UART_CONFIG_WLEN_5 select from eight to five data bits per byte (respectively). UART_CONFIG_STOP_ONE and UART_CONFIG_STOP_TWO select one or two stop bits (respectively). UART_CONFIG_PAR_NONE, UART_CONFIG_PAR_EVEN, UART_CONFIG_PAR_ODD, UART_CONFIG_PAR_ONE, and UART_CONFIG_PAR_ZERO select the parity mode (no parity bit, even parity bit, odd parity bit, parity bit always one, and parity bit always zero,<br>respectively).</p>
+<p>就是设置每一个byte有多少数据位，多长停止位，多长奇偶校验位</p>
 </blockquote>
-<p>上面是使能定时器的函数，接下来是使能定时器中断的函数SysTickIntEnable(), and SysTickIntDisable()</p>
-<p>然后时注册/去除注册的函数SysTickIntRegister(),SysTickIntUnregister(),</p>
-<p>其中SysTickIntRegister(),的参数是一个函数指针，表示中断发生时要调用的函数</p>
-<p>还有两个函数能设置/返回计时器周期</p>
-<p>周期可以设置在1到16777216之间，单位是处理器的时钟数</p>
-<p>最后一个函数是获取定时器counter的函数SysTickValueGet()</p>
-
+<h3 id="进阶功能-格式化输出到上位机"><a href="#进阶功能-格式化输出到上位机" class="headerlink" title="进阶功能 格式化输出到上位机"></a>进阶功能 格式化输出到上位机</h3><ul>
+<li>UART时钟、波特率配置函数需要从<code>UARTConfigSetExpClk</code>变为<code>UARTStdioConfig</code></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能外设</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_UART1);</span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置复用功能</span></span><br><span class="line">GPIOPinConfigure(GPIO_PB0_U1RX);</span><br><span class="line">GPIOPinConfigure(GPIO_PB1_U1TX);</span><br><span class="line"></span><br><span class="line"><span class="comment">//分配UART信号</span></span><br><span class="line">GPIOPinTypeUART(GPIO_PORTB_BASE,GPIO_PIN_0|GPIO_PIN_1);</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置UART参数(这样配置可以用UARTprintf)</span></span><br><span class="line">UARTClockSourceSet(UART1_BASE, UART_CLOCK_PIOSC);	</span><br><span class="line"><span class="comment">//使用16MHz内部高精度振荡器(PIOSC)作为UART模块时钟</span></span><br><span class="line">UARTStdioConfig(<span class="number">1</span>,<span class="number">115200</span>, <span class="number">16000000</span>);</span><br><span class="line"><span class="comment">//UART编号、波特率、UART时钟频率（频率要和上一行设的一致）</span></span><br><span class="line"></span><br><span class="line">UARTprintf(<span class="string">&quot;Enter Text: \n&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">uint8_t</span> getChar;</span><br><span class="line"><span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">	getChar=UARTCharGet(UART1_BASE);</span><br><span class="line">	UARTCharPut(UART1_BASE,getChar);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="更加进阶的功能-UART中断"><a href="#更加进阶的功能-UART中断" class="headerlink" title="更加进阶的功能 UART中断"></a>更加进阶的功能 UART中断</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigureUART</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// Enable the GPIO Peripheral used by the UART.</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);</span><br><span class="line"></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_UART1);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// Configure GPIO Pins for UART mode.</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PC4_U1RX);</span><br><span class="line">    GPIOPinConfigure(GPIO_PC5_U1TX);</span><br><span class="line">    GPIOPinTypeUART(GPIO_PORTC_BASE, GPIO_PIN_4 | GPIO_PIN_5);</span><br><span class="line"></span><br><span class="line">    UARTClockSourceSet(UART1_BASE, UART_CLOCK_PIOSC);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// Initialize the UART for console I/O.</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    UARTStdioConfig(<span class="number">1</span>, <span class="number">115200</span>, <span class="number">16000000</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UARTIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="comment">//清除中断标志</span></span><br><span class="line">       <span class="keyword">uint32_t</span> ui32Status;</span><br><span class="line">       ui32Status = UARTIntStatus(UART1_BASE, <span class="literal">true</span>);</span><br><span class="line">       UARTIntClear(UART1_BASE, ui32Status);</span><br><span class="line">       <span class="comment">//循环直到接受队列中不存在字符</span></span><br><span class="line">       <span class="keyword">while</span>(UARTCharsAvail(UART1_BASE))<span class="comment">//loop while there are chars</span></span><br><span class="line">       &#123;</span><br><span class="line">           <span class="comment">//串口输出一个char型</span></span><br><span class="line">           UARTCharPutNonBlocking(UART1_BASE,UARTCharGetNonBlocking(UART1_BASE));</span><br><span class="line">           <span class="comment">//闪一下灯</span></span><br><span class="line">           GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2);</span><br><span class="line">           SysCtlDelay(SysCtlClockGet() /<span class="number">10</span> / <span class="number">3</span>);</span><br><span class="line">           GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, <span class="number">0</span>);</span><br><span class="line">           SysCtlDelay(SysCtlClockGet() / <span class="number">10</span> / <span class="number">3</span>);</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">int_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    IntEnable(INT_UART1);</span><br><span class="line">    UARTIntEnable(UART1_BASE,UART_INT_RX|UART_INT_RT);</span><br><span class="line">    UARTIntRegister(UART1_BASE,UARTIntHandler);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    MAP_FPULazyStackingEnable();</span><br><span class="line">    MAP_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ |</span><br><span class="line">                       SYSCTL_OSC_MAIN);</span><br><span class="line">    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    MAP_GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2);</span><br><span class="line">    ConfigureUART();</span><br><span class="line">    int_init();</span><br><span class="line">    UARTprintf(<span class="string">&quot;Hello, world!\n&quot;</span>);</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="至高功能-测试FIFO"><a href="#至高功能-测试FIFO" class="headerlink" title="至高功能 测试FIFO"></a>至高功能 测试FIFO</h3><p>代码放在这，有时间再看</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//配置接收中断，当接收FIFO半满（8byte）时触发。利用串口调试助手一个char一个char发送。</span></span><br><span class="line"><span class="comment">//观察到发送8个char后进入中断，FIFO测试成功</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/tm4c123gh6pm.h&quot;</span>				<span class="comment">//Register Definitions</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_types.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/sysctl.h&quot;</span></span></span><br><span class="line"><span class="comment">//#include &quot;inc/hw_ints.h&quot;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/interrupt.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/gpio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/uart.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;uartstdio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/systick.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pin_map.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> delay_ms(n); SysCtlDelay(n*(SysCtlClockGet()/3000));</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UARTIntHandler</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">uint32_t</span> ui32Status;</span><br><span class="line">	ui32Status = UARTIntStatus(UART1_BASE, <span class="literal">true</span>); <span class="comment">//get interrupt status</span></span><br><span class="line">	UARTIntClear(UART1_BASE, ui32Status); 				<span class="comment">//clear the asserted interrupts</span></span><br><span class="line">	<span class="keyword">while</span>(UARTCharsAvail(UART1_BASE)) 						<span class="comment">//loop while there are chars</span></span><br><span class="line">	&#123;</span><br><span class="line">		UARTCharPutNonBlocking(UART1_BASE, UARTCharGetNonBlocking(UART1_BASE)); <span class="comment">//echo character</span></span><br><span class="line">		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2); <span class="comment">//blink LED</span></span><br><span class="line">		delay_ms(<span class="number">1</span>);</span><br><span class="line">		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, <span class="number">0</span>); <span class="comment">//turn off LED</span></span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123;	</span><br><span class="line">	SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//使能外设</span></span><br><span class="line">	SysCtlPeripheralEnable(SYSCTL_PERIPH_UART1);</span><br><span class="line">	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//配置复用功能</span></span><br><span class="line">	GPIOPinConfigure(GPIO_PB0_U1RX);</span><br><span class="line">	GPIOPinConfigure(GPIO_PB1_U1TX);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//分配UART信号</span></span><br><span class="line">	GPIOPinTypeUART(GPIO_PORTB_BASE,GPIO_PIN_0|GPIO_PIN_1);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//LED配置</span></span><br><span class="line">	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF); 				<span class="comment">//enable GPIO port for LED</span></span><br><span class="line">	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2); <span class="comment">//enable pin for LED PF2</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//串口参数设置</span></span><br><span class="line">	UARTClockSourceSet(UART1_BASE, UART_CLOCK_PIOSC);	<span class="comment">//使用16MHz内部高精度振荡器(PIOSC)作为UART模块时钟</span></span><br><span class="line">	UARTStdioConfig(<span class="number">1</span>,<span class="number">115200</span>, <span class="number">16000000</span>);							<span class="comment">//UART编号、波特率、UART时钟频率（频率要和上一行设的一致）</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//FIFO配置，</span></span><br><span class="line">	UARTFIFOLevelSet(UART1_BASE,UART_FIFO_TX4_8,UART_FIFO_RX4_8);	<span class="comment">//FIFO填入半满（8byte）时触发中断</span></span><br><span class="line">	UARTFIFOEnable(UART1_BASE);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//中断使能</span></span><br><span class="line">	IntMasterEnable(); 																			<span class="comment">//enable processor interrupts</span></span><br><span class="line">	IntEnable(INT_UART1); 																	<span class="comment">//enable the UART interrupt</span></span><br><span class="line">	UARTIntEnable(UART1_BASE, UART_INT_RX); 	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//注册中断服务函数</span></span><br><span class="line">	UARTIntRegister(UART1_BASE,UARTIntHandler);</span><br><span class="line">	</span><br><span class="line">	UARTprintf(<span class="string">&quot;Enter Text: \n&quot;</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) <span class="comment">//let interrupt handler do the UART echo function</span></span><br><span class="line">	&#123;	</span><br><span class="line">		;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>进一步进行其他FIFO中断测试，如下：</p>
+<ul>
+<li><strong>打开FIFO的情况下</strong>，打开<code>UART_INT_OE</code>（FIFO溢出中断），此时<strong>FIFO深度无作用</strong>，FIFO接收17个（FIFO溢出）后进入中断，第17个byte丢失，会输出FIFO中存储的所有16个字符，特别注意FIFO溢出是一个错误引发的中断，在中断服务函数中，<strong>除了用<code>UARTIntClear</code>清除标志，还要写一句<code>HWREG(UART1_BASE+UART_O_ECR)=0;</code>清除错误标志</strong>，否则中断只能进一次。</li>
+<li><strong>关闭FIFO的情况下（相当于FIFO深度为1）</strong>，打开<code>UART_INT_OE</code>（FIFO溢出中断），连续收到两个byte溢出，在中断中打印第一个byte；打开<code>UART_INT_RX</code>（FIFO溢出中断），每收到一个byte都会进中断打印</li>
+</ul>
+<h2 id="部分库函数小结"><a href="#部分库函数小结" class="headerlink" title="部分库函数小结"></a>部分库函数小结</h2><h4 id="（1）void-UARTprintf-const-char-pcString-…"><a href="#（1）void-UARTprintf-const-char-pcString-…" class="headerlink" title="（1）void UARTprintf(const char *pcString, …)"></a>（1）void UARTprintf(const char *pcString, …)</h4><ol>
+<li>包含<code>uartstdio.c</code>和<code>uartstdio.h</code>后可用</li>
+<li>类似C语言printf()</li>
+</ol>
+<h4 id="（2）void-UARTCharPut-uint32-t-ui32Base-unsigned-char-ucData"><a href="#（2）void-UARTCharPut-uint32-t-ui32Base-unsigned-char-ucData" class="headerlink" title="（2）void UARTCharPut(uint32_t ui32Base, unsigned char ucData)"></a>（2）void UARTCharPut(uint32_t ui32Base, unsigned char ucData)</h4><ol>
+<li>串口输出一个char型</li>
+<li>等待FIFO中有数据再发送</li>
+</ol>
+<h4 id="（3）int32-t-UARTCharGet-uint32-t-ui32Base"><a href="#（3）int32-t-UARTCharGet-uint32-t-ui32Base" class="headerlink" title="（3）int32_t UARTCharGet(uint32_t ui32Base)"></a>（3）int32_t UARTCharGet(uint32_t ui32Base)</h4><ol>
+<li>串口接收一个uint32_t型数据</li>
+<li>等待FIFO中有数据再接收</li>
+</ol>
+<h4 id="（4）bool-UARTCharPutNonBlocking-uint32-t-ui32Base-unsigned-char-ucData"><a href="#（4）bool-UARTCharPutNonBlocking-uint32-t-ui32Base-unsigned-char-ucData" class="headerlink" title="（4）bool UARTCharPutNonBlocking(uint32_t ui32Base, unsigned char ucData)"></a>（4）bool UARTCharPutNonBlocking(uint32_t ui32Base, unsigned char ucData)</h4><ol>
+<li>串口输出一个char型</li>
+<li>若发送时FIFO已满时，直接返回false而不在那循环等待</li>
+</ol>
+<h4 id="（5）int32-t-UARTCharGetNonBlocking-uint32-t-ui32Base"><a href="#（5）int32-t-UARTCharGetNonBlocking-uint32-t-ui32Base" class="headerlink" title="（5）int32_t UARTCharGetNonBlocking(uint32_t ui32Base)"></a>（5）int32_t UARTCharGetNonBlocking(uint32_t ui32Base)</h4><ol>
+<li>串口接收一个uint32_t型数据</li>
+<li>如果遇到接收时FIFO为空，直接返回false而不在那循环等待</li>
+</ol>
+<h4 id="（6）void-UARTFIFOLevelSet-uint32-t-ui32Base-uint32-t-ui32TxLevel-uint32-t-ui32RxLevel"><a href="#（6）void-UARTFIFOLevelSet-uint32-t-ui32Base-uint32-t-ui32TxLevel-uint32-t-ui32RxLevel" class="headerlink" title="（6）void UARTFIFOLevelSet(uint32_t ui32Base, uint32_t ui32TxLevel,uint32_t ui32RxLevel)"></a>（6）void UARTFIFOLevelSet(uint32_t ui32Base, uint32_t ui32TxLevel,uint32_t ui32RxLevel)</h4><ol>
+<li>配置输入输出FIFO的深度</li>
+</ol>
+<h4 id="（7）void-UARTFIFOEnable-uint32-t-ui32Base"><a href="#（7）void-UARTFIFOEnable-uint32-t-ui32Base" class="headerlink" title="（7）void UARTFIFOEnable(uint32_t ui32Base)"></a>（7）void UARTFIFOEnable(uint32_t ui32Base)</h4><ol>
+<li>开启某UART的FIFO功能</li>
+</ol>
+<hr>
+<h2 id="UART向上位机发送信息模板"><a href="#UART向上位机发送信息模板" class="headerlink" title="UART向上位机发送信息模板"></a>UART向上位机发送信息模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ConfigureUART();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigureUART</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);</span><br><span class="line">    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);</span><br><span class="line">    ROM_GPIOPinConfigure(GPIO_PA0_U0RX);</span><br><span class="line">    ROM_GPIOPinConfigure(GPIO_PA1_U0TX);</span><br><span class="line">    ROM_GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);</span><br><span class="line">    UARTClockSourceSet(UART0_BASE, UART_CLOCK_PIOSC);</span><br><span class="line">    UARTStdioConfig(<span class="number">0</span>, <span class="number">115200</span>, <span class="number">16000000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/System%20Tick/" data-id="cklymqefb000tqc3d6mj0a3ik" data-title="SysTick" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/UART/" data-id="ckm7stqju000t303d6f1o5z0u" data-title="UART" class="article-share-link">Share</a>
       
       
       
@@ -647,7 +736,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="cklymqefc000wqc3d4paufv6a" data-title="PWM" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="ckm7stqjv000w303d5uo0f7vk" data-title="PWM" class="article-share-link">Share</a>
       
       
       
@@ -692,7 +781,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/TIMER_CAPTURE/" data-id="cklymqefd000yqc3d34wraw4e" data-title="Timer Capture" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/TIMER_CAPTURE/" data-id="ckm7stqjw000y303dfkabenfl" data-title="Timer Capture" class="article-share-link">Share</a>
       
       
       
@@ -706,9 +795,9 @@
 
 
   
-    <article id="post-UART" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-System Tick" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/01/29/UART/" class="article-date">
+    <a href="/2021/01/29/System%20Tick/" class="article-date">
   <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
 </a>
     
@@ -720,7 +809,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/UART/">UART</a>
+      <a class="p-name article-title" href="/2021/01/29/System%20Tick/">SysTick</a>
     </h1>
   
 
@@ -728,58 +817,75 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="UART"><a href="#UART" class="headerlink" title="UART"></a>UART</h1><p>UART能干什么？</p>
-<p>能用来通信。</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wxc971231/article/details/95624942?utm_medium=distribute.pc_relevant.none-task-blog-OPENSEARCH-1.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-OPENSEARCH-1.control">感谢这个人的博客</a></p>
-<h3 id="基本功能-向上位机输出一个字符"><a href="#基本功能-向上位机输出一个字符" class="headerlink" title="基本功能 向上位机输出一个字符"></a>基本功能 向上位机输出一个字符</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能UART和GPIO</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);</span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);</span><br><span class="line"><span class="comment">//复用GPIO口为UART功能</span></span><br><span class="line">GPIOPinConfigure(GPIO_PA0_U0RX);</span><br><span class="line">GPIOPinConfigure(GPIO_PA1_U0TX);</span><br><span class="line">GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);</span><br><span class="line"><span class="comment">//设置UART组、频率、波特率、模式</span></span><br><span class="line">UARTConfigSetExpClk(UART0_BASE, SysCtlClockGet(), <span class="number">115200</span>, (UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE | UART_CONFIG_PAR_NONE));</span><br><span class="line"><span class="comment">//输出字符</span></span><br><span class="line">UARTCharPut(UART0_BASE, <span class="string">&#x27;E&#x27;</span>);</span><br></pre></td></tr></table></figure>
+        <h1 id="SysTick"><a href="#SysTick" class="headerlink" title="SysTick"></a>SysTick</h1><p>SysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Its<br>intended purpose is to provide a periodic interrupt for an RTOS, but it can be used for other simple<br>timing purposes.<br>The SysTick interrupt handler does not need to clear the SysTick interrupt source as it is cleared<br>automatically by the NVIC when the SysTick interrupt handler is called.<br>This driver is contained in driverlib/systick.c, with driverlib/systick.h containing the<br>API declarations for use by applications.</p>
+<p>大概的翻译一下</p>
+<p>SysTick是一个简单的定时器，是Cortex-M微处理器中NVIXC控制器的一部分。他的目的在于为RTOS提供一个周期性的中断，也可以被用于其他简单的计时目的。</p>
+<p>Systick 中断处理不需要清除Sys tick中断源，当SysTick中断处理被调用时NVIC会自动清理中断源。</p>
+<p>头文件是driverlib/systick.h</p>
+<p>The SysTick API is fairly simple, like SysTick itself. There are functions for configuring and enabling<br>SysTick (SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet()) and functions for dealing with an interrupt handler for SysTick (SysTickIntRegister(),<br>SysTickIntUnregister(), SysTickIntEnable(), and SysTickIntDisable()).</p>
+<p>他所包含的函数也特别少</p>
+<p>主要有设置和使能函数还有处理中断的函数</p>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212171840774.png" alt="image-20201212171840774"></p>
+<p>设置和使能的函数有</p>
+<p>(SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet())</p>
+<p>先看头两个SysTickEnable(), SysTickDisable(), 使能和停止SysTick</p>
+<p>如果中断处理已经注册，那就等中断重启时再停止。</p>
+<p>其中SysTickEnable还有个note</p>
 <blockquote>
-<p>模式说明：The ui32Config parameter is the logical OR of three values: the number of data bits, the number of stop bits, and the parity. UART_CONFIG_WLEN_8, UART_CONFIG_WLEN_7, UART_CONFIG_WLEN_6, and UART_CONFIG_WLEN_5 select from eight to five data bits per byte (respectively). UART_CONFIG_STOP_ONE and UART_CONFIG_STOP_TWO select one or two stop bits (respectively). UART_CONFIG_PAR_NONE, UART_CONFIG_PAR_EVEN, UART_CONFIG_PAR_ODD, UART_CONFIG_PAR_ONE, and UART_CONFIG_PAR_ZERO select the parity mode (no parity bit, even parity bit, odd parity bit, parity bit always one, and parity bit always zero,<br>respectively).</p>
-<p>就是设置每一个byte有多少数据位，多长停止位，多长奇偶校验位</p>
+<p>Calling this function causes the SysTick counter to (re)commence counting from its current<br>value. The counter is not automatically reloaded with the period as specified in a previous call<br>to SysTickPeriodSet(). If an immediate reload is required, the NVIC_ST_CURRENT register<br>must be written to force the reload. Any write to this register clears the SysTick counter to 0<br>and causes a reload with the supplied period on the next clock.</p>
 </blockquote>
-<h3 id="进阶功能-格式化输出到上位机"><a href="#进阶功能-格式化输出到上位机" class="headerlink" title="进阶功能 格式化输出到上位机"></a>进阶功能 格式化输出到上位机</h3><ul>
-<li>UART时钟、波特率配置函数需要从<code>UARTConfigSetExpClk</code>变为<code>UARTStdioConfig</code></li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能外设</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_UART1);</span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置复用功能</span></span><br><span class="line">GPIOPinConfigure(GPIO_PB0_U1RX);</span><br><span class="line">GPIOPinConfigure(GPIO_PB1_U1TX);</span><br><span class="line"></span><br><span class="line"><span class="comment">//分配UART信号</span></span><br><span class="line">GPIOPinTypeUART(GPIO_PORTB_BASE,GPIO_PIN_0|GPIO_PIN_1);</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置UART参数(这样配置可以用UARTprintf)</span></span><br><span class="line">UARTClockSourceSet(UART1_BASE, UART_CLOCK_PIOSC);	</span><br><span class="line"><span class="comment">//使用16MHz内部高精度振荡器(PIOSC)作为UART模块时钟</span></span><br><span class="line">UARTStdioConfig(<span class="number">1</span>,<span class="number">115200</span>, <span class="number">16000000</span>);</span><br><span class="line"><span class="comment">//UART编号、波特率、UART时钟频率（频率要和上一行设的一致）</span></span><br><span class="line"></span><br><span class="line">UARTprintf(<span class="string">&quot;Enter Text: \n&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">uint8_t</span> getChar;</span><br><span class="line"><span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">	getChar=UARTCharGet(UART1_BASE);</span><br><span class="line">	UARTCharPut(UART1_BASE,getChar);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="更加进阶的功能-UART中断"><a href="#更加进阶的功能-UART中断" class="headerlink" title="更加进阶的功能 UART中断"></a>更加进阶的功能 UART中断</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigureUART</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// Enable the GPIO Peripheral used by the UART.</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);</span><br><span class="line"></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_UART1);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// Configure GPIO Pins for UART mode.</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PC4_U1RX);</span><br><span class="line">    GPIOPinConfigure(GPIO_PC5_U1TX);</span><br><span class="line">    GPIOPinTypeUART(GPIO_PORTC_BASE, GPIO_PIN_4 | GPIO_PIN_5);</span><br><span class="line"></span><br><span class="line">    UARTClockSourceSet(UART1_BASE, UART_CLOCK_PIOSC);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// Initialize the UART for console I/O.</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    UARTStdioConfig(<span class="number">1</span>, <span class="number">115200</span>, <span class="number">16000000</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UARTIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="comment">//清除中断标志</span></span><br><span class="line">       <span class="keyword">uint32_t</span> ui32Status;</span><br><span class="line">       ui32Status = UARTIntStatus(UART1_BASE, <span class="literal">true</span>);</span><br><span class="line">       UARTIntClear(UART1_BASE, ui32Status);</span><br><span class="line">       <span class="comment">//循环直到接受队列中不存在字符</span></span><br><span class="line">       <span class="keyword">while</span>(UARTCharsAvail(UART1_BASE))<span class="comment">//loop while there are chars</span></span><br><span class="line">       &#123;</span><br><span class="line">           <span class="comment">//串口输出一个char型</span></span><br><span class="line">           UARTCharPutNonBlocking(UART1_BASE,UARTCharGetNonBlocking(UART1_BASE));</span><br><span class="line">           <span class="comment">//闪一下灯</span></span><br><span class="line">           GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2);</span><br><span class="line">           SysCtlDelay(SysCtlClockGet() /<span class="number">10</span> / <span class="number">3</span>);</span><br><span class="line">           GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, <span class="number">0</span>);</span><br><span class="line">           SysCtlDelay(SysCtlClockGet() / <span class="number">10</span> / <span class="number">3</span>);</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">int_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    IntEnable(INT_UART1);</span><br><span class="line">    UARTIntEnable(UART1_BASE,UART_INT_RX|UART_INT_RT);</span><br><span class="line">    UARTIntRegister(UART1_BASE,UARTIntHandler);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    MAP_FPULazyStackingEnable();</span><br><span class="line">    MAP_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ |</span><br><span class="line">                       SYSCTL_OSC_MAIN);</span><br><span class="line">    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    MAP_GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2);</span><br><span class="line">    ConfigureUART();</span><br><span class="line">    int_init();</span><br><span class="line">    UARTprintf(<span class="string">&quot;Hello, world!\n&quot;</span>);</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="至高功能-测试FIFO"><a href="#至高功能-测试FIFO" class="headerlink" title="至高功能 测试FIFO"></a>至高功能 测试FIFO</h3><p>代码放在这，有时间再看</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//配置接收中断，当接收FIFO半满（8byte）时触发。利用串口调试助手一个char一个char发送。</span></span><br><span class="line"><span class="comment">//观察到发送8个char后进入中断，FIFO测试成功</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/tm4c123gh6pm.h&quot;</span>				<span class="comment">//Register Definitions</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_types.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/sysctl.h&quot;</span></span></span><br><span class="line"><span class="comment">//#include &quot;inc/hw_ints.h&quot;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/interrupt.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/gpio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/uart.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;uartstdio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/systick.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pin_map.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> delay_ms(n); SysCtlDelay(n*(SysCtlClockGet()/3000));</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UARTIntHandler</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">uint32_t</span> ui32Status;</span><br><span class="line">	ui32Status = UARTIntStatus(UART1_BASE, <span class="literal">true</span>); <span class="comment">//get interrupt status</span></span><br><span class="line">	UARTIntClear(UART1_BASE, ui32Status); 				<span class="comment">//clear the asserted interrupts</span></span><br><span class="line">	<span class="keyword">while</span>(UARTCharsAvail(UART1_BASE)) 						<span class="comment">//loop while there are chars</span></span><br><span class="line">	&#123;</span><br><span class="line">		UARTCharPutNonBlocking(UART1_BASE, UARTCharGetNonBlocking(UART1_BASE)); <span class="comment">//echo character</span></span><br><span class="line">		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2); <span class="comment">//blink LED</span></span><br><span class="line">		delay_ms(<span class="number">1</span>);</span><br><span class="line">		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, <span class="number">0</span>); <span class="comment">//turn off LED</span></span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123;	</span><br><span class="line">	SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//使能外设</span></span><br><span class="line">	SysCtlPeripheralEnable(SYSCTL_PERIPH_UART1);</span><br><span class="line">	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//配置复用功能</span></span><br><span class="line">	GPIOPinConfigure(GPIO_PB0_U1RX);</span><br><span class="line">	GPIOPinConfigure(GPIO_PB1_U1TX);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//分配UART信号</span></span><br><span class="line">	GPIOPinTypeUART(GPIO_PORTB_BASE,GPIO_PIN_0|GPIO_PIN_1);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//LED配置</span></span><br><span class="line">	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF); 				<span class="comment">//enable GPIO port for LED</span></span><br><span class="line">	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2); <span class="comment">//enable pin for LED PF2</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//串口参数设置</span></span><br><span class="line">	UARTClockSourceSet(UART1_BASE, UART_CLOCK_PIOSC);	<span class="comment">//使用16MHz内部高精度振荡器(PIOSC)作为UART模块时钟</span></span><br><span class="line">	UARTStdioConfig(<span class="number">1</span>,<span class="number">115200</span>, <span class="number">16000000</span>);							<span class="comment">//UART编号、波特率、UART时钟频率（频率要和上一行设的一致）</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//FIFO配置，</span></span><br><span class="line">	UARTFIFOLevelSet(UART1_BASE,UART_FIFO_TX4_8,UART_FIFO_RX4_8);	<span class="comment">//FIFO填入半满（8byte）时触发中断</span></span><br><span class="line">	UARTFIFOEnable(UART1_BASE);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//中断使能</span></span><br><span class="line">	IntMasterEnable(); 																			<span class="comment">//enable processor interrupts</span></span><br><span class="line">	IntEnable(INT_UART1); 																	<span class="comment">//enable the UART interrupt</span></span><br><span class="line">	UARTIntEnable(UART1_BASE, UART_INT_RX); 	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//注册中断服务函数</span></span><br><span class="line">	UARTIntRegister(UART1_BASE,UARTIntHandler);</span><br><span class="line">	</span><br><span class="line">	UARTprintf(<span class="string">&quot;Enter Text: \n&quot;</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) <span class="comment">//let interrupt handler do the UART echo function</span></span><br><span class="line">	&#123;	</span><br><span class="line">		;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>进一步进行其他FIFO中断测试，如下：</p>
-<ul>
-<li><strong>打开FIFO的情况下</strong>，打开<code>UART_INT_OE</code>（FIFO溢出中断），此时<strong>FIFO深度无作用</strong>，FIFO接收17个（FIFO溢出）后进入中断，第17个byte丢失，会输出FIFO中存储的所有16个字符，特别注意FIFO溢出是一个错误引发的中断，在中断服务函数中，<strong>除了用<code>UARTIntClear</code>清除标志，还要写一句<code>HWREG(UART1_BASE+UART_O_ECR)=0;</code>清除错误标志</strong>，否则中断只能进一次。</li>
-<li><strong>关闭FIFO的情况下（相当于FIFO深度为1）</strong>，打开<code>UART_INT_OE</code>（FIFO溢出中断），连续收到两个byte溢出，在中断中打印第一个byte；打开<code>UART_INT_RX</code>（FIFO溢出中断），每收到一个byte都会进中断打印</li>
-</ul>
-<h2 id="部分库函数小结"><a href="#部分库函数小结" class="headerlink" title="部分库函数小结"></a>部分库函数小结</h2><h4 id="（1）void-UARTprintf-const-char-pcString-…"><a href="#（1）void-UARTprintf-const-char-pcString-…" class="headerlink" title="（1）void UARTprintf(const char *pcString, …)"></a>（1）void UARTprintf(const char *pcString, …)</h4><ol>
-<li>包含<code>uartstdio.c</code>和<code>uartstdio.h</code>后可用</li>
-<li>类似C语言printf()</li>
-</ol>
-<h4 id="（2）void-UARTCharPut-uint32-t-ui32Base-unsigned-char-ucData"><a href="#（2）void-UARTCharPut-uint32-t-ui32Base-unsigned-char-ucData" class="headerlink" title="（2）void UARTCharPut(uint32_t ui32Base, unsigned char ucData)"></a>（2）void UARTCharPut(uint32_t ui32Base, unsigned char ucData)</h4><ol>
-<li>串口输出一个char型</li>
-<li>等待FIFO中有数据再发送</li>
-</ol>
-<h4 id="（3）int32-t-UARTCharGet-uint32-t-ui32Base"><a href="#（3）int32-t-UARTCharGet-uint32-t-ui32Base" class="headerlink" title="（3）int32_t UARTCharGet(uint32_t ui32Base)"></a>（3）int32_t UARTCharGet(uint32_t ui32Base)</h4><ol>
-<li>串口接收一个uint32_t型数据</li>
-<li>等待FIFO中有数据再接收</li>
-</ol>
-<h4 id="（4）bool-UARTCharPutNonBlocking-uint32-t-ui32Base-unsigned-char-ucData"><a href="#（4）bool-UARTCharPutNonBlocking-uint32-t-ui32Base-unsigned-char-ucData" class="headerlink" title="（4）bool UARTCharPutNonBlocking(uint32_t ui32Base, unsigned char ucData)"></a>（4）bool UARTCharPutNonBlocking(uint32_t ui32Base, unsigned char ucData)</h4><ol>
-<li>串口输出一个char型</li>
-<li>若发送时FIFO已满时，直接返回false而不在那循环等待</li>
-</ol>
-<h4 id="（5）int32-t-UARTCharGetNonBlocking-uint32-t-ui32Base"><a href="#（5）int32-t-UARTCharGetNonBlocking-uint32-t-ui32Base" class="headerlink" title="（5）int32_t UARTCharGetNonBlocking(uint32_t ui32Base)"></a>（5）int32_t UARTCharGetNonBlocking(uint32_t ui32Base)</h4><ol>
-<li>串口接收一个uint32_t型数据</li>
-<li>如果遇到接收时FIFO为空，直接返回false而不在那循环等待</li>
-</ol>
-<h4 id="（6）void-UARTFIFOLevelSet-uint32-t-ui32Base-uint32-t-ui32TxLevel-uint32-t-ui32RxLevel"><a href="#（6）void-UARTFIFOLevelSet-uint32-t-ui32Base-uint32-t-ui32TxLevel-uint32-t-ui32RxLevel" class="headerlink" title="（6）void UARTFIFOLevelSet(uint32_t ui32Base, uint32_t ui32TxLevel,uint32_t ui32RxLevel)"></a>（6）void UARTFIFOLevelSet(uint32_t ui32Base, uint32_t ui32TxLevel,uint32_t ui32RxLevel)</h4><ol>
-<li>配置输入输出FIFO的深度</li>
-</ol>
-<h4 id="（7）void-UARTFIFOEnable-uint32-t-ui32Base"><a href="#（7）void-UARTFIFOEnable-uint32-t-ui32Base" class="headerlink" title="（7）void UARTFIFOEnable(uint32_t ui32Base)"></a>（7）void UARTFIFOEnable(uint32_t ui32Base)</h4><ol>
-<li>开启某UART的FIFO功能</li>
-</ol>
-<hr>
-<h2 id="UART向上位机发送信息模板"><a href="#UART向上位机发送信息模板" class="headerlink" title="UART向上位机发送信息模板"></a>UART向上位机发送信息模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ConfigureUART();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigureUART</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);</span><br><span class="line">    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);</span><br><span class="line">    ROM_GPIOPinConfigure(GPIO_PA0_U0RX);</span><br><span class="line">    ROM_GPIOPinConfigure(GPIO_PA1_U0TX);</span><br><span class="line">    ROM_GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);</span><br><span class="line">    UARTClockSourceSet(UART0_BASE, UART_CLOCK_PIOSC);</span><br><span class="line">    UARTStdioConfig(<span class="number">0</span>, <span class="number">115200</span>, <span class="number">16000000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面是使能定时器的函数，接下来是使能定时器中断的函数SysTickIntEnable(), and SysTickIntDisable()</p>
+<p>然后时注册/去除注册的函数SysTickIntRegister(),SysTickIntUnregister(),</p>
+<p>其中SysTickIntRegister(),的参数是一个函数指针，表示中断发生时要调用的函数</p>
+<p>还有两个函数能设置/返回计时器周期</p>
+<p>周期可以设置在1到16777216之间，单位是处理器的时钟数</p>
+<p>最后一个函数是获取定时器counter的函数SysTickValueGet()</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/UART/" data-id="cklymqefd0010qc3d7c8s54fv" data-title="UART" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/System%20Tick/" data-id="ckm7stqjw0010303d0p4uhzct" data-title="SysTick" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-boosterpacks" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/boosterpacks/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/boosterpacks/">BoosterPacks使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="BoosterPacks的使用"><a href="#BoosterPacks的使用" class="headerlink" title="BoosterPacks的使用"></a>BoosterPacks的使用</h1><p>留坑</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/boosterpacks/" data-id="ckm7stqjx0012303d34p289ia" data-title="BoosterPacks使用" class="article-share-link">Share</a>
       
       
       
@@ -919,101 +1025,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Timer/" data-id="cklymqefe0012qc3d02568ddj" data-title="Timer" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-boosterpacks" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/boosterpacks/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/boosterpacks/">BoosterPacks使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="BoosterPacks的使用"><a href="#BoosterPacks的使用" class="headerlink" title="BoosterPacks的使用"></a>BoosterPacks的使用</h1><p>留坑</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/boosterpacks/" data-id="cklymqeff0016qc3d93xh4fnz" data-title="BoosterPacks使用" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-c文件和头文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">关于怎样写c文件和头文件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="关于怎样写c文件和头文件"><a href="#关于怎样写c文件和头文件" class="headerlink" title="关于怎样写c文件和头文件"></a>关于怎样写c文件和头文件</h1><h2 id="c语言的编译过程"><a href="#c语言的编译过程" class="headerlink" title="c语言的编译过程"></a>c语言的编译过程</h2><h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>预处理主要处理</p>
-<p>1.源程序的宏定义指令</p>
-<p>2.条件编译指令</p>
-<p>3.头文件包含指令</p>
-<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>将源程序转换为汇编代码</p>
-<h3 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h3><p>将汇编语言代 码转化成机器语言</p>
-<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>将各个目标文件中的各段代码进行绝对定位，生成根特定平台相关的可执行文件。（就是生成.exe文件）</p>
-<h2 id="那么-h-和-c-文件怎么用呢？"><a href="#那么-h-和-c-文件怎么用呢？" class="headerlink" title="那么.h 和 .c 文件怎么用呢？"></a>那么.h 和 .c 文件怎么用呢？</h2><p>看如下例子</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//a.h</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//a.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span> </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   foo(); </span><br><span class="line"> 　<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-<p>现在来看一个大佬的解释：</p>
-<blockquote>
-<p>从C编译器角度看，.h和.c皆是浮云，就是改名为.txt、.doc也没有大的分别。换句话说，就是.h和.c没啥必然联系。.h中一般放的是同名.c文件中定义的变量、数组、函数的声明，需要让.c外部使用的声明。这个声明有啥用？只是让需要用这些声明的地方方便引用。<u> 因为 #include “xx.h” 这个宏其实际意思就是把当前这一行删掉，把 xx.h 中的内容原封不动的插入在当前行的位置</u>。由于想写这些函数声明的地方非常多（每一个调用 xx.c 中函数的地方，都要在使用前声明一下子），所以用 #include “xx.h” 这个宏就简化了许多行代码——让预处理器自己替换好了。也就是说，xx.h 其实只是让需要写 xx.c 中函数声明的地方调用（可以少写几行字），至于 include 这个 .h 文件是谁，是 .h 还是 .c，还是与这个 .h 同名的 .c，都没有任何必然关系。<br>  这样你可能会说：啊？那我平时只想调用 xx.c 中的某个函数，却 include了 xx.h 文件，岂不是宏替换后出现了很多无用的声明？没错，确实引入了很多垃圾 ，但是它却省了你不少笔墨，并且整个版面也看起来清爽的多。鱼与熊掌不可得兼，就是这个道理。反正多些声明（.h一般只用来放声明，而放不定义，参见拙著“过马路，左右看”）也无害处，又不会影响编译，何乐而不为呢？</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="cklymqeff0018qc3d56e141jn" data-title="关于怎样写c文件和头文件" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Timer/" data-id="ckm7stqjx0014303d5ljtdybh" data-title="Timer" class="article-share-link">Share</a>
       
       
       
@@ -1076,7 +1088,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/phripheral-list/" data-id="cklymqefh001fqc3dgxes4bze" data-title="该单片机外设清单" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/phripheral-list/" data-id="ckm7stqjz001a303ddcdv6enh" data-title="该单片机外设清单" class="article-share-link">Share</a>
       
       
       
@@ -1144,6 +1156,10 @@
           </li>
         
           <li>
+            <a href="/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/">休眠模块</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/02/1-Wire_Master/">1-Wire_Master</a>
           </li>
         
@@ -1153,10 +1169,6 @@
         
           <li>
             <a href="/2021/03/01/bottom/">bottom</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/">通用定时器</a>
           </li>
         
       </ul>
@@ -1206,5 +1218,21 @@
 
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

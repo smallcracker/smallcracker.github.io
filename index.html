@@ -114,11 +114,68 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/07/permutation/" data-id="cklymqefh001hqc3d2zr087f3" data-title="generate permutation" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/07/permutation/" data-id="ckm7stqk4001s303d2s5t6yqv" data-title="generate permutation" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-休眠模块" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/" class="article-date">
+  <time class="dt-published" datetime="2021-03-05T16:00:00.000Z" itemprop="datePublished">2021-03-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/">休眠模块</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="这份文档没用"><a href="#这份文档没用" class="headerlink" title="这份文档没用"></a>这份文档没用</h1><p>运行多次，每次都卡死在HibernateEnableExpClk(ROM_SysCtlClockGet());函数，上网搜索无果，无法进入休眠状态。知道解决方法的人希望您能与我联系，感激不尽。</p>
+<h1 id="休眠模块"><a href="#休眠模块" class="headerlink" title="休眠模块"></a>休眠模块</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>休眠模块允许通过软件来关闭微控制器，再通过软件或者外部<strong>WAKE</strong>引脚来打开微控制器。官方提供了一些函数可以配置唤醒条件，管理中断，读取状态，保存和恢复程序状态信息，以及打开休眠模式。</p>
+<h2 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h2><ul>
+<li>32位RTC，配有15位亚秒级计数器（部分设备）</li>
+<li>内部低频振荡器</li>
+<li>休眠计数器的日历模式</li>
+<li>篡改检测与反应 ？？</li>
+<li>调整寄存器来微调RTC速率</li>
+<li>一个RTC匹配寄存器来产生RTC事件</li>
+<li>外部WAKE引脚来触发唤醒</li>
+<li>外部RST或者四组GPIO引脚作为可选的唤醒源</li>
+<li>在休眠期间维持GPIO状态</li>
+<li>低电量检测</li>
+<li>16个32字节依靠电池的内存</li>
+<li>可编程的中断源<h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2>driverlib/hibernate.h<h2 id="细节描述"><a href="#细节描述" class="headerlink" title="细节描述"></a>细节描述</h2>休眠模式使用前要使能。使用<code>HibernateEnableExpClk()</code>函数来使能它。<h3 id="配置晶振"><a href="#配置晶振" class="headerlink" title="配置晶振"></a>配置晶振</h3>如果我们要用到晶振来作为时钟源，我们就需要在调用<code>HibernateEnableExpClk()</code>函数后等待一段时间，使晶振稳定。通过查看date sheet可以查询到使晶体稳定时间。如果要用到振荡器，我们就不需要等待。在这个模块使能了之后，时钟源一定要通过调用<code>HibernateClockConfigure()</code>来配置它。 <h3 id="RTC配置"><a href="#RTC配置" class="headerlink" title="RTC配置"></a>RTC配置</h3>为了使用休眠模块的RTC功能，要先调用<code>HibernateRTCEnable()</code>函数来使能RTC（之后我们可以使用<code>HibernateRTCDisable()</code>来失能RTC）。这些函数可以在任何时候被调用来开启、关闭RTC。<br>通过调用<code>HibernateRTCGet()</code>和<code>HibernateRTCSet()</code>可以读取、设定RTC的值。<br>通过调用<code>HibernateRTCMatchGet()</code>和<code>HibernateRTCMatchSet()</code>可以读取、设定RTC的匹配值。<br>通过使用trim寄存器可以调整RTC频率，我们要用到的函数时<code>HibernateRTCTrimGet()</code>和<code>HibernateRTCTrimSet()</code>  <h3 id="RTC亚秒级计数器-subseconds-counter-配置"><a href="#RTC亚秒级计数器-subseconds-counter-配置" class="headerlink" title="RTC亚秒级计数器(subseconds counter)配置"></a>RTC亚秒级计数器(subseconds counter)配置</h3>通过调用<code>HibernateRTCSSGet()</code>可以读取亚秒级计数器的值。<br>亚秒级计数器的匹配值可以通过调用<code>HibernateRTCSSMatchSet()</code>和<code>HibernateRTCSSMatchSet()</code> 来完成。<h3 id="RTC的日历模式"><a href="#RTC的日历模式" class="headerlink" title="RTC的日历模式"></a>RTC的日历模式</h3>有一些设备支持针对RTC的日历模式。在日历模式下，RTC的值可以使用<code>HibernateCalendarGet()</code>和<code>HibernateCalendarSet()</code>来进行读取和设置。<br>匹配值可以使用<code>HibernateCalendarMatchGet()</code>和<code>HibernateCalendarMatchSet()</code>来进行读取和配置<h3 id="破坏"><a href="#破坏" class="headerlink" title="破坏"></a>破坏</h3>破坏机制提供了检测、响应、记录破坏事件的功能。破坏事件可以通过检测特定GPIO的状态转换或者是检测外部振荡器的错误来探测。注意：那些破坏GPIO不需要设置就可以用作破坏功能。查询 data sheet 来确定那些GPIO支持破坏功能。<br>破坏GPIO可以通过使用<code>HibernateTamperIOEnable()</code>和<code>HibernateTamperIODisable()</code>来配置。设置过程中我们不需要调用GPIO API，并且这种配置会覆盖其他GPIO API。外部振荡器状态可以通过函数<code>HibernateTamperExtOscValid()</code>来获取。如果检测到了外部振荡器错误，我们可以通过调用<code>HibernateTamperExtOscRecover()</code>来进行恢复。<br>当出现破坏事件时，模块会给系统控制模块发送一个破坏事件信号。破坏特征还能够被配置去清除全部或者部分休眠内存、恢复状态，使用的是<code>HibernateTamperEventConfig()</code>。探测到的事件会用一个RTC时间戳记录下来。记录到的时间可以使用<code>HibernateTamperEventsGet()</code>和<code>HibernateTamperEventsClear()</code>来管理。<br>总的破坏状态可以通过<code>HibernateTamperStatusGet()</code>来获取。破坏特性可以通过函数<code>HibernateTamperEnable()</code>和<code>HibernateTamperDisable()</code>来进行。  <h3 id="电池供应内存"><a href="#电池供应内存" class="headerlink" title="电池供应内存"></a>电池供应内存</h3>当处理器关闭时，应用状态信息可以储存在电池供应内存里。使用<code>HibernateDataSet()</code>和<code>HibernateDataGet()</code>来使用电池供应内存。  <h3 id="唤醒"><a href="#唤醒" class="headerlink" title="唤醒"></a>唤醒</h3>模块可以配置成当外部<strong>WAKE</strong>引脚触发、RTC匹配出现或者是电池电量达到某一特定水平时。在一些设备上，这个模块可以配置成当一个GPIO引脚被触发或者<strong>RESET</strong>引脚被触发时被触发。在那些支持破坏探测的设备上，模块还能在发生破坏事件时唤醒。使用<code>HibernateWakeSet()</code>函数来设置唤醒条件，通过调用<code>HibernateWakeGet()</code>可以获取当前的配置。<h3 id="低电量检测"><a href="#低电量检测" class="headerlink" title="低电量检测"></a>低电量检测</h3>休眠模块可以检测到电池电量过低并能给处理器发信号，他还能通过设置实现电池电量过低时终止休眠请求，使用<code>HibernateLowBatSet()</code>和<code>HibernateLowBatGet()</code>来配置这些功能，电池电量可以使用<code>HibernateBatCheckStart()</code>和<code>HibernateBatCheckDone()</code>函数来进行检测。<h3 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h3>和其他外设的中断函数形式类似。<h3 id="最终配置"><a href="#最终配置" class="headerlink" title="最终配置"></a>最终配置</h3>当模块被正确配置，状态都被保存，软件应用也准备好休眠时，我们就可以调用<code>HibernateRequest()</code>函数。这个函数可以给处理器断电。重新供电之后，我们可以调用函数<code>HibernateIsActive()</code>来看一看处理器是从休眠中唤醒过来的还是冷启动的。这样，我们之后就可以使用<code>HibernateIntStatus()</code>和<code>HibernateDateGet()</code>来发现唤醒的原因，获取保存的系统状态。  <h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3>老的<code>HibernateEnable()</code>函数已经被新的<code>HibernateEnableExpClk()</code>函数所代替。<code>hibernate.h</code>中提供了旧API到新API的定义，允许现有的应用连接到新API上来运行，我们推荐使用新API。<h2 id="例程"><a href="#例程" class="headerlink" title="例程"></a>例程</h2><h3 id="怎样开始休眠"><a href="#怎样开始休眠" class="headerlink" title="怎样开始休眠"></a>怎样开始休眠</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">uint32_t</span> ui32Status;</span><br><span class="line"><span class="keyword">uint32_t</span> pui32NVData[<span class="number">64</span>];</span><br><span class="line"><span class="comment">//使能休眠外设</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_HIBERNATE);</span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_HIBERNATE))&#123;&#125;</span><br><span class="line"><span class="comment">//使能休眠外设时钟</span></span><br><span class="line">HibernateEnableExpClk(SysCtlClockGet());</span><br><span class="line"><span class="comment">//此处用户应该加入一段延时以等待晶体上电并稳定。</span></span><br><span class="line"><span class="comment">//配置时钟源，使能RTC</span></span><br><span class="line">HibernateClockConfig(HIBERNATE_OSC_LOWDRIVE);</span><br><span class="line">HibernateRTCEnable();</span><br><span class="line"><span class="comment">//设定RTC初值</span></span><br><span class="line">HibernateRTCSet(<span class="number">0</span>);</span><br><span class="line"><span class="comment">//设定匹配值 为30秒后</span></span><br><span class="line"><span class="comment">//设定match0寄存器为30秒后</span></span><br><span class="line">HibernateRTCMatchSet(<span class="number">0</span>, HibernateRTCGet() + <span class="number">30</span>);</span><br><span class="line"><span class="comment">//清除待办中断</span></span><br><span class="line">ui32Status = HibernateIntStatus(<span class="number">0</span>);</span><br><span class="line">HibernateIntClear(ui32Status);</span><br><span class="line"><span class="comment">//保存程序状态，程序状态保存在我们声明的一个数组里，直接将这个数组指针扔进去即可，第二个变量是数组长度，以32位计。</span></span><br><span class="line">HibernateDataSet(pui32NVData, <span class="number">16</span>);</span><br><span class="line"><span class="comment">//设置为RTC match模式</span></span><br><span class="line">HibernateWakeSet(HIBERNATE_WAKE_RTC);</span><br><span class="line"><span class="comment">//开始休眠，断电之前可能要等一会。</span></span><br><span class="line">HibernateRequest();</span><br><span class="line"><span class="comment">//我们使用一个循环来等待断电。</span></span><br><span class="line"><span class="keyword">for</span>(;;)&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="唤醒后怎样处理"><a href="#唤醒后怎样处理" class="headerlink" title="唤醒后怎样处理"></a>唤醒后怎样处理</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">uint32_t</span> ui32Status;</span><br><span class="line"><span class="keyword">uint32_t</span> pui32NVData[<span class="number">64</span>];</span><br><span class="line"><span class="comment">//使能休眠模块</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_HIBERNATE);</span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_HIBERNATE))&#123;&#125;</span><br><span class="line"><span class="comment">//单片机是不是从休眠状态唤醒的</span></span><br><span class="line"><span class="keyword">if</span>(HibernateIsActive())&#123;</span><br><span class="line"><span class="comment">//如果单片机确实是从次面状态唤醒的，确认唤醒原因</span></span><br><span class="line"><span class="comment">//读取唤醒原因</span></span><br><span class="line">ui32Status = HibernateIntStatus(<span class="literal">false</span>);</span><br><span class="line"><span class="comment">//如果是WAKE引脚唤醒</span></span><br><span class="line"><span class="keyword">if</span>(ui32Status &amp; HIBERNATE_INT_PIN_WAKE)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//如果是RTC match唤醒</span></span><br><span class="line"><span class="keyword">if</span>(ui32Status &amp; HIBERNATE_INT_RTC_MATCH_0)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//恢复程序信息，提供给函数的参数是要存储的位置，以及要读取的word数，以32位计</span></span><br><span class="line">HibernateDataGet(pui32NVData, <span class="number">64</span>);</span><br><span class="line"><span class="comment">//现在唤醒步骤已经完成，程序可以进行正常运行了。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line"><span class="comment">//执行冷启动后的初始化</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/" data-id="ckm7stqk3001q303d5co1eu9g" data-title="休眠模块" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
 
     </footer>
   </div>
@@ -154,7 +211,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/02/1-Wire_Master/" data-id="cklymqeew0001qc3dbyt333xz" data-title="1-Wire_Master" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/02/1-Wire_Master/" data-id="ckm7stqjh0001303d8dbl1zsl" data-title="1-Wire_Master" class="article-share-link">Share</a>
       
       
       
@@ -199,7 +256,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/01/ESP8266/" data-id="cklymqef4000dqc3d03vf6vsd" data-title="esp8266" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/01/ESP8266/" data-id="ckm7stqjm0008303d0pqoea2n" data-title="esp8266" class="article-share-link">Share</a>
       
       
       
@@ -239,7 +296,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/01/bottom/" data-id="cklymqefe0014qc3dbgvp4vdi" data-title="bottom" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/01/bottom/" data-id="ckm7stqjy0016303d3hmbcvb1" data-title="bottom" class="article-share-link">Share</a>
       
       
       
@@ -284,7 +341,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/" data-id="cklymqefo001yqc3d2sd44w3y" data-title="通用定时器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/" data-id="ckm7stqk8001z303dd8x50zit" data-title="通用定时器" class="article-share-link">Share</a>
       
       
       
@@ -324,7 +381,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/" data-id="cklymqefg001cqc3defk9azlt" data-title="max30102 stm32代码" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/" data-id="ckm7stqk0001h303d8hi519na" data-title="max30102 stm32代码" class="article-share-link">Share</a>
       
       
       
@@ -419,7 +476,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/27/tasks/" data-id="cklymqefi001jqc3d3wgi74y6" data-title="tasks" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/27/tasks/" data-id="ckm7stqk3001p303d91e08ikl" data-title="tasks" class="article-share-link">Share</a>
       
       
       
@@ -511,7 +568,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/26/IIC/" data-id="cklymqef9000nqc3d0loydk4v" data-title="IIC" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/26/IIC/" data-id="ckm7stqjt000p303dg758ftd5" data-title="IIC" class="article-share-link">Share</a>
       
       
       
@@ -552,58 +609,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/24/sg90/" data-id="cklymqefk001sqc3d0b4274i8" data-title="sg90操作" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-DHT11 温湿度传感器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" class="article-date">
-  <time class="dt-published" datetime="2021-01-30T16:00:00.000Z" itemprop="datePublished">2021-01-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/">DHT11温湿度传感器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="DHT11温湿度传感器"><a href="#DHT11温湿度传感器" class="headerlink" title="DHT11温湿度传感器"></a>DHT11温湿度传感器</h1><h2 id="一、外观"><a href="#一、外观" class="headerlink" title="一、外观"></a>一、外观</h2><p><img src="image-20210131194115189.png" alt="image-20210131194115189" style="zoom: 50%;" /></p>
-<h2 id="二、参数特性"><a href="#二、参数特性" class="headerlink" title="二、参数特性"></a>二、参数特性</h2><p><img src="image-20210131194217788.png" alt="image-20210131194217788" style="zoom: 67%;" /></p>
-<h2 id="三、引脚说明"><a href="#三、引脚说明" class="headerlink" title="三、引脚说明"></a>三、引脚说明</h2><p>s端是信号端，串行数据，负号端是负极，中间是正极，正极供电电压要求在3.5-5.5V之间</p>
-<h2 id="四、数据格式"><a href="#四、数据格式" class="headerlink" title="四、数据格式"></a>四、数据格式</h2><p>一次传送40位数据，高位先出。格式规定如下</p>
-<blockquote>
-<p>8位湿度整数数据+8位湿度小数数据+8位温度整数数据+8位温度小数数据+8位校验位</p>
-</blockquote>
-<p><em>其中校验位数据的定义是前四组数据和的后8位</em></p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20210131195059673.png" alt="image-20210131195059673" style="zoom:50%;" /></p>
-<h2 id="五、数据时序"><a href="#五、数据时序" class="headerlink" title="五、数据时序"></a>五、数据时序</h2><p>DHT11的总体通信流程。第一步：主机先发送开始信号，从机会返回一个相应信号进行应答。   第二步：主机信号线拉高准备接收数据。   第三部：开始接收数据（一次接收40位）。</p>
-<h2 id="六、例程"><a href="#六、例程" class="headerlink" title="六、例程"></a>六、例程</h2><p>下面是温湿度传感器的相关代码：half success</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_types.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_ints.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_pwm.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_timer.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/debug.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/timer.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/fpu.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/gpio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pin_map.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/rom.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/rom_map.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/sysctl.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/uart.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;utils/uartstdio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/systick.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/interrupt.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pwm.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> delay(ms) ROM_SysCtlDelay(clock*ms/3000)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> clock;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigureUART</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> odd=<span class="literal">true</span>;</span><br><span class="line"><span class="keyword">int</span> last_cap=<span class="number">0</span>,cap_duration[<span class="number">1000</span>];</span><br><span class="line"><span class="keyword">bool</span> date[<span class="number">110</span>];</span><br><span class="line"><span class="keyword">int</span> gffg=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> ulstatus = TimerIntStatus(TIMER2_BASE, TIMER_CAPA_EVENT|TIMER_TIMA_TIMEOUT);</span><br><span class="line">    TimerIntClear(TIMER2_BASE, ulstatus);</span><br><span class="line">    odd=<span class="number">1</span>-odd;</span><br><span class="line">    <span class="keyword">if</span>(odd)&#123;</span><br><span class="line">        cap_duration[gffg++]=TimerValueGet(TIMER2_BASE, TIMER_A)-last_cap;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        if(cap_duration&lt;=0) cap_duration+=255*65536;</span></span><br><span class="line"><span class="comment">        UARTprintf(&quot;duration is &quot;);</span></span><br><span class="line"><span class="comment">        prt_f((float)cap_duration/40000000);</span></span><br><span class="line"><span class="comment">        UARTprintf(&quot;s.\n&quot;);</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">    &#125;</span><br><span class="line">    last_cap=TimerValueGet(TIMER2_BASE, TIMER_A);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">prt_f</span><span class="params">(<span class="keyword">float</span> w)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(w&gt;<span class="number">0</span>)&#123;</span><br><span class="line">        UARTprintf(<span class="string">&quot;%d.&quot;</span>,(<span class="keyword">int</span>)w);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        UARTprintf(<span class="string">&quot;0.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> tem=(<span class="keyword">int</span>)(w*<span class="number">10000000</span>)%<span class="number">1000000</span>;</span><br><span class="line">    <span class="keyword">if</span>(tem&lt;<span class="number">1000000</span>)UARTprintf(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(tem&lt;<span class="number">100000</span>)UARTprintf(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(tem&lt;<span class="number">10000</span>)UARTprintf(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(tem&lt;<span class="number">1000</span>)UARTprintf(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(tem&lt;<span class="number">100</span>)UARTprintf(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(tem&lt;<span class="number">10</span>)UARTprintf(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(tem&lt;<span class="number">1</span>)UARTprintf(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">    UARTprintf(<span class="string">&quot;%d&quot;</span>,tem);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigureDHT11</span><span class="params">()</span></span>&#123;</span><br><span class="line">    gffg=<span class="number">0</span>;</span><br><span class="line">    odd=<span class="literal">true</span>;</span><br><span class="line">    ROM_SysCtlDelay(clock*<span class="number">1500</span>/<span class="number">3000</span>);</span><br><span class="line">    <span class="comment">//UARTprintf(&quot;start to prepare....\n&quot;);</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_4, <span class="number">0</span>);</span><br><span class="line">    ROM_SysCtlDelay(<span class="number">240000</span>);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    TimerPrescaleSet(TIMER2_BASE, TIMER_A, <span class="number">255</span>);</span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_TIME_UP);</span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_BOTH_EDGES);</span><br><span class="line">    TimerLoadSet(TIMER2_BASE, TIMER_A, <span class="number">65535</span>);</span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_EVENT|TIMER_TIMA_TIMEOUT);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    delay(<span class="number">1500</span>);</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;gffg;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(cap_duration[i]&lt;=<span class="number">0</span>) cap_duration[i]+=<span class="number">255</span>*<span class="number">65536</span>;</span><br><span class="line">        date[i]=(cap_duration[i]&gt;<span class="number">2000</span>)?<span class="number">1</span>:<span class="number">0</span>;</span><br><span class="line">        <span class="comment">//UARTprintf(&quot;%d&quot;,date[i+1]==1?1:0);</span></span><br><span class="line">        <span class="comment">//if(i%8==0)UARTprintf(&quot;\n&quot;);</span></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        UARTprintf(&quot;duration is %d\n&quot;,cap_duration[i]);</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        prt_f((float)cap_duration[i]/40000000);</span></span><br><span class="line"><span class="comment">        UARTprintf(&quot;s.\n&quot;);</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">float</span> hum=<span class="number">0</span>,temp=<span class="number">0</span>,cnt=<span class="number">128</span>;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=<span class="number">16</span>;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(date[i+<span class="number">1</span>])hum+=cnt;</span><br><span class="line">        <span class="keyword">if</span>(date[i+<span class="number">1</span>+<span class="number">16</span>])temp+=cnt;</span><br><span class="line">        cnt/=<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//UARTprintf(&quot;\n&quot;);</span></span><br><span class="line">    <span class="keyword">if</span>(hum&lt;<span class="number">200</span>)&#123;</span><br><span class="line">        prt_f(hum);</span><br><span class="line">            UARTprintf(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">            prt_f(temp);</span><br><span class="line">            UARTprintf(<span class="string">&quot;\n finish!\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> detection_queue[<span class="number">110</span>];</span><br><span class="line"><span class="keyword">int</span> detection_index=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">bool</span> state=<span class="literal">false</span>;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> duration[<span class="number">110</span>];</span><br><span class="line"><span class="keyword">int</span> message_index=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> tick=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> threshold=<span class="number">12</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">WTimer1AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> ulstatus = TimerIntStatus(WTIMER1_BASE,TIMER_TIMA_TIMEOUT);</span><br><span class="line">    TimerIntClear(WTIMER1_BASE, ulstatus);</span><br><span class="line">    <span class="keyword">int</span> ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//检测</span></span><br><span class="line">    <span class="keyword">int</span> flag=((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4);</span><br><span class="line">    detection_queue[detection_index]=flag;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>,sum=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;=threshold;i++)sum+=(<span class="keyword">int</span>)detection_queue[detection_index-i];</span><br><span class="line">    <span class="keyword">if</span>(tick&gt;threshold)&#123;</span><br><span class="line">        <span class="keyword">if</span>(sum==threshold&amp;&amp;state==<span class="literal">false</span>)&#123;</span><br><span class="line">            state=<span class="literal">true</span>;</span><br><span class="line">            duration[message_index]=tick;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(sum==<span class="number">0</span>&amp;&amp;state==<span class="literal">true</span>)&#123;</span><br><span class="line">            state=<span class="literal">false</span>;</span><br><span class="line">            duration[message_index]=tick-duration[message_index];</span><br><span class="line">            UARTprintf(<span class="string">&quot;bottom up. message index is %d\nduration:%d\n&quot;</span>,message_index,duration[message_index]);</span><br><span class="line">            message_index++;</span><br><span class="line">            message_index%=<span class="number">110</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    tick++;</span><br><span class="line">    detection_index++;</span><br><span class="line">    detection_index%=<span class="number">110</span>;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Configurebottom</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    GPIODirModeSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_DIR_MODE_IN);</span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_WTIMER1);</span><br><span class="line">    TimerConfigure(WTIMER1_BASE,TIMER_CFG_PERIODIC);</span><br><span class="line">    TimerLoadSet64(WTIMER1_BASE, clock/<span class="number">500</span>);</span><br><span class="line">    TimerIntRegister(WTIMER1_BASE, TIMER_A, WTimer1AIntHandler);</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(WTIMER1_BASE, TIMER_TIMA_TIMEOUT);</span><br><span class="line">    IntEnable(INT_WTIMER1A);</span><br><span class="line">    TimerEnable(WTIMER1_BASE, TIMER_A);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigureEverything</span><span class="params">()</span></span>&#123;</span><br><span class="line">    FPUEnable();</span><br><span class="line">    FPULazyStackingEnable();</span><br><span class="line">    SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN);</span><br><span class="line">    clock=SysCtlClockGet();</span><br><span class="line">    ConfigureUART();</span><br><span class="line">    <span class="comment">//Configurebottom();</span></span><br><span class="line">    <span class="keyword">for</span>(;;)&#123;</span><br><span class="line">        ConfigureDHT11();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ConfigureEverything();</span><br><span class="line">    UARTprintf(<span class="string">&quot;configuration finish.\n&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span>(;;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigureUART</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);</span><br><span class="line">    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);</span><br><span class="line">    ROM_GPIOPinConfigure(GPIO_PA0_U0RX);</span><br><span class="line">    ROM_GPIOPinConfigure(GPIO_PA1_U0TX);</span><br><span class="line">    ROM_GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);</span><br><span class="line">    UARTClockSourceSet(UART0_BASE, UART_CLOCK_PIOSC);</span><br><span class="line">    UARTStdioConfig(<span class="number">0</span>, <span class="number">115200</span>, <span class="number">16000000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" data-id="cklymqef3000aqc3dbmh0hw0s" data-title="DHT11温湿度传感器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/24/sg90/" data-id="ckm7stqk1001j303d4h3432t2" data-title="sg90操作" class="article-share-link">Share</a>
       
       
       
@@ -671,6 +677,10 @@
           </li>
         
           <li>
+            <a href="/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/">休眠模块</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/02/1-Wire_Master/">1-Wire_Master</a>
           </li>
         
@@ -680,10 +690,6 @@
         
           <li>
             <a href="/2021/03/01/bottom/">bottom</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/">通用定时器</a>
           </li>
         
       </ul>
@@ -733,5 +739,21 @@
 
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
