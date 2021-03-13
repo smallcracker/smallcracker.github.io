@@ -75,9 +75,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-c文件和头文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-phripheral-list" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" class="article-date">
+    <a href="/2021/01/29/phripheral-list/" class="article-date">
   <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
 </a>
     
@@ -89,7 +89,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">关于怎样写c文件和头文件</a>
+      <a class="p-name article-title" href="/2021/01/29/phripheral-list/">该单片机外设清单</a>
     </h1>
   
 
@@ -97,24 +97,34 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="关于怎样写c文件和头文件"><a href="#关于怎样写c文件和头文件" class="headerlink" title="关于怎样写c文件和头文件"></a>关于怎样写c文件和头文件</h1><h2 id="c语言的编译过程"><a href="#c语言的编译过程" class="headerlink" title="c语言的编译过程"></a>c语言的编译过程</h2><h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>预处理主要处理</p>
-<p>1.源程序的宏定义指令</p>
-<p>2.条件编译指令</p>
-<p>3.头文件包含指令</p>
-<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>将源程序转换为汇编代码</p>
-<h3 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h3><p>将汇编语言代 码转化成机器语言</p>
-<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>将各个目标文件中的各段代码进行绝对定位，生成根特定平台相关的可执行文件。（就是生成.exe文件）</p>
-<h2 id="那么-h-和-c-文件怎么用呢？"><a href="#那么-h-和-c-文件怎么用呢？" class="headerlink" title="那么.h 和 .c 文件怎么用呢？"></a>那么.h 和 .c 文件怎么用呢？</h2><p>看如下例子</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//a.h</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//a.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span> </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   foo(); </span><br><span class="line"> 　<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-<p>现在来看一个大佬的解释：</p>
-<blockquote>
-<p>从C编译器角度看，.h和.c皆是浮云，就是改名为.txt、.doc也没有大的分别。换句话说，就是.h和.c没啥必然联系。.h中一般放的是同名.c文件中定义的变量、数组、函数的声明，需要让.c外部使用的声明。这个声明有啥用？只是让需要用这些声明的地方方便引用。<u> 因为 #include “xx.h” 这个宏其实际意思就是把当前这一行删掉，把 xx.h 中的内容原封不动的插入在当前行的位置</u>。由于想写这些函数声明的地方非常多（每一个调用 xx.c 中函数的地方，都要在使用前声明一下子），所以用 #include “xx.h” 这个宏就简化了许多行代码——让预处理器自己替换好了。也就是说，xx.h 其实只是让需要写 xx.c 中函数声明的地方调用（可以少写几行字），至于 include 这个 .h 文件是谁，是 .h 还是 .c，还是与这个 .h 同名的 .c，都没有任何必然关系。<br>  这样你可能会说：啊？那我平时只想调用 xx.c 中的某个函数，却 include了 xx.h 文件，岂不是宏替换后出现了很多无用的声明？没错，确实引入了很多垃圾 ，但是它却省了你不少笔墨，并且整个版面也看起来清爽的多。鱼与熊掌不可得兼，就是这个道理。反正多些声明（.h一般只用来放声明，而放不定义，参见拙著“过马路，左右看”）也无害处，又不会影响编译，何乐而不为呢？</p>
-</blockquote>
+        <h1 id="这款单片机的外设清单"><a href="#这款单片机的外设清单" class="headerlink" title="这款单片机的外设清单"></a>这款单片机的外设清单</h1><p>ADC 0 1</p>
+<p>CAN 0 1</p>
+<p>CCM 0</p>
+<p>COMP0 </p>
+<p>EEPROM0</p>
+<p>EMAC</p>
+<p>EPHY</p>
+<p>EPI0</p>
+<p>GPIO A B C D E F G H J K L M N P Q R S T </p>
+<p>HIBERNATE</p>
+<p>I2C 0 1 2 3 3 4 5 6 7 8 9</p>
+<p>LCD0</p>
+<p>ONEWIRE 0</p>
+<p>PWM 0 1 </p>
+<p>QEI 0 1 </p>
+<p>SSI 0 1 2 3</p>
+<p>TIMER 0 1 2 3 4 5 6 7</p>
+<p>UART 0 1 2 3 4 5 6 7 </p>
+<p>UDMA</p>
+<p>USB 0 </p>
+<p>WDOG 0 1 </p>
+<p>WTIMER 0 1 2 3 4 5</p>
+<p>共计22种</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="ckm7stqjz001d303d3ll3e6hw" data-title="关于怎样写c文件和头文件" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/phripheral-list/" data-id="ckm7t0epz001fuo3dcrnp6myz" data-title="该单片机外设清单" class="article-share-link">Share</a>
       
       
       
@@ -154,65 +164,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/pin_map/" data-id="ckm7stqk0001f303d2333c0ok" data-title="该单片机pin map" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-总体概述" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/">单片机总体概述</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="微控制器"><a href="#微控制器" class="headerlink" title="微控制器"></a>微控制器</h2><p>这一款单片机的微控制器是TM4C123GH6PMI</p>
-<h2 id="特色"><a href="#特色" class="headerlink" title="特色"></a>特色</h2><p>有TM4C123GH6PMI微控制器USB2.0 设备接口，休眠模块，运动控制脉宽调制模块</p>
-<h2 id="什么是时钟"><a href="#什么是时钟" class="headerlink" title="什么是时钟"></a>什么是时钟</h2><p>时钟就是单片机的心脏。每跳动一下。整个单片机的各个电路就同步的动作一下。就好像我们做广播体操的时候 广播上喊的节拍1234 2234 3234。。。。然后我们全部的同学就按照这个节奏进行一个个动作。节拍越快我们动作越快。节拍越慢我们动作的越慢。</p>
-<h2 id="内部时钟和外部时钟"><a href="#内部时钟和外部时钟" class="headerlink" title="内部时钟和外部时钟?"></a>内部时钟和外部时钟?</h2><p>PIC单片机有许多型号可以设置成 用外部时钟(如外部接个4MHZ的石英晶振)，也可以设置成用内部RC时钟。而且还有许多型号可以选择多种频率的时钟。</p>
-<p>如 PICLF1823 内部时钟最高可以到达32MHZ 最低可以达到 31kHz. 这事实上提供了一条降低功耗的新路子。一般的单片机降低功耗常常用的睡眠，而睡眠期间CPU是什么都不做。如果希望降低功耗，而且CPU也能工作。降低时钟频率无疑是个非常好的选择。</p>
-<h2 id="单片机里内部外设和外设有哪些"><a href="#单片机里内部外设和外设有哪些" class="headerlink" title="单片机里内部外设和外设有哪些"></a>单片机里内部外设和外设有哪些</h2><h4 id="单片机内部的外设"><a href="#单片机内部的外设" class="headerlink" title="单片机内部的外设"></a>单片机内部的外设</h4><p>一般包括：串口控制模块，SPI模块，I2C模块，A/D模块，PWM模块，CAN模块，EEPROM，比较器模块，等等，它们都集成在单片机内部，有相对应的内部控制寄存器，可通过单片机指令直接控制。</p>
-<h4 id="单片机外部的外围功能模块"><a href="#单片机外部的外围功能模块" class="headerlink" title="单片机外部的外围功能模块"></a>单片机外部的外围功能模块</h4><p>比如键盘控制芯片，液晶，A/D转换芯片，等等。外设可通过单片机的I/O，SPI，I2C等总线控制。</p>
-<h2 id="什么是-DSP-中的“内部上拉”和“内部下拉”"><a href="#什么是-DSP-中的“内部上拉”和“内部下拉”" class="headerlink" title="什么是 DSP 中的“内部上拉”和“内部下拉”?"></a>什么是 DSP 中的“内部上拉”和“内部下拉”?</h2><p>DSP 中介绍引脚时，注明 PU,PD 说是“内部上拉”和“内部下拉”，就是说内部已经配置了接电源的上拉电阻或是接地的下拉电阻。这样，当作为输入端口连接 OC 或COMS 芯片或浮空时。信号线平是确定的高/低电平。而不是不确定的浮地电平。内部上拉，相当于输入和电源之间接了一个几十 K 的电阻；下拉，相当于用电阻和地相连。</p>
-<h2 id="VCC、VDD、VSS-是什么"><a href="#VCC、VDD、VSS-是什么" class="headerlink" title="VCC、VDD、VSS 是什么"></a>VCC、VDD、VSS 是什么</h2><p>在电子电路中，VCC 是电路的供电电压，C = circuit,表示电路的意思；VDD 是芯片<br>的工作电压，D = device,表示器件的意思；VSS 是接地或是负极，S = series,表示公共连<br>接的意思。</p>
-<h2 id="TI坑人的一点在哪"><a href="#TI坑人的一点在哪" class="headerlink" title="TI坑人的一点在哪"></a>TI坑人的一点在哪</h2><p>TI不同于３２，TI的函数的入口参数无法通过像３２一样的方法查找选择合适的参数</p>
-<h1 id="我的单片机的外设"><a href="#我的单片机的外设" class="headerlink" title="我的单片机的外设"></a>我的单片机的外设</h1><p>红灯PF1  M0PWM5</p>
-<p>蓝灯PF2 M1PWM6</p>
-<p>绿灯PF3 M1PWM7</p>
-<p>按键1 PF4 按下为低电平</p>
-<p>按键2 PF0按下为低电平</p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212200237248.png" alt="image-20201212200237248"></p>
-<h2 id="延时函数"><a href="#延时函数" class="headerlink" title="延时函数"></a>延时函数</h2><p>SysCtlDelay ( SysCtlClockGet() *ms / 3000);</p>
-<hr>
-<h2 id="基本模板"><a href="#基本模板" class="headerlink" title="基本模板"></a>基本模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_types.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_ints.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_pwm.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/debug.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/fpu.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/gpio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pin_map.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/rom.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/rom_map.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/sysctl.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/uart.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;utils/uartstdio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/systick.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/interrupt.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pwm.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line">    FPULazyStackingEnable();</span><br><span class="line">    <span class="comment">//使能系统时钟为50MHz</span></span><br><span class="line">    SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN);</span><br><span class="line">    <span class="comment">//延时函数</span></span><br><span class="line">    ROM_SysCtlDelay ( SysCtlClockGet() *ms / <span class="number">3000</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" data-id="ckm7stqk5001w303dc2e9cvfp" data-title="单片机总体概述" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/pin_map/" data-id="ckm7t0eq0001huo3d341ef8ip" data-title="该单片机pin map" class="article-share-link">Share</a>
       
       
       
@@ -276,7 +228,65 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/" data-id="ckm7stqk8001x303d4w9x6pr1" data-title="基本GPIO操作" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/" data-id="ckm7t0eq4001wuo3ddfem1elq" data-title="基本GPIO操作" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-总体概述" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/">单片机总体概述</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="微控制器"><a href="#微控制器" class="headerlink" title="微控制器"></a>微控制器</h2><p>这一款单片机的微控制器是TM4C123GH6PMI</p>
+<h2 id="特色"><a href="#特色" class="headerlink" title="特色"></a>特色</h2><p>有TM4C123GH6PMI微控制器USB2.0 设备接口，休眠模块，运动控制脉宽调制模块</p>
+<h2 id="什么是时钟"><a href="#什么是时钟" class="headerlink" title="什么是时钟"></a>什么是时钟</h2><p>时钟就是单片机的心脏。每跳动一下。整个单片机的各个电路就同步的动作一下。就好像我们做广播体操的时候 广播上喊的节拍1234 2234 3234。。。。然后我们全部的同学就按照这个节奏进行一个个动作。节拍越快我们动作越快。节拍越慢我们动作的越慢。</p>
+<h2 id="内部时钟和外部时钟"><a href="#内部时钟和外部时钟" class="headerlink" title="内部时钟和外部时钟?"></a>内部时钟和外部时钟?</h2><p>PIC单片机有许多型号可以设置成 用外部时钟(如外部接个4MHZ的石英晶振)，也可以设置成用内部RC时钟。而且还有许多型号可以选择多种频率的时钟。</p>
+<p>如 PICLF1823 内部时钟最高可以到达32MHZ 最低可以达到 31kHz. 这事实上提供了一条降低功耗的新路子。一般的单片机降低功耗常常用的睡眠，而睡眠期间CPU是什么都不做。如果希望降低功耗，而且CPU也能工作。降低时钟频率无疑是个非常好的选择。</p>
+<h2 id="单片机里内部外设和外设有哪些"><a href="#单片机里内部外设和外设有哪些" class="headerlink" title="单片机里内部外设和外设有哪些"></a>单片机里内部外设和外设有哪些</h2><h4 id="单片机内部的外设"><a href="#单片机内部的外设" class="headerlink" title="单片机内部的外设"></a>单片机内部的外设</h4><p>一般包括：串口控制模块，SPI模块，I2C模块，A/D模块，PWM模块，CAN模块，EEPROM，比较器模块，等等，它们都集成在单片机内部，有相对应的内部控制寄存器，可通过单片机指令直接控制。</p>
+<h4 id="单片机外部的外围功能模块"><a href="#单片机外部的外围功能模块" class="headerlink" title="单片机外部的外围功能模块"></a>单片机外部的外围功能模块</h4><p>比如键盘控制芯片，液晶，A/D转换芯片，等等。外设可通过单片机的I/O，SPI，I2C等总线控制。</p>
+<h2 id="什么是-DSP-中的“内部上拉”和“内部下拉”"><a href="#什么是-DSP-中的“内部上拉”和“内部下拉”" class="headerlink" title="什么是 DSP 中的“内部上拉”和“内部下拉”?"></a>什么是 DSP 中的“内部上拉”和“内部下拉”?</h2><p>DSP 中介绍引脚时，注明 PU,PD 说是“内部上拉”和“内部下拉”，就是说内部已经配置了接电源的上拉电阻或是接地的下拉电阻。这样，当作为输入端口连接 OC 或COMS 芯片或浮空时。信号线平是确定的高/低电平。而不是不确定的浮地电平。内部上拉，相当于输入和电源之间接了一个几十 K 的电阻；下拉，相当于用电阻和地相连。</p>
+<h2 id="VCC、VDD、VSS-是什么"><a href="#VCC、VDD、VSS-是什么" class="headerlink" title="VCC、VDD、VSS 是什么"></a>VCC、VDD、VSS 是什么</h2><p>在电子电路中，VCC 是电路的供电电压，C = circuit,表示电路的意思；VDD 是芯片<br>的工作电压，D = device,表示器件的意思；VSS 是接地或是负极，S = series,表示公共连<br>接的意思。</p>
+<h2 id="TI坑人的一点在哪"><a href="#TI坑人的一点在哪" class="headerlink" title="TI坑人的一点在哪"></a>TI坑人的一点在哪</h2><p>TI不同于３２，TI的函数的入口参数无法通过像３２一样的方法查找选择合适的参数</p>
+<h1 id="我的单片机的外设"><a href="#我的单片机的外设" class="headerlink" title="我的单片机的外设"></a>我的单片机的外设</h1><p>红灯PF1  M0PWM5</p>
+<p>蓝灯PF2 M1PWM6</p>
+<p>绿灯PF3 M1PWM7</p>
+<p>按键1 PF4 按下为低电平</p>
+<p>按键2 PF0按下为低电平</p>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212200237248.png" alt="image-20201212200237248"></p>
+<h2 id="延时函数"><a href="#延时函数" class="headerlink" title="延时函数"></a>延时函数</h2><p>SysCtlDelay ( SysCtlClockGet() *ms / 3000);</p>
+<hr>
+<h2 id="基本模板"><a href="#基本模板" class="headerlink" title="基本模板"></a>基本模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_types.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_ints.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_pwm.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/debug.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/fpu.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/gpio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pin_map.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/rom.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/rom_map.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/sysctl.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/uart.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;utils/uartstdio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/systick.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/interrupt.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pwm.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line">    FPULazyStackingEnable();</span><br><span class="line">    <span class="comment">//使能系统时钟为50MHz</span></span><br><span class="line">    SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN);</span><br><span class="line">    <span class="comment">//延时函数</span></span><br><span class="line">    ROM_SysCtlDelay ( SysCtlClockGet() *ms / <span class="number">3000</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" data-id="ckm7t0eq7001yuo3ddpsh73fi" data-title="单片机总体概述" class="article-share-link">Share</a>
       
       
       
@@ -323,7 +333,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/15/hello-world/" data-id="ckm7stqjy0018303dboilfn25" data-title="如何上传博客" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/15/hello-world/" data-id="ckm7t0epx0018uo3dakx558uv" data-title="如何上传博客" class="article-share-link">Share</a>
       
       
       

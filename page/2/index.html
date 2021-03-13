@@ -112,7 +112,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" data-id="ckm7stqjn000a303d0otb7q0x" data-title="DHT11温湿度传感器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" data-id="ckm7t0epn000duo3de3me6yue" data-title="DHT11温湿度传感器" class="article-share-link">Share</a>
       
       
       
@@ -174,55 +174,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" data-id="ckm7stqjk0005303d62ko8p66" data-title="Analog Comparator" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-FPU" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/30/FPU/" class="article-date">
-  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/30/FPU/">FPU</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="FPU"><a href="#FPU" class="headerlink" title="FPU"></a>FPU</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>FPU指的是浮点运算单元。默认情况下，我们不能使用浮点数，只有使能了FPU才能浮点数。如果不打开浮点运算单元就用浮点数的话，单片机就会产生一个NOCP错误。（RTOS可以利用这个特性判断哪一项任务使用了浮点运算单元，以此只在涉及到这些任务的task switch中执行FPU。）</p>
-<p>当处理器执行一条中断命令时，有三种办法处理浮点运算内容：1.不去算 2.总是存下来浮点运算内容 3.对浮点运算内容执行一个 lazy save/restore 。</p>
-<p>如果不去算的话，中断栈帧就和没有浮点运算单元的Cortex-M 处理器的就一样了。（当那些主程序用到浮点运算，中断函数不用浮点运算时，这种方法会特别好用）(没看出来)（我们像这样不存储浮点运算内容的话，就能减少对栈的使用，降低中断延迟）</p>
-<p>除此以外，我们还能把浮点运算内容存储总是到栈里面。这种方法允许在中断函数里面使用浮点运算，代价是栈的使用会增加，中断延迟会增加（因为我们还要向栈里面多写一些东西）。这种方法还有一个优点，那就是在中断函数的栈帧内一直存着浮点运算单元。</p>
-<p>对浮点运算内容的默认处理是执行一个lazy save/restore。当我们开始一个中断时，在栈里面我们为浮点运算内容预留出一部分空间（留着一会往里面写内容）。这种方法能降低中断的延迟，因为一会我们就只用去声明整数了。然后如果要执行一个浮点运算的话，我们就把浮点运算内容写到这个浮点运算指令前面。最终，当从中断返回的时候，浮点运算内容就会留在栈里面，直到它被复写。这种方法既保证了中断的快速反应，用能让我们在中断函数 里面使用浮点运算指令。</p>
-<p>FPU在异常出现时会产生一个中断（比如说向下、向上溢出、除以零、无效操作，非法输入等情况下）。我们可以利用这些中断搞事情。</p>
-<p>FPU也是可以被改造的。我们可以改造半精度浮点数值得格式，对无穷大数的处理，清零模式（这会牺牲完整的IEEE规范来提升速度）以及结果的循环模式。</p>
-<p>头文件是driverlib/fpu.h</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/FPU/" data-id="ckm7stqjo000d303d6wnoec09" data-title="FPU" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" data-id="ckm7t0epi0004uo3d63r9gum8" data-title="Analog Comparator" class="article-share-link">Share</a>
       
       
       
@@ -291,7 +243,55 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/Analog%20Comparator/" data-id="ckm7stqjr000j303da3nf7hxu" data-title="Analog Comparator" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/30/Analog%20Comparator/" data-id="ckm7t0epk0008uo3d1n80bps3" data-title="Analog Comparator" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-FPU" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/30/FPU/" class="article-date">
+  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/30/FPU/">FPU</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="FPU"><a href="#FPU" class="headerlink" title="FPU"></a>FPU</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>FPU指的是浮点运算单元。默认情况下，我们不能使用浮点数，只有使能了FPU才能浮点数。如果不打开浮点运算单元就用浮点数的话，单片机就会产生一个NOCP错误。（RTOS可以利用这个特性判断哪一项任务使用了浮点运算单元，以此只在涉及到这些任务的task switch中执行FPU。）</p>
+<p>当处理器执行一条中断命令时，有三种办法处理浮点运算内容：1.不去算 2.总是存下来浮点运算内容 3.对浮点运算内容执行一个 lazy save/restore 。</p>
+<p>如果不去算的话，中断栈帧就和没有浮点运算单元的Cortex-M 处理器的就一样了。（当那些主程序用到浮点运算，中断函数不用浮点运算时，这种方法会特别好用）(没看出来)（我们像这样不存储浮点运算内容的话，就能减少对栈的使用，降低中断延迟）</p>
+<p>除此以外，我们还能把浮点运算内容存储总是到栈里面。这种方法允许在中断函数里面使用浮点运算，代价是栈的使用会增加，中断延迟会增加（因为我们还要向栈里面多写一些东西）。这种方法还有一个优点，那就是在中断函数的栈帧内一直存着浮点运算单元。</p>
+<p>对浮点运算内容的默认处理是执行一个lazy save/restore。当我们开始一个中断时，在栈里面我们为浮点运算内容预留出一部分空间（留着一会往里面写内容）。这种方法能降低中断的延迟，因为一会我们就只用去声明整数了。然后如果要执行一个浮点运算的话，我们就把浮点运算内容写到这个浮点运算指令前面。最终，当从中断返回的时候，浮点运算内容就会留在栈里面，直到它被复写。这种方法既保证了中断的快速反应，用能让我们在中断函数 里面使用浮点运算指令。</p>
+<p>FPU在异常出现时会产生一个中断（比如说向下、向上溢出、除以零、无效操作，非法输入等情况下）。我们可以利用这些中断搞事情。</p>
+<p>FPU也是可以被改造的。我们可以改造半精度浮点数值得格式，对无穷大数的处理，清零模式（这会牺牲完整的IEEE规范来提升速度）以及结果的循环模式。</p>
+<p>头文件是driverlib/fpu.h</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/30/FPU/" data-id="ckm7t0epq000juo3d5w874y1o" data-title="FPU" class="article-share-link">Share</a>
       
       
       
@@ -344,59 +344,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckm7stqk5001u303d334s5eq7" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckm7t0eq3001uuo3d9y6c1kvy" data-title="" class="article-share-link">Share</a>
       
       
       
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-ADC interrupt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/ADC%20interrupt/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/ADC%20interrupt/">ADC中断</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="ADC中断"><a href="#ADC中断" class="headerlink" title="ADC中断"></a>ADC中断</h1><h3 id="一、相关函数介绍"><a href="#一、相关函数介绍" class="headerlink" title="一、相关函数介绍"></a>一、相关函数介绍</h3><ol>
-<li><code>ADCIntRegister()</code> 和<code>ADCIntUnregister()</code>用于为ADC中断注册（注销）一个中断函数</li>
-<li><code>ADCIntEnable()</code> 和 <code>ADCIntDisable</code> 使能（失能）一个采样序列中断</li>
-<li><code>ADCIntClear()</code> 清除采样序列中断源</li>
-<li><code>ADCIntStatus()</code> 获取当前中断状态</li>
-</ol>
-<h3 id="二、怎样触发中断"><a href="#二、怎样触发中断" class="headerlink" title="二、怎样触发中断"></a>二、怎样触发中断</h3><p>在配置采样通道的时候，如果参数设置有 <code>ADC_CTL_IE</code> 那么当这个通道采集完之后就会产生一个中断。</p>
-<h3 id="三、例子"><a href="#三、例子" class="headerlink" title="三、例子"></a>三、例子</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">configureADC</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//选择E3引脚（即CH0）作为ADC输入</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);</span><br><span class="line">    GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_3);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置采样序列发生器等</span></span><br><span class="line">    ADCSequenceConfigure(ADC0_BASE, <span class="number">0</span>, ADC_TRIGGER_PROCESSOR, <span class="number">0</span>);</span><br><span class="line">    ADCSequenceStepConfigure(ADC0_BASE, <span class="number">0</span>, <span class="number">0</span>,ADC_CTL_IE | ADC_CTL_END | ADC_CTL_CH0);</span><br><span class="line">	</span><br><span class="line">    ADCSequenceEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置ADC中断</span></span><br><span class="line">    ADCIntRegister(ADC0_BASE, <span class="number">0</span> , convet);</span><br><span class="line">    ADCIntEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="四、注意"><a href="#四、注意" class="headerlink" title="四、注意"></a>四、注意</h3><p>在写中断函数的时候记得清除中断标记，因为清除中断需要几个时钟周期，所以，我们需要在中断函数一开始就清除中断。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="ckm7stqjd0000303d9tq27wk2" data-title="ADC中断" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
     </footer>
   </div>
   
@@ -452,7 +403,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckm7stqjj0003303ddsvg1fwn" data-title="怎样新建一个项目" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckm7t0epf0001uo3d5yzy5liu" data-title="怎样新建一个项目" class="article-share-link">Share</a>
       
       
       
@@ -529,7 +480,56 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Analog%20to%20Digital%20Converter/" data-id="ckm7stqjk0004303d26iv67qg" data-title="ADC简介" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Analog%20to%20Digital%20Converter/" data-id="ckm7t0eph0003uo3dfjci7gzq" data-title="ADC简介" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ADC interrupt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/ADC%20interrupt/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/ADC%20interrupt/">ADC中断</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="ADC中断"><a href="#ADC中断" class="headerlink" title="ADC中断"></a>ADC中断</h1><h3 id="一、相关函数介绍"><a href="#一、相关函数介绍" class="headerlink" title="一、相关函数介绍"></a>一、相关函数介绍</h3><ol>
+<li><code>ADCIntRegister()</code> 和<code>ADCIntUnregister()</code>用于为ADC中断注册（注销）一个中断函数</li>
+<li><code>ADCIntEnable()</code> 和 <code>ADCIntDisable</code> 使能（失能）一个采样序列中断</li>
+<li><code>ADCIntClear()</code> 清除采样序列中断源</li>
+<li><code>ADCIntStatus()</code> 获取当前中断状态</li>
+</ol>
+<h3 id="二、怎样触发中断"><a href="#二、怎样触发中断" class="headerlink" title="二、怎样触发中断"></a>二、怎样触发中断</h3><p>在配置采样通道的时候，如果参数设置有 <code>ADC_CTL_IE</code> 那么当这个通道采集完之后就会产生一个中断。</p>
+<h3 id="三、例子"><a href="#三、例子" class="headerlink" title="三、例子"></a>三、例子</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">configureADC</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//选择E3引脚（即CH0）作为ADC输入</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);</span><br><span class="line">    GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_3);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置采样序列发生器等</span></span><br><span class="line">    ADCSequenceConfigure(ADC0_BASE, <span class="number">0</span>, ADC_TRIGGER_PROCESSOR, <span class="number">0</span>);</span><br><span class="line">    ADCSequenceStepConfigure(ADC0_BASE, <span class="number">0</span>, <span class="number">0</span>,ADC_CTL_IE | ADC_CTL_END | ADC_CTL_CH0);</span><br><span class="line">	</span><br><span class="line">    ADCSequenceEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置ADC中断</span></span><br><span class="line">    ADCIntRegister(ADC0_BASE, <span class="number">0</span> , convet);</span><br><span class="line">    ADCIntEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="四、注意"><a href="#四、注意" class="headerlink" title="四、注意"></a>四、注意</h3><p>在写中断函数的时候记得清除中断标记，因为清除中断需要几个时钟周期，所以，我们需要在中断函数一开始就清除中断。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="ckm7t0epj0005uo3d98w96x2x" data-title="ADC中断" class="article-share-link">Share</a>
       
       
       
@@ -587,7 +587,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO_PWM/" data-id="ckm7stqjp000f303ddt2basgv" data-title="GPIO PWM" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO_PWM/" data-id="ckm7t0epo000fuo3d1sc4bcfm" data-title="GPIO PWM" class="article-share-link">Share</a>
       
       
       
@@ -678,7 +678,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO_interrupt/" data-id="ckm7stqjq000h303d1axy4cjw" data-title="GPIO中断" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO_interrupt/" data-id="ckm7t0epo000huo3d5esvecf7" data-title="GPIO中断" class="article-share-link">Share</a>
       
       
       

@@ -106,7 +106,7 @@
 <li><p>Swap the value of a[k] with that of a[l].</p>
 </li>
 <li><p>Reverse the sequence from a[k + 1] up to and including the final element a[n].</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">1010</span>]; </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>* x,<span class="keyword">int</span>* y)</span></span>&#123;</span><br><span class="line">	*x^=*y^=*x^=*y;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">		a[i]=i+<span class="number">1</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	<span class="keyword">int</span> k=<span class="number">0</span>,l=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(;;)&#123;</span><br><span class="line">		k=<span class="number">-1</span>,l=<span class="number">-1</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=n<span class="number">-1</span><span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">			<span class="keyword">if</span>(a[i]&lt;a[i+<span class="number">1</span>])&#123;</span><br><span class="line">				k=i;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(k==<span class="number">-1</span>)<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=n<span class="number">-1</span>;i&gt;k;i--)&#123;</span><br><span class="line">			<span class="keyword">if</span>(a[i]&gt;a[k])&#123;</span><br><span class="line">				l=i;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		swap(&amp;a[k],&amp;a[l]);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=k+<span class="number">1</span>;i&lt;(k+<span class="number">1</span>+n<span class="number">-1</span>)/<span class="number">2</span>;i++)&#123;</span><br><span class="line">			swap(&amp;a[i],&amp;a[k+<span class="number">1</span>+n<span class="number">-1</span>-i]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">1010</span>]; </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>* x,<span class="keyword">int</span>* y)</span></span>&#123;</span><br><span class="line">	*x^=*y^=*x^=*y;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">		a[i]=i+<span class="number">1</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	<span class="keyword">int</span> k=<span class="number">0</span>,l=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(;;)&#123;</span><br><span class="line">		k=<span class="number">-1</span>,l=<span class="number">-1</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=n<span class="number">-1</span><span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">			<span class="keyword">if</span>(a[i]&lt;a[i+<span class="number">1</span>])&#123;</span><br><span class="line">				k=i;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(k==<span class="number">-1</span>)<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=n<span class="number">-1</span>;i&gt;k;i--)&#123;</span><br><span class="line">			<span class="keyword">if</span>(a[i]&gt;a[k])&#123;</span><br><span class="line">				l=i;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		swap(&amp;a[k],&amp;a[l]);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=k+<span class="number">1</span>;i&lt;(k+<span class="number">1</span>+n<span class="number">-1</span>+<span class="number">1</span>)/<span class="number">2</span>;i++)&#123;</span><br><span class="line">			swap(&amp;a[i],&amp;a[k+<span class="number">1</span>+n<span class="number">-1</span>-i]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="然后是常规的递归生成方法"><a href="#然后是常规的递归生成方法" class="headerlink" title="然后是常规的递归生成方法"></a>然后是常规的递归生成方法</h2></li>
 </ol>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">int</span> flag,a[<span class="number">100</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> t)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(t==n+<span class="number">1</span>)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> ;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(!(flag&amp;(<span class="number">1</span>&lt;&lt;i)))&#123;</span><br><span class="line">			a[t]=i;</span><br><span class="line">			flag|=<span class="number">1</span>&lt;&lt;i;</span><br><span class="line">			dfs(t+<span class="number">1</span>);</span><br><span class="line">			flag^=<span class="number">1</span>&lt;&lt;i;			</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">	dfs(<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
@@ -114,7 +114,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/07/permutation/" data-id="ckm7stqk4001s303d2s5t6yqv" data-title="generate permutation" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/07/permutation/" data-id="ckm7t0eq1001luo3dfmkk78t7" data-title="generate permutation" class="article-share-link">Share</a>
       
       
       
@@ -171,7 +171,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/" data-id="ckm7stqk3001q303d5co1eu9g" data-title="休眠模块" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/" data-id="ckm7t0eq4001vuo3d2mqh6oc8" data-title="休眠模块" class="article-share-link">Share</a>
       
       
       
@@ -211,7 +211,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/02/1-Wire_Master/" data-id="ckm7stqjh0001303d8dbl1zsl" data-title="1-Wire_Master" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/02/1-Wire_Master/" data-id="ckm7t0epb0000uo3dctdi6l6s" data-title="1-Wire_Master" class="article-share-link">Share</a>
       
       
       
@@ -256,7 +256,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/01/ESP8266/" data-id="ckm7stqjm0008303d0pqoea2n" data-title="esp8266" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/01/ESP8266/" data-id="ckm7t0epl000auo3d13sa5d1o" data-title="esp8266" class="article-share-link">Share</a>
       
       
       
@@ -296,7 +296,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/01/bottom/" data-id="ckm7stqjy0016303d3hmbcvb1" data-title="bottom" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/01/bottom/" data-id="ckm7t0epw0014uo3d8dy74h51" data-title="bottom" class="article-share-link">Share</a>
       
       
       
@@ -341,7 +341,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/" data-id="ckm7stqk8001z303dd8x50zit" data-title="通用定时器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/" data-id="ckm7t0eq70020uo3dclu32295" data-title="通用定时器" class="article-share-link">Share</a>
       
       
       
@@ -381,7 +381,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/" data-id="ckm7stqk0001h303d8hi519na" data-title="max30102 stm32代码" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/" data-id="ckm7t0epy001duo3d14tz6wmu" data-title="max30102 stm32代码" class="article-share-link">Share</a>
       
       
       
@@ -476,7 +476,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/27/tasks/" data-id="ckm7stqk3001p303d91e08ikl" data-title="tasks" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/27/tasks/" data-id="ckm7t0eq1001nuo3d9ksyfcxw" data-title="tasks" class="article-share-link">Share</a>
       
       
       
@@ -568,7 +568,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/26/IIC/" data-id="ckm7stqjt000p303dg758ftd5" data-title="IIC" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/26/IIC/" data-id="ckm7t0epr000puo3d9f93hy3t" data-title="IIC" class="article-share-link">Share</a>
       
       
       
@@ -609,7 +609,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/24/sg90/" data-id="ckm7stqk1001j303d4h3432t2" data-title="sg90操作" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/24/sg90/" data-id="ckm7t0eq0001juo3d1oli9ej4" data-title="sg90操作" class="article-share-link">Share</a>
       
       
       
