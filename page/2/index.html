@@ -112,69 +112,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" data-id="ckm7t0epn000duo3de3me6yue" data-title="DHT11温湿度传感器" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Analog Comparator（待完成）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" class="article-date">
-  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">Analog Comparator</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Analog-Comparator"><a href="#Analog-Comparator" class="headerlink" title="Analog Comparator"></a>Analog Comparator</h1><h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、触发ADC采样。它的中断产生逻辑是独立于ADC触发逻辑的，所以，AC可以基于一个事件产生一个中断，ADC可以基于另一个事件产生触发。比如说，让上升沿触发一次中断，让下降沿触发一次ADC。</p>
-<p>该芯片提供了两个独立的模拟比较器。</p>
-<p><img src="image-20210130173507102.png" alt="照片"><br><img src="image-20210130173536884.png" alt="image-20210130173536884"><br>原理演示图<br><img src="image-20210130173642377.png" alt="image-20210130173642377"><br>它的头文件是driverlib/comp.h</p>
-<h3 id="二、函数介绍"><a href="#二、函数介绍" class="headerlink" title="二、函数介绍"></a>二、函数介绍</h3><p><img src="image-20210130100105290.png" alt="image-20210130100105290"></p>
-<ol>
-<li><code>ComparatorConfigure()</code> 用来配置一个AC模块触发ADC模块的条件、触发中断的条件、和谁比较、正常输出还是反转输出</li>
-<li><code>ComparatorIntClear()</code> 用于清除比较器中断标志，<em>（ 小贴士，因为在Contex-M处理器中写入有缓冲，所以执行函数之后过几个周期中断源才可能真正被清除，所以我们推荐在中断函数的一开始就清除中断标识）</em></li>
-<li><code>ComparatorIntDisable()</code> 失能一个比较器中断</li>
-<li><code>ComparatorIntEnable()</code> 使能一个比较器中断</li>
-<li><code>ComparatorIntRegister()</code> 注册中断函数</li>
-<li><code>ComparatorIntStatus()</code> 获取当前中断状态</li>
-<li><code>ComparatorIntUnregister()</code> 注销一个中断函数</li>
-<li><code>ComparatorRefSet()</code> 设定内部参考电压</li>
-<li><code>ComparatorValueGet()</code> 获取当前比较器输出值，<strong>true</strong>表示比较器输出是高，<strong>false</strong>表示比较器输出是低</li>
-</ol>
-<ul>
-<li>此外还需要用到一些GPIO函数来实现比较器功能<ol>
-<li><code>GPIOPinTypeComparator()</code> 配置引脚用于模拟比较器输入</li>
-<li><code>GPIOPinTypeComparatorOutput()</code> 配置引脚作为模拟比较器输出</li>
-</ol>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" data-id="ckm7t0epi0004uo3d63r9gum8" data-title="Analog Comparator" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" data-id="ckm7zkyh1000do83da57mefon" data-title="DHT11温湿度传感器" class="article-share-link">Share</a>
       
       
       
@@ -243,7 +181,69 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/Analog%20Comparator/" data-id="ckm7t0epk0008uo3d1n80bps3" data-title="Analog Comparator" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/30/Analog%20Comparator/" data-id="ckm7zkygp0000o83dhu274s9j" data-title="Analog Comparator" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Analog Comparator（待完成）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">Analog Comparator</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Analog-Comparator"><a href="#Analog-Comparator" class="headerlink" title="Analog Comparator"></a>Analog Comparator</h1><h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、触发ADC采样。它的中断产生逻辑是独立于ADC触发逻辑的，所以，AC可以基于一个事件产生一个中断，ADC可以基于另一个事件产生触发。比如说，让上升沿触发一次中断，让下降沿触发一次ADC。</p>
+<p>该芯片提供了两个独立的模拟比较器。</p>
+<p><img src="image-20210130173507102.png" alt="照片"><br><img src="image-20210130173536884.png" alt="image-20210130173536884"><br>原理演示图<br><img src="image-20210130173642377.png" alt="image-20210130173642377"><br>它的头文件是driverlib/comp.h</p>
+<h3 id="二、函数介绍"><a href="#二、函数介绍" class="headerlink" title="二、函数介绍"></a>二、函数介绍</h3><p><img src="image-20210130100105290.png" alt="image-20210130100105290"></p>
+<ol>
+<li><code>ComparatorConfigure()</code> 用来配置一个AC模块触发ADC模块的条件、触发中断的条件、和谁比较、正常输出还是反转输出</li>
+<li><code>ComparatorIntClear()</code> 用于清除比较器中断标志，<em>（ 小贴士，因为在Contex-M处理器中写入有缓冲，所以执行函数之后过几个周期中断源才可能真正被清除，所以我们推荐在中断函数的一开始就清除中断标识）</em></li>
+<li><code>ComparatorIntDisable()</code> 失能一个比较器中断</li>
+<li><code>ComparatorIntEnable()</code> 使能一个比较器中断</li>
+<li><code>ComparatorIntRegister()</code> 注册中断函数</li>
+<li><code>ComparatorIntStatus()</code> 获取当前中断状态</li>
+<li><code>ComparatorIntUnregister()</code> 注销一个中断函数</li>
+<li><code>ComparatorRefSet()</code> 设定内部参考电压</li>
+<li><code>ComparatorValueGet()</code> 获取当前比较器输出值，<strong>true</strong>表示比较器输出是高，<strong>false</strong>表示比较器输出是低</li>
+</ol>
+<ul>
+<li>此外还需要用到一些GPIO函数来实现比较器功能<ol>
+<li><code>GPIOPinTypeComparator()</code> 配置引脚用于模拟比较器输入</li>
+<li><code>GPIOPinTypeComparatorOutput()</code> 配置引脚作为模拟比较器输出</li>
+</ol>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" data-id="ckm7zkygw0005o83dem3ag8pk" data-title="Analog Comparator" class="article-share-link">Share</a>
       
       
       
@@ -291,7 +291,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/FPU/" data-id="ckm7t0epq000juo3d5w874y1o" data-title="FPU" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/30/FPU/" data-id="ckm7zkyh2000fo83daf7c7zbb" data-title="FPU" class="article-share-link">Share</a>
       
       
       
@@ -344,7 +344,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckm7t0eq3001uuo3d9y6c1kvy" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckm7zkyhi001wo83dgax61jvr" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -403,7 +403,56 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckm7t0epf0001uo3d5yzy5liu" data-title="怎样新建一个项目" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckm7zkygv0003o83dbl385rqj" data-title="怎样新建一个项目" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ADC interrupt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/ADC%20interrupt/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/ADC%20interrupt/">ADC中断</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="ADC中断"><a href="#ADC中断" class="headerlink" title="ADC中断"></a>ADC中断</h1><h3 id="一、相关函数介绍"><a href="#一、相关函数介绍" class="headerlink" title="一、相关函数介绍"></a>一、相关函数介绍</h3><ol>
+<li><code>ADCIntRegister()</code> 和<code>ADCIntUnregister()</code>用于为ADC中断注册（注销）一个中断函数</li>
+<li><code>ADCIntEnable()</code> 和 <code>ADCIntDisable</code> 使能（失能）一个采样序列中断</li>
+<li><code>ADCIntClear()</code> 清除采样序列中断源</li>
+<li><code>ADCIntStatus()</code> 获取当前中断状态</li>
+</ol>
+<h3 id="二、怎样触发中断"><a href="#二、怎样触发中断" class="headerlink" title="二、怎样触发中断"></a>二、怎样触发中断</h3><p>在配置采样通道的时候，如果参数设置有 <code>ADC_CTL_IE</code> 那么当这个通道采集完之后就会产生一个中断。</p>
+<h3 id="三、例子"><a href="#三、例子" class="headerlink" title="三、例子"></a>三、例子</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">configureADC</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//选择E3引脚（即CH0）作为ADC输入</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);</span><br><span class="line">    GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_3);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置采样序列发生器等</span></span><br><span class="line">    ADCSequenceConfigure(ADC0_BASE, <span class="number">0</span>, ADC_TRIGGER_PROCESSOR, <span class="number">0</span>);</span><br><span class="line">    ADCSequenceStepConfigure(ADC0_BASE, <span class="number">0</span>, <span class="number">0</span>,ADC_CTL_IE | ADC_CTL_END | ADC_CTL_CH0);</span><br><span class="line">	</span><br><span class="line">    ADCSequenceEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置ADC中断</span></span><br><span class="line">    ADCIntRegister(ADC0_BASE, <span class="number">0</span> , convet);</span><br><span class="line">    ADCIntEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="四、注意"><a href="#四、注意" class="headerlink" title="四、注意"></a>四、注意</h3><p>在写中断函数的时候记得清除中断标记，因为清除中断需要几个时钟周期，所以，我们需要在中断函数一开始就清除中断。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="ckm7zkygw0004o83d3qgrceq8" data-title="ADC中断" class="article-share-link">Share</a>
       
       
       
@@ -480,56 +529,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Analog%20to%20Digital%20Converter/" data-id="ckm7t0eph0003uo3dfjci7gzq" data-title="ADC简介" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-ADC interrupt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/ADC%20interrupt/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/ADC%20interrupt/">ADC中断</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="ADC中断"><a href="#ADC中断" class="headerlink" title="ADC中断"></a>ADC中断</h1><h3 id="一、相关函数介绍"><a href="#一、相关函数介绍" class="headerlink" title="一、相关函数介绍"></a>一、相关函数介绍</h3><ol>
-<li><code>ADCIntRegister()</code> 和<code>ADCIntUnregister()</code>用于为ADC中断注册（注销）一个中断函数</li>
-<li><code>ADCIntEnable()</code> 和 <code>ADCIntDisable</code> 使能（失能）一个采样序列中断</li>
-<li><code>ADCIntClear()</code> 清除采样序列中断源</li>
-<li><code>ADCIntStatus()</code> 获取当前中断状态</li>
-</ol>
-<h3 id="二、怎样触发中断"><a href="#二、怎样触发中断" class="headerlink" title="二、怎样触发中断"></a>二、怎样触发中断</h3><p>在配置采样通道的时候，如果参数设置有 <code>ADC_CTL_IE</code> 那么当这个通道采集完之后就会产生一个中断。</p>
-<h3 id="三、例子"><a href="#三、例子" class="headerlink" title="三、例子"></a>三、例子</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">configureADC</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//选择E3引脚（即CH0）作为ADC输入</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);</span><br><span class="line">    GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_3);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置采样序列发生器等</span></span><br><span class="line">    ADCSequenceConfigure(ADC0_BASE, <span class="number">0</span>, ADC_TRIGGER_PROCESSOR, <span class="number">0</span>);</span><br><span class="line">    ADCSequenceStepConfigure(ADC0_BASE, <span class="number">0</span>, <span class="number">0</span>,ADC_CTL_IE | ADC_CTL_END | ADC_CTL_CH0);</span><br><span class="line">	</span><br><span class="line">    ADCSequenceEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置ADC中断</span></span><br><span class="line">    ADCIntRegister(ADC0_BASE, <span class="number">0</span> , convet);</span><br><span class="line">    ADCIntEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="四、注意"><a href="#四、注意" class="headerlink" title="四、注意"></a>四、注意</h3><p>在写中断函数的时候记得清除中断标记，因为清除中断需要几个时钟周期，所以，我们需要在中断函数一开始就清除中断。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="ckm7t0epj0005uo3d98w96x2x" data-title="ADC中断" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Analog%20to%20Digital%20Converter/" data-id="ckm7zkygy0008o83d5yk04qeg" data-title="ADC简介" class="article-share-link">Share</a>
       
       
       
@@ -587,7 +587,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO_PWM/" data-id="ckm7t0epo000fuo3d1sc4bcfm" data-title="GPIO PWM" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO_PWM/" data-id="ckm7zkyh2000ho83d9ahp5h9w" data-title="GPIO PWM" class="article-share-link">Share</a>
       
       
       
@@ -678,7 +678,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO_interrupt/" data-id="ckm7t0epo000huo3d5esvecf7" data-title="GPIO中断" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO_interrupt/" data-id="ckm7zkyh4000jo83d84hieuqg" data-title="GPIO中断" class="article-share-link">Share</a>
       
       
       

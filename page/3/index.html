@@ -126,7 +126,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="ckm7t0epq000luo3dhn62ckgr" data-title="GPIO输入和输出" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="ckm7zkyh4000lo83db64qcp83" data-title="GPIO输入和输出" class="article-share-link">Share</a>
       
       
       
@@ -229,7 +229,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Interrupt%20Controller(NVIC)/" data-id="ckm7t0epr000nuo3dbyto8r9b" data-title="中断控制器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Interrupt%20Controller(NVIC)/" data-id="ckm7zkyh6000po83deimpfxgj" data-title="中断控制器" class="article-share-link">Share</a>
       
       
       
@@ -512,7 +512,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="ckm7t0eps000ruo3d7q1g1s1r" data-title="midi" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="ckm7zkyh6000ro83dc2k1f0fg" data-title="midi" class="article-share-link">Share</a>
       
       
       
@@ -649,52 +649,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="ckm7t0ept000tuo3d3yqxbna2" data-title="PWM" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-TIMER_CAPTURE" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/TIMER_CAPTURE/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/TIMER_CAPTURE/">Timer Capture</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="TIMER-CAPTURE"><a href="#TIMER-CAPTURE" class="headerlink" title="TIMER_CAPTURE"></a>TIMER_CAPTURE</h1><h3 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h3><p>计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位</p>
-<p>计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。</p>
-<p>加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，计数器会自动清零重新计数，减计数模式下，计数器会恢复preload值，但是会停止计数，需要重新使能。</p>
-<h3 id="功能一，边沿计数"><a href="#功能一，边沿计数" class="headerlink" title="功能一，边沿计数"></a>功能一，边沿计数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);</span><br><span class="line">    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> ulstatus = TimerIntStatus(TIMER2_BASE, TIMER_CAPA_MATCH | TIMER_CAPB_MATCH);</span><br><span class="line">    TimerIntClear(TIMER2_BASE, ulstatus);</span><br><span class="line">        t++;</span><br><span class="line">        <span class="keyword">if</span>(t%<span class="number">2</span>)&#123;</span><br><span class="line">            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_ccp</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使能GPIO时钟</span></span><br><span class="line">    <span class="comment">//SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span></span><br><span class="line">    <span class="comment">//使能Timer模块</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    <span class="comment">//配置GPIO引脚为Timer捕捉模式</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    <span class="comment">//配置管脚为弱上拉模式</span></span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    <span class="comment">//配置Timer的A模块为边沿触发 加计数模式</span></span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_COUNT_UP);</span><br><span class="line">    <span class="comment">//设置下降沿触发</span></span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_POS_EDGE);</span><br><span class="line">    TimerMatchSet(TIMER2_BASE, TIMER_A, <span class="number">3</span>);</span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_MATCH);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="功能二，边沿计时"><a href="#功能二，边沿计时" class="headerlink" title="功能二，边沿计时"></a>功能二，边沿计时</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> s=TimerIntStatus(TIMER2_BASE,TIMER_CAPA_EVENT);</span><br><span class="line">    TimerIntClear(TIMER2_BASE,s);</span><br><span class="line">    UARTprintf(<span class="string">&quot;Captured Value: 0x%04X\n&quot;</span>, TimerValueGet(TIMER2_BASE, TIMER_A));</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TIMER_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使能定时器和GPIO</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    <span class="comment">//配置GPIO引脚为timer捕捉模式</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    <span class="comment">//配置管脚为弱上拉模式</span></span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    <span class="comment">//配置Timer模块为沿触发加计时模式</span></span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_TIME_UP);</span><br><span class="line">    <span class="comment">//使用下降沿触发</span></span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_NEG_EDGE);</span><br><span class="line">    <span class="comment">//设置计数范围</span></span><br><span class="line">    TimerLoadSet(TIMER2_BASE, TIMER_A, <span class="number">0x8FFF</span>);</span><br><span class="line">    <span class="comment">//注册定时器中断</span></span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    <span class="comment">//使能中断，定时器，定时器中断</span></span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_EVENT);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/TIMER_CAPTURE/" data-id="ckm7t0epu000wuo3daztg8cw7" data-title="Timer Capture" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="ckm7zkyh7000to83d0w2jgf2i" data-title="PWM" class="article-share-link">Share</a>
       
       
       
@@ -757,7 +712,52 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/System%20Tick/" data-id="ckm7t0epv000yuo3d6g5i13fq" data-title="SysTick" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/System%20Tick/" data-id="ckm7zkyh8000wo83d0zvreyh5" data-title="SysTick" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-TIMER_CAPTURE" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/TIMER_CAPTURE/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/TIMER_CAPTURE/">Timer Capture</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="TIMER-CAPTURE"><a href="#TIMER-CAPTURE" class="headerlink" title="TIMER_CAPTURE"></a>TIMER_CAPTURE</h1><h3 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h3><p>计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位</p>
+<p>计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。</p>
+<p>加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，计数器会自动清零重新计数，减计数模式下，计数器会恢复preload值，但是会停止计数，需要重新使能。</p>
+<h3 id="功能一，边沿计数"><a href="#功能一，边沿计数" class="headerlink" title="功能一，边沿计数"></a>功能一，边沿计数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);</span><br><span class="line">    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> ulstatus = TimerIntStatus(TIMER2_BASE, TIMER_CAPA_MATCH | TIMER_CAPB_MATCH);</span><br><span class="line">    TimerIntClear(TIMER2_BASE, ulstatus);</span><br><span class="line">        t++;</span><br><span class="line">        <span class="keyword">if</span>(t%<span class="number">2</span>)&#123;</span><br><span class="line">            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_ccp</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使能GPIO时钟</span></span><br><span class="line">    <span class="comment">//SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span></span><br><span class="line">    <span class="comment">//使能Timer模块</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    <span class="comment">//配置GPIO引脚为Timer捕捉模式</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    <span class="comment">//配置管脚为弱上拉模式</span></span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    <span class="comment">//配置Timer的A模块为边沿触发 加计数模式</span></span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_COUNT_UP);</span><br><span class="line">    <span class="comment">//设置下降沿触发</span></span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_POS_EDGE);</span><br><span class="line">    TimerMatchSet(TIMER2_BASE, TIMER_A, <span class="number">3</span>);</span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_MATCH);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="功能二，边沿计时"><a href="#功能二，边沿计时" class="headerlink" title="功能二，边沿计时"></a>功能二，边沿计时</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> s=TimerIntStatus(TIMER2_BASE,TIMER_CAPA_EVENT);</span><br><span class="line">    TimerIntClear(TIMER2_BASE,s);</span><br><span class="line">    UARTprintf(<span class="string">&quot;Captured Value: 0x%04X\n&quot;</span>, TimerValueGet(TIMER2_BASE, TIMER_A));</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TIMER_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使能定时器和GPIO</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    <span class="comment">//配置GPIO引脚为timer捕捉模式</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    <span class="comment">//配置管脚为弱上拉模式</span></span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    <span class="comment">//配置Timer模块为沿触发加计时模式</span></span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_TIME_UP);</span><br><span class="line">    <span class="comment">//使用下降沿触发</span></span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_NEG_EDGE);</span><br><span class="line">    <span class="comment">//设置计数范围</span></span><br><span class="line">    TimerLoadSet(TIMER2_BASE, TIMER_A, <span class="number">0x8FFF</span>);</span><br><span class="line">    <span class="comment">//注册定时器中断</span></span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    <span class="comment">//使能中断，定时器，定时器中断</span></span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_EVENT);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/TIMER_CAPTURE/" data-id="ckm7zkyh9000yo83dcyqv6lir" data-title="Timer Capture" class="article-share-link">Share</a>
       
       
       
@@ -844,7 +844,101 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/UART/" data-id="ckm7t0epv0010uo3d0caohqyg" data-title="UART" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/UART/" data-id="ckm7zkyh90010o83d51wp3c48" data-title="UART" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-boosterpacks" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/boosterpacks/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/boosterpacks/">BoosterPacks使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="BoosterPacks的使用"><a href="#BoosterPacks的使用" class="headerlink" title="BoosterPacks的使用"></a>BoosterPacks的使用</h1><p>留坑</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/boosterpacks/" data-id="ckm7zkyha0012o83d47ztdj1k" data-title="BoosterPacks使用" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-c文件和头文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">关于怎样写c文件和头文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="关于怎样写c文件和头文件"><a href="#关于怎样写c文件和头文件" class="headerlink" title="关于怎样写c文件和头文件"></a>关于怎样写c文件和头文件</h1><h2 id="c语言的编译过程"><a href="#c语言的编译过程" class="headerlink" title="c语言的编译过程"></a>c语言的编译过程</h2><h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>预处理主要处理</p>
+<p>1.源程序的宏定义指令</p>
+<p>2.条件编译指令</p>
+<p>3.头文件包含指令</p>
+<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>将源程序转换为汇编代码</p>
+<h3 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h3><p>将汇编语言代 码转化成机器语言</p>
+<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>将各个目标文件中的各段代码进行绝对定位，生成根特定平台相关的可执行文件。（就是生成.exe文件）</p>
+<h2 id="那么-h-和-c-文件怎么用呢？"><a href="#那么-h-和-c-文件怎么用呢？" class="headerlink" title="那么.h 和 .c 文件怎么用呢？"></a>那么.h 和 .c 文件怎么用呢？</h2><p>看如下例子</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//a.h</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//a.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span> </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   foo(); </span><br><span class="line"> 　<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>现在来看一个大佬的解释：</p>
+<blockquote>
+<p>从C编译器角度看，.h和.c皆是浮云，就是改名为.txt、.doc也没有大的分别。换句话说，就是.h和.c没啥必然联系。.h中一般放的是同名.c文件中定义的变量、数组、函数的声明，需要让.c外部使用的声明。这个声明有啥用？只是让需要用这些声明的地方方便引用。<u> 因为 #include “xx.h” 这个宏其实际意思就是把当前这一行删掉，把 xx.h 中的内容原封不动的插入在当前行的位置</u>。由于想写这些函数声明的地方非常多（每一个调用 xx.c 中函数的地方，都要在使用前声明一下子），所以用 #include “xx.h” 这个宏就简化了许多行代码——让预处理器自己替换好了。也就是说，xx.h 其实只是让需要写 xx.c 中函数声明的地方调用（可以少写几行字），至于 include 这个 .h 文件是谁，是 .h 还是 .c，还是与这个 .h 同名的 .c，都没有任何必然关系。<br>  这样你可能会说：啊？那我平时只想调用 xx.c 中的某个函数，却 include了 xx.h 文件，岂不是宏替换后出现了很多无用的声明？没错，确实引入了很多垃圾 ，但是它却省了你不少笔墨，并且整个版面也看起来清爽的多。鱼与熊掌不可得兼，就是这个道理。反正多些声明（.h一般只用来放声明，而放不定义，参见拙著“过马路，左右看”）也无害处，又不会影响编译，何乐而不为呢？</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="ckm7zkyhb0016o83db6rrbgs3" data-title="关于怎样写c文件和头文件" class="article-share-link">Share</a>
       
       
       
@@ -984,101 +1078,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Timer/" data-id="ckm7t0epw0012uo3d73en81am" data-title="Timer" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-boosterpacks" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/boosterpacks/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/boosterpacks/">BoosterPacks使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="BoosterPacks的使用"><a href="#BoosterPacks的使用" class="headerlink" title="BoosterPacks的使用"></a>BoosterPacks的使用</h1><p>留坑</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/boosterpacks/" data-id="ckm7t0epx0016uo3d6dmzfoax" data-title="BoosterPacks使用" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-c文件和头文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">关于怎样写c文件和头文件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="关于怎样写c文件和头文件"><a href="#关于怎样写c文件和头文件" class="headerlink" title="关于怎样写c文件和头文件"></a>关于怎样写c文件和头文件</h1><h2 id="c语言的编译过程"><a href="#c语言的编译过程" class="headerlink" title="c语言的编译过程"></a>c语言的编译过程</h2><h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>预处理主要处理</p>
-<p>1.源程序的宏定义指令</p>
-<p>2.条件编译指令</p>
-<p>3.头文件包含指令</p>
-<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>将源程序转换为汇编代码</p>
-<h3 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h3><p>将汇编语言代 码转化成机器语言</p>
-<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>将各个目标文件中的各段代码进行绝对定位，生成根特定平台相关的可执行文件。（就是生成.exe文件）</p>
-<h2 id="那么-h-和-c-文件怎么用呢？"><a href="#那么-h-和-c-文件怎么用呢？" class="headerlink" title="那么.h 和 .c 文件怎么用呢？"></a>那么.h 和 .c 文件怎么用呢？</h2><p>看如下例子</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//a.h</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//a.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span> </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   foo(); </span><br><span class="line"> 　<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-<p>现在来看一个大佬的解释：</p>
-<blockquote>
-<p>从C编译器角度看，.h和.c皆是浮云，就是改名为.txt、.doc也没有大的分别。换句话说，就是.h和.c没啥必然联系。.h中一般放的是同名.c文件中定义的变量、数组、函数的声明，需要让.c外部使用的声明。这个声明有啥用？只是让需要用这些声明的地方方便引用。<u> 因为 #include “xx.h” 这个宏其实际意思就是把当前这一行删掉，把 xx.h 中的内容原封不动的插入在当前行的位置</u>。由于想写这些函数声明的地方非常多（每一个调用 xx.c 中函数的地方，都要在使用前声明一下子），所以用 #include “xx.h” 这个宏就简化了许多行代码——让预处理器自己替换好了。也就是说，xx.h 其实只是让需要写 xx.c 中函数声明的地方调用（可以少写几行字），至于 include 这个 .h 文件是谁，是 .h 还是 .c，还是与这个 .h 同名的 .c，都没有任何必然关系。<br>  这样你可能会说：啊？那我平时只想调用 xx.c 中的某个函数，却 include了 xx.h 文件，岂不是宏替换后出现了很多无用的声明？没错，确实引入了很多垃圾 ，但是它却省了你不少笔墨，并且整个版面也看起来清爽的多。鱼与熊掌不可得兼，就是这个道理。反正多些声明（.h一般只用来放声明，而放不定义，参见拙著“过马路，左右看”）也无害处，又不会影响编译，何乐而不为呢？</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="ckm7t0epy001auo3d38u580g3" data-title="关于怎样写c文件和头文件" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Timer/" data-id="ckm7zkyhb0018o83dgqawfopr" data-title="Timer" class="article-share-link">Share</a>
       
       
       
