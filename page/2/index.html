@@ -112,7 +112,69 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" data-id="ckm8kfehl0008d83d79mk8mvw" data-title="DHT11温湿度传感器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" data-id="ckm8kh9bo000ado3d79ote2et" data-title="DHT11温湿度传感器" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Analog Comparator（待完成）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">Analog Comparator</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Analog-Comparator"><a href="#Analog-Comparator" class="headerlink" title="Analog Comparator"></a>Analog Comparator</h1><h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、触发ADC采样。它的中断产生逻辑是独立于ADC触发逻辑的，所以，AC可以基于一个事件产生一个中断，ADC可以基于另一个事件产生触发。比如说，让上升沿触发一次中断，让下降沿触发一次ADC。</p>
+<p>该芯片提供了两个独立的模拟比较器。</p>
+<p><img src="image-20210130173507102.png" alt="照片"><br><img src="image-20210130173536884.png" alt="image-20210130173536884"><br>原理演示图<br><img src="image-20210130173642377.png" alt="image-20210130173642377"><br>它的头文件是driverlib/comp.h</p>
+<h3 id="二、函数介绍"><a href="#二、函数介绍" class="headerlink" title="二、函数介绍"></a>二、函数介绍</h3><p><img src="image-20210130100105290.png" alt="image-20210130100105290"></p>
+<ol>
+<li><code>ComparatorConfigure()</code> 用来配置一个AC模块触发ADC模块的条件、触发中断的条件、和谁比较、正常输出还是反转输出</li>
+<li><code>ComparatorIntClear()</code> 用于清除比较器中断标志，<em>（ 小贴士，因为在Contex-M处理器中写入有缓冲，所以执行函数之后过几个周期中断源才可能真正被清除，所以我们推荐在中断函数的一开始就清除中断标识）</em></li>
+<li><code>ComparatorIntDisable()</code> 失能一个比较器中断</li>
+<li><code>ComparatorIntEnable()</code> 使能一个比较器中断</li>
+<li><code>ComparatorIntRegister()</code> 注册中断函数</li>
+<li><code>ComparatorIntStatus()</code> 获取当前中断状态</li>
+<li><code>ComparatorIntUnregister()</code> 注销一个中断函数</li>
+<li><code>ComparatorRefSet()</code> 设定内部参考电压</li>
+<li><code>ComparatorValueGet()</code> 获取当前比较器输出值，<strong>true</strong>表示比较器输出是高，<strong>false</strong>表示比较器输出是低</li>
+</ol>
+<ul>
+<li>此外还需要用到一些GPIO函数来实现比较器功能<ol>
+<li><code>GPIOPinTypeComparator()</code> 配置引脚用于模拟比较器输入</li>
+<li><code>GPIOPinTypeComparatorOutput()</code> 配置引脚作为模拟比较器输出</li>
+</ol>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" data-id="ckm8kh9bj0004do3d1lghcus8" data-title="Analog Comparator" class="article-share-link">Share</a>
       
       
       
@@ -181,69 +243,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/Analog%20Comparator/" data-id="ckm8kfehg0004d83d7a1dd8fx" data-title="Analog Comparator" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Analog Comparator（待完成）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" class="article-date">
-  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">Analog Comparator</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Analog-Comparator"><a href="#Analog-Comparator" class="headerlink" title="Analog Comparator"></a>Analog Comparator</h1><h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、触发ADC采样。它的中断产生逻辑是独立于ADC触发逻辑的，所以，AC可以基于一个事件产生一个中断，ADC可以基于另一个事件产生触发。比如说，让上升沿触发一次中断，让下降沿触发一次ADC。</p>
-<p>该芯片提供了两个独立的模拟比较器。</p>
-<p><img src="image-20210130173507102.png" alt="照片"><br><img src="image-20210130173536884.png" alt="image-20210130173536884"><br>原理演示图<br><img src="image-20210130173642377.png" alt="image-20210130173642377"><br>它的头文件是driverlib/comp.h</p>
-<h3 id="二、函数介绍"><a href="#二、函数介绍" class="headerlink" title="二、函数介绍"></a>二、函数介绍</h3><p><img src="image-20210130100105290.png" alt="image-20210130100105290"></p>
-<ol>
-<li><code>ComparatorConfigure()</code> 用来配置一个AC模块触发ADC模块的条件、触发中断的条件、和谁比较、正常输出还是反转输出</li>
-<li><code>ComparatorIntClear()</code> 用于清除比较器中断标志，<em>（ 小贴士，因为在Contex-M处理器中写入有缓冲，所以执行函数之后过几个周期中断源才可能真正被清除，所以我们推荐在中断函数的一开始就清除中断标识）</em></li>
-<li><code>ComparatorIntDisable()</code> 失能一个比较器中断</li>
-<li><code>ComparatorIntEnable()</code> 使能一个比较器中断</li>
-<li><code>ComparatorIntRegister()</code> 注册中断函数</li>
-<li><code>ComparatorIntStatus()</code> 获取当前中断状态</li>
-<li><code>ComparatorIntUnregister()</code> 注销一个中断函数</li>
-<li><code>ComparatorRefSet()</code> 设定内部参考电压</li>
-<li><code>ComparatorValueGet()</code> 获取当前比较器输出值，<strong>true</strong>表示比较器输出是高，<strong>false</strong>表示比较器输出是低</li>
-</ol>
-<ul>
-<li>此外还需要用到一些GPIO函数来实现比较器功能<ol>
-<li><code>GPIOPinTypeComparator()</code> 配置引脚用于模拟比较器输入</li>
-<li><code>GPIOPinTypeComparatorOutput()</code> 配置引脚作为模拟比较器输出</li>
-</ol>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" data-id="ckm8kfehh0005d83d80kf9qdd" data-title="Analog Comparator" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/30/Analog%20Comparator/" data-id="ckm8kh9bk0005do3d7qe86wrr" data-title="Analog Comparator" class="article-share-link">Share</a>
       
       
       
@@ -291,7 +291,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/FPU/" data-id="ckm8kfehr000fd83d2rtz26il" data-title="FPU" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/30/FPU/" data-id="ckm8kh9bs000fdo3dcb5o0jvn" data-title="FPU" class="article-share-link">Share</a>
       
       
       
@@ -344,7 +344,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckm8kfeii001ud83d80wh6czp" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckm8kh9cs001sdo3d68bx9lhu" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -403,7 +403,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckm8kfeh60001d83d34srd4js" data-title="怎样新建一个项目" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckm8kh9bd0001do3d7oxt7wc9" data-title="怎样新建一个项目" class="article-share-link">Share</a>
       
       
       
@@ -452,7 +452,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="ckm8kfehe0003d83d7zj2d6q4" data-title="ADC中断" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="ckm8kh9bh0003do3d5trubfnj" data-title="ADC中断" class="article-share-link">Share</a>
       
       
       
@@ -529,7 +529,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Analog%20to%20Digital%20Converter/" data-id="ckm8kfehp000dd83d5ulzdruk" data-title="ADC简介" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Analog%20to%20Digital%20Converter/" data-id="ckm8kh9bn0008do3dau562tx7" data-title="ADC简介" class="article-share-link">Share</a>
       
       
       
@@ -587,7 +587,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO_PWM/" data-id="ckm8kfehs000hd83dd4c54pfj" data-title="GPIO PWM" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO_PWM/" data-id="ckm8kh9bt000hdo3d8s2m9w58" data-title="GPIO PWM" class="article-share-link">Share</a>
       
       
       
@@ -678,7 +678,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO_interrupt/" data-id="ckm8kfehu000jd83db8f08dap" data-title="GPIO中断" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO_interrupt/" data-id="ckm8kh9bw000jdo3dgk3yf1zt" data-title="GPIO中断" class="article-share-link">Share</a>
       
       
       

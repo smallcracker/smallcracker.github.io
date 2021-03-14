@@ -126,7 +126,247 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="ckm8kfehw000ld83db6p5e9tk" data-title="GPIO输入和输出" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="ckm8kh9by000ldo3d3hw1b7wv" data-title="GPIO输入和输出" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Interrupt Controller(NVIC)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/Interrupt%20Controller(NVIC)/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/Interrupt%20Controller(NVIC)/">中断控制器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Interrupt-Controller-NVIC"><a href="#Interrupt-Controller-NVIC" class="headerlink" title="Interrupt Controller(NVIC)"></a>Interrupt Controller(NVIC)</h1><p>The interrupt controller API provides a set of functions for dealing with the Nested Vectored Interrupt<br>Controller (NVIC). Functions are provided to enable and disable interrupts, register interrupt<br>handlers, and set the priority of interrupts.</p>
+<blockquote>
+<p>中断控制器API提供了一系列与内置向量式中断控制器有关的函数，这些函数能使能/使不能中断，注册中断，设置中断优先级等</p>
+</blockquote>
+<p>The NVIC provides global interrupt masking, prioritization, and handler dispatching. Devices within<br>the Tiva family support up to 154 interrupt sources and eight priority levels. Individual interrupt<br>sources can be masked, and the processor interrupt can be globally masked as well (without affecting<br>the individual source masks).</p>
+<blockquote>
+<p>NVIC提供了全局中断屏蔽，优先级和处理器调度功能，在Tiva系列设备里至多支持154个中断和8个中断级，单个中断源可以被屏蔽，处理器屏蔽也可以被全局屏蔽（不影响单个中断源的屏蔽哦）</p>
+</blockquote>
+<p>The NVIC is tightly coupled with the Cortex-M microprocessor. When the processor responds to<br>an interrupt, the NVIC supplies the address of the function to handle the interrupt directly to the<br>processor. This action eliminates the need for a global interrupt handler that queries the interrupt<br>controller to determine the cause of the interrupt and branch to the appropriate handler, reducing<br>interrupt response time.</p>
+<blockquote>
+<p>NVIC紧密搭配着cortex_M微处理器。当处理器对中断作出反应时，NVIC直接把处理中断的函数的地址提供给处理器，此操作无需使用全局中断处理程序来查询中断控制器以确定中断的原因，并分支到相应的处理程序，从而减少中断响应时间。  </p>
+</blockquote>
+<p>The interrupt prioritization in the NVIC allows higher priority interrupts to be handled before lower<br>priority interrupts, as well as allowing preemption of lower priority interrupt handlers by higher priority<br>interrupts. Again, this helps reduce interrupt response time (for example, a 1 ms system control<br>interrupt is not held off by the execution of a lower priority 1 second housekeeping interrupt handler).</p>
+<blockquote>
+<p>中断处理优先级使得高优先级的中断在低优先级中断之前处理，并允许高优先级中断抢占低优先级中断。这还能减少中断响应时间，比如1ms的系统控制中断不会被更低优先级的1ms中断所延迟。</p>
+</blockquote>
+<p>Sub-prioritization is also possible; instead of having N bits of preemptable prioritization, the NVIC<br>can be configured (via software) for N - M bits of preemptable prioritization and M bits of sub-priority.<br>In this scheme, two interrupts with the same preemptable prioritization but different sub-priorities<br>do not cause a preemption; tail chaining is used instead to process the two interrupts back-to-back.</p>
+<blockquote>
+<p>还可以设置子优先级，如果不设置N位可抢占优先级的话，可以通过软件设置N-M个可抢占优先级和M个子优先级，在这种方案下，两个仅仅子优先级不同的可抢占中断不会导致抢占，单片机会使用尾链来来回处理两个中断</p>
+</blockquote>
+<p>If two interrupts with the same priority (and sub-priority if so configured) are asserted at the same<br>time, the one with the lower interrupt number is processed first. The NVIC keeps track of the nesting<br>of interrupt handlers, allowing the processor to return from interrupt context only once all nested<br>and pending interrupts have been handled.</p>
+<blockquote>
+<p>如果两个中断有相同的优先级（和子优先级）还被同时触发了，中断数更低的有限执行，NVIC会跟踪中断处理程序的嵌套，要求处理器在处理完所有被嵌套和挂起的中断后再返回</p>
+</blockquote>
+<p>Interrupt handlers can be configured in one of two ways; statically at compile time or dynamically at<br>run time. Static configuration of interrupt handlers is accomplished by editing the interrupt handler<br>table in the application’s startup code. When statically configured, the interrupts must be explicitly<br>enabled in the NVIC via IntEnable() before the processor can respond to the interrupt (in addition to<br>any interrupt enabling required within the peripheral itself). Statically configuring the interrupt table<br>provides the fastest interrupt response time because the stacking operation (a write to SRAM) can<br>be performed in parallel with the interrupt handler table fetch (a read from Flash), as well as the<br>prefetch of the interrupt handler itself (assuming it is also in Flash).</p>
+<blockquote>
+<p>中断处理程序可以用两种方式中的一种来设置，编译时设置或者运行时动态设置。静态配置使用的是IntEnable（）函数完成的，运行的时候静态配置的中断处理程序更快一点。</p>
+</blockquote>
+<p>Alternatively, interrupts can be configured at run-time using IntRegister() (or the analog in each<br>individual driver). When using IntRegister(), the interrupt must also be enabled as before; when<br>using the analogue in each individual driver, IntEnable() is called by the driver and does not need<br>to be called by the application. Run-time configuration of interrupts adds a small latency to the<br>interrupt response time because the stacking operation (a write to SRAM) and the interrupt handler<br>table fetch (a read from SRAM) must be performed sequentially.</p>
+<blockquote>
+<p>在运行时设置的话，需要用到IntRegister()函数，会有延迟。</p>
+</blockquote>
+<p>Run-time configuration of interrupt handlers requires that the interrupt handler table be placed on a<br>1-kB boundary in SRAM (typically this is at the beginning of SRAM). Failure to do so results in an<br>incorrect vector address being fetched in response to an interrupt. The vector table is in a section<br>called “vtable” and must be placed appropriately with a linker script.</p>
+<blockquote>
+<p>中断处理程序的配置需要将中断处理表放在SARM1kb的边缘上。。。。。</p>
+</blockquote>
+<p>This driver is contained in driverlib/interrupt.c, with driverlib/interrupt.h containing<br>the API declarations for use by applications.</p>
+<p>他的函数非常少</p>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212164149113.png" alt="image-20201212164149113"></p>
+<p>前两个是使能/使不能一个中断</p>
+<p>第三个 确认一个中断是否在运行，如果一个中断在运行的话，会返回一个非零数</p>
+<p>第四个 第五个 使能/使不能处理器中断</p>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212164210385.png" alt="image-20201212164210385"></p>
+<p>第一个 第二个 挂起/放下一个中断</p>
+<p>第三个 获取一个中断的优先级</p>
+<p>第四个 获取中断控制器的优先级分组 就是返回可抢占优先级的位数</p>
+<p>第五个 设置可抢占优先级的位数</p>
+<p>第六个 获取优先级屏蔽 </p>
+<blockquote>
+<p>This function gets the current setting of the interrupt priority masking level. The value returned is the priority level such that all interrupts of that and lesser priority are masked. A value of 0 means that priority masking is disabled.<br>Smaller numbers correspond to higher interrupt priorities. So for example a priority level mask of 4 allows interrupts of priority level 0-3, and interrupts with a numerical priority of 4 and greater are blocked.<br>The hardware priority mechanism only looks at the upper 3 bits of the priority level, so any prioritization must be performed in those bits.</p>
+</blockquote>
+<p>第七个 设置优先级屏蔽</p>
+<p>第八个 设置中断优先级</p>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212165114559.png" alt="image-20201212165114559"></p>
+<p>第一个 注册一个函数，中断发生是就调用它</p>
+<blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// UART 0 interrupt handler.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">UART0Handler(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Handle interrupt.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the UART 0 interrupt handler.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">IntRegister(INT_UART0, UART0Handler);</span><br></pre></td></tr></table></figure>
+<p>第二个 触发一个中断 （直接触发）</p>
+</blockquote>
+<p>第三个 解注册一个中断</p>
+<p>所以怎样使用中断呢？</p>
+<p>直接去对应外设那里去查询中断怎样使用，然后回来使能中断即可，有需要就设置优先级啊，子优先级啊，屏蔽啊等等。</p>
+<p>有需要还可以直接触发一个中断的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/Interrupt%20Controller(NVIC)/" data-id="ckm8kh9c1000pdo3d0e9zbuza" data-title="中断控制器" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Pulse Width Modulator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/Pulse%20Width%20Modulator/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/Pulse%20Width%20Modulator/">PWM</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="PWM"><a href="#PWM" class="headerlink" title="PWM"></a>PWM</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has two PWM output signals, which can be operated independently or as a pair of signals with dead band delays inserted. Each generator block also has an interrupt output and a trigger output. The control block determines the polarity of the PWM signals and which signals are passed through to the pins.</p>
+<blockquote>
+<p>每个PWM提供了最多4个PWM发生器和一个输出控制模块，每一个发生器能产生两个PWM输出信号，可以独立操作，也可以作为一对插入了死区延迟的信号运行。每一个生成器块还有一个中断输出和一个触发输出，控制块确定PWM信号的极性以及哪些信号传递到引脚。</p>
+</blockquote>
+<p>Some of the features of the Tiva PWM module are:<br>Up to four generator blocks, each containing<br>• One 16-bit down or up/down counter<br>• Two comparators<br>• PWM generator<br>• Dead band generator</p>
+<blockquote>
+<p>至多4个产生模块，每一个产生模块包括</p>
+<blockquote>
+<p>一个十六位的向上/向下计数器</p>
+<p>两个比较器</p>
+<p>PWM产生器</p>
+<p>死区产生器</p>
+</blockquote>
+</blockquote>
+<p>Control block<br>• PWM output enable<br>• Output polarity control<br>• Synchronization<br>• Fault handling<br>• Interrupt status</p>
+<blockquote>
+<p>控制模块有</p>
+<blockquote>
+<p>PWM输出使能</p>
+<p>输出极性控制</p>
+<p>错误处理</p>
+<p>中断状态</p>
+</blockquote>
+</blockquote>
+<p>This driver is contained in driverlib/pwm.c, with driverlib/pwm.h containing the API declarations for use by applications.</p>
+<h2 id="细节描述"><a href="#细节描述" class="headerlink" title="细节描述"></a>细节描述</h2><p>These functions perform high-level operations on PWM modules.</p>
+<blockquote>
+<p>这些模块表现了高水平的对PWM的操作</p>
+</blockquote>
+<p>The following functions provide the user with a way to configure the PWM for the most common operations, such as setting the period, generating left- and center-aligned pulses, modifying the pulse width, and controlling interrupts, triggers, and output characteristics. However, the PWM module is very versatile and can be configured in a number of different ways, many of which are beyond the scope of this API. In order to fully exploit the many features of the PWM module, users are advised to use register access macros.</p>
+<blockquote>
+<p>接下来的函数为用户提供了一种配置PWM做最普通操作的方式，这些操作有设定周期，产生左对齐/中心对齐的脉冲，调节脉冲宽度，控制中断/触发/输出特征等功能。然而，PWM模块非常的强大，可以用很多种方式设置，许多用的都不是这些API。为了能充分利用PWM模块的诸多功能，我们推荐用户使用寄存器。</p>
+</blockquote>
+<p>When discussing the various components of a PWM module, this API uses the following labeling convention:</p>
+<p>The generator blocks are called Gen0, Gen1, Gen2 and Gen3.</p>
+<blockquote>
+<p>产生器模块被称为Gen0, Gen1, Gen2 and Gen3.</p>
+</blockquote>
+<p>The two PWM output signals associated with each generator block are called OutA and OutB.</p>
+<blockquote>
+<p>与产生器模块相关的两个PWM输出信号被称为OutA和OutB</p>
+</blockquote>
+<p>The output signals are called PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 and PWM7.</p>
+<blockquote>
+<p>输出信号被称为PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 and PWM7.</p>
+</blockquote>
+<p>PWM0 and PWM1 are associated with Gen0, PWM2 and PWM3 are associated with Gen1, PWM4 and PWM5 are associated with Gen2 and PWM6 and PWM7 are associated with Gen3.</p>
+<blockquote>
+<p>PWM0和PWM1与Gen0相关联，PWM2和PWM3与Gen1相关联，PWM4和PWM5与Gen2相关联，PWM6和PWM7与Gen3相关联。</p>
+</blockquote>
+<p>Also, as a simplifying assumption for this API, comparator A for each generator block is used exclusively to adjust the pulse width of the even numbered PWM outputs (PWM0, PWM2, PWM4 and PWM6). In addition, comparator B is used exclusively for the odd numbered PWM outputs (PWM1, PWM3, PWM5 and PWM7).<br>Note that the number of generators and PWM outputs supported varies depending upon the Tiva part in use. Please consult the datasheet for the part you are using to determine whether it supports 1 or 2 modules with 3 or 4 generators each and 6 or 8 outputs each. </p>
+<blockquote>
+<p>另外，作为对此API的简化假设，每个生成器模块的比较器仅用于调整偶数个PWM输出的脉冲高度，比较器A仅用于计数PWM输出</p>
+<p>请注意，支持的生成器和 PWM 输出的数量因使用的 Tiva 部件而异。请参阅您使用的部件的数据表，以确定它是否支持 1 个或 2 个模块，每个模块有 3 个或 4 个生成器，每个模块有 6 个或 8 个输出。</p>
+</blockquote>
+<p><strong>我们这款单片机包括两个PWM模块，总共有16个输出</strong></p>
+<p>这次我们直接看例程</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the PWM0 peripheral</span></span><br><span class="line"><span class="comment">// 使能PWM外设</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Wait for the PWM0 module to be ready.</span></span><br><span class="line"><span class="comment">// 等待PWM模块准备好</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_PWM0))</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Configure the PWM generator for count down mode with immediate updates</span></span><br><span class="line"><span class="comment">// to the parameters.</span></span><br><span class="line"><span class="comment">// 配置PWM产生器，并设置器为向下计数模式，和非同步模式</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenConfigure(PWM_BASE, PWM_GEN_0,PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the period. For a 50 KHz frequency, the period = 1/50,000, or 20</span></span><br><span class="line"><span class="comment">// microseconds. For a 20 MHz clock, this translates to 400 clock ticks.</span></span><br><span class="line"><span class="comment">// Use this value to set the period.</span></span><br><span class="line"><span class="comment">// 设置周期。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenPeriodSet(PWM_BASE, PWM_GEN_0, <span class="number">400</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the pulse width of PWM0 for a 25% duty cycle.</span></span><br><span class="line"><span class="comment">// 脉冲宽度设置</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMPulseWidthSet(PWM_BASE, PWM_OUT_0, <span class="number">100</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the pulse width of PWM1 for a 75% duty cycle.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMPulseWidthSet(PWM_BASE, PWM_OUT_1, <span class="number">300</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Start the timers in generator 0.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenEnable(PWM_BASE, PWM_GEN_0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the outputs.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMOutputState(PWM_BASE, (PWM_OUT_0_BIT | PWM_OUT_1_BIT), <span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="关注如下函数"><a href="#关注如下函数" class="headerlink" title="关注如下函数"></a>关注如下函数</h2><h4 id="PWMGenConfigure"><a href="#PWMGenConfigure" class="headerlink" title="PWMGenConfigure"></a>PWMGenConfigure</h4><p>用于配置PWM</p>
+<p>This function is used to set the mode of operation for a PWM generator. The counting mode, synchronization mode, and debug behavior are all configured. After configuration, the generator is left in the disabled state.</p>
+<blockquote>
+<p>这个函数用于设置PWM产生器的操作模式。计数模式，同步模式，调试模式都在这里设置。设置之后，产生器处于关闭状态。</p>
+</blockquote>
+<p>A PWM generator can count in two different modes: count down mode or count up/down mode. In count down mode, it counts from a value down to zero, and then resets to the preset value, producing left-aligned PWM signals (that is, the rising edge of the two PWM signals produced by the generator occur at the same time). In count up/down mode, it counts up from zero to the preset value, counts back down to zero, and then repeats the process, producing centeraligned PWM signals (that is, the middle of the high/low period of the PWM signals produced by the generator occurs at the same time).</p>
+<blockquote>
+<p>PWM产生器可以用两种计数模式计数，向下计数模式和向上/向下计数模式。</p>
+<p>在向下计数模式中，它从一个值向下数到零，然后恢复到预设值，产生一个左对齐的PWM信号（也就是说，两个产生器产生的信号的升边同时出现）在向上向下计数模式中，它从零数到预设值，再数回到零，反复这个过程，产生的是中心对齐的PWM信号（也就是说，产生器产生的PWM信号的周期的中间时刻是同时发生的）<strong>每个生成器不是能产生两个PWM信号嘛</strong></p>
+</blockquote>
+<p>When the PWM generator parameters (period and pulse width) are modified, their effect on the output PWM signals can be delayed. In synchronous mode, the parameter updates are not applied until a synchronization event occurs. This mode allows multiple parameters to be modified and take effect simultaneously, instead of one at a time. Additionally, parameters to multiple PWM generators in synchronous mode can be updated simultaneously, allowing them to be treated as if they were a unified generator. In non-synchronous mode, the parameter updates are not delayed until a synchronization event. In either mode, the parameter updates only occur when the counter is at zero to help prevent oddly formed PWM signals during the update (that is, a PWM pulse that is too short or too long).</p>
+<blockquote>
+<p>当PWM脉冲产生器的参数（周期和脉冲宽度）被修改时，它们对PWM信号的影响可能会延迟。</p>
+<p>在同步模式下，直到发生同步时间时应用参数才被更新。此模式允许多个参数同时修改并生效，而不是一次一个参数。此外，同步模式下多个 PWM 生成器的参数可以同时更新，从而可以将它们视为统一生成器。</p>
+<p>在非同步模式下，参数 更新不会延迟到同步事件，在任意模式下，参数更新仅在计数器为零时在会发生，用以防止更新期间产生奇怪的PWM信号。</p>
+</blockquote>
+<p>The PWM generator can either pause or continue running when the processor is stopped via the debugger. If configured to pause, it continues to count until it reaches zero, at which point it pauses until the processor is restarted. If configured to continue running, it keeps counting as if nothing had happened.</p>
+<blockquote>
+<p>当调试器使处理器停止时，PWM产生器可以停止/继续运行如果配置为暂停，则它将继续计数，直到达到零，此时它会暂停，直到重新启动处理器。如果配置为继续运行，则继续计数，就像什么都没发生一样。</p>
+</blockquote>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212211525865.png" alt="image-20201212211525865"></p>
+<p>这是这个函数的参数，第一部分是PWM模块的基址，第二部分是PWM产生器，究竟是GEN几，最后是配置参数。</p>
+<p>那么有哪些参数呢？</p>
+<p>PWM_GEN_MODE_DOWN or PWM_GEN_MODE_UP_DOWN to specify the counting<br>mode</p>
+<p><strong>计数模式，就是向上模式还是向上向下模式</strong></p>
+<p>PWM_GEN_MODE_SYNC or PWM_GEN_MODE_NO_SYNC to specify the counter load<br>and comparator update synchronization mode</p>
+<p><strong>不晓得</strong></p>
+<p>PWM_GEN_MODE_DBG_RUN or PWM_GEN_MODE_DBG_STOP to specify the debug<br>behavior</p>
+<p><strong>配置了debug的行为</strong></p>
+<p>PWM_GEN_MODE_GEN_NO_SYNC, PWM_GEN_MODE_GEN_SYNC_LOCAL, or<br>PWM_GEN_MODE_GEN_SYNC_GLOBAL to specify the update synchronization mode<br>for generator counting mode changes</p>
+<p><strong>不晓得</strong></p>
+<p>PWM_GEN_MODE_DB_NO_SYNC, PWM_GEN_MODE_DB_SYNC_LOCAL, or<br>PWM_GEN_MODE_DB_SYNC_GLOBAL to specify the deadband parameter synchronization<br>mode</p>
+<p><strong>指定死区参数同步模式</strong></p>
+<p>PWM_GEN_MODE_FAULT_LATCHED or PWM_GEN_MODE_FAULT_UNLATCHED to<br>specify whether fault conditions are latched or not</p>
+<p><strong>指定是否锁定故障条件</strong></p>
+<p>PWM_GEN_MODE_FAULT_MINPER or PWM_GEN_MODE_FAULT_NO_MINPER to<br>specify whether minimum fault period support is required</p>
+<p><strong>确定是否需要最小错误周期支持</strong></p>
+<p>PWM_GEN_MODE_FAULT_EXT or PWM_GEN_MODE_FAULT_LEGACY to specify<br>whether extended fault source selection support is enabled or not</p>
+<p><strong>指定是否启用扩展故障源选择支持</strong></p>
+<!--死区就是中性区或者是不作用区-->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="ckm8kh9c3000rdo3dfp1s2zl8" data-title="PWM" class="article-share-link">Share</a>
       
       
       
@@ -409,251 +649,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="ckm8kfehx000nd83dc0ar6yck" data-title="midi" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="ckm8kh9c4000tdo3d236tcfzx" data-title="midi" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/midi/" rel="tag">midi</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Interrupt Controller(NVIC)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/Interrupt%20Controller(NVIC)/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/Interrupt%20Controller(NVIC)/">中断控制器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Interrupt-Controller-NVIC"><a href="#Interrupt-Controller-NVIC" class="headerlink" title="Interrupt Controller(NVIC)"></a>Interrupt Controller(NVIC)</h1><p>The interrupt controller API provides a set of functions for dealing with the Nested Vectored Interrupt<br>Controller (NVIC). Functions are provided to enable and disable interrupts, register interrupt<br>handlers, and set the priority of interrupts.</p>
-<blockquote>
-<p>中断控制器API提供了一系列与内置向量式中断控制器有关的函数，这些函数能使能/使不能中断，注册中断，设置中断优先级等</p>
-</blockquote>
-<p>The NVIC provides global interrupt masking, prioritization, and handler dispatching. Devices within<br>the Tiva family support up to 154 interrupt sources and eight priority levels. Individual interrupt<br>sources can be masked, and the processor interrupt can be globally masked as well (without affecting<br>the individual source masks).</p>
-<blockquote>
-<p>NVIC提供了全局中断屏蔽，优先级和处理器调度功能，在Tiva系列设备里至多支持154个中断和8个中断级，单个中断源可以被屏蔽，处理器屏蔽也可以被全局屏蔽（不影响单个中断源的屏蔽哦）</p>
-</blockquote>
-<p>The NVIC is tightly coupled with the Cortex-M microprocessor. When the processor responds to<br>an interrupt, the NVIC supplies the address of the function to handle the interrupt directly to the<br>processor. This action eliminates the need for a global interrupt handler that queries the interrupt<br>controller to determine the cause of the interrupt and branch to the appropriate handler, reducing<br>interrupt response time.</p>
-<blockquote>
-<p>NVIC紧密搭配着cortex_M微处理器。当处理器对中断作出反应时，NVIC直接把处理中断的函数的地址提供给处理器，此操作无需使用全局中断处理程序来查询中断控制器以确定中断的原因，并分支到相应的处理程序，从而减少中断响应时间。  </p>
-</blockquote>
-<p>The interrupt prioritization in the NVIC allows higher priority interrupts to be handled before lower<br>priority interrupts, as well as allowing preemption of lower priority interrupt handlers by higher priority<br>interrupts. Again, this helps reduce interrupt response time (for example, a 1 ms system control<br>interrupt is not held off by the execution of a lower priority 1 second housekeeping interrupt handler).</p>
-<blockquote>
-<p>中断处理优先级使得高优先级的中断在低优先级中断之前处理，并允许高优先级中断抢占低优先级中断。这还能减少中断响应时间，比如1ms的系统控制中断不会被更低优先级的1ms中断所延迟。</p>
-</blockquote>
-<p>Sub-prioritization is also possible; instead of having N bits of preemptable prioritization, the NVIC<br>can be configured (via software) for N - M bits of preemptable prioritization and M bits of sub-priority.<br>In this scheme, two interrupts with the same preemptable prioritization but different sub-priorities<br>do not cause a preemption; tail chaining is used instead to process the two interrupts back-to-back.</p>
-<blockquote>
-<p>还可以设置子优先级，如果不设置N位可抢占优先级的话，可以通过软件设置N-M个可抢占优先级和M个子优先级，在这种方案下，两个仅仅子优先级不同的可抢占中断不会导致抢占，单片机会使用尾链来来回处理两个中断</p>
-</blockquote>
-<p>If two interrupts with the same priority (and sub-priority if so configured) are asserted at the same<br>time, the one with the lower interrupt number is processed first. The NVIC keeps track of the nesting<br>of interrupt handlers, allowing the processor to return from interrupt context only once all nested<br>and pending interrupts have been handled.</p>
-<blockquote>
-<p>如果两个中断有相同的优先级（和子优先级）还被同时触发了，中断数更低的有限执行，NVIC会跟踪中断处理程序的嵌套，要求处理器在处理完所有被嵌套和挂起的中断后再返回</p>
-</blockquote>
-<p>Interrupt handlers can be configured in one of two ways; statically at compile time or dynamically at<br>run time. Static configuration of interrupt handlers is accomplished by editing the interrupt handler<br>table in the application’s startup code. When statically configured, the interrupts must be explicitly<br>enabled in the NVIC via IntEnable() before the processor can respond to the interrupt (in addition to<br>any interrupt enabling required within the peripheral itself). Statically configuring the interrupt table<br>provides the fastest interrupt response time because the stacking operation (a write to SRAM) can<br>be performed in parallel with the interrupt handler table fetch (a read from Flash), as well as the<br>prefetch of the interrupt handler itself (assuming it is also in Flash).</p>
-<blockquote>
-<p>中断处理程序可以用两种方式中的一种来设置，编译时设置或者运行时动态设置。静态配置使用的是IntEnable（）函数完成的，运行的时候静态配置的中断处理程序更快一点。</p>
-</blockquote>
-<p>Alternatively, interrupts can be configured at run-time using IntRegister() (or the analog in each<br>individual driver). When using IntRegister(), the interrupt must also be enabled as before; when<br>using the analogue in each individual driver, IntEnable() is called by the driver and does not need<br>to be called by the application. Run-time configuration of interrupts adds a small latency to the<br>interrupt response time because the stacking operation (a write to SRAM) and the interrupt handler<br>table fetch (a read from SRAM) must be performed sequentially.</p>
-<blockquote>
-<p>在运行时设置的话，需要用到IntRegister()函数，会有延迟。</p>
-</blockquote>
-<p>Run-time configuration of interrupt handlers requires that the interrupt handler table be placed on a<br>1-kB boundary in SRAM (typically this is at the beginning of SRAM). Failure to do so results in an<br>incorrect vector address being fetched in response to an interrupt. The vector table is in a section<br>called “vtable” and must be placed appropriately with a linker script.</p>
-<blockquote>
-<p>中断处理程序的配置需要将中断处理表放在SARM1kb的边缘上。。。。。</p>
-</blockquote>
-<p>This driver is contained in driverlib/interrupt.c, with driverlib/interrupt.h containing<br>the API declarations for use by applications.</p>
-<p>他的函数非常少</p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212164149113.png" alt="image-20201212164149113"></p>
-<p>前两个是使能/使不能一个中断</p>
-<p>第三个 确认一个中断是否在运行，如果一个中断在运行的话，会返回一个非零数</p>
-<p>第四个 第五个 使能/使不能处理器中断</p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212164210385.png" alt="image-20201212164210385"></p>
-<p>第一个 第二个 挂起/放下一个中断</p>
-<p>第三个 获取一个中断的优先级</p>
-<p>第四个 获取中断控制器的优先级分组 就是返回可抢占优先级的位数</p>
-<p>第五个 设置可抢占优先级的位数</p>
-<p>第六个 获取优先级屏蔽 </p>
-<blockquote>
-<p>This function gets the current setting of the interrupt priority masking level. The value returned is the priority level such that all interrupts of that and lesser priority are masked. A value of 0 means that priority masking is disabled.<br>Smaller numbers correspond to higher interrupt priorities. So for example a priority level mask of 4 allows interrupts of priority level 0-3, and interrupts with a numerical priority of 4 and greater are blocked.<br>The hardware priority mechanism only looks at the upper 3 bits of the priority level, so any prioritization must be performed in those bits.</p>
-</blockquote>
-<p>第七个 设置优先级屏蔽</p>
-<p>第八个 设置中断优先级</p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212165114559.png" alt="image-20201212165114559"></p>
-<p>第一个 注册一个函数，中断发生是就调用它</p>
-<blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// UART 0 interrupt handler.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">UART0Handler(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Handle interrupt.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the UART 0 interrupt handler.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">IntRegister(INT_UART0, UART0Handler);</span><br></pre></td></tr></table></figure>
-<p>第二个 触发一个中断 （直接触发）</p>
-</blockquote>
-<p>第三个 解注册一个中断</p>
-<p>所以怎样使用中断呢？</p>
-<p>直接去对应外设那里去查询中断怎样使用，然后回来使能中断即可，有需要就设置优先级啊，子优先级啊，屏蔽啊等等。</p>
-<p>有需要还可以直接触发一个中断的。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Interrupt%20Controller(NVIC)/" data-id="ckm8kfehy000pd83ddx6u7rrx" data-title="中断控制器" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Pulse Width Modulator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/Pulse%20Width%20Modulator/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/Pulse%20Width%20Modulator/">PWM</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="PWM"><a href="#PWM" class="headerlink" title="PWM"></a>PWM</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has two PWM output signals, which can be operated independently or as a pair of signals with dead band delays inserted. Each generator block also has an interrupt output and a trigger output. The control block determines the polarity of the PWM signals and which signals are passed through to the pins.</p>
-<blockquote>
-<p>每个PWM提供了最多4个PWM发生器和一个输出控制模块，每一个发生器能产生两个PWM输出信号，可以独立操作，也可以作为一对插入了死区延迟的信号运行。每一个生成器块还有一个中断输出和一个触发输出，控制块确定PWM信号的极性以及哪些信号传递到引脚。</p>
-</blockquote>
-<p>Some of the features of the Tiva PWM module are:<br>Up to four generator blocks, each containing<br>• One 16-bit down or up/down counter<br>• Two comparators<br>• PWM generator<br>• Dead band generator</p>
-<blockquote>
-<p>至多4个产生模块，每一个产生模块包括</p>
-<blockquote>
-<p>一个十六位的向上/向下计数器</p>
-<p>两个比较器</p>
-<p>PWM产生器</p>
-<p>死区产生器</p>
-</blockquote>
-</blockquote>
-<p>Control block<br>• PWM output enable<br>• Output polarity control<br>• Synchronization<br>• Fault handling<br>• Interrupt status</p>
-<blockquote>
-<p>控制模块有</p>
-<blockquote>
-<p>PWM输出使能</p>
-<p>输出极性控制</p>
-<p>错误处理</p>
-<p>中断状态</p>
-</blockquote>
-</blockquote>
-<p>This driver is contained in driverlib/pwm.c, with driverlib/pwm.h containing the API declarations for use by applications.</p>
-<h2 id="细节描述"><a href="#细节描述" class="headerlink" title="细节描述"></a>细节描述</h2><p>These functions perform high-level operations on PWM modules.</p>
-<blockquote>
-<p>这些模块表现了高水平的对PWM的操作</p>
-</blockquote>
-<p>The following functions provide the user with a way to configure the PWM for the most common operations, such as setting the period, generating left- and center-aligned pulses, modifying the pulse width, and controlling interrupts, triggers, and output characteristics. However, the PWM module is very versatile and can be configured in a number of different ways, many of which are beyond the scope of this API. In order to fully exploit the many features of the PWM module, users are advised to use register access macros.</p>
-<blockquote>
-<p>接下来的函数为用户提供了一种配置PWM做最普通操作的方式，这些操作有设定周期，产生左对齐/中心对齐的脉冲，调节脉冲宽度，控制中断/触发/输出特征等功能。然而，PWM模块非常的强大，可以用很多种方式设置，许多用的都不是这些API。为了能充分利用PWM模块的诸多功能，我们推荐用户使用寄存器。</p>
-</blockquote>
-<p>When discussing the various components of a PWM module, this API uses the following labeling convention:</p>
-<p>The generator blocks are called Gen0, Gen1, Gen2 and Gen3.</p>
-<blockquote>
-<p>产生器模块被称为Gen0, Gen1, Gen2 and Gen3.</p>
-</blockquote>
-<p>The two PWM output signals associated with each generator block are called OutA and OutB.</p>
-<blockquote>
-<p>与产生器模块相关的两个PWM输出信号被称为OutA和OutB</p>
-</blockquote>
-<p>The output signals are called PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 and PWM7.</p>
-<blockquote>
-<p>输出信号被称为PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 and PWM7.</p>
-</blockquote>
-<p>PWM0 and PWM1 are associated with Gen0, PWM2 and PWM3 are associated with Gen1, PWM4 and PWM5 are associated with Gen2 and PWM6 and PWM7 are associated with Gen3.</p>
-<blockquote>
-<p>PWM0和PWM1与Gen0相关联，PWM2和PWM3与Gen1相关联，PWM4和PWM5与Gen2相关联，PWM6和PWM7与Gen3相关联。</p>
-</blockquote>
-<p>Also, as a simplifying assumption for this API, comparator A for each generator block is used exclusively to adjust the pulse width of the even numbered PWM outputs (PWM0, PWM2, PWM4 and PWM6). In addition, comparator B is used exclusively for the odd numbered PWM outputs (PWM1, PWM3, PWM5 and PWM7).<br>Note that the number of generators and PWM outputs supported varies depending upon the Tiva part in use. Please consult the datasheet for the part you are using to determine whether it supports 1 or 2 modules with 3 or 4 generators each and 6 or 8 outputs each. </p>
-<blockquote>
-<p>另外，作为对此API的简化假设，每个生成器模块的比较器仅用于调整偶数个PWM输出的脉冲高度，比较器A仅用于计数PWM输出</p>
-<p>请注意，支持的生成器和 PWM 输出的数量因使用的 Tiva 部件而异。请参阅您使用的部件的数据表，以确定它是否支持 1 个或 2 个模块，每个模块有 3 个或 4 个生成器，每个模块有 6 个或 8 个输出。</p>
-</blockquote>
-<p><strong>我们这款单片机包括两个PWM模块，总共有16个输出</strong></p>
-<p>这次我们直接看例程</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the PWM0 peripheral</span></span><br><span class="line"><span class="comment">// 使能PWM外设</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Wait for the PWM0 module to be ready.</span></span><br><span class="line"><span class="comment">// 等待PWM模块准备好</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_PWM0))</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Configure the PWM generator for count down mode with immediate updates</span></span><br><span class="line"><span class="comment">// to the parameters.</span></span><br><span class="line"><span class="comment">// 配置PWM产生器，并设置器为向下计数模式，和非同步模式</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenConfigure(PWM_BASE, PWM_GEN_0,PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the period. For a 50 KHz frequency, the period = 1/50,000, or 20</span></span><br><span class="line"><span class="comment">// microseconds. For a 20 MHz clock, this translates to 400 clock ticks.</span></span><br><span class="line"><span class="comment">// Use this value to set the period.</span></span><br><span class="line"><span class="comment">// 设置周期。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenPeriodSet(PWM_BASE, PWM_GEN_0, <span class="number">400</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the pulse width of PWM0 for a 25% duty cycle.</span></span><br><span class="line"><span class="comment">// 脉冲宽度设置</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMPulseWidthSet(PWM_BASE, PWM_OUT_0, <span class="number">100</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the pulse width of PWM1 for a 75% duty cycle.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMPulseWidthSet(PWM_BASE, PWM_OUT_1, <span class="number">300</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Start the timers in generator 0.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenEnable(PWM_BASE, PWM_GEN_0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the outputs.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMOutputState(PWM_BASE, (PWM_OUT_0_BIT | PWM_OUT_1_BIT), <span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
-<h2 id="关注如下函数"><a href="#关注如下函数" class="headerlink" title="关注如下函数"></a>关注如下函数</h2><h4 id="PWMGenConfigure"><a href="#PWMGenConfigure" class="headerlink" title="PWMGenConfigure"></a>PWMGenConfigure</h4><p>用于配置PWM</p>
-<p>This function is used to set the mode of operation for a PWM generator. The counting mode, synchronization mode, and debug behavior are all configured. After configuration, the generator is left in the disabled state.</p>
-<blockquote>
-<p>这个函数用于设置PWM产生器的操作模式。计数模式，同步模式，调试模式都在这里设置。设置之后，产生器处于关闭状态。</p>
-</blockquote>
-<p>A PWM generator can count in two different modes: count down mode or count up/down mode. In count down mode, it counts from a value down to zero, and then resets to the preset value, producing left-aligned PWM signals (that is, the rising edge of the two PWM signals produced by the generator occur at the same time). In count up/down mode, it counts up from zero to the preset value, counts back down to zero, and then repeats the process, producing centeraligned PWM signals (that is, the middle of the high/low period of the PWM signals produced by the generator occurs at the same time).</p>
-<blockquote>
-<p>PWM产生器可以用两种计数模式计数，向下计数模式和向上/向下计数模式。</p>
-<p>在向下计数模式中，它从一个值向下数到零，然后恢复到预设值，产生一个左对齐的PWM信号（也就是说，两个产生器产生的信号的升边同时出现）在向上向下计数模式中，它从零数到预设值，再数回到零，反复这个过程，产生的是中心对齐的PWM信号（也就是说，产生器产生的PWM信号的周期的中间时刻是同时发生的）<strong>每个生成器不是能产生两个PWM信号嘛</strong></p>
-</blockquote>
-<p>When the PWM generator parameters (period and pulse width) are modified, their effect on the output PWM signals can be delayed. In synchronous mode, the parameter updates are not applied until a synchronization event occurs. This mode allows multiple parameters to be modified and take effect simultaneously, instead of one at a time. Additionally, parameters to multiple PWM generators in synchronous mode can be updated simultaneously, allowing them to be treated as if they were a unified generator. In non-synchronous mode, the parameter updates are not delayed until a synchronization event. In either mode, the parameter updates only occur when the counter is at zero to help prevent oddly formed PWM signals during the update (that is, a PWM pulse that is too short or too long).</p>
-<blockquote>
-<p>当PWM脉冲产生器的参数（周期和脉冲宽度）被修改时，它们对PWM信号的影响可能会延迟。</p>
-<p>在同步模式下，直到发生同步时间时应用参数才被更新。此模式允许多个参数同时修改并生效，而不是一次一个参数。此外，同步模式下多个 PWM 生成器的参数可以同时更新，从而可以将它们视为统一生成器。</p>
-<p>在非同步模式下，参数 更新不会延迟到同步事件，在任意模式下，参数更新仅在计数器为零时在会发生，用以防止更新期间产生奇怪的PWM信号。</p>
-</blockquote>
-<p>The PWM generator can either pause or continue running when the processor is stopped via the debugger. If configured to pause, it continues to count until it reaches zero, at which point it pauses until the processor is restarted. If configured to continue running, it keeps counting as if nothing had happened.</p>
-<blockquote>
-<p>当调试器使处理器停止时，PWM产生器可以停止/继续运行如果配置为暂停，则它将继续计数，直到达到零，此时它会暂停，直到重新启动处理器。如果配置为继续运行，则继续计数，就像什么都没发生一样。</p>
-</blockquote>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212211525865.png" alt="image-20201212211525865"></p>
-<p>这是这个函数的参数，第一部分是PWM模块的基址，第二部分是PWM产生器，究竟是GEN几，最后是配置参数。</p>
-<p>那么有哪些参数呢？</p>
-<p>PWM_GEN_MODE_DOWN or PWM_GEN_MODE_UP_DOWN to specify the counting<br>mode</p>
-<p><strong>计数模式，就是向上模式还是向上向下模式</strong></p>
-<p>PWM_GEN_MODE_SYNC or PWM_GEN_MODE_NO_SYNC to specify the counter load<br>and comparator update synchronization mode</p>
-<p><strong>不晓得</strong></p>
-<p>PWM_GEN_MODE_DBG_RUN or PWM_GEN_MODE_DBG_STOP to specify the debug<br>behavior</p>
-<p><strong>配置了debug的行为</strong></p>
-<p>PWM_GEN_MODE_GEN_NO_SYNC, PWM_GEN_MODE_GEN_SYNC_LOCAL, or<br>PWM_GEN_MODE_GEN_SYNC_GLOBAL to specify the update synchronization mode<br>for generator counting mode changes</p>
-<p><strong>不晓得</strong></p>
-<p>PWM_GEN_MODE_DB_NO_SYNC, PWM_GEN_MODE_DB_SYNC_LOCAL, or<br>PWM_GEN_MODE_DB_SYNC_GLOBAL to specify the deadband parameter synchronization<br>mode</p>
-<p><strong>指定死区参数同步模式</strong></p>
-<p>PWM_GEN_MODE_FAULT_LATCHED or PWM_GEN_MODE_FAULT_UNLATCHED to<br>specify whether fault conditions are latched or not</p>
-<p><strong>指定是否锁定故障条件</strong></p>
-<p>PWM_GEN_MODE_FAULT_MINPER or PWM_GEN_MODE_FAULT_NO_MINPER to<br>specify whether minimum fault period support is required</p>
-<p><strong>确定是否需要最小错误周期支持</strong></p>
-<p>PWM_GEN_MODE_FAULT_EXT or PWM_GEN_MODE_FAULT_LEGACY to specify<br>whether extended fault source selection support is enabled or not</p>
-<p><strong>指定是否启用扩展故障源选择支持</strong></p>
-<!--死区就是中性区或者是不作用区-->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="ckm8kfei0000ud83deoa7dx7g" data-title="PWM" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
 
     </footer>
   </div>
@@ -712,52 +712,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/System%20Tick/" data-id="ckm8kfei2000wd83dejslb8d7" data-title="SysTick" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-TIMER_CAPTURE" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/TIMER_CAPTURE/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/TIMER_CAPTURE/">Timer Capture</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="TIMER-CAPTURE"><a href="#TIMER-CAPTURE" class="headerlink" title="TIMER_CAPTURE"></a>TIMER_CAPTURE</h1><h3 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h3><p>计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位</p>
-<p>计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。</p>
-<p>加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，计数器会自动清零重新计数，减计数模式下，计数器会恢复preload值，但是会停止计数，需要重新使能。</p>
-<h3 id="功能一，边沿计数"><a href="#功能一，边沿计数" class="headerlink" title="功能一，边沿计数"></a>功能一，边沿计数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);</span><br><span class="line">    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> ulstatus = TimerIntStatus(TIMER2_BASE, TIMER_CAPA_MATCH | TIMER_CAPB_MATCH);</span><br><span class="line">    TimerIntClear(TIMER2_BASE, ulstatus);</span><br><span class="line">        t++;</span><br><span class="line">        <span class="keyword">if</span>(t%<span class="number">2</span>)&#123;</span><br><span class="line">            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_ccp</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使能GPIO时钟</span></span><br><span class="line">    <span class="comment">//SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span></span><br><span class="line">    <span class="comment">//使能Timer模块</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    <span class="comment">//配置GPIO引脚为Timer捕捉模式</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    <span class="comment">//配置管脚为弱上拉模式</span></span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    <span class="comment">//配置Timer的A模块为边沿触发 加计数模式</span></span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_COUNT_UP);</span><br><span class="line">    <span class="comment">//设置下降沿触发</span></span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_POS_EDGE);</span><br><span class="line">    TimerMatchSet(TIMER2_BASE, TIMER_A, <span class="number">3</span>);</span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_MATCH);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="功能二，边沿计时"><a href="#功能二，边沿计时" class="headerlink" title="功能二，边沿计时"></a>功能二，边沿计时</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> s=TimerIntStatus(TIMER2_BASE,TIMER_CAPA_EVENT);</span><br><span class="line">    TimerIntClear(TIMER2_BASE,s);</span><br><span class="line">    UARTprintf(<span class="string">&quot;Captured Value: 0x%04X\n&quot;</span>, TimerValueGet(TIMER2_BASE, TIMER_A));</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TIMER_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使能定时器和GPIO</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    <span class="comment">//配置GPIO引脚为timer捕捉模式</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    <span class="comment">//配置管脚为弱上拉模式</span></span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    <span class="comment">//配置Timer模块为沿触发加计时模式</span></span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_TIME_UP);</span><br><span class="line">    <span class="comment">//使用下降沿触发</span></span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_NEG_EDGE);</span><br><span class="line">    <span class="comment">//设置计数范围</span></span><br><span class="line">    TimerLoadSet(TIMER2_BASE, TIMER_A, <span class="number">0x8FFF</span>);</span><br><span class="line">    <span class="comment">//注册定时器中断</span></span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    <span class="comment">//使能中断，定时器，定时器中断</span></span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_EVENT);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/TIMER_CAPTURE/" data-id="ckm8kfei3000yd83d18wphx5d" data-title="Timer Capture" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/System%20Tick/" data-id="ckm8kh9c6000vdo3dbjfe1gte" data-title="SysTick" class="article-share-link">Share</a>
       
       
       
@@ -897,7 +852,52 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Timer/" data-id="ckm8kfei40010d83d2n45c8dq" data-title="Timer" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Timer/" data-id="ckm8kh9c8000ydo3d562y48jv" data-title="Timer" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-TIMER_CAPTURE" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/TIMER_CAPTURE/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/TIMER_CAPTURE/">Timer Capture</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="TIMER-CAPTURE"><a href="#TIMER-CAPTURE" class="headerlink" title="TIMER_CAPTURE"></a>TIMER_CAPTURE</h1><h3 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h3><p>计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位</p>
+<p>计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。</p>
+<p>加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，计数器会自动清零重新计数，减计数模式下，计数器会恢复preload值，但是会停止计数，需要重新使能。</p>
+<h3 id="功能一，边沿计数"><a href="#功能一，边沿计数" class="headerlink" title="功能一，边沿计数"></a>功能一，边沿计数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);</span><br><span class="line">    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> ulstatus = TimerIntStatus(TIMER2_BASE, TIMER_CAPA_MATCH | TIMER_CAPB_MATCH);</span><br><span class="line">    TimerIntClear(TIMER2_BASE, ulstatus);</span><br><span class="line">        t++;</span><br><span class="line">        <span class="keyword">if</span>(t%<span class="number">2</span>)&#123;</span><br><span class="line">            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_ccp</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使能GPIO时钟</span></span><br><span class="line">    <span class="comment">//SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span></span><br><span class="line">    <span class="comment">//使能Timer模块</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    <span class="comment">//配置GPIO引脚为Timer捕捉模式</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    <span class="comment">//配置管脚为弱上拉模式</span></span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    <span class="comment">//配置Timer的A模块为边沿触发 加计数模式</span></span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_COUNT_UP);</span><br><span class="line">    <span class="comment">//设置下降沿触发</span></span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_POS_EDGE);</span><br><span class="line">    TimerMatchSet(TIMER2_BASE, TIMER_A, <span class="number">3</span>);</span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_MATCH);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="功能二，边沿计时"><a href="#功能二，边沿计时" class="headerlink" title="功能二，边沿计时"></a>功能二，边沿计时</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> s=TimerIntStatus(TIMER2_BASE,TIMER_CAPA_EVENT);</span><br><span class="line">    TimerIntClear(TIMER2_BASE,s);</span><br><span class="line">    UARTprintf(<span class="string">&quot;Captured Value: 0x%04X\n&quot;</span>, TimerValueGet(TIMER2_BASE, TIMER_A));</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TIMER_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使能定时器和GPIO</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    <span class="comment">//配置GPIO引脚为timer捕捉模式</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    <span class="comment">//配置管脚为弱上拉模式</span></span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    <span class="comment">//配置Timer模块为沿触发加计时模式</span></span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_TIME_UP);</span><br><span class="line">    <span class="comment">//使用下降沿触发</span></span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_NEG_EDGE);</span><br><span class="line">    <span class="comment">//设置计数范围</span></span><br><span class="line">    TimerLoadSet(TIMER2_BASE, TIMER_A, <span class="number">0x8FFF</span>);</span><br><span class="line">    <span class="comment">//注册定时器中断</span></span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    <span class="comment">//使能中断，定时器，定时器中断</span></span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_EVENT);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/TIMER_CAPTURE/" data-id="ckm8kh9c90010do3d92elga41" data-title="Timer Capture" class="article-share-link">Share</a>
       
       
       
@@ -938,7 +938,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/boosterpacks/" data-id="ckm8kfei50012d83d1ta23tfh" data-title="BoosterPacks使用" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/boosterpacks/" data-id="ckm8kh9cb0012do3d5hxp4hyk" data-title="BoosterPacks使用" class="article-share-link">Share</a>
       
       
       
@@ -1025,7 +1025,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/UART/" data-id="ckm8kfei60014d83d66d661dl" data-title="UART" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/UART/" data-id="ckm8kh9cc0014do3d9dkn4qdc" data-title="UART" class="article-share-link">Share</a>
       
       
       
@@ -1078,7 +1078,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="ckm8kfei70016d83d67f25y8k" data-title="关于怎样写c文件和头文件" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="ckm8kh9cf0018do3d6hz32up5" data-title="关于怎样写c文件和头文件" class="article-share-link">Share</a>
       
       
       
