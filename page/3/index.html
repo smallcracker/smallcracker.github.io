@@ -75,9 +75,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-ADC interrupt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Analog to Digital Converter" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/01/29/ADC%20interrupt/" class="article-date">
+    <a href="/2021/01/29/Analog%20to%20Digital%20Converter/" class="article-date">
   <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
 </a>
     
@@ -89,7 +89,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/ADC%20interrupt/">ADC中断</a>
+      <a class="p-name article-title" href="/2021/01/29/Analog%20to%20Digital%20Converter/">ADC简介</a>
     </h1>
   
 
@@ -97,143 +97,48 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="ADC中断"><a href="#ADC中断" class="headerlink" title="ADC中断"></a>ADC中断</h1><h3 id="一、相关函数介绍"><a href="#一、相关函数介绍" class="headerlink" title="一、相关函数介绍"></a>一、相关函数介绍</h3><ol>
-<li><code>ADCIntRegister()</code> 和<code>ADCIntUnregister()</code>用于为ADC中断注册（注销）一个中断函数</li>
-<li><code>ADCIntEnable()</code> 和 <code>ADCIntDisable</code> 使能（失能）一个采样序列中断</li>
-<li><code>ADCIntClear()</code> 清除采样序列中断源</li>
-<li><code>ADCIntStatus()</code> 获取当前中断状态</li>
-</ol>
-<h3 id="二、怎样触发中断"><a href="#二、怎样触发中断" class="headerlink" title="二、怎样触发中断"></a>二、怎样触发中断</h3><p>在配置采样通道的时候，如果参数设置有 <code>ADC_CTL_IE</code> 那么当这个通道采集完之后就会产生一个中断。</p>
-<h3 id="三、例子"><a href="#三、例子" class="headerlink" title="三、例子"></a>三、例子</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">configureADC</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//选择E3引脚（即CH0）作为ADC输入</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);</span><br><span class="line">    GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_3);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置采样序列发生器等</span></span><br><span class="line">    ADCSequenceConfigure(ADC0_BASE, <span class="number">0</span>, ADC_TRIGGER_PROCESSOR, <span class="number">0</span>);</span><br><span class="line">    ADCSequenceStepConfigure(ADC0_BASE, <span class="number">0</span>, <span class="number">0</span>,ADC_CTL_IE | ADC_CTL_END | ADC_CTL_CH0);</span><br><span class="line">	</span><br><span class="line">    ADCSequenceEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置ADC中断</span></span><br><span class="line">    ADCIntRegister(ADC0_BASE, <span class="number">0</span> , convet);</span><br><span class="line">    ADCIntEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="四、注意"><a href="#四、注意" class="headerlink" title="四、注意"></a>四、注意</h3><p>在写中断函数的时候记得清除中断标记，因为清除中断需要几个时钟周期，所以，我们需要在中断函数一开始就清除中断。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="ckmm8nzvy000fsk3db20sahcz" data-title="ADC中断" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-GPIO_PWM" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/GPIO_PWM/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/GPIO_PWM/">GPIO PWM</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="GPIOPinTypePWM"><a href="#GPIOPinTypePWM" class="headerlink" title="GPIOPinTypePWM"></a>GPIOPinTypePWM</h1><h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wxc971231/article/details/95355645">感谢这位老哥</a></p>
-<p>Configures pin(s) for use by the PWM peripheral.</p>
+        <h1 id="Analog-to-Digital-Converter（模-数转换器）"><a href="#Analog-to-Digital-Converter（模-数转换器）" class="headerlink" title="Analog to Digital Converter（模-数转换器）"></a>Analog to Digital Converter（模-数转换器）</h1><h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>这款单片机有两个完全相同的转换器模块，它们共用12个输入通道。该ADC模块的转换分辨率为12位。</p>
+<p>每个ADC模块都包含4个可编程的序列发生器。采样序列发生器（Sample Sequencer 简写为SS）用于采样控制和数据采集。所有序列发生器的实现方法都是相同的，区别仅在于能够捕捉的采样数和FIFO的深度有所不同，捕捉到的每个采样都要存入FIFO中。这四个采样序列发生器，它们可以同时捕获样本。每个序列都可以配置触发事件。第一个序列发生器至多捕获八个样本，第二个和第三个至多捕获四个样本，第四个序列只能捕获一个样本。每一个样本可以在同一路，不同路，或者其他什么顺序。</p>
+<p><img src="ADC.png" alt="简介"></p>
+<p>如果很多个事件同时被触发的话，可以给样本序列发生器配置优先级确定谁先被捕获。被触发的最高优先级的序列先采样，一定要注意那些频繁触发的事件，如果它们的优先级太高的话，有些低优先级的序列就采不到样了。</p>
+<p>ADV数据的硬件过采样可以用来提高精度。过采样的倍率可以2x 4x 8x 16x 32x 或者是32x，但是这样就会相应倍率地降低一个ADC的吞吐量（<a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_4511506f0102xmxw.html">具体可以看这里</a>）。注意所有采样序列只能设置一个统一的硬件过采样倍率。</p>
+<p>还可以用软件实现过采样的！单片机支持2x 4x 8x 但是它会相应倍率的降低样本序列的深度的。比如说啊，第一份采样序列地深度是8，在4x过采样模式下，它就只能采两个样本了。这是因为头四个样本被拿去过采样了。每一个采样序列都能设置自己地软件过采样倍率。</p>
+<p>一种更加复杂的软件过采样可以用于清除样本深度地减少。如果我们加快ADC触发速率4倍，然后再配置一个4倍地软件过采样，这样就不会减少采样序列容量了，这样做的后果是ADC触发数量就要增加了，因为这种方法需要在ADC驱动本身以外去做调整，所以不被驱动直接支持，如果我们要用这种方法，就不能用驱动里面的函数了。</p>
+<p>函数地头文件是driverlib/adc.c 和driverlib/adc.h</p>
+<h2 id="二、然后再来看都干了啥"><a href="#二、然后再来看都干了啥" class="headerlink" title="二、然后再来看都干了啥"></a>二、然后再来看都干了啥</h2><h3 id="1-首先使能ADC外设"><a href="#1-首先使能ADC外设" class="headerlink" title="1.首先使能ADC外设"></a>1.首先使能ADC外设</h3><p><code>SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);</code></p>
+<h3 id="2-然后开始配置ADC采样序列发生器，主要是配置触发条件和触发优先级"><a href="#2-然后开始配置ADC采样序列发生器，主要是配置触发条件和触发优先级" class="headerlink" title="2.然后开始配置ADC采样序列发生器，主要是配置触发条件和触发优先级"></a>2.然后开始配置ADC采样序列发生器，主要是配置触发条件和触发优先级</h3><p><code>ADCSequenceConfigure();</code><br>这个函数用来配置触发源和采样序列的优先级  </p>
 <blockquote>
-<p>配置引脚以用作PWM外设</p>
+<p>前两个参数选择是哪个采样序列发生器<br>第三个是触发条件<br>第四个是触发优先级  </p>
 </blockquote>
-<p>Prototype:<br>void<br>GPIOPinTypePWM(uint32_t ui32Port,<br>uint8_t ui8Pins)</p>
-<p>Parameters:<br>ui32Port is the base address of the GPIO port.<br>ui8Pins is the bit-packed representation of the pin(s).<br>Description:<br>The PWM pins must be properly configured for the PWM peripheral to function correctly. This function provides a typical configuration for those pin(s); other configurations may work as well depending upon the board setup (for example, using the on-chip pull-ups). </p>
-<blockquote>
-<p>为了使PWM外设正常工作，一定要正确配置PWM引脚，这个函数为这些引脚提供了典型的配置，其他的配置也可能正确配置。</p>
-</blockquote>
-<p>The pin(s) are specified using a bit-packed byte, where each bit that is set identifies the pin to be accessed, and where bit 0 of the byte represents GPIO port pin 0, bit 1 represents GPIO port pin 1, and so on.</p>
-<p>Note:<br>This function cannot be used to turn any pin into a PWM pin; it only configures a PWM pin<br>for proper operation. Note that a GPIOPinConfigure() function call is also required to properly<br>configure a pin for the PWM function.</p>
-<blockquote>
-<p>要配置一个引脚发挥PWM功能，还需调用GPIOPinConfigure()函数</p>
-</blockquote>
-<p>A subset of GPIO pins on Tiva devices, notably those used by the JTAG/SWD interface and<br>any pin capable of acting as an NMI input, are locked against inadvertent reconfiguration.<br>These pins must be unlocked using direct register writes to the relevant GPIO_O_LOCK and<br>GPIO_O_CR registers before this function can be called. Please see the “gpio_jtag” example<br>application for the mechanism required and consult your part datasheet for information on<br>affected pins.</p>
-<p>Returns:<br>None.</p>
-<h2 id="二、例程"><a href="#二、例程" class="headerlink" title="二、例程"></a>二、例程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//配置PWM预分频，这里不分频</span></span><br><span class="line">SysCtlPWMClockSet(SYSCTL_PWMDIV_1);</span><br><span class="line"></span><br><span class="line"><span class="comment">//使能两个模块的时钟</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM1);</span><br><span class="line"></span><br><span class="line"><span class="comment">//复用引脚</span></span><br><span class="line">GPIOPinTypePWM(GPIO_PORTF_BASE, GPIO_PIN_2);</span><br><span class="line">GPIOPinTypePWM(GPIO_PORTF_BASE, GPIO_PIN_3);</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置信号分配</span></span><br><span class="line">GPIOPinConfigure(GPIO_PF2_M1PWM6);</span><br><span class="line">GPIOPinConfigure(GPIO_PF3_M1PWM7);</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置PWM发生器</span></span><br><span class="line">PWMGenConfigure(PWM1_BASE, PWM_GEN_3, PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置周期 表示100hz</span></span><br><span class="line">PWMGenPeriodSet(PWM1_BASE, PWM_GEN_3, <span class="number">50000</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置占空比</span></span><br><span class="line">PWMPulseWidthSet(PWM1_BASE, PWM_OUT_6, <span class="number">0</span>);</span><br><span class="line">PWMPulseWidthSet(PWM1_BASE, PWM_OUT_7, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//使能PWM模块1输出</span></span><br><span class="line">PWMOutputState(PWM1_BASE, (PWM_OUT_6_BIT | PWM_OUT_7_BIT), <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//使能PWM发生器</span></span><br><span class="line">PWMGenEnable(PWM1_BASE, PWM_GEN_3);</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO_PWM/" data-id="ckmm8nzw1000lsk3d2f44gz8m" data-title="GPIO PWM" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-GPIO输出和输入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">GPIO输入和输出</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="GPIO-输入和输出"><a href="#GPIO-输入和输出" class="headerlink" title="GPIO 输入和输出"></a>GPIO 输入和输出</h1><p>首先使能GPIO接口<br><code>SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</code></p>
-<p>接下来设置GPIO模式为输出<br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</code>  </p>
+<p>触发条件有这些：</p>
 <ul>
-<li><em>如果要设置多个pin的话</em><br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5);</code>  </li>
+<li>处理器触发</li>
+<li>AC模块触发</li>
+<li>GPIO触发</li>
+<li>计时器触发</li>
+<li>PWM触发？？以后可以研究一下</li>
+<li>一直触发<h3 id="3-配置引脚用于ADC输入"><a href="#3-配置引脚用于ADC输入" class="headerlink" title="3.配置引脚用于ADC输入"></a>3.配置引脚用于ADC输入</h3><code>GPIOPINTypeADC()</code> 配置引脚用于ADC输入 ，注意不是每一个引脚能都拿来作为ADC输入的，<h3 id="4-选取通道并进行余下配置"><a href="#4-选取通道并进行余下配置" class="headerlink" title="4.选取通道并进行余下配置"></a>4.选取通道并进行余下配置</h3><code>ADCSequenceStepConfigure();</code><br>配置采样序列发生器的一个step  <blockquote>
+<p>前两个参数选择哪一个采样序列发生器<br>第三个参数是要设置的那个step<br>第四个参数是这个step的设置  </p>
+</blockquote>
+</li>
 </ul>
-<p>最后进行输出<br><code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0); 或者 void GPIOPinWrite(Port,Pins,which_pin);</code></p>
-<p>GPIO函数一共有三种</p>
-<ol>
-<li>配置GPIO pins的函数</li>
-<li>处理中断的函数</li>
-<li>获取pins value的函数</li>
-</ol>
-<p>配置３２和TI的方式就是不一样的，３２的GPIO是用结构体进行配置，TI则使用函数来进行配置。</p>
-<p>TI的普通配置只需要进行GPIO外设使能和方向控制即可。也不是说前面说到的功能模式就不能配置了，如果有需要可以进行其他类型的配置。<br>如果要进行端口高低电平的输出控制，３２和TI也是一样的调用函数来进行配置，分别是：<code>GPIO_SetBits(GPIOE,GPIO_Pin_5);</code>　和　<code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0);</code></p>
-<p>注意：TI的输出高低电平使用的是同一个函数GPIOPinWrite（），对于３２则使用的是两个函数：GPIO_SetBits（）和GPIO_ResetBit（）即可输出高低电平。TI呢，则不是这样的，就连入口参数也不是和３２一样那么简单，GPIOPinWrite（）入口参数就有三个，分别是GPIO_PORTｘ_BASE，GPIO＿PIN＿ｘ，和０（低电平时候为０，但是高电平时候不是１，而是GPIO＿PIN＿ｘ）。例如PF１输出高电平　：<br>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);</p>
-<p>输入输出的模式一般不用管，但应了解浮空输入 上拉输入 下拉输入 模拟输入 开漏输出 推挽输出 复用推挽输出 复用开漏输出</p>
-<p>怎样读入呢？</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//检测</span></span><br><span class="line"><span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123; <span class="comment">//如果按下</span></span><br><span class="line">    SysCtlDelay(<span class="number">20</span>*(SysCtlClockGet()/<span class="number">3000</span>));<span class="comment">//消抖</span></span><br><span class="line">    ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//再次检测</span></span><br><span class="line">    <span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123;<span class="comment">//再次判断</span></span><br><span class="line">        KeyPress1 = <span class="literal">true</span>;<span class="comment">//如果按下，则置一个标志位</span></span><br><span class="line">        <span class="keyword">while</span>(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4))&#123;&#125;<span class="comment">//等按键松开</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></h2><h2 id="GPIO输出最终模板"><a href="#GPIO输出最终模板" class="headerlink" title="GPIO输出最终模板"></a>GPIO输出最终模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能GPIO外设</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line"><span class="comment">//设置引脚为GPIO输出模式</span></span><br><span class="line">GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</span><br><span class="line"><span class="comment">//引脚输出</span></span><br><span class="line">GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
-<h2 id="部分函数研究"><a href="#部分函数研究" class="headerlink" title="部分函数研究"></a>部分函数研究</h2><ol>
-<li><code>GPIODirModeSet()</code><br>描述：设置了管脚的方向是向内、向外还是硬件控制</li>
-<li><code>GPIOPadConfigSet()</code><br> 描述：设置了一些引脚的输出驱动强度，和引脚类型<br> GPIO_PIN_TYPE_STD 推挽输出 可以输出高低电平<br> GPIO_PIN_TYPE_STD_WPU 推挽——弱上拉<br> GPIO_PIN_TYPE_STD_WPD 推挽——弱下拉<br> GPIO_PIN_TYPE_OD 开漏输出 IO 输出 0 接 GND， IO 输出 1，悬空，需要外接上拉电阻，才能实现输出<br> GPIO_PIN_TYPE_ANALOG 模拟输出<br> GPIO_PIN_TYPE_WAKE_HIGH 于hibernation mode 有关<br> GPIO_PIN_TYPE_WAKE_LOW  </li>
-<li><code>GPIOPinConfigure()</code></li>
-<li><code>GPIOPinRead()</code></li>
-<li><code>GPIOPinWrite()</code></li>
-</ol>
+<p>参数设置分析：这个参数应该是一系列参数的OR，主要设置了一个step的模式（单端输入还是差分输入），选用哪个输入通道，输入完要不要触发中断，以及选择的数字比较器（？？）</p>
+<h3 id="5-获取采样结果"><a href="#5-获取采样结果" class="headerlink" title="5.获取采样结果"></a>5.获取采样结果</h3><p><code>ADCSequenceDataGet();</code></p>
+<blockquote>
+<p>第一个是ADC的基址<br>第二个是ADC的采样序列数<br>第三个填一个32位地址，表示把数填在这里</p>
+</blockquote>
+<p>其实这个函数还有返回值，返回值就是get到的数</p>
+<h3 id="6-使能ADC采样序列发生器"><a href="#6-使能ADC采样序列发生器" class="headerlink" title="6.使能ADC采样序列发生器"></a>6.使能ADC采样序列发生器</h3><p><code>ADCSequenceEnable()</code></p>
+<blockquote>
+<p>一共两个参数，表示选择的那个采样序列发生器</p>
+</blockquote>
+<h2 id="三、直接上例程！"><a href="#三、直接上例程！" class="headerlink" title="三、直接上例程！"></a>三、直接上例程！</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义变量用于存储采得样本</span></span><br><span class="line"><span class="keyword">uint32_t</span> ui32Value;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使能ADC0模块并等待其准备完成</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);</span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_ADC0))&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置E3引脚（对应CH0）为这个采样序列发生器的通道</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);</span><br><span class="line">GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_3);</span><br><span class="line"></span><br><span class="line"><span class="comment">//使能第一个采样序列发生器来捕捉CH0的值</span></span><br><span class="line">ADCSequenceConfigure(ADC0_BASE, <span class="number">0</span>, ADC_TRIGGER_PROCESSOR, <span class="number">0</span>);</span><br><span class="line">ADCSequenceStepConfigure(ADC0_BASE, <span class="number">0</span>, <span class="number">0</span>,ADC_CTL_IE | ADC_CTL_END | ADC_CTL_CH0);</span><br><span class="line">ADCSequenceEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//以后每次触发时都要加上这几句</span></span><br><span class="line">ADCProcessorTrigger(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">while</span>(!ADCIntStatus(ADC0_BASE, <span class="number">0</span>, <span class="literal">false</span>))&#123;&#125;</span><br><span class="line">ADCSequenceDataGet(ADC0_BASE, <span class="number">0</span>, &amp;ui32Value);</span><br></pre></td></tr></table></figure>
+<p><img src="ADC引脚.jpg" alt="pin"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="ckmm8nzw1000nsk3d0r1ebvog" data-title="GPIO输入和输出" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Analog%20to%20Digital%20Converter/" data-id="ckmm8oza4000ag43d1y4x8zqu" data-title="ADC简介" class="article-share-link">Share</a>
       
       
       
@@ -324,7 +229,130 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO_interrupt/" data-id="ckmm8nzw3000rsk3d3pw10lz2" data-title="GPIO中断" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO_interrupt/" data-id="ckmm8ozaa000mg43d3xk431lz" data-title="GPIO中断" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-GPIO_PWM" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/GPIO_PWM/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/GPIO_PWM/">GPIO PWM</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="GPIOPinTypePWM"><a href="#GPIOPinTypePWM" class="headerlink" title="GPIOPinTypePWM"></a>GPIOPinTypePWM</h1><h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wxc971231/article/details/95355645">感谢这位老哥</a></p>
+<p>Configures pin(s) for use by the PWM peripheral.</p>
+<blockquote>
+<p>配置引脚以用作PWM外设</p>
+</blockquote>
+<p>Prototype:<br>void<br>GPIOPinTypePWM(uint32_t ui32Port,<br>uint8_t ui8Pins)</p>
+<p>Parameters:<br>ui32Port is the base address of the GPIO port.<br>ui8Pins is the bit-packed representation of the pin(s).<br>Description:<br>The PWM pins must be properly configured for the PWM peripheral to function correctly. This function provides a typical configuration for those pin(s); other configurations may work as well depending upon the board setup (for example, using the on-chip pull-ups). </p>
+<blockquote>
+<p>为了使PWM外设正常工作，一定要正确配置PWM引脚，这个函数为这些引脚提供了典型的配置，其他的配置也可能正确配置。</p>
+</blockquote>
+<p>The pin(s) are specified using a bit-packed byte, where each bit that is set identifies the pin to be accessed, and where bit 0 of the byte represents GPIO port pin 0, bit 1 represents GPIO port pin 1, and so on.</p>
+<p>Note:<br>This function cannot be used to turn any pin into a PWM pin; it only configures a PWM pin<br>for proper operation. Note that a GPIOPinConfigure() function call is also required to properly<br>configure a pin for the PWM function.</p>
+<blockquote>
+<p>要配置一个引脚发挥PWM功能，还需调用GPIOPinConfigure()函数</p>
+</blockquote>
+<p>A subset of GPIO pins on Tiva devices, notably those used by the JTAG/SWD interface and<br>any pin capable of acting as an NMI input, are locked against inadvertent reconfiguration.<br>These pins must be unlocked using direct register writes to the relevant GPIO_O_LOCK and<br>GPIO_O_CR registers before this function can be called. Please see the “gpio_jtag” example<br>application for the mechanism required and consult your part datasheet for information on<br>affected pins.</p>
+<p>Returns:<br>None.</p>
+<h2 id="二、例程"><a href="#二、例程" class="headerlink" title="二、例程"></a>二、例程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//配置PWM预分频，这里不分频</span></span><br><span class="line">SysCtlPWMClockSet(SYSCTL_PWMDIV_1);</span><br><span class="line"></span><br><span class="line"><span class="comment">//使能两个模块的时钟</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM1);</span><br><span class="line"></span><br><span class="line"><span class="comment">//复用引脚</span></span><br><span class="line">GPIOPinTypePWM(GPIO_PORTF_BASE, GPIO_PIN_2);</span><br><span class="line">GPIOPinTypePWM(GPIO_PORTF_BASE, GPIO_PIN_3);</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置信号分配</span></span><br><span class="line">GPIOPinConfigure(GPIO_PF2_M1PWM6);</span><br><span class="line">GPIOPinConfigure(GPIO_PF3_M1PWM7);</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置PWM发生器</span></span><br><span class="line">PWMGenConfigure(PWM1_BASE, PWM_GEN_3, PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置周期 表示100hz</span></span><br><span class="line">PWMGenPeriodSet(PWM1_BASE, PWM_GEN_3, <span class="number">50000</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置占空比</span></span><br><span class="line">PWMPulseWidthSet(PWM1_BASE, PWM_OUT_6, <span class="number">0</span>);</span><br><span class="line">PWMPulseWidthSet(PWM1_BASE, PWM_OUT_7, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//使能PWM模块1输出</span></span><br><span class="line">PWMOutputState(PWM1_BASE, (PWM_OUT_6_BIT | PWM_OUT_7_BIT), <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//使能PWM发生器</span></span><br><span class="line">PWMGenEnable(PWM1_BASE, PWM_GEN_3);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/GPIO_PWM/" data-id="ckmm8ozab000og43d9v6xeure" data-title="GPIO PWM" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-GPIO输出和输入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">GPIO输入和输出</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="GPIO-输入和输出"><a href="#GPIO-输入和输出" class="headerlink" title="GPIO 输入和输出"></a>GPIO 输入和输出</h1><p>首先使能GPIO接口<br><code>SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</code></p>
+<p>接下来设置GPIO模式为输出<br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</code>  </p>
+<ul>
+<li><em>如果要设置多个pin的话</em><br><code>GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5);</code>  </li>
+</ul>
+<p>最后进行输出<br><code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0); 或者 void GPIOPinWrite(Port,Pins,which_pin);</code></p>
+<p>GPIO函数一共有三种</p>
+<ol>
+<li>配置GPIO pins的函数</li>
+<li>处理中断的函数</li>
+<li>获取pins value的函数</li>
+</ol>
+<p>配置３２和TI的方式就是不一样的，３２的GPIO是用结构体进行配置，TI则使用函数来进行配置。</p>
+<p>TI的普通配置只需要进行GPIO外设使能和方向控制即可。也不是说前面说到的功能模式就不能配置了，如果有需要可以进行其他类型的配置。<br>如果要进行端口高低电平的输出控制，３２和TI也是一样的调用函数来进行配置，分别是：<code>GPIO_SetBits(GPIOE,GPIO_Pin_5);</code>　和　<code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0);</code></p>
+<p>注意：TI的输出高低电平使用的是同一个函数GPIOPinWrite（），对于３２则使用的是两个函数：GPIO_SetBits（）和GPIO_ResetBit（）即可输出高低电平。TI呢，则不是这样的，就连入口参数也不是和３２一样那么简单，GPIOPinWrite（）入口参数就有三个，分别是GPIO_PORTｘ_BASE，GPIO＿PIN＿ｘ，和０（低电平时候为０，但是高电平时候不是１，而是GPIO＿PIN＿ｘ）。例如PF１输出高电平　：<br>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);</p>
+<p>输入输出的模式一般不用管，但应了解浮空输入 上拉输入 下拉输入 模拟输入 开漏输出 推挽输出 复用推挽输出 复用开漏输出</p>
+<p>怎样读入呢？</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//检测</span></span><br><span class="line"><span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123; <span class="comment">//如果按下</span></span><br><span class="line">    SysCtlDelay(<span class="number">20</span>*(SysCtlClockGet()/<span class="number">3000</span>));<span class="comment">//消抖</span></span><br><span class="line">    ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//再次检测</span></span><br><span class="line">    <span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123;<span class="comment">//再次判断</span></span><br><span class="line">        KeyPress1 = <span class="literal">true</span>;<span class="comment">//如果按下，则置一个标志位</span></span><br><span class="line">        <span class="keyword">while</span>(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4))&#123;&#125;<span class="comment">//等按键松开</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></h2><h2 id="GPIO输出最终模板"><a href="#GPIO输出最终模板" class="headerlink" title="GPIO输出最终模板"></a>GPIO输出最终模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能GPIO外设</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line"><span class="comment">//设置引脚为GPIO输出模式</span></span><br><span class="line">GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</span><br><span class="line"><span class="comment">//引脚输出</span></span><br><span class="line">GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="部分函数研究"><a href="#部分函数研究" class="headerlink" title="部分函数研究"></a>部分函数研究</h2><ol>
+<li><code>GPIODirModeSet()</code><br>描述：设置了管脚的方向是向内、向外还是硬件控制</li>
+<li><code>GPIOPadConfigSet()</code><br> 描述：设置了一些引脚的输出驱动强度，和引脚类型<br> GPIO_PIN_TYPE_STD 推挽输出 可以输出高低电平<br> GPIO_PIN_TYPE_STD_WPU 推挽——弱上拉<br> GPIO_PIN_TYPE_STD_WPD 推挽——弱下拉<br> GPIO_PIN_TYPE_OD 开漏输出 IO 输出 0 接 GND， IO 输出 1，悬空，需要外接上拉电阻，才能实现输出<br> GPIO_PIN_TYPE_ANALOG 模拟输出<br> GPIO_PIN_TYPE_WAKE_HIGH 于hibernation mode 有关<br> GPIO_PIN_TYPE_WAKE_LOW  </li>
+<li><code>GPIOPinConfigure()</code></li>
+<li><code>GPIOPinRead()</code></li>
+<li><code>GPIOPinWrite()</code></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="ckmm8ozac000sg43de0mmeq2c" data-title="GPIO输入和输出" class="article-share-link">Share</a>
       
       
       
@@ -427,7 +455,144 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Interrupt%20Controller(NVIC)/" data-id="ckmm8nzw3000tsk3d2m79311p" data-title="中断控制器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Interrupt%20Controller(NVIC)/" data-id="ckmm8ozad000ug43d2xn64uxf" data-title="中断控制器" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Pulse Width Modulator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/Pulse%20Width%20Modulator/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/Pulse%20Width%20Modulator/">PWM</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="PWM"><a href="#PWM" class="headerlink" title="PWM"></a>PWM</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has two PWM output signals, which can be operated independently or as a pair of signals with dead band delays inserted. Each generator block also has an interrupt output and a trigger output. The control block determines the polarity of the PWM signals and which signals are passed through to the pins.</p>
+<blockquote>
+<p>每个PWM提供了最多4个PWM发生器和一个输出控制模块，每一个发生器能产生两个PWM输出信号，可以独立操作，也可以作为一对插入了死区延迟的信号运行。每一个生成器块还有一个中断输出和一个触发输出，控制块确定PWM信号的极性以及哪些信号传递到引脚。</p>
+</blockquote>
+<p>Some of the features of the Tiva PWM module are:<br>Up to four generator blocks, each containing<br>• One 16-bit down or up/down counter<br>• Two comparators<br>• PWM generator<br>• Dead band generator</p>
+<blockquote>
+<p>至多4个产生模块，每一个产生模块包括</p>
+<blockquote>
+<p>一个十六位的向上/向下计数器</p>
+<p>两个比较器</p>
+<p>PWM产生器</p>
+<p>死区产生器</p>
+</blockquote>
+</blockquote>
+<p>Control block<br>• PWM output enable<br>• Output polarity control<br>• Synchronization<br>• Fault handling<br>• Interrupt status</p>
+<blockquote>
+<p>控制模块有</p>
+<blockquote>
+<p>PWM输出使能</p>
+<p>输出极性控制</p>
+<p>错误处理</p>
+<p>中断状态</p>
+</blockquote>
+</blockquote>
+<p>This driver is contained in driverlib/pwm.c, with driverlib/pwm.h containing the API declarations for use by applications.</p>
+<h2 id="细节描述"><a href="#细节描述" class="headerlink" title="细节描述"></a>细节描述</h2><p>These functions perform high-level operations on PWM modules.</p>
+<blockquote>
+<p>这些模块表现了高水平的对PWM的操作</p>
+</blockquote>
+<p>The following functions provide the user with a way to configure the PWM for the most common operations, such as setting the period, generating left- and center-aligned pulses, modifying the pulse width, and controlling interrupts, triggers, and output characteristics. However, the PWM module is very versatile and can be configured in a number of different ways, many of which are beyond the scope of this API. In order to fully exploit the many features of the PWM module, users are advised to use register access macros.</p>
+<blockquote>
+<p>接下来的函数为用户提供了一种配置PWM做最普通操作的方式，这些操作有设定周期，产生左对齐/中心对齐的脉冲，调节脉冲宽度，控制中断/触发/输出特征等功能。然而，PWM模块非常的强大，可以用很多种方式设置，许多用的都不是这些API。为了能充分利用PWM模块的诸多功能，我们推荐用户使用寄存器。</p>
+</blockquote>
+<p>When discussing the various components of a PWM module, this API uses the following labeling convention:</p>
+<p>The generator blocks are called Gen0, Gen1, Gen2 and Gen3.</p>
+<blockquote>
+<p>产生器模块被称为Gen0, Gen1, Gen2 and Gen3.</p>
+</blockquote>
+<p>The two PWM output signals associated with each generator block are called OutA and OutB.</p>
+<blockquote>
+<p>与产生器模块相关的两个PWM输出信号被称为OutA和OutB</p>
+</blockquote>
+<p>The output signals are called PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 and PWM7.</p>
+<blockquote>
+<p>输出信号被称为PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 and PWM7.</p>
+</blockquote>
+<p>PWM0 and PWM1 are associated with Gen0, PWM2 and PWM3 are associated with Gen1, PWM4 and PWM5 are associated with Gen2 and PWM6 and PWM7 are associated with Gen3.</p>
+<blockquote>
+<p>PWM0和PWM1与Gen0相关联，PWM2和PWM3与Gen1相关联，PWM4和PWM5与Gen2相关联，PWM6和PWM7与Gen3相关联。</p>
+</blockquote>
+<p>Also, as a simplifying assumption for this API, comparator A for each generator block is used exclusively to adjust the pulse width of the even numbered PWM outputs (PWM0, PWM2, PWM4 and PWM6). In addition, comparator B is used exclusively for the odd numbered PWM outputs (PWM1, PWM3, PWM5 and PWM7).<br>Note that the number of generators and PWM outputs supported varies depending upon the Tiva part in use. Please consult the datasheet for the part you are using to determine whether it supports 1 or 2 modules with 3 or 4 generators each and 6 or 8 outputs each. </p>
+<blockquote>
+<p>另外，作为对此API的简化假设，每个生成器模块的比较器仅用于调整偶数个PWM输出的脉冲高度，比较器A仅用于计数PWM输出</p>
+<p>请注意，支持的生成器和 PWM 输出的数量因使用的 Tiva 部件而异。请参阅您使用的部件的数据表，以确定它是否支持 1 个或 2 个模块，每个模块有 3 个或 4 个生成器，每个模块有 6 个或 8 个输出。</p>
+</blockquote>
+<p><strong>我们这款单片机包括两个PWM模块，总共有16个输出</strong></p>
+<p>这次我们直接看例程</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the PWM0 peripheral</span></span><br><span class="line"><span class="comment">// 使能PWM外设</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Wait for the PWM0 module to be ready.</span></span><br><span class="line"><span class="comment">// 等待PWM模块准备好</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_PWM0))</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Configure the PWM generator for count down mode with immediate updates</span></span><br><span class="line"><span class="comment">// to the parameters.</span></span><br><span class="line"><span class="comment">// 配置PWM产生器，并设置器为向下计数模式，和非同步模式</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenConfigure(PWM_BASE, PWM_GEN_0,PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the period. For a 50 KHz frequency, the period = 1/50,000, or 20</span></span><br><span class="line"><span class="comment">// microseconds. For a 20 MHz clock, this translates to 400 clock ticks.</span></span><br><span class="line"><span class="comment">// Use this value to set the period.</span></span><br><span class="line"><span class="comment">// 设置周期。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenPeriodSet(PWM_BASE, PWM_GEN_0, <span class="number">400</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the pulse width of PWM0 for a 25% duty cycle.</span></span><br><span class="line"><span class="comment">// 脉冲宽度设置</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMPulseWidthSet(PWM_BASE, PWM_OUT_0, <span class="number">100</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the pulse width of PWM1 for a 75% duty cycle.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMPulseWidthSet(PWM_BASE, PWM_OUT_1, <span class="number">300</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Start the timers in generator 0.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenEnable(PWM_BASE, PWM_GEN_0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the outputs.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMOutputState(PWM_BASE, (PWM_OUT_0_BIT | PWM_OUT_1_BIT), <span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="关注如下函数"><a href="#关注如下函数" class="headerlink" title="关注如下函数"></a>关注如下函数</h2><h4 id="PWMGenConfigure"><a href="#PWMGenConfigure" class="headerlink" title="PWMGenConfigure"></a>PWMGenConfigure</h4><p>用于配置PWM</p>
+<p>This function is used to set the mode of operation for a PWM generator. The counting mode, synchronization mode, and debug behavior are all configured. After configuration, the generator is left in the disabled state.</p>
+<blockquote>
+<p>这个函数用于设置PWM产生器的操作模式。计数模式，同步模式，调试模式都在这里设置。设置之后，产生器处于关闭状态。</p>
+</blockquote>
+<p>A PWM generator can count in two different modes: count down mode or count up/down mode. In count down mode, it counts from a value down to zero, and then resets to the preset value, producing left-aligned PWM signals (that is, the rising edge of the two PWM signals produced by the generator occur at the same time). In count up/down mode, it counts up from zero to the preset value, counts back down to zero, and then repeats the process, producing centeraligned PWM signals (that is, the middle of the high/low period of the PWM signals produced by the generator occurs at the same time).</p>
+<blockquote>
+<p>PWM产生器可以用两种计数模式计数，向下计数模式和向上/向下计数模式。</p>
+<p>在向下计数模式中，它从一个值向下数到零，然后恢复到预设值，产生一个左对齐的PWM信号（也就是说，两个产生器产生的信号的升边同时出现）在向上向下计数模式中，它从零数到预设值，再数回到零，反复这个过程，产生的是中心对齐的PWM信号（也就是说，产生器产生的PWM信号的周期的中间时刻是同时发生的）<strong>每个生成器不是能产生两个PWM信号嘛</strong></p>
+</blockquote>
+<p>When the PWM generator parameters (period and pulse width) are modified, their effect on the output PWM signals can be delayed. In synchronous mode, the parameter updates are not applied until a synchronization event occurs. This mode allows multiple parameters to be modified and take effect simultaneously, instead of one at a time. Additionally, parameters to multiple PWM generators in synchronous mode can be updated simultaneously, allowing them to be treated as if they were a unified generator. In non-synchronous mode, the parameter updates are not delayed until a synchronization event. In either mode, the parameter updates only occur when the counter is at zero to help prevent oddly formed PWM signals during the update (that is, a PWM pulse that is too short or too long).</p>
+<blockquote>
+<p>当PWM脉冲产生器的参数（周期和脉冲宽度）被修改时，它们对PWM信号的影响可能会延迟。</p>
+<p>在同步模式下，直到发生同步时间时应用参数才被更新。此模式允许多个参数同时修改并生效，而不是一次一个参数。此外，同步模式下多个 PWM 生成器的参数可以同时更新，从而可以将它们视为统一生成器。</p>
+<p>在非同步模式下，参数 更新不会延迟到同步事件，在任意模式下，参数更新仅在计数器为零时在会发生，用以防止更新期间产生奇怪的PWM信号。</p>
+</blockquote>
+<p>The PWM generator can either pause or continue running when the processor is stopped via the debugger. If configured to pause, it continues to count until it reaches zero, at which point it pauses until the processor is restarted. If configured to continue running, it keeps counting as if nothing had happened.</p>
+<blockquote>
+<p>当调试器使处理器停止时，PWM产生器可以停止/继续运行如果配置为暂停，则它将继续计数，直到达到零，此时它会暂停，直到重新启动处理器。如果配置为继续运行，则继续计数，就像什么都没发生一样。</p>
+</blockquote>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212211525865.png" alt="image-20201212211525865"></p>
+<p>这是这个函数的参数，第一部分是PWM模块的基址，第二部分是PWM产生器，究竟是GEN几，最后是配置参数。</p>
+<p>那么有哪些参数呢？</p>
+<p>PWM_GEN_MODE_DOWN or PWM_GEN_MODE_UP_DOWN to specify the counting<br>mode</p>
+<p><strong>计数模式，就是向上模式还是向上向下模式</strong></p>
+<p>PWM_GEN_MODE_SYNC or PWM_GEN_MODE_NO_SYNC to specify the counter load<br>and comparator update synchronization mode</p>
+<p><strong>不晓得</strong></p>
+<p>PWM_GEN_MODE_DBG_RUN or PWM_GEN_MODE_DBG_STOP to specify the debug<br>behavior</p>
+<p><strong>配置了debug的行为</strong></p>
+<p>PWM_GEN_MODE_GEN_NO_SYNC, PWM_GEN_MODE_GEN_SYNC_LOCAL, or<br>PWM_GEN_MODE_GEN_SYNC_GLOBAL to specify the update synchronization mode<br>for generator counting mode changes</p>
+<p><strong>不晓得</strong></p>
+<p>PWM_GEN_MODE_DB_NO_SYNC, PWM_GEN_MODE_DB_SYNC_LOCAL, or<br>PWM_GEN_MODE_DB_SYNC_GLOBAL to specify the deadband parameter synchronization<br>mode</p>
+<p><strong>指定死区参数同步模式</strong></p>
+<p>PWM_GEN_MODE_FAULT_LATCHED or PWM_GEN_MODE_FAULT_UNLATCHED to<br>specify whether fault conditions are latched or not</p>
+<p><strong>指定是否锁定故障条件</strong></p>
+<p>PWM_GEN_MODE_FAULT_MINPER or PWM_GEN_MODE_FAULT_NO_MINPER to<br>specify whether minimum fault period support is required</p>
+<p><strong>确定是否需要最小错误周期支持</strong></p>
+<p>PWM_GEN_MODE_FAULT_EXT or PWM_GEN_MODE_FAULT_LEGACY to specify<br>whether extended fault source selection support is enabled or not</p>
+<p><strong>指定是否启用扩展故障源选择支持</strong></p>
+<!--死区就是中性区或者是不作用区-->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="ckmm8ozae000wg43dcwk72wbm" data-title="PWM" class="article-share-link">Share</a>
       
       
       
@@ -710,148 +875,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="ckmm8nzw4000vsk3dgvvn9izn" data-title="midi" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="ckmm8ozae000yg43d3asl9yuv" data-title="midi" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/midi/" rel="tag">midi</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Pulse Width Modulator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/Pulse%20Width%20Modulator/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/Pulse%20Width%20Modulator/">PWM</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="PWM"><a href="#PWM" class="headerlink" title="PWM"></a>PWM</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has two PWM output signals, which can be operated independently or as a pair of signals with dead band delays inserted. Each generator block also has an interrupt output and a trigger output. The control block determines the polarity of the PWM signals and which signals are passed through to the pins.</p>
-<blockquote>
-<p>每个PWM提供了最多4个PWM发生器和一个输出控制模块，每一个发生器能产生两个PWM输出信号，可以独立操作，也可以作为一对插入了死区延迟的信号运行。每一个生成器块还有一个中断输出和一个触发输出，控制块确定PWM信号的极性以及哪些信号传递到引脚。</p>
-</blockquote>
-<p>Some of the features of the Tiva PWM module are:<br>Up to four generator blocks, each containing<br>• One 16-bit down or up/down counter<br>• Two comparators<br>• PWM generator<br>• Dead band generator</p>
-<blockquote>
-<p>至多4个产生模块，每一个产生模块包括</p>
-<blockquote>
-<p>一个十六位的向上/向下计数器</p>
-<p>两个比较器</p>
-<p>PWM产生器</p>
-<p>死区产生器</p>
-</blockquote>
-</blockquote>
-<p>Control block<br>• PWM output enable<br>• Output polarity control<br>• Synchronization<br>• Fault handling<br>• Interrupt status</p>
-<blockquote>
-<p>控制模块有</p>
-<blockquote>
-<p>PWM输出使能</p>
-<p>输出极性控制</p>
-<p>错误处理</p>
-<p>中断状态</p>
-</blockquote>
-</blockquote>
-<p>This driver is contained in driverlib/pwm.c, with driverlib/pwm.h containing the API declarations for use by applications.</p>
-<h2 id="细节描述"><a href="#细节描述" class="headerlink" title="细节描述"></a>细节描述</h2><p>These functions perform high-level operations on PWM modules.</p>
-<blockquote>
-<p>这些模块表现了高水平的对PWM的操作</p>
-</blockquote>
-<p>The following functions provide the user with a way to configure the PWM for the most common operations, such as setting the period, generating left- and center-aligned pulses, modifying the pulse width, and controlling interrupts, triggers, and output characteristics. However, the PWM module is very versatile and can be configured in a number of different ways, many of which are beyond the scope of this API. In order to fully exploit the many features of the PWM module, users are advised to use register access macros.</p>
-<blockquote>
-<p>接下来的函数为用户提供了一种配置PWM做最普通操作的方式，这些操作有设定周期，产生左对齐/中心对齐的脉冲，调节脉冲宽度，控制中断/触发/输出特征等功能。然而，PWM模块非常的强大，可以用很多种方式设置，许多用的都不是这些API。为了能充分利用PWM模块的诸多功能，我们推荐用户使用寄存器。</p>
-</blockquote>
-<p>When discussing the various components of a PWM module, this API uses the following labeling convention:</p>
-<p>The generator blocks are called Gen0, Gen1, Gen2 and Gen3.</p>
-<blockquote>
-<p>产生器模块被称为Gen0, Gen1, Gen2 and Gen3.</p>
-</blockquote>
-<p>The two PWM output signals associated with each generator block are called OutA and OutB.</p>
-<blockquote>
-<p>与产生器模块相关的两个PWM输出信号被称为OutA和OutB</p>
-</blockquote>
-<p>The output signals are called PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 and PWM7.</p>
-<blockquote>
-<p>输出信号被称为PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 and PWM7.</p>
-</blockquote>
-<p>PWM0 and PWM1 are associated with Gen0, PWM2 and PWM3 are associated with Gen1, PWM4 and PWM5 are associated with Gen2 and PWM6 and PWM7 are associated with Gen3.</p>
-<blockquote>
-<p>PWM0和PWM1与Gen0相关联，PWM2和PWM3与Gen1相关联，PWM4和PWM5与Gen2相关联，PWM6和PWM7与Gen3相关联。</p>
-</blockquote>
-<p>Also, as a simplifying assumption for this API, comparator A for each generator block is used exclusively to adjust the pulse width of the even numbered PWM outputs (PWM0, PWM2, PWM4 and PWM6). In addition, comparator B is used exclusively for the odd numbered PWM outputs (PWM1, PWM3, PWM5 and PWM7).<br>Note that the number of generators and PWM outputs supported varies depending upon the Tiva part in use. Please consult the datasheet for the part you are using to determine whether it supports 1 or 2 modules with 3 or 4 generators each and 6 or 8 outputs each. </p>
-<blockquote>
-<p>另外，作为对此API的简化假设，每个生成器模块的比较器仅用于调整偶数个PWM输出的脉冲高度，比较器A仅用于计数PWM输出</p>
-<p>请注意，支持的生成器和 PWM 输出的数量因使用的 Tiva 部件而异。请参阅您使用的部件的数据表，以确定它是否支持 1 个或 2 个模块，每个模块有 3 个或 4 个生成器，每个模块有 6 个或 8 个输出。</p>
-</blockquote>
-<p><strong>我们这款单片机包括两个PWM模块，总共有16个输出</strong></p>
-<p>这次我们直接看例程</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the PWM0 peripheral</span></span><br><span class="line"><span class="comment">// 使能PWM外设</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Wait for the PWM0 module to be ready.</span></span><br><span class="line"><span class="comment">// 等待PWM模块准备好</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_PWM0))</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Configure the PWM generator for count down mode with immediate updates</span></span><br><span class="line"><span class="comment">// to the parameters.</span></span><br><span class="line"><span class="comment">// 配置PWM产生器，并设置器为向下计数模式，和非同步模式</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenConfigure(PWM_BASE, PWM_GEN_0,PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the period. For a 50 KHz frequency, the period = 1/50,000, or 20</span></span><br><span class="line"><span class="comment">// microseconds. For a 20 MHz clock, this translates to 400 clock ticks.</span></span><br><span class="line"><span class="comment">// Use this value to set the period.</span></span><br><span class="line"><span class="comment">// 设置周期。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenPeriodSet(PWM_BASE, PWM_GEN_0, <span class="number">400</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the pulse width of PWM0 for a 25% duty cycle.</span></span><br><span class="line"><span class="comment">// 脉冲宽度设置</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMPulseWidthSet(PWM_BASE, PWM_OUT_0, <span class="number">100</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the pulse width of PWM1 for a 75% duty cycle.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMPulseWidthSet(PWM_BASE, PWM_OUT_1, <span class="number">300</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Start the timers in generator 0.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenEnable(PWM_BASE, PWM_GEN_0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the outputs.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMOutputState(PWM_BASE, (PWM_OUT_0_BIT | PWM_OUT_1_BIT), <span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
-<h2 id="关注如下函数"><a href="#关注如下函数" class="headerlink" title="关注如下函数"></a>关注如下函数</h2><h4 id="PWMGenConfigure"><a href="#PWMGenConfigure" class="headerlink" title="PWMGenConfigure"></a>PWMGenConfigure</h4><p>用于配置PWM</p>
-<p>This function is used to set the mode of operation for a PWM generator. The counting mode, synchronization mode, and debug behavior are all configured. After configuration, the generator is left in the disabled state.</p>
-<blockquote>
-<p>这个函数用于设置PWM产生器的操作模式。计数模式，同步模式，调试模式都在这里设置。设置之后，产生器处于关闭状态。</p>
-</blockquote>
-<p>A PWM generator can count in two different modes: count down mode or count up/down mode. In count down mode, it counts from a value down to zero, and then resets to the preset value, producing left-aligned PWM signals (that is, the rising edge of the two PWM signals produced by the generator occur at the same time). In count up/down mode, it counts up from zero to the preset value, counts back down to zero, and then repeats the process, producing centeraligned PWM signals (that is, the middle of the high/low period of the PWM signals produced by the generator occurs at the same time).</p>
-<blockquote>
-<p>PWM产生器可以用两种计数模式计数，向下计数模式和向上/向下计数模式。</p>
-<p>在向下计数模式中，它从一个值向下数到零，然后恢复到预设值，产生一个左对齐的PWM信号（也就是说，两个产生器产生的信号的升边同时出现）在向上向下计数模式中，它从零数到预设值，再数回到零，反复这个过程，产生的是中心对齐的PWM信号（也就是说，产生器产生的PWM信号的周期的中间时刻是同时发生的）<strong>每个生成器不是能产生两个PWM信号嘛</strong></p>
-</blockquote>
-<p>When the PWM generator parameters (period and pulse width) are modified, their effect on the output PWM signals can be delayed. In synchronous mode, the parameter updates are not applied until a synchronization event occurs. This mode allows multiple parameters to be modified and take effect simultaneously, instead of one at a time. Additionally, parameters to multiple PWM generators in synchronous mode can be updated simultaneously, allowing them to be treated as if they were a unified generator. In non-synchronous mode, the parameter updates are not delayed until a synchronization event. In either mode, the parameter updates only occur when the counter is at zero to help prevent oddly formed PWM signals during the update (that is, a PWM pulse that is too short or too long).</p>
-<blockquote>
-<p>当PWM脉冲产生器的参数（周期和脉冲宽度）被修改时，它们对PWM信号的影响可能会延迟。</p>
-<p>在同步模式下，直到发生同步时间时应用参数才被更新。此模式允许多个参数同时修改并生效，而不是一次一个参数。此外，同步模式下多个 PWM 生成器的参数可以同时更新，从而可以将它们视为统一生成器。</p>
-<p>在非同步模式下，参数 更新不会延迟到同步事件，在任意模式下，参数更新仅在计数器为零时在会发生，用以防止更新期间产生奇怪的PWM信号。</p>
-</blockquote>
-<p>The PWM generator can either pause or continue running when the processor is stopped via the debugger. If configured to pause, it continues to count until it reaches zero, at which point it pauses until the processor is restarted. If configured to continue running, it keeps counting as if nothing had happened.</p>
-<blockquote>
-<p>当调试器使处理器停止时，PWM产生器可以停止/继续运行如果配置为暂停，则它将继续计数，直到达到零，此时它会暂停，直到重新启动处理器。如果配置为继续运行，则继续计数，就像什么都没发生一样。</p>
-</blockquote>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212211525865.png" alt="image-20201212211525865"></p>
-<p>这是这个函数的参数，第一部分是PWM模块的基址，第二部分是PWM产生器，究竟是GEN几，最后是配置参数。</p>
-<p>那么有哪些参数呢？</p>
-<p>PWM_GEN_MODE_DOWN or PWM_GEN_MODE_UP_DOWN to specify the counting<br>mode</p>
-<p><strong>计数模式，就是向上模式还是向上向下模式</strong></p>
-<p>PWM_GEN_MODE_SYNC or PWM_GEN_MODE_NO_SYNC to specify the counter load<br>and comparator update synchronization mode</p>
-<p><strong>不晓得</strong></p>
-<p>PWM_GEN_MODE_DBG_RUN or PWM_GEN_MODE_DBG_STOP to specify the debug<br>behavior</p>
-<p><strong>配置了debug的行为</strong></p>
-<p>PWM_GEN_MODE_GEN_NO_SYNC, PWM_GEN_MODE_GEN_SYNC_LOCAL, or<br>PWM_GEN_MODE_GEN_SYNC_GLOBAL to specify the update synchronization mode<br>for generator counting mode changes</p>
-<p><strong>不晓得</strong></p>
-<p>PWM_GEN_MODE_DB_NO_SYNC, PWM_GEN_MODE_DB_SYNC_LOCAL, or<br>PWM_GEN_MODE_DB_SYNC_GLOBAL to specify the deadband parameter synchronization<br>mode</p>
-<p><strong>指定死区参数同步模式</strong></p>
-<p>PWM_GEN_MODE_FAULT_LATCHED or PWM_GEN_MODE_FAULT_UNLATCHED to<br>specify whether fault conditions are latched or not</p>
-<p><strong>指定是否锁定故障条件</strong></p>
-<p>PWM_GEN_MODE_FAULT_MINPER or PWM_GEN_MODE_FAULT_NO_MINPER to<br>specify whether minimum fault period support is required</p>
-<p><strong>确定是否需要最小错误周期支持</strong></p>
-<p>PWM_GEN_MODE_FAULT_EXT or PWM_GEN_MODE_FAULT_LEGACY to specify<br>whether extended fault source selection support is enabled or not</p>
-<p><strong>指定是否启用扩展故障源选择支持</strong></p>
-<!--死区就是中性区或者是不作用区-->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="ckmm8nzw5000xsk3dczpt51ts" data-title="PWM" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
 
     </footer>
   </div>
@@ -910,7 +938,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/System%20Tick/" data-id="ckmm8nzw60010sk3db9loa1as" data-title="SysTick" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/System%20Tick/" data-id="ckmm8ozaf0010g43ddvra83ai" data-title="SysTick" class="article-share-link">Share</a>
       
       
       
@@ -955,7 +983,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/TIMER_CAPTURE/" data-id="ckmm8nzw60012sk3d47l3166p" data-title="Timer Capture" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/TIMER_CAPTURE/" data-id="ckmm8ozag0013g43d5whmfa3x" data-title="Timer Capture" class="article-share-link">Share</a>
       
       
       
@@ -969,9 +997,9 @@
 
 
   
-    <article id="post-UART" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-boosterpacks" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/01/29/UART/" class="article-date">
+    <a href="/2021/01/29/boosterpacks/" class="article-date">
   <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
 </a>
     
@@ -983,7 +1011,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/UART/">UART</a>
+      <a class="p-name article-title" href="/2021/01/29/boosterpacks/">BoosterPacks使用</a>
     </h1>
   
 
@@ -991,58 +1019,12 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="UART"><a href="#UART" class="headerlink" title="UART"></a>UART</h1><p>UART能干什么？</p>
-<p>能用来通信。</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wxc971231/article/details/95624942?utm_medium=distribute.pc_relevant.none-task-blog-OPENSEARCH-1.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-OPENSEARCH-1.control">感谢这个人的博客</a></p>
-<h3 id="基本功能-向上位机输出一个字符"><a href="#基本功能-向上位机输出一个字符" class="headerlink" title="基本功能 向上位机输出一个字符"></a>基本功能 向上位机输出一个字符</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能UART和GPIO</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);</span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);</span><br><span class="line"><span class="comment">//复用GPIO口为UART功能</span></span><br><span class="line">GPIOPinConfigure(GPIO_PA0_U0RX);</span><br><span class="line">GPIOPinConfigure(GPIO_PA1_U0TX);</span><br><span class="line">GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);</span><br><span class="line"><span class="comment">//设置UART组、频率、波特率、模式</span></span><br><span class="line">UARTConfigSetExpClk(UART0_BASE, SysCtlClockGet(), <span class="number">115200</span>, (UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE | UART_CONFIG_PAR_NONE));</span><br><span class="line"><span class="comment">//输出字符</span></span><br><span class="line">UARTCharPut(UART0_BASE, <span class="string">&#x27;E&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>模式说明：The ui32Config parameter is the logical OR of three values: the number of data bits, the number of stop bits, and the parity. UART_CONFIG_WLEN_8, UART_CONFIG_WLEN_7, UART_CONFIG_WLEN_6, and UART_CONFIG_WLEN_5 select from eight to five data bits per byte (respectively). UART_CONFIG_STOP_ONE and UART_CONFIG_STOP_TWO select one or two stop bits (respectively). UART_CONFIG_PAR_NONE, UART_CONFIG_PAR_EVEN, UART_CONFIG_PAR_ODD, UART_CONFIG_PAR_ONE, and UART_CONFIG_PAR_ZERO select the parity mode (no parity bit, even parity bit, odd parity bit, parity bit always one, and parity bit always zero,<br>respectively).</p>
-<p>就是设置每一个byte有多少数据位，多长停止位，多长奇偶校验位</p>
-</blockquote>
-<h3 id="进阶功能-格式化输出到上位机"><a href="#进阶功能-格式化输出到上位机" class="headerlink" title="进阶功能 格式化输出到上位机"></a>进阶功能 格式化输出到上位机</h3><ul>
-<li>UART时钟、波特率配置函数需要从<code>UARTConfigSetExpClk</code>变为<code>UARTStdioConfig</code></li>
-</ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能外设</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_UART1);</span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置复用功能</span></span><br><span class="line">GPIOPinConfigure(GPIO_PB0_U1RX);</span><br><span class="line">GPIOPinConfigure(GPIO_PB1_U1TX);</span><br><span class="line"></span><br><span class="line"><span class="comment">//分配UART信号</span></span><br><span class="line">GPIOPinTypeUART(GPIO_PORTB_BASE,GPIO_PIN_0|GPIO_PIN_1);</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置UART参数(这样配置可以用UARTprintf)</span></span><br><span class="line">UARTClockSourceSet(UART1_BASE, UART_CLOCK_PIOSC);	</span><br><span class="line"><span class="comment">//使用16MHz内部高精度振荡器(PIOSC)作为UART模块时钟</span></span><br><span class="line">UARTStdioConfig(<span class="number">1</span>,<span class="number">115200</span>, <span class="number">16000000</span>);</span><br><span class="line"><span class="comment">//UART编号、波特率、UART时钟频率（频率要和上一行设的一致）</span></span><br><span class="line"></span><br><span class="line">UARTprintf(<span class="string">&quot;Enter Text: \n&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">uint8_t</span> getChar;</span><br><span class="line"><span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">&#123;</span><br><span class="line">	getChar=UARTCharGet(UART1_BASE);</span><br><span class="line">	UARTCharPut(UART1_BASE,getChar);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="更加进阶的功能-UART中断"><a href="#更加进阶的功能-UART中断" class="headerlink" title="更加进阶的功能 UART中断"></a>更加进阶的功能 UART中断</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigureUART</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// Enable the GPIO Peripheral used by the UART.</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);</span><br><span class="line"></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_UART1);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// Configure GPIO Pins for UART mode.</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PC4_U1RX);</span><br><span class="line">    GPIOPinConfigure(GPIO_PC5_U1TX);</span><br><span class="line">    GPIOPinTypeUART(GPIO_PORTC_BASE, GPIO_PIN_4 | GPIO_PIN_5);</span><br><span class="line"></span><br><span class="line">    UARTClockSourceSet(UART1_BASE, UART_CLOCK_PIOSC);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// Initialize the UART for console I/O.</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    UARTStdioConfig(<span class="number">1</span>, <span class="number">115200</span>, <span class="number">16000000</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UARTIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="comment">//清除中断标志</span></span><br><span class="line">       <span class="keyword">uint32_t</span> ui32Status;</span><br><span class="line">       ui32Status = UARTIntStatus(UART1_BASE, <span class="literal">true</span>);</span><br><span class="line">       UARTIntClear(UART1_BASE, ui32Status);</span><br><span class="line">       <span class="comment">//循环直到接受队列中不存在字符</span></span><br><span class="line">       <span class="keyword">while</span>(UARTCharsAvail(UART1_BASE))<span class="comment">//loop while there are chars</span></span><br><span class="line">       &#123;</span><br><span class="line">           <span class="comment">//串口输出一个char型</span></span><br><span class="line">           UARTCharPutNonBlocking(UART1_BASE,UARTCharGetNonBlocking(UART1_BASE));</span><br><span class="line">           <span class="comment">//闪一下灯</span></span><br><span class="line">           GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2);</span><br><span class="line">           SysCtlDelay(SysCtlClockGet() /<span class="number">10</span> / <span class="number">3</span>);</span><br><span class="line">           GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, <span class="number">0</span>);</span><br><span class="line">           SysCtlDelay(SysCtlClockGet() / <span class="number">10</span> / <span class="number">3</span>);</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">int_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    IntEnable(INT_UART1);</span><br><span class="line">    UARTIntEnable(UART1_BASE,UART_INT_RX|UART_INT_RT);</span><br><span class="line">    UARTIntRegister(UART1_BASE,UARTIntHandler);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    MAP_FPULazyStackingEnable();</span><br><span class="line">    MAP_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ |</span><br><span class="line">                       SYSCTL_OSC_MAIN);</span><br><span class="line">    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    MAP_GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2);</span><br><span class="line">    ConfigureUART();</span><br><span class="line">    int_init();</span><br><span class="line">    UARTprintf(<span class="string">&quot;Hello, world!\n&quot;</span>);</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="至高功能-测试FIFO"><a href="#至高功能-测试FIFO" class="headerlink" title="至高功能 测试FIFO"></a>至高功能 测试FIFO</h3><p>代码放在这，有时间再看</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//配置接收中断，当接收FIFO半满（8byte）时触发。利用串口调试助手一个char一个char发送。</span></span><br><span class="line"><span class="comment">//观察到发送8个char后进入中断，FIFO测试成功</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/tm4c123gh6pm.h&quot;</span>				<span class="comment">//Register Definitions</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_types.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/sysctl.h&quot;</span></span></span><br><span class="line"><span class="comment">//#include &quot;inc/hw_ints.h&quot;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/interrupt.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/gpio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/uart.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;uartstdio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/systick.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pin_map.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> delay_ms(n); SysCtlDelay(n*(SysCtlClockGet()/3000));</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UARTIntHandler</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">uint32_t</span> ui32Status;</span><br><span class="line">	ui32Status = UARTIntStatus(UART1_BASE, <span class="literal">true</span>); <span class="comment">//get interrupt status</span></span><br><span class="line">	UARTIntClear(UART1_BASE, ui32Status); 				<span class="comment">//clear the asserted interrupts</span></span><br><span class="line">	<span class="keyword">while</span>(UARTCharsAvail(UART1_BASE)) 						<span class="comment">//loop while there are chars</span></span><br><span class="line">	&#123;</span><br><span class="line">		UARTCharPutNonBlocking(UART1_BASE, UARTCharGetNonBlocking(UART1_BASE)); <span class="comment">//echo character</span></span><br><span class="line">		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2); <span class="comment">//blink LED</span></span><br><span class="line">		delay_ms(<span class="number">1</span>);</span><br><span class="line">		GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, <span class="number">0</span>); <span class="comment">//turn off LED</span></span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123;	</span><br><span class="line">	SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//使能外设</span></span><br><span class="line">	SysCtlPeripheralEnable(SYSCTL_PERIPH_UART1);</span><br><span class="line">	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//配置复用功能</span></span><br><span class="line">	GPIOPinConfigure(GPIO_PB0_U1RX);</span><br><span class="line">	GPIOPinConfigure(GPIO_PB1_U1TX);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//分配UART信号</span></span><br><span class="line">	GPIOPinTypeUART(GPIO_PORTB_BASE,GPIO_PIN_0|GPIO_PIN_1);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//LED配置</span></span><br><span class="line">	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF); 				<span class="comment">//enable GPIO port for LED</span></span><br><span class="line">	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2); <span class="comment">//enable pin for LED PF2</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//串口参数设置</span></span><br><span class="line">	UARTClockSourceSet(UART1_BASE, UART_CLOCK_PIOSC);	<span class="comment">//使用16MHz内部高精度振荡器(PIOSC)作为UART模块时钟</span></span><br><span class="line">	UARTStdioConfig(<span class="number">1</span>,<span class="number">115200</span>, <span class="number">16000000</span>);							<span class="comment">//UART编号、波特率、UART时钟频率（频率要和上一行设的一致）</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//FIFO配置，</span></span><br><span class="line">	UARTFIFOLevelSet(UART1_BASE,UART_FIFO_TX4_8,UART_FIFO_RX4_8);	<span class="comment">//FIFO填入半满（8byte）时触发中断</span></span><br><span class="line">	UARTFIFOEnable(UART1_BASE);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//中断使能</span></span><br><span class="line">	IntMasterEnable(); 																			<span class="comment">//enable processor interrupts</span></span><br><span class="line">	IntEnable(INT_UART1); 																	<span class="comment">//enable the UART interrupt</span></span><br><span class="line">	UARTIntEnable(UART1_BASE, UART_INT_RX); 	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//注册中断服务函数</span></span><br><span class="line">	UARTIntRegister(UART1_BASE,UARTIntHandler);</span><br><span class="line">	</span><br><span class="line">	UARTprintf(<span class="string">&quot;Enter Text: \n&quot;</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) <span class="comment">//let interrupt handler do the UART echo function</span></span><br><span class="line">	&#123;	</span><br><span class="line">		;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>进一步进行其他FIFO中断测试，如下：</p>
-<ul>
-<li><strong>打开FIFO的情况下</strong>，打开<code>UART_INT_OE</code>（FIFO溢出中断），此时<strong>FIFO深度无作用</strong>，FIFO接收17个（FIFO溢出）后进入中断，第17个byte丢失，会输出FIFO中存储的所有16个字符，特别注意FIFO溢出是一个错误引发的中断，在中断服务函数中，<strong>除了用<code>UARTIntClear</code>清除标志，还要写一句<code>HWREG(UART1_BASE+UART_O_ECR)=0;</code>清除错误标志</strong>，否则中断只能进一次。</li>
-<li><strong>关闭FIFO的情况下（相当于FIFO深度为1）</strong>，打开<code>UART_INT_OE</code>（FIFO溢出中断），连续收到两个byte溢出，在中断中打印第一个byte；打开<code>UART_INT_RX</code>（FIFO溢出中断），每收到一个byte都会进中断打印</li>
-</ul>
-<h2 id="部分库函数小结"><a href="#部分库函数小结" class="headerlink" title="部分库函数小结"></a>部分库函数小结</h2><h4 id="（1）void-UARTprintf-const-char-pcString-…"><a href="#（1）void-UARTprintf-const-char-pcString-…" class="headerlink" title="（1）void UARTprintf(const char *pcString, …)"></a>（1）void UARTprintf(const char *pcString, …)</h4><ol>
-<li>包含<code>uartstdio.c</code>和<code>uartstdio.h</code>后可用</li>
-<li>类似C语言printf()</li>
-</ol>
-<h4 id="（2）void-UARTCharPut-uint32-t-ui32Base-unsigned-char-ucData"><a href="#（2）void-UARTCharPut-uint32-t-ui32Base-unsigned-char-ucData" class="headerlink" title="（2）void UARTCharPut(uint32_t ui32Base, unsigned char ucData)"></a>（2）void UARTCharPut(uint32_t ui32Base, unsigned char ucData)</h4><ol>
-<li>串口输出一个char型</li>
-<li>等待FIFO中有数据再发送</li>
-</ol>
-<h4 id="（3）int32-t-UARTCharGet-uint32-t-ui32Base"><a href="#（3）int32-t-UARTCharGet-uint32-t-ui32Base" class="headerlink" title="（3）int32_t UARTCharGet(uint32_t ui32Base)"></a>（3）int32_t UARTCharGet(uint32_t ui32Base)</h4><ol>
-<li>串口接收一个uint32_t型数据</li>
-<li>等待FIFO中有数据再接收</li>
-</ol>
-<h4 id="（4）bool-UARTCharPutNonBlocking-uint32-t-ui32Base-unsigned-char-ucData"><a href="#（4）bool-UARTCharPutNonBlocking-uint32-t-ui32Base-unsigned-char-ucData" class="headerlink" title="（4）bool UARTCharPutNonBlocking(uint32_t ui32Base, unsigned char ucData)"></a>（4）bool UARTCharPutNonBlocking(uint32_t ui32Base, unsigned char ucData)</h4><ol>
-<li>串口输出一个char型</li>
-<li>若发送时FIFO已满时，直接返回false而不在那循环等待</li>
-</ol>
-<h4 id="（5）int32-t-UARTCharGetNonBlocking-uint32-t-ui32Base"><a href="#（5）int32-t-UARTCharGetNonBlocking-uint32-t-ui32Base" class="headerlink" title="（5）int32_t UARTCharGetNonBlocking(uint32_t ui32Base)"></a>（5）int32_t UARTCharGetNonBlocking(uint32_t ui32Base)</h4><ol>
-<li>串口接收一个uint32_t型数据</li>
-<li>如果遇到接收时FIFO为空，直接返回false而不在那循环等待</li>
-</ol>
-<h4 id="（6）void-UARTFIFOLevelSet-uint32-t-ui32Base-uint32-t-ui32TxLevel-uint32-t-ui32RxLevel"><a href="#（6）void-UARTFIFOLevelSet-uint32-t-ui32Base-uint32-t-ui32TxLevel-uint32-t-ui32RxLevel" class="headerlink" title="（6）void UARTFIFOLevelSet(uint32_t ui32Base, uint32_t ui32TxLevel,uint32_t ui32RxLevel)"></a>（6）void UARTFIFOLevelSet(uint32_t ui32Base, uint32_t ui32TxLevel,uint32_t ui32RxLevel)</h4><ol>
-<li>配置输入输出FIFO的深度</li>
-</ol>
-<h4 id="（7）void-UARTFIFOEnable-uint32-t-ui32Base"><a href="#（7）void-UARTFIFOEnable-uint32-t-ui32Base" class="headerlink" title="（7）void UARTFIFOEnable(uint32_t ui32Base)"></a>（7）void UARTFIFOEnable(uint32_t ui32Base)</h4><ol>
-<li>开启某UART的FIFO功能</li>
-</ol>
-<hr>
-<h2 id="UART向上位机发送信息模板"><a href="#UART向上位机发送信息模板" class="headerlink" title="UART向上位机发送信息模板"></a>UART向上位机发送信息模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ConfigureUART();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigureUART</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);</span><br><span class="line">    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);</span><br><span class="line">    ROM_GPIOPinConfigure(GPIO_PA0_U0RX);</span><br><span class="line">    ROM_GPIOPinConfigure(GPIO_PA1_U0TX);</span><br><span class="line">    ROM_GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0 | GPIO_PIN_1);</span><br><span class="line">    UARTClockSourceSet(UART0_BASE, UART_CLOCK_PIOSC);</span><br><span class="line">    UARTStdioConfig(<span class="number">0</span>, <span class="number">115200</span>, <span class="number">16000000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="BoosterPacks的使用"><a href="#BoosterPacks的使用" class="headerlink" title="BoosterPacks的使用"></a>BoosterPacks的使用</h1><p>留坑</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/UART/" data-id="ckmm8nzw70014sk3da6mt16ri" data-title="UART" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/boosterpacks/" data-id="ckmm8ozag0015g43d9adh686l" data-title="BoosterPacks使用" class="article-share-link">Share</a>
       
       
       
