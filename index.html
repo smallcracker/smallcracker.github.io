@@ -75,6 +75,228 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-002-GPIO" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/23/002-GPIO/" class="article-date">
+  <time class="dt-published" datetime="2021-03-22T16:00:00.000Z" itemprop="datePublished">2021-03-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/23/002-GPIO/">stm32_GPIO</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="stm32-GPIO"><a href="#stm32-GPIO" class="headerlink" title="stm32 GPIO"></a>stm32 GPIO</h1><h2 id="GPIO基本结构"><a href="#GPIO基本结构" class="headerlink" title="GPIO基本结构"></a>GPIO基本结构</h2><p><img src="20180408224319518.png" alt="basic_structure"><br>说明：  </p>
+<ul>
+<li>保护二极管：IO引脚上下两边两个二极管用于防止引脚外部过高、过低的电压输入。当引脚电压高于VDD时，上方的二极管导通；当引脚电压低于VSS时，下方的二极管导通，防止不正常电压引入芯片导致芯片烧毁。但是尽管如此，还是不能直接外接大功率器件，须加大功率及隔离电路驱动，防止烧坏芯片或者外接器件无法正常工作。</li>
+<li>P-MOS管和N-MOS管：由P-MOS管和N-MOS管组成的单元电路使得GPIO具有“推挽输出”和“开漏输出”的模式。这里的电路会在下面很详细地分析到。</li>
+<li>TTL肖特基触发器：信号经过触发器后，模拟信号转化为0和1的数字信号。但是，当GPIO引脚作为ADC采集电压的输入通道时，用其“模拟输入”功能，此时信号不再经过触发器进行TTL电平转换。ADC外设要采集到的原始的模拟信号。<h3 id="浮空输入模式"><a href="#浮空输入模式" class="headerlink" title="浮空输入模式"></a>浮空输入模式</h3><img src="浮空输入.png" alt="浮空输入"><br>浮空输入模式下，I/O端口的电平信号直接进入输入数据寄存器。也就是说，I/O的电平状态是不确定的，完全由外部输入决定；如果在该引脚悬空（在无信号输入）的情况下，读取该端口的电平是不确定的。</li>
+</ul>
+<h3 id="上拉输入模式"><a href="#上拉输入模式" class="headerlink" title="上拉输入模式"></a>上拉输入模式</h3><p><img src="C:\primary-project\stm32\学习心得\上拉输入模式.png" alt="上拉输入"><br>上拉输入模式下，I/O端口的电平信号直接进入输入数据寄存器。但是在I/O端口悬空（在无信号输入）的情况下，输入端的电平可以保持在高电平；并且在I/O端口输入为低电平的时候，输入端的电平也还是低电平。</p>
+<h3 id="下拉输入模式"><a href="#下拉输入模式" class="headerlink" title="下拉输入模式"></a>下拉输入模式</h3><p><img src="C:\primary-project\stm32\学习心得\下拉输入模式.png" alt="下拉输入模式"></p>
+<p>下拉输入模式下，I/O端口的电平信号直接进入输入数据寄存器。但是在I/O端口悬空（在无信号输入）的情况下，输入端的电平可以保持在低电平；并且在I/O端口输入为高电平的时候，输入端的电平也还是高电平。</p>
+<h3 id="模拟输入模式"><a href="#模拟输入模式" class="headerlink" title="模拟输入模式"></a>模拟输入模式</h3><p><img src="C:\primary-project\stm32\学习心得\模拟输入模式.png" alt="模拟输入模式"></p>
+<p>模拟输入模式下，I/O端口的模拟信号（电压信号，而非电平信号）直接模拟输入到片上外设模块，比如ADC模块等等。</p>
+<h3 id="开漏输出模式"><a href="#开漏输出模式" class="headerlink" title="开漏输出模式"></a>开漏输出模式</h3><p><img src="C:\primary-project\stm32\学习心得\开漏输出模式.png" alt="开漏输出模式"></p>
+<p>和厕所的浮阀一样，没有信号时，电平上下浮动，有输出时（相当于浮阀被按下），电平被拉低。</p>
+<p>开漏输出模式下，通过设置位设置/清除寄存器或者输出数据寄存器的值，途经N-MOS管，最终输出到I/O端口。这里要注意N-MOS管，当设置输出的值为高电平的时候，N-MOS管处于关闭状态，此时I/O端口的电平就不会由输出的高低电平决定，而是由I/O端口外部的上拉或者下拉决定；当设置输出的值为低电平的时候，N-MOS管处于开启状态，此时I/O端口的电平就是低电平。同时，I/O端口的电平也可以通过输入电路进行读取；注意，I/O端口的电平不一定是输出的电平。</p>
+<h3 id="开漏复用输出模式"><a href="#开漏复用输出模式" class="headerlink" title="开漏复用输出模式"></a>开漏复用输出模式</h3><p><img src="C:\primary-project\stm32\学习心得\开漏复用输出模式.png" alt="开漏复用输出模式"></p>
+<p>开漏复用输出模式，与开漏输出模式很是类似。只是输出的高低电平的来源，不是让CPU直接写输出数据寄存器，取而代之利用片上外设模块的复用功能输出来决定的。</p>
+<h3 id="推挽输出模式"><a href="#推挽输出模式" class="headerlink" title="推挽输出模式"></a>推挽输出模式</h3><p><img src="C:\primary-project\stm32\学习心得\推挽输出模式.png" alt="推挽输出模式"></p>
+<p>很是自由，想高就一定高，相低就一定低。</p>
+<p>推挽输出模式下，通过设置位设置/清除寄存器或者输出数据寄存器的值，途经P-MOS管和N-MOS管，最终输出到I/O端口。这里要注意P-MOS管和N-MOS管，当设置输出的值为高电平的时候，P-MOS管处于开启状态，N-MOS管处于关闭状态，此时I/O端口的电平就由P-MOS管决定：高电平；当设置输出的值为低电平的时候，P-MOS管处于关闭状态，N-MOS管处于开启状态，此时I/O端口的电平就由N-MOS管决定：低电平。同时，I/O端口的电平也可以通过输入电路进行读取；注意，此时I/O端口的电平一定是输出的电平。</p>
+<h3 id="推挽复用输出模式"><a href="#推挽复用输出模式" class="headerlink" title="推挽复用输出模式"></a>推挽复用输出模式</h3><p><img src="C:\primary-project\stm32\学习心得\推挽复用输出模式.png" alt="推挽复用输出模式"></p>
+<p>推挽复用输出模式，与推挽输出模式很是类似。只是输出的高低电平的来源，不是让CPU直接写输出数据寄存器，取而代之利用片上外设模块的复用功能输出来决定的。</p>
+<h2 id="怎样选择输出模式"><a href="#怎样选择输出模式" class="headerlink" title="怎样选择输出模式"></a>怎样选择输出模式</h2><ul>
+<li><p>推挽输出是虎妈，对电平有绝对控制权，开漏输出是猫爸，只会在必要的时候拉低电平（其实我们可以加用外部电阻来拉高），如图所示  </p>
+<p><img src="C:\primary-project\stm32\学习心得\推挽与开漏的区别.jpg" alt="图片"></p>
+</li>
+<li><p>I2C的SCL、SDA使用复用推挽输出</p>
+</li>
+<li><p>TX1、MOSI、MISO.SCK.SS使用复用开漏输出功能</p>
+</li>
+</ul>
+<h2 id="怎样选择输入模式"><a href="#怎样选择输入模式" class="headerlink" title="怎样选择输入模式"></a>怎样选择输入模式</h2><ul>
+<li>按键使用浮空输入</li>
+<li>ADC功能使用模拟输入</li>
+</ul>
+<h2 id="相关寄存器"><a href="#相关寄存器" class="headerlink" title="相关寄存器"></a>相关寄存器</h2><p>CRL、CRH、IDR、ODR</p>
+<p>每一组IO都有这样几个寄存器</p>
+<h3 id="CRL和CRH"><a href="#CRL和CRH" class="headerlink" title="CRL和CRH"></a>CRL和CRH</h3><p>负责配置串口是输入还是输出，什么串口模式。每一个串口的配置是4bit，也就是十六进制下的一位</p>
+<p>所以，在十六进制下，这就是两个八位数，每一位都对应着一组串口的配置，常用配置：</p>
+<ul>
+<li>0x0 模拟输入，ADC使用</li>
+<li>0x3 推挽输出模式，做输出口用，50M速率</li>
+<li>0x8 上下拉输入模式，做输入口用</li>
+<li>0xb 复用输出，50M速率</li>
+</ul>
+<h3 id="IDR"><a href="#IDR" class="headerlink" title="IDR"></a>IDR</h3><p>每一个IO口的状态，只是用了低16位</p>
+<h3 id="ODR"><a href="#ODR" class="headerlink" title="ODR"></a>ODR</h3><p>端口输出数据寄存器</p>
+<h2 id="初始化过程"><a href="#初始化过程" class="headerlink" title="初始化过程"></a>初始化过程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RCC-&gt;APB2ENR|=<span class="number">1</span>&lt;&lt;<span class="number">2</span>; <span class="comment">//使能 PORTA 时钟</span></span><br><span class="line">GPIOA-&gt;CRH&amp;=<span class="number">0XFFFFFFF0</span>; <span class="comment">//清除PA8的配置</span></span><br><span class="line">GPIOA-&gt;CRH|=<span class="number">0X00000003</span>;<span class="comment">//PA8 推挽输出</span></span><br><span class="line">GPIOA-&gt;ODR|=<span class="number">1</span>&lt;&lt;<span class="number">8</span>; <span class="comment">//PA8 输出高</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>可以使用位带操作来进行，例如：我要 PORTA 的第七个 IO 口输出 1，则可以使用 <code>PAout(6)=1;</code>即可实现。我要判断 PORTA 的第 15 个位是否等于 1，则可以使用<code>if(Pain(14)==1)</code>就可以了。位带操作其实读写IDR和ODR的简便写法。</p>
+<hr>
+<h1 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h1><p>本文为CSDN博主「Yngz_Miao」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38410730/article/details/79858906">https://blog.csdn.net/qq_38410730/article/details/79858906</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/23/002-GPIO/" data-id="ckmm8lhhd0001d83d8v746ewg" data-title="stm32_GPIO" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-001-新建工程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/" class="article-date">
+  <time class="dt-published" datetime="2021-03-14T16:00:00.000Z" itemprop="datePublished">2021-03-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/">new project</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="new-project"><a href="#new-project" class="headerlink" title="new project"></a>new project</h1><h2 id="1-Create-Project"><a href="#1-Create-Project" class="headerlink" title="1.Create Project"></a>1.Create Project</h2><p>Create a project directory  </p>
+<p>Create an empty C Source in it</p>
+<p>Click <code>Project | New μVision Project...</code>  </p>
+<p>Select <code>STMicroelectronics | STM32F1 Series | STM32F103 | STM32F103RC</code> in bottom left-hand <code>PropertyList</code> box<br>Click <code>OK</code>  </p>
+<p>Check the following components  </p>
+<ul>
+<li><code>CMSIS | CORE</code>  </li>
+<li><code>Device | Startup</code>  </li>
+<li>all peripherals needed in <code>Device | StdPeriph Drivers</code>  </li>
+</ul>
+<p>Click <code>OK</code>  </p>
+<p>Click <code>Project | Manage | Project Items...</code><br>Add a group into <code>Groups</code> box<br>Select the groups and add the C Source  </p>
+<hr>
+<h2 id="2-Manage-Include-amp-Define"><a href="#2-Manage-Include-amp-Define" class="headerlink" title="2. Manage Include &amp; Define"></a>2. Manage Include &amp; Define</h2><p>Click <code>Project | Options for Target &#39;&lt;target_name&gt;&#39;...</code></p>
+<p>Switch to <code>C/C++</code> tab</p>
+<p>Add following string to <code>Define</code> of <code>Preprocessor Symbols</code>  </p>
+<h2 id="gt-STM32F10X-HD-USE-STDPERIPH-DRIVER"><a href="#gt-STM32F10X-HD-USE-STDPERIPH-DRIVER" class="headerlink" title="&gt;STM32F10X_HD, USE_STDPERIPH_DRIVER"></a>&gt;<code>STM32F10X_HD, USE_STDPERIPH_DRIVER</code></h2><h2 id="3-Configure-crystal-Oscillator"><a href="#3-Configure-crystal-Oscillator" class="headerlink" title="3. Configure crystal Oscillator"></a>3. Configure crystal Oscillator</h2><p>Switch to <code>Target</code> tab of the previous window  </p>
+<p>Change the value in <code>Xtal (MHz):</code> textbox to <code>8.0</code>  </p>
+<hr>
+<h2 id="4-upload-the-program"><a href="#4-upload-the-program" class="headerlink" title="4.upload the program"></a>4.upload the program</h2><h3 id="a-To-use-J-Link"><a href="#a-To-use-J-Link" class="headerlink" title="a. To use J-Link:"></a>a. To use J-Link:</h3><p>Switch to <code>Debug</code> tab of the previous window  </p>
+<p>Select top right-hand <code>Use:</code> and <code>J-LINK / J-TRACE Cortex</code> in the combobox </p>
+<p>click settings,change the <code>port</code> to <code>SW</code> </p>
+<p>Switch to <code>Flash Download</code> check <code>Reset and Run</code></p>
+<p>press <code>F7</code> and <code>F8</code></p>
+<h3 id="b-To-be-able-to-download-hex-through-serial-port"><a href="#b-To-be-able-to-download-hex-through-serial-port" class="headerlink" title="b. To be able to download hex through serial port:"></a>b. To be able to download hex through serial port:</h3><p>Switch to <code>Output</code> tab of the previous window  </p>
+<p>Check <code>Create HEX File</code> checkbox  </p>
+<p>project-manage-runtime environment</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/" data-id="ckmm8lhh90000d83dg9p31k5u" data-title="new project" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-单片机概况" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/15/%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/" class="article-date">
+  <time class="dt-published" datetime="2021-03-14T16:00:00.000Z" itemprop="datePublished">2021-03-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/15/%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">单片机概况</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="单片机概况"><a href="#单片机概况" class="headerlink" title="单片机概况"></a>单片机概况</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="芯片"><a href="#芯片" class="headerlink" title="芯片"></a>芯片</h3><p>STM32F103RCT6</p>
+<h3 id="常用外设"><a href="#常用外设" class="headerlink" title="常用外设"></a>常用外设</h3><ul>
+<li>LED0 PA8</li>
+<li>LED1 PD1</li>
+<li>KEY0 PC1</li>
+<li>KEY1 PC13<h3 id="系统资源"><a href="#系统资源" class="headerlink" title="系统资源"></a>系统资源</h3></li>
+<li>48KB SRAM(Static Random-Access Memory，SRAM)</li>
+<li>256KB Flash</li>
+<li>两个基本定时器，四个通用定时器，两个高级定时器</li>
+<li>两个DMA控制器，共计12个通道</li>
+<li>三个SPI</li>
+<li>两个I2C</li>
+<li>五个串口</li>
+<li>一个USB</li>
+<li>一个CAN</li>
+<li>三个12位ADC</li>
+<li>1个12位DAC</li>
+<li>1个SDIO接口</li>
+<li>51个通用IO口<h3 id="常见术语"><a href="#常见术语" class="headerlink" title="常见术语"></a>常见术语</h3></li>
+<li>JTAG (Joint Test Action Group，联合测试工作组)是一种国际标准测试协议，主要用于芯片内部测试，现在的多数高级器件都支持JTAG协议，如DSP，FPGA等，标准的JTAG是4线：TMS，TCK，TDI，TDO，分别为模式选择，时钟，数据输入和数据输出线。</li>
+<li>SWD (Serial Wire Debug),SWD 模式比 JTAG 在高速模式下面更加可靠。 在大数据量的情况下面 JTAG 下载程序会失败, 但是 SWD 发生的几率会小很多。基本使用 JTAG 仿真模式的情况下是可以直接使用 SWD 模式的, 只要你的仿真器支持。 所以推荐大家使用这个模式。<h3 id="文件夹结构"><a href="#文件夹结构" class="headerlink" title="文件夹结构"></a>文件夹结构</h3></li>
+<li><strong>USER</strong> 主要存放的是用户代码。<code>system_stm32f10x.c</code>里面存放的是系统时钟初始化函数的相关定义，用户不需修改，<code>stm32f10_it.c</code>存放的是部分中断服务函数。<code>main.c</code>存放的是主函数。</li>
+<li><strong>HARDWARE</strong> 存放的是每个实验的外设驱动代码。他的实现是 通过调用FWLib下面的固件库文件，比如led.c里面调用的<code>stm32f10x_gpio.c</code>里面的函数对led进行初始化。</li>
+<li><strong>SYSTEM</strong> 是一些延时函数，位带操作，串口打印代码等。SYSTEM 文件夹下包含了 <code>delay</code>、<code>sys</code>、<code>usart</code> 等三个文件夹。分别包含了 <code>delay.c</code>、<code>sys.c</code>、<code>usart.c</code> 及其头文件 <code>delay.h</code>,<code>sys.h</code>,<code>usart.h</code>。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/15/%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/" data-id="ckmm8lhi5001wd83dfeti4iry" data-title="单片机概况" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-permutation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/03/07/permutation/" class="article-date">
@@ -114,7 +336,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/07/permutation/" data-id="ckm8kh9cg001ado3dhiww6kbm" data-title="generate permutation" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/07/permutation/" data-id="ckmm8lhi1001pd83d3ecxa9ve" data-title="generate permutation" class="article-share-link">Share</a>
       
       
       
@@ -171,7 +393,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/" data-id="ckm8kh9cq001qdo3deoi6a84m" data-title="休眠模块" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/" data-id="ckmm8lhi2001rd83d1xaxb1sy" data-title="休眠模块" class="article-share-link">Share</a>
       
       
       
@@ -211,7 +433,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/02/1-Wire_Master/" data-id="ckm8kh9b70000do3d4c0ne6di" data-title="1-Wire_Master" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/02/1-Wire_Master/" data-id="ckmm8lhhg0004d83daelaevot" data-title="1-Wire_Master" class="article-share-link">Share</a>
       
       
       
@@ -256,7 +478,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/01/ESP8266/" data-id="ckm8kh9bq000ddo3d7l9ib40m" data-title="esp8266" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/01/ESP8266/" data-id="ckmm8lhhj0008d83dfm7ob0qf" data-title="esp8266" class="article-share-link">Share</a>
       
       
       
@@ -296,7 +518,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/01/bottom/" data-id="ckm8kh9ce0016do3db9bbcxa1" data-title="bottom" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/01/bottom/" data-id="ckmm8lhhw0016d83dacf78sbf" data-title="bottom" class="article-share-link">Share</a>
       
       
       
@@ -341,7 +563,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/" data-id="ckm8kh9ct001udo3d3g037uee" data-title="通用定时器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/" data-id="ckmm8lhi60020d83d1r5q3rsg" data-title="通用定时器" class="article-share-link">Share</a>
       
       
       
@@ -381,257 +603,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/" data-id="ckm8kh9ck001hdo3de146c5zg" data-title="max30102 stm32代码" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-tasks" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/27/tasks/" class="article-date">
-  <time class="dt-published" datetime="2021-02-26T16:00:00.000Z" itemprop="datePublished">2021-02-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/27/tasks/">tasks</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="系统外设"><a href="#系统外设" class="headerlink" title="系统外设"></a>系统外设</h1><ul>
-<li>[ ] GPIO  </li>
-<li>[x] GPTM  </li>
-<li>[ ] WDT  </li>
-<li>[ ] μDMA  </li>
-<li>[ ] Hibernate<h1 id="模拟外设"><a href="#模拟外设" class="headerlink" title="模拟外设"></a>模拟外设</h1></li>
-<li>[ ] 模拟比较器  </li>
-<li>[x] 模拟数字转换器  <h1 id="串行通信外设"><a href="#串行通信外设" class="headerlink" title="串行通信外设"></a>串行通信外设</h1></li>
-<li>[ ] UART(通用异步收发器)  </li>
-<li>[ ] SSI(同步串行接口)  </li>
-<li>[ ] I2C(内部集成电路)  </li>
-<li>[ ] CAN(控制器局域网)  </li>
-<li>[ ] USB  <h1 id="运动控制外设"><a href="#运动控制外设" class="headerlink" title="运动控制外设"></a>运动控制外设</h1></li>
-<li>[x] PWM  </li>
-<li>[ ] QEI  <h1 id="传感器"><a href="#传感器" class="headerlink" title="传感器"></a>传感器</h1></li>
-<li>[ ] 小型无源蜂鸣器模块</li>
-<li>[ ] 旋转编码器模块</li>
-<li>[ ] 温度传感器 DS18B20</li>
-<li>[ ] 超声波模块</li>
-<li>[ ] MP1584EN降压模块</li>
-<li>[ ] SD卡读写</li>
-<li>[ ] 陀螺仪</li>
-<li>[ ] DS1302时钟</li>
-<li>[ ] OV7670摄像头<h1 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h1></li>
-<li>[ ] esp8266</li>
-<li>[ ] CC2541</li>
-</ul>
-<p>45款套件清单：</p>
-<ul>
-<li>PS2摇杆游戏摇杆模块Joystick模块(bottom+ADC)</li>
-<li>红外传感器接收模块(发射模块烧了。。)</li>
-<li>激光头传感器模块(GPIO,5V)</li>
-<li>温湿度传感器模块(GPTM ccp,不稳定)</li>
-<li>红外发射传感器模块（烧了）</li>
-<li>5V继电器模块(GPIO)</li>
-<li>避障碍传感器智能小车红外传感器光电开关(GPIO,不好用)</li>
-<li>手指侦测心跳模块(ADC,不好用)</li>
-<li>高感度麦克风传感器模块(ADC或GPIO,貌似只对吹气管用)</li>
-<li>金属触摸传感器模块(GPIO)</li>
-<li>火焰传感器模块(GPIO,宿舍不让点火，没试过)</li>
-<li>3色LED模块(GPIO或PWM)</li>
-<li>寻线传感器模块(GPIO)</li>
-<li>线性磁力霍尔传感器(GPIO)</li>
-<li>旋转编码器模块(有意思，明天研究)</li>
-<li>有源蜂鸣器模块(GPIO)</li>
-</ul>
-<ol>
-<li>魔术光杯模块</li>
-<li>小型无源蜂鸣器模块(可以做出音调的，坑)</li>
-<li>数字温度传感器模块(也是GPIO)</li>
-<li>光折断器模块</li>
-<li>温度传感器模块<a target="_blank" rel="noopener" href="https://wenku.baidu.com/view/fc98050003d8ce2f00662316.html">链接</a></li>
-<li>双色LED共阴模块3MM</li>
-<li>水银开光模块</li>
-<li>霍尔磁力传感器模块(GPIO)</li>
-<li>3色全彩LED smd模块</li>
-<li>迷你磁簧模块</li>
-<li>倾斜开关模块</li>
-<li>七彩自动闪烁LED模块</li>
-<li>按键开关模块</li>
-<li>光敏电阻模块</li>
-<li>震动开关模块</li>
-<li>敲击传感器模块</li>
-<li>温度传感器模块</li>
-<li>类比霍尔磁性传感器</li>
-<li>麦克风声音传感器模块</li>
-<li>大磁簧模块</li>
-<li>双色LED模块</li>
-<li>面包板电源模块</li>
-<li>超声波模块<a target="_blank" rel="noopener" href="http://www.elecfans.com/tongxin/tongxinmokuai/2018/0517/678551.html">留坑</a></li>
-<li>MP1584EN降压模块(留坑，一个buck电路，具体看<a target="_blank" rel="noopener" href="http://www.stduino.com/forum.php?mod=viewthread&amp;tid=54&amp;extra=page%3D1">链接</a>)</li>
-<li>SD卡读写模块(SPI,大坑)</li>
-<li>陀螺仪模块(I2C,留坑)</li>
-<li>土壤模块</li>
-<li>DS1302时钟模块(留坑)</li>
-<li>水位模块</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/27/tasks/" data-id="ckm8kh9cn001mdo3dh2p1d8m3" data-title="tasks" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-IIC" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/26/IIC/" class="article-date">
-  <time class="dt-published" datetime="2021-02-25T16:00:00.000Z" itemprop="datePublished">2021-02-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/26/IIC/">IIC</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="IIC"><a href="#IIC" class="headerlink" title="IIC"></a>IIC</h1><h2 id="一、IIC介绍"><a href="#一、IIC介绍" class="headerlink" title="一、IIC介绍"></a>一、IIC介绍</h2><p>I2C(Inter－Integrated Circuit)总线是80年代PHILIPS公司开发的两线式串行总线，如今已经成为芯片间低速串行通信的事实标准，被广泛使用在消费、控制类电子设备场合。这里的两个关键词两线和低速：<br><strong>两线</strong>意味着结构简单，<strong>低速</strong>意味着好实现，做电路的都知道速度越慢电路实现起来就越容易，而且协议方式也很优雅。所以这是一个简单、优雅、好实现、应用又广泛的电路协议。</p>
-<h2 id="二、TM4C123GH6PM的I2C模块的特征"><a href="#二、TM4C123GH6PM的I2C模块的特征" class="headerlink" title="二、TM4C123GH6PM的I2C模块的特征"></a>二、TM4C123GH6PM的I2C模块的特征</h2><p>  内部集成电路（I2C）总线通过一个两线设计（串行数据线 SDA 和串行时钟线 SCL）来提供双向数据传输，并且与外部 I2C 器件诸如串行存储器（RAM 和 ROM），网络设备，LCD，音频发生器等联系。I2C 总线也可用于产品开发和制造的系统测试和诊断的目的。TM4C123GH6PM 微控制器提供与其他 I2C 总线上的设备交互（发送和接收）的能力。TM4C123GH6PM 控制器的 I2C 模块具有以下特点：</p>
-<ul>
-<li>可以用作master也可以用作slave<ul>
-<li>两种情况下都支持发送和接受数据</li>
-<li>同时支持主机和从机操作</li>
-</ul>
-</li>
-<li>四个I2C模式<ul>
-<li>主机发送模式</li>
-<li>主机接收模式</li>
-<li>从机发送模式</li>
-<li>从机接收模式</li>
-</ul>
-</li>
-<li>四个发送速率<ul>
-<li>标准模式(100Kbps)</li>
-<li>快速模式(400Kbps)</li>
-<li>超快速模式(1bm’s)</li>
-<li>高速模式(3.33bm’s)</li>
-</ul>
-</li>
-<li>时钟低超时中断</li>
-<li>双从地址能力</li>
-<li>抗干扰</li>
-<li>主机和从机中断的产生<ul>
-<li>当主机发送或接收操作完成时（或因为错误终止时），产生中断</li>
-<li>当从机发送数据或主机需要数据或检测到起始停止条件时，产生中断</li>
-</ul>
-</li>
-<li>主机由仲裁和时钟同步，支持多主机，以及7位寻址模式<h2 id="三、结构图"><a href="#三、结构图" class="headerlink" title="三、结构图"></a>三、结构图</h2><img src="IIC结构图.png" alt="结构图"><h2 id="四、操作介绍"><a href="#四、操作介绍" class="headerlink" title="四、操作介绍"></a>四、操作介绍</h2><h3 id="1、主机操作"><a href="#1、主机操作" class="headerlink" title="1、主机操作"></a>1、主机操作</h3></li>
-</ul>
-<ol>
-<li>当使用那些API操作I2C主机模块时，用户必须首先调用 <code>I2CMasterInitExpClk()</code>函数，这个函数可以设置总线速率、使能主机模块。  </li>
-<li>首先设置从机地址 <code>I2CMasterSlaveAddrSet()</code>，这个函数还可以用于设置定义是发送（向从机写）还是接收（从从机读）。</li>
-<li>然后如果当前总线是一个多主机主线的话，我们这个主机要先调用<code>l I2CMasterBusBusy()</code>函数。这个函数可以确定这个主线忙不忙。</li>
-<li>最后，如果是想发送数据，就调用<code>I2CMasterDataPut()</code>函数，可以将要传送的数据存入I2C主机数据寄存器中。<code>I2CMasterControl()</code>控制I2C主机的状态（也就是发送一个指令），这样的指令就能操纵总线，发送开始序列，发送从机地址和方向。剩余部分的传送可以通过轮询或者中断的方法来进行。下面是指令的内容<br><img src="IIC_CMD.jpg" alt="IIC_CMD"><blockquote>
-<p>关于轮询模式和中断模式的介绍  </p>
-<ul>
-<li>For the single send and receive cases, the polling method involves looping on the return fromI2CMasterBusy(). Once that function indicates that the I2C master is no longer busy, the bus transaction has been completed and can be checked for errors using I2CMasterErr(). If there are no errors, then the data has been sent or is ready to be read using I2CMasterDataGet().  </li>
-<li>For the burst send and receive cases, the polling method also involves calling the I2CMasterControl() function for each byte transmitted or received (using either the I2C_MASTER_CMD_BURST_SEND_CONT or I2C_MASTER_CMD_BURST_RECEIVE_CONT commands), and for the last byte sent or received (using either the I2C_MASTER_CMD_BURST_SEND_FINISH or I2C_MASTER_CMD_BURST_RECEIVE_FINISH commands). If any error is detected during the burst transfer, the I2CMasterControl() function should be called using the appropriate stop command (I2C_MASTER_CMD_BURST_SEND_ERROR_STOP or I2C_MASTER_CMD_BURST_RECEIVE_ERROR_STOP).  </li>
-<li>For the interrupt-driven transaction, the user must register an interrupt handler for the I2C devices and enable the I2C master interrupt; the interrupt occurs when the master is no longer busy. </li>
-</ul>
-<p>具体功能需结合数据手册的相应位查看<br>I2C_MASTER_CMD_BURST_SEND_START<br>起始信号+从机地址+应答+从机寄存器+应答<br>I2C_MASTER_CMD_BURST_SEND_CONT<br>数据+应答<br>I2C_MASTER_CMD_BURST_SEND_FINISH<br>I2C_MASTER_CMD_BURST_SEND_STOP<br>停止信号<br>I2C_MASTER_CMD_BURST_RECEIVE_START<br>起始信号+从机地址+应答+从机寄存器+应答<br>I2C_MASTER_CMD_BURST_RECEIVE_CONT<br>接收数据+应答<br>I2C_MASTER_CMD_BURST_RECEIVE_FINISH<br>停止信号<br>注意<br>I2C_MASTER_CMD_SINGLE_SEND<br>起始信号+从机地址+应答+数据+应答<br>与I2C_MASTER_CMD_BURST_SEND_CONT区别：多了起始信号+从机地址+应答<br> I2C_MASTER_CMD_SINGLE_RECEIVE<br>起始信号+从机地址+应答+接收数据+应答<br>同上！  </p>
-<h3 id="2-从机模式"><a href="#2-从机模式" class="headerlink" title="2.从机模式"></a>2.从机模式</h3><p>当使用I2C从机模式时，用户需要调用<code>I2CSlaveInit()</code>函数。这个函数可以使能I2C从机模块，初始化从机地址。然后，根据操作的不同，用户可以调用<code>I2CSlaveDataPut()</code>或者<code>I2CSlaveDataGet()</code>来完成传输。或者可以通过中断来完成传输操作。中断用<code>I2CIntRegister()</code>来注册</p>
-<h2 id="五、驱动包含在-driverlib-i2c-c-和-driverlib-i2c-h-里"><a href="#五、驱动包含在-driverlib-i2c-c-和-driverlib-i2c-h-里" class="headerlink" title="五、驱动包含在 driverlib/i2c.c 和 driverlib/i2c.h 里"></a>五、驱动包含在 driverlib/i2c.c 和 driverlib/i2c.h 里</h2><h2 id="六、例程"><a href="#六、例程" class="headerlink" title="六、例程"></a>六、例程</h2><p>这里先给出一个loopback的程序（无需连接外置I2C设备，自发自收）</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">uint32_t</span> pui32DataTx[NUM_I2C_DATA];</span><br><span class="line"><span class="keyword">uint32_t</span> pui32DataRx[NUM_I2C_DATA];</span><br><span class="line"><span class="keyword">uint32_t</span> ui32Index;</span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_I2C0);</span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);</span><br><span class="line">GPIOPinConfigure(GPIO_PB2_I2C0SCL);</span><br><span class="line">GPIOPinConfigure(GPIO_PB3_I2C0SDA);</span><br><span class="line">GPIOPinTypeI2CSCL(GPIO_PORTB_BASE, GPIO_PIN_2);</span><br><span class="line">GPIOPinTypeI2C(GPIO_PORTB_BASE, GPIO_PIN_3);</span><br><span class="line">I2CLoopbackEnable(I2C0_BASE);</span><br><span class="line">I2CMasterInitExpClk(I2C0_BASE, SysCtlClockGet(), <span class="literal">false</span>);</span><br><span class="line">I2CSlaveEnable(I2C0_BASE);</span><br><span class="line">I2CSlaveInit(I2C0_BASE, SLAVE_ADDRESS);</span><br><span class="line">I2CMasterSlaveAddrSet(I2C0_BASE, SLAVE_ADDRESS, <span class="literal">false</span>);</span><br><span class="line">pui32DataTx[<span class="number">0</span>] = <span class="string">&#x27;I&#x27;</span>;</span><br><span class="line">pui32DataTx[<span class="number">1</span>] = <span class="string">&#x27;2&#x27;</span>;</span><br><span class="line">pui32DataTx[<span class="number">2</span>] = <span class="string">&#x27;C&#x27;</span>;</span><br><span class="line"><span class="keyword">for</span>(ui32Index = <span class="number">0</span>; ui32Index &lt; NUM_I2C_DATA; ui32Index++)&#123;</span><br><span class="line">    pui32DataRx[ui32Index] = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(ui32Index = <span class="number">0</span>; ui32Index &lt; NUM_I2C_DATA; ui32Index++)&#123;</span><br><span class="line">    I2CMasterDataPut(I2C0_BASE, pui32DataTx[ui32Index]);</span><br><span class="line">    I2CMasterControl(I2C0_BASE, I2C_MASTER_CMD_SINGLE_SEND);</span><br><span class="line">    <span class="keyword">while</span>(!(I2CSlaveStatus(I2C0_BASE) &amp; I2C_SLAVE_ACT_RREQ))&#123;&#125;</span><br><span class="line">    pui32DataRx[ui32Index] = I2CSlaveDataGet(I2C0_BASE);</span><br><span class="line">    <span class="keyword">while</span>(I2CMasterBusy(I2C0_BASE))&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(ui32Index = <span class="number">0</span>; ui32Index &lt; NUM_I2C_DATA; ui32Index++)&#123;</span><br><span class="line">    pui32DataRx[ui32Index] = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">I2CMasterSlaveAddrSet(I2C0_BASE, SLAVE_ADDRESS, <span class="literal">true</span>);</span><br><span class="line">I2CMasterControl(I2C0_BASE, I2C_MASTER_CMD_SINGLE_RECEIVE);</span><br><span class="line"><span class="keyword">while</span>(!(I2CSlaveStatus(I2C0_BASE) &amp; I2C_SLAVE_ACT_TREQ))&#123;&#125;</span><br><span class="line"><span class="keyword">for</span>(ui32Index = <span class="number">0</span>; ui32Index &lt; NUM_I2C_DATA; ui32Index++)&#123;</span><br><span class="line">    I2CSlaveDataPut(I2C0_BASE, pui32DataTx[ui32Index]);</span><br><span class="line">    I2CMasterControl(I2C0_BASE, I2C_MASTER_CMD_SINGLE_RECEIVE);</span><br><span class="line">    <span class="keyword">while</span>(!(I2CSlaveStatus(I2C0_BASE) &amp; I2C_SLAVE_ACT_TREQ))&#123;&#125;</span><br><span class="line">    pui32DataRx[ui32Index] = I2CMasterDataGet(I2C0_BASE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</blockquote>
-</li>
-</ol>
-<hr>
-<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/31086959">简单优雅的总线协议——I2C</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38427678/article/details/94328208">TM4C123Gx单片机之—-I2C接口笔记</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43529046/article/details/90792308">TM4C123G 硬件I2C</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/26/IIC/" data-id="ckm8kh9bz000ndo3dhieg3rd7" data-title="IIC" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-sg90" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/24/sg90/" class="article-date">
-  <time class="dt-published" datetime="2021-02-23T16:00:00.000Z" itemprop="datePublished">2021-02-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/24/sg90/">sg90操作</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="sg90舵机操作模板"><a href="#sg90舵机操作模板" class="headerlink" title="sg90舵机操作模板"></a>sg90舵机操作模板</h1><h2 id="接线："><a href="#接线：" class="headerlink" title="接线："></a>接线：</h2><p>上线黄色为PWM输入信号；中线橙色接入电源正极；bai下线棕色接入电源负极。</p>
-<h2 id="版本一：使用延时函数实现"><a href="#版本一：使用延时函数实现" class="headerlink" title="版本一：使用延时函数实现"></a>版本一：使用延时函数实现</h2><h2 id=""><a href="#" class="headerlink" title=""></a><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> angle;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rotate</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> cnt=<span class="number">0</span>,door=<span class="number">50</span>;</span><br><span class="line">    <span class="comment">//定义接入sg90舵机信号线的引脚</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2);</span><br><span class="line">    <span class="keyword">for</span>(;;)&#123;</span><br><span class="line">        door=angle*<span class="number">10</span>/<span class="number">9</span>+<span class="number">50</span>;</span><br><span class="line">        cnt++;</span><br><span class="line">        <span class="keyword">if</span>(cnt&gt;<span class="number">2000</span>)cnt=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(cnt==<span class="number">0</span>)GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2),UARTprintf(<span class="string">&quot;%d\n&quot;</span>,angle);</span><br><span class="line">        <span class="keyword">if</span>(cnt==door)GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, <span class="number">0</span>);</span><br><span class="line">        ROM_SysCtlDelay (clock/ <span class="number">300000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></h2><h2 id="版本二：使用PWM实现"><a href="#版本二：使用PWM实现" class="headerlink" title="版本二：使用PWM实现"></a>版本二：使用PWM实现</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//首先配置PWM</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigurePWM</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//系统时钟是50Mhz 这里进行64分频 得到7812500hzPWM频率</span></span><br><span class="line">    SysCtlPWMClockSet(SYSCTL_PWMDIV_64);</span><br><span class="line">    <span class="comment">//选择使用的引脚</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM1);</span><br><span class="line">    GPIOPinTypePWM(GPIO_PORTF_BASE, GPIO_PIN_2);</span><br><span class="line">    <span class="comment">//配置信号分配</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF2_M1PWM6);</span><br><span class="line">    <span class="comment">//配置PWM发生器</span></span><br><span class="line">    PWMGenConfigure(PWM1_BASE, PWM_GEN_3, PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);</span><br><span class="line">    <span class="comment">//配置周期 表示50hz</span></span><br><span class="line">    PWMGenPeriodSet(PWM1_BASE, PWM_GEN_3, <span class="number">15625</span>);</span><br><span class="line">    <span class="comment">//配置占空比</span></span><br><span class="line">    PWMPulseWidthSet(PWM1_BASE, PWM_OUT_6, <span class="number">390</span>);</span><br><span class="line">    <span class="comment">//使能PWM模块1输出</span></span><br><span class="line">    PWMOutputState(PWM1_BASE, PWM_OUT_6_BIT, <span class="literal">true</span>);</span><br><span class="line">    <span class="comment">//使能PWM发生器</span></span><br><span class="line">    PWMGenEnable(PWM1_BASE, PWM_GEN_3);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//然后是旋转函数</span></span><br><span class="line"><span class="keyword">int</span> angle;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rotate</span><span class="params">()</span></span>&#123;</span><br><span class="line">    PWMPulseWidthSet(PWM1_BASE, PWM_OUT_6, <span class="number">625</span>*angle/<span class="number">72</span>+<span class="number">15625</span>/<span class="number">40</span>);</span><br><span class="line">    PWMGenEnable(PWM1_BASE, PWM_GEN_3);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/24/sg90/" data-id="ckm8kh9cp001odo3dfy3z9idu" data-title="sg90操作" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/" data-id="ckmm8lhi0001ld83d4gkx7zo9" data-title="max30102 stm32代码" class="article-share-link">Share</a>
       
       
       
@@ -663,7 +635,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
     </div>
   </div>
 
@@ -673,7 +645,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a>
+      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/stm32/" style="font-size: 15px;">stm32</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a>
     </div>
   </div>
 
@@ -695,23 +667,23 @@
       <ul>
         
           <li>
+            <a href="/2021/03/23/002-GPIO/">stm32_GPIO</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/">new project</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/15/%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">单片机概况</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/07/permutation/">generate permutation</a>
           </li>
         
           <li>
             <a href="/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/">休眠模块</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/02/1-Wire_Master/">1-Wire_Master</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/01/ESP8266/">esp8266</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/01/bottom/">bottom</a>
           </li>
         
       </ul>
