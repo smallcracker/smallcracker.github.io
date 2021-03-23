@@ -75,9 +75,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Timer" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-boosterpacks" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/01/29/Timer/" class="article-date">
+    <a href="/2021/01/29/boosterpacks/" class="article-date">
   <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
 </a>
     
@@ -89,7 +89,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/Timer/">Timer</a>
+      <a class="p-name article-title" href="/2021/01/29/boosterpacks/">BoosterPacks使用</a>
     </h1>
   
 
@@ -97,111 +97,12 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="Timer"><a href="#Timer" class="headerlink" title="Timer"></a>Timer</h1><h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>可编程定时器对于驱动定时器输入管脚的外部事件进行计数或计时。</p>
-<blockquote>
-<p>前置知识</p>
-<p>trigger是触发的意思</p>
-<p>本单片机提供了8个定时器</p>
-<p>有定时器/计数器/RTC…模式</p>
-</blockquote>
-<p>定时器实质上就是一个加1计数器。它随着计数器的输入脉冲进行自加1，也就是说当每来一个脉冲，计数器就会自动加1,如果当加到计数器为全1时，再输入一个脉冲就使计数器回零，且计数器的溢出使相应的中断标志位置1，向CPU发出就会发出中断请求。</p>
-<h5 id="以下内容来自机翻"><a href="#以下内容来自机翻" class="headerlink" title="以下内容来自机翻"></a>以下内容来自机翻</h5><p>定时器API提供了一组用于使用定时器模块的函数。这些函数能配置和控制定时器，修改定时器/计数器的值，并管理定时器的中断处理。</p>
-<p>定时器模块可以是两个半宽度的定时器/计数器独立运行或者作为全宽的计时器/Real Time Clock (RTC)运行。</p>
-<p>有些定时器提供了16位半宽定时器和32位全宽定时器，而其他定时器则提供了32位半宽定时器和64位全宽定时器。</p>
-<p>在此API中，提供两个半宽定时器的定时器模块称为TimerA和TimerB，而提供全宽定时器的定时器模块被称为TimerA。</p>
-<p>当配置为全宽或半宽定时器时，可以将定时器设置为单次运行模式。如果配置为单次计时模式，则它在向下计数到零 或者向上计数到 load value 时停止。</p>
-<p>如果配置为连续计数模式下，定时器计数到零（向下计数）或 load value（向上计数），然后重新加载和<br>继续计数。</p>
-<p>当配置为全宽定时器时，定时器也可配置为RTC运行。在这种模式下，定时器希望由32.768KHz外部时钟驱动。<br>被分割成1秒的时钟刻度。<br>在半宽模式下，定时器也可以配置为事件捕获或为PWM generator。当配置为事件捕获时，定时器作为一个计数器。当配置为事件捕获时，定时器作为计数器。<br>可以配置为计算事件之间的时间或事件本身。事件的类型被计数的事件可以配置为正边、负边或两个边。</p>
-<p>当定时器被配置为PWM发生器，用于捕捉事件的输入信号就变成了一个输出信号，而定时器则在该信号上驱动一个边缘对齐的脉冲。<br>定时器模块还提供了控制函数参数的能力，比如输出反转，输出触发，计时器行为等。<br>反转、输出触发器和停顿期间的定时器行为。</p>
-<p>还提供了对中断源和事件的控制。中断可以生成以指示事件表示已被捕获，或表示一定数量的事件已被捕获。当计数器下数到零或者上数到特定值时也会产生中断。</p>
-<p>在某些部件上，来自多个定时器的counter是可以被同步的。同步了的计数器在PWM和边缘时间捕获模式下非常有用。在PWM模式下，来自多个定时器可以通过具有相同的负载值和同步计数器来实现锁步。（意味着计数器的值总是相同的）。同样，通过使用相同的负载值和同步了的计数器在边缘捕捉模式下，两个输入边缘之间的绝对时间可以很容易地测量。<br>这个驱动包含在driverlib/timer.c中，driverlib/timer.h中包含了API。</p>
-<p>The timer API is broken into three groups of functions: those that deal with timer configuration and control, those that deal with timer contents, and those that deal with interrupt handling.</p>
-<p>Timer configuration is handled by TimerConfigure(), which performs the high level setup of the timer module; that is, it is used to set up full- or half-width modes, and to select between PWM, capture, and timer operations.   Timer control is performed by TimerEnable(),  TimerDisable(),  TimerCon- trolLevel(),  TimerControlTrigger(),  TimerControlEvent(),  TimerControlStall(),  TimerRTCEnable(), and imerRTCDisable().</p>
-<p>Timer content is managed with TimerLoadSet(), TimerLoadGet(), TimerLoadSet64(), TimerLoad- Get64(),<br> TimerPrescaleSet(),  TimerPrescaleGet(),  TimerMatchSet(),  TimerMatchGet(),  Timer- MatchSet64(),  TimerMatchGet64(),  TimerPrescaleMatchSet(),  TimerPrescaleMatchGet(),  Timer- ValueGet(), TimerValueGet64(), and TimerSynchronize().</p>
-<p>The interrupt handler for the Timer interrupt is managed with TimerIntRegister() and TimerIntUnreg-<br>ister(). The individual interrupt sources within the timer module are managed with<br>TimerIntEnable(), TimerIntDisable(), TimerIntStatus(), and TimerIntClear().</p>
-<p>即这些函数</p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201211233946109.png" alt="image-20201211233946109"></p>
-<h2 id="TI怎样配置计时器？"><a href="#TI怎样配置计时器？" class="headerlink" title="TI怎样配置计时器？"></a>TI怎样配置计时器？</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TimerConfigure(TIMER0_BASE, TIMER_CFG_ONE_SHOT);<span class="comment">//单次计数模式</span></span><br><span class="line">TimerConfigure(TIMER0_BASE, TIMER_CFG_PERIODIC);<span class="comment">//周期性计数模式</span></span><br><span class="line">TimerLoadSet(TIMER0_BASE, <span class="number">2222222</span>- <span class="number">1</span>);<span class="comment">//设定预装栽值</span></span><br><span class="line">IntEnable(INT_TIMER0A);  <span class="comment">//使能TIMER0A</span></span><br><span class="line">TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT); <span class="comment">//TIMEOUT标志位触发中断</span></span><br><span class="line"><span class="comment">//TIMER0A开始计数，当计数值等于TimerLoadSet，触发中断 </span></span><br></pre></td></tr></table></figure>
-<p>​    其他资料</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38427678/article/details/94618235">timer笔记</a></p>
-<p><a target="_blank" rel="noopener" href="http://home.eeworld.com.cn/my/space-uid-525682-blogid-237550.html">这里是定时器单次计时，周期计时，数捕获，计时捕获模式的例程</a></p>
-<p>总结如下</p>
-<h1 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h1><p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201211234402578.png" alt="image-20201211234402578"></p>
-<p>这是前两个函数，与ADC（模拟信号转数字信号）功能有关（坑）</p>
-<h1 id="第二部分"><a href="#第二部分" class="headerlink" title="第二部分"></a>第二部分</h1><p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201211234632777.png" alt="image-20201211234632777"></p>
-<p>第一个 能用来获取Timer的时钟源</p>
-<p>第二个 能设置Timer的时钟源</p>
-<p>第三个 能设置Timer模式</p>
-<blockquote>
-<p>现在介绍一下参数长啥样</p>
-<p>全宽模式为TIMER<em>CFG</em>*</p>
-<p>半宽模式为TIMER<em>CFG_A</em><em> and TIMER<em>CFG_B</em></em></p>
-<p>后面的参数有哪些？</p>
-<p>1.SHOT 单次计数</p>
-<p>2.SHOT_UP  向上单次计数（看来上一个就是向下计数了。。）</p>
-<p>3.PERIODIC 周期计数</p>
-<p>4.PERIDIC_UP 向上周期计数</p>
-<p>5.RTC 实时时钟模式</p>
-<p>还有一些只有在全宽模式才有的参数：SPILT_PAIR 两个半宽计时器？</p>
-<p>还有一些只有在半宽模式才有的参数：</p>
-<p>1.CAP_COUNT 计数捕捉</p>
-<p>2.CAP_COUNT_UP 向上计数捕捉</p>
-<p>3.CAP_TIME 沿计数捕捉</p>
-<p>4.CAP_TIME_UP 向上计数捕捉</p>
-<p>5.PWM PWM输出</p>
-<p>还有一些其他action可以引起计数不管了。。</p>
-</blockquote>
-<p>第四个 能控制事件类型（下面是参数）</p>
-<blockquote>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212000342536.png" alt="image-20201212000342536"></p>
-</blockquote>
-<p>第五个 控制输出水平？？好像是针对PWM的。</p>
-<p>第六个 控制stall handling？？</p>
-<p>第七个 使能或着使不能ADC触发输出</p>
-<p>第八个 控制等待触发句柄</p>
-<p>最后一个 使不能Timer</p>
-<h1 id="第三部分"><a href="#第三部分" class="headerlink" title="第三部分"></a>第三部分</h1><p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212123915820.png" alt="image-20201212123915820"></p>
-<p>第一个 第二个 DMA事件的设置和获取</p>
-<p>第三个 使能Timer</p>
-<p>第四个 清除Timer中断源</p>
-<blockquote>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212124644391.png" alt="image-20201212124644391"></p>
-</blockquote>
-<p>第五个 第六个 使能/使不能Timer中断 </p>
-<blockquote>
-<p>有很多种中断源呢，比如说DMA event match(匹配) timeout(溢出) rtc(实时时钟)等等</p>
-</blockquote>
-<p>第七个 注册Timer中断</p>
-<p>第八个 获取当前的中断状态 这个状态就是在使能Timer中断时设置的状态</p>
-<p>第九个 解除注册Timer中断</p>
-<p>倒数第四个 倒数第三个 获取Timer的load value</p>
-<p>最后两个 设置Timer的load value</p>
-<h1 id="第四部分"><a href="#第四部分" class="headerlink" title="第四部分"></a>第四部分</h1><p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212130358326.png" alt="image-20201212130358326"></p>
-<p>第一个 第二个 获取Timer的匹配值</p>
-<p>第三个第四个 设置Timer的匹配值</p>
-<p>第五个 获得prescale的值 （获取预分频的值）</p>
-<blockquote>
-<p>分频就是把系统工作频率分频后当做定时器的工作频率！！例如系统时钟为12MHz，12分频后定时器的工作时钟为1MHz</p>
-</blockquote>
-<p>第六个 设置prescale的值</p>
-<p>第七个 第八个 使能/使不能RTC</p>
-<p>第九个 定时器同步（再问问？）</p>
-<blockquote>
-<p>在一些计数器种同步他们的counter</p>
-</blockquote>
-<p>第十个 定时器更新模式</p>
-<blockquote>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212133616220.png" alt="image-20201212133616220"></p>
-</blockquote>
-<p>第十一个 第十二个 获取定时器当前的值</p>
-<h1 id="这里必须要有这份文档做参考-20-1-pdf"><a href="#这里必须要有这份文档做参考-20-1-pdf" class="headerlink" title="这里必须要有这份文档做参考%20(1).pdf)"></a><a href="file:///C:/Users/smallcannabis/Downloads/TI%20Stellaris%20LM4F%E5%AE%9A%E6%97%B6%E5%99%A8%E6%8C%87%E5%8D%97(Timer">这里必须要有这份文档做参考</a>%20(1).pdf)</h1><p>定时器模式</p>
-<p>看如下代码</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//控制灯的亮灭</span></span><br><span class="line"><span class="keyword">int</span> t=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">WTimer0BIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//注意！一定要清除当前中断标志</span></span><br><span class="line">    TimerIntClear(WTIMER0_BASE, TIMER_TIMB_TIMEOUT);</span><br><span class="line">    t++;</span><br><span class="line">    <span class="keyword">if</span>(t%<span class="number">2</span>)&#123;</span><br><span class="line">        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_WTIMER0);</span><br><span class="line">    <span class="comment">//这里拆分了Wtime0，仅仅使用timer_b</span></span><br><span class="line">    TimerConfigure(WTIMER0_BASE,TIMER_CFG_SPLIT_PAIR|TIMER_CFG_B_PERIODIC);</span><br><span class="line">    <span class="comment">//拆分了的话使用TimerLoadSet 没拆分在后面加上64</span></span><br><span class="line">    <span class="comment">//这里设置为每一秒触发一次中断</span></span><br><span class="line">    TimerLoadSet(WTIMER0_BASE,TIMER_B,<span class="number">1000000</span>);</span><br><span class="line">    <span class="comment">//设置中断处理函数</span></span><br><span class="line">    TimerIntRegister(WTIMER0_BASE,TIMER_B,WTimer0BIntHandler);</span><br><span class="line">    <span class="comment">//接下来是使能中断和使能定时器</span></span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    IntEnable(INT_WTIMER0B);</span><br><span class="line">    TimerIntEnable(WTIMER0_BASE,TIMER_TIMB_TIMEOUT);</span><br><span class="line">    TimerEnable(WTIMER0_BASE,TIMER_B);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="BoosterPacks的使用"><a href="#BoosterPacks的使用" class="headerlink" title="BoosterPacks的使用"></a>BoosterPacks的使用</h1><p>留坑</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Timer/" data-id="ckmm8ozah0017g43d6wm9hfa2" data-title="Timer" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/boosterpacks/" data-id="ckmm8s209001cto3d4qa9fezl" data-title="BoosterPacks使用" class="article-share-link">Share</a>
       
       
       
@@ -288,60 +189,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/UART/" data-id="ckmm8ozah0019g43dg7ckg0iv" data-title="UART" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-c文件和头文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">关于怎样写c文件和头文件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="关于怎样写c文件和头文件"><a href="#关于怎样写c文件和头文件" class="headerlink" title="关于怎样写c文件和头文件"></a>关于怎样写c文件和头文件</h1><h2 id="c语言的编译过程"><a href="#c语言的编译过程" class="headerlink" title="c语言的编译过程"></a>c语言的编译过程</h2><h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>预处理主要处理</p>
-<p>1.源程序的宏定义指令</p>
-<p>2.条件编译指令</p>
-<p>3.头文件包含指令</p>
-<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>将源程序转换为汇编代码</p>
-<h3 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h3><p>将汇编语言代 码转化成机器语言</p>
-<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>将各个目标文件中的各段代码进行绝对定位，生成根特定平台相关的可执行文件。（就是生成.exe文件）</p>
-<h2 id="那么-h-和-c-文件怎么用呢？"><a href="#那么-h-和-c-文件怎么用呢？" class="headerlink" title="那么.h 和 .c 文件怎么用呢？"></a>那么.h 和 .c 文件怎么用呢？</h2><p>看如下例子</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//a.h</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//a.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span> </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   foo(); </span><br><span class="line"> 　<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-<p>现在来看一个大佬的解释：</p>
-<blockquote>
-<p>从C编译器角度看，.h和.c皆是浮云，就是改名为.txt、.doc也没有大的分别。换句话说，就是.h和.c没啥必然联系。.h中一般放的是同名.c文件中定义的变量、数组、函数的声明，需要让.c外部使用的声明。这个声明有啥用？只是让需要用这些声明的地方方便引用。<u> 因为 #include “xx.h” 这个宏其实际意思就是把当前这一行删掉，把 xx.h 中的内容原封不动的插入在当前行的位置</u>。由于想写这些函数声明的地方非常多（每一个调用 xx.c 中函数的地方，都要在使用前声明一下子），所以用 #include “xx.h” 这个宏就简化了许多行代码——让预处理器自己替换好了。也就是说，xx.h 其实只是让需要写 xx.c 中函数声明的地方调用（可以少写几行字），至于 include 这个 .h 文件是谁，是 .h 还是 .c，还是与这个 .h 同名的 .c，都没有任何必然关系。<br>  这样你可能会说：啊？那我平时只想调用 xx.c 中的某个函数，却 include了 xx.h 文件，岂不是宏替换后出现了很多无用的声明？没错，确实引入了很多垃圾 ，但是它却省了你不少笔墨，并且整个版面也看起来清爽的多。鱼与熊掌不可得兼，就是这个道理。反正多些声明（.h一般只用来放声明，而放不定义，参见拙著“过马路，左右看”）也无害处，又不会影响编译，何乐而不为呢？</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="ckmm8ozai001bg43d02itdevz" data-title="关于怎样写c文件和头文件" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/UART/" data-id="ckmm8s20a001eto3d9nqm0lqn" data-title="UART" class="article-share-link">Share</a>
       
       
       
@@ -404,7 +252,60 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/phripheral-list/" data-id="ckmm8ozal001mg43d6ntu1j08" data-title="该单片机外设清单" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/phripheral-list/" data-id="ckmm8s20c001lto3derw4aag7" data-title="该单片机外设清单" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-c文件和头文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">关于怎样写c文件和头文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="关于怎样写c文件和头文件"><a href="#关于怎样写c文件和头文件" class="headerlink" title="关于怎样写c文件和头文件"></a>关于怎样写c文件和头文件</h1><h2 id="c语言的编译过程"><a href="#c语言的编译过程" class="headerlink" title="c语言的编译过程"></a>c语言的编译过程</h2><h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>预处理主要处理</p>
+<p>1.源程序的宏定义指令</p>
+<p>2.条件编译指令</p>
+<p>3.头文件包含指令</p>
+<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>将源程序转换为汇编代码</p>
+<h3 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h3><p>将汇编语言代 码转化成机器语言</p>
+<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>将各个目标文件中的各段代码进行绝对定位，生成根特定平台相关的可执行文件。（就是生成.exe文件）</p>
+<h2 id="那么-h-和-c-文件怎么用呢？"><a href="#那么-h-和-c-文件怎么用呢？" class="headerlink" title="那么.h 和 .c 文件怎么用呢？"></a>那么.h 和 .c 文件怎么用呢？</h2><p>看如下例子</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//a.h</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//a.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span> </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   foo(); </span><br><span class="line"> 　<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>现在来看一个大佬的解释：</p>
+<blockquote>
+<p>从C编译器角度看，.h和.c皆是浮云，就是改名为.txt、.doc也没有大的分别。换句话说，就是.h和.c没啥必然联系。.h中一般放的是同名.c文件中定义的变量、数组、函数的声明，需要让.c外部使用的声明。这个声明有啥用？只是让需要用这些声明的地方方便引用。<u> 因为 #include “xx.h” 这个宏其实际意思就是把当前这一行删掉，把 xx.h 中的内容原封不动的插入在当前行的位置</u>。由于想写这些函数声明的地方非常多（每一个调用 xx.c 中函数的地方，都要在使用前声明一下子），所以用 #include “xx.h” 这个宏就简化了许多行代码——让预处理器自己替换好了。也就是说，xx.h 其实只是让需要写 xx.c 中函数声明的地方调用（可以少写几行字），至于 include 这个 .h 文件是谁，是 .h 还是 .c，还是与这个 .h 同名的 .c，都没有任何必然关系。<br>  这样你可能会说：啊？那我平时只想调用 xx.c 中的某个函数，却 include了 xx.h 文件，岂不是宏替换后出现了很多无用的声明？没错，确实引入了很多垃圾 ，但是它却省了你不少笔墨，并且整个版面也看起来清爽的多。鱼与熊掌不可得兼，就是这个道理。反正多些声明（.h一般只用来放声明，而放不定义，参见拙著“过马路，左右看”）也无害处，又不会影响编译，何乐而不为呢？</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="ckmm8s20e001sto3d4y8m12m0" data-title="关于怎样写c文件和头文件" class="article-share-link">Share</a>
       
       
       
@@ -444,65 +345,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/pin_map/" data-id="ckmm8ozam001pg43d53jz63mv" data-title="该单片机pin map" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-总体概述" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/">单片机总体概述</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="微控制器"><a href="#微控制器" class="headerlink" title="微控制器"></a>微控制器</h2><p>这一款单片机的微控制器是TM4C123GH6PMI</p>
-<h2 id="特色"><a href="#特色" class="headerlink" title="特色"></a>特色</h2><p>有TM4C123GH6PMI微控制器USB2.0 设备接口，休眠模块，运动控制脉宽调制模块</p>
-<h2 id="什么是时钟"><a href="#什么是时钟" class="headerlink" title="什么是时钟"></a>什么是时钟</h2><p>时钟就是单片机的心脏。每跳动一下。整个单片机的各个电路就同步的动作一下。就好像我们做广播体操的时候 广播上喊的节拍1234 2234 3234。。。。然后我们全部的同学就按照这个节奏进行一个个动作。节拍越快我们动作越快。节拍越慢我们动作的越慢。</p>
-<h2 id="内部时钟和外部时钟"><a href="#内部时钟和外部时钟" class="headerlink" title="内部时钟和外部时钟?"></a>内部时钟和外部时钟?</h2><p>PIC单片机有许多型号可以设置成 用外部时钟(如外部接个4MHZ的石英晶振)，也可以设置成用内部RC时钟。而且还有许多型号可以选择多种频率的时钟。</p>
-<p>如 PICLF1823 内部时钟最高可以到达32MHZ 最低可以达到 31kHz. 这事实上提供了一条降低功耗的新路子。一般的单片机降低功耗常常用的睡眠，而睡眠期间CPU是什么都不做。如果希望降低功耗，而且CPU也能工作。降低时钟频率无疑是个非常好的选择。</p>
-<h2 id="单片机里内部外设和外设有哪些"><a href="#单片机里内部外设和外设有哪些" class="headerlink" title="单片机里内部外设和外设有哪些"></a>单片机里内部外设和外设有哪些</h2><h4 id="单片机内部的外设"><a href="#单片机内部的外设" class="headerlink" title="单片机内部的外设"></a>单片机内部的外设</h4><p>一般包括：串口控制模块，SPI模块，I2C模块，A/D模块，PWM模块，CAN模块，EEPROM，比较器模块，等等，它们都集成在单片机内部，有相对应的内部控制寄存器，可通过单片机指令直接控制。</p>
-<h4 id="单片机外部的外围功能模块"><a href="#单片机外部的外围功能模块" class="headerlink" title="单片机外部的外围功能模块"></a>单片机外部的外围功能模块</h4><p>比如键盘控制芯片，液晶，A/D转换芯片，等等。外设可通过单片机的I/O，SPI，I2C等总线控制。</p>
-<h2 id="什么是-DSP-中的“内部上拉”和“内部下拉”"><a href="#什么是-DSP-中的“内部上拉”和“内部下拉”" class="headerlink" title="什么是 DSP 中的“内部上拉”和“内部下拉”?"></a>什么是 DSP 中的“内部上拉”和“内部下拉”?</h2><p>DSP 中介绍引脚时，注明 PU,PD 说是“内部上拉”和“内部下拉”，就是说内部已经配置了接电源的上拉电阻或是接地的下拉电阻。这样，当作为输入端口连接 OC 或COMS 芯片或浮空时。信号线平是确定的高/低电平。而不是不确定的浮地电平。内部上拉，相当于输入和电源之间接了一个几十 K 的电阻；下拉，相当于用电阻和地相连。</p>
-<h2 id="VCC、VDD、VSS-是什么"><a href="#VCC、VDD、VSS-是什么" class="headerlink" title="VCC、VDD、VSS 是什么"></a>VCC、VDD、VSS 是什么</h2><p>在电子电路中，VCC 是电路的供电电压，C = circuit,表示电路的意思；VDD 是芯片<br>的工作电压，D = device,表示器件的意思；VSS 是接地或是负极，S = series,表示公共连<br>接的意思。</p>
-<h2 id="TI坑人的一点在哪"><a href="#TI坑人的一点在哪" class="headerlink" title="TI坑人的一点在哪"></a>TI坑人的一点在哪</h2><p>TI不同于３２，TI的函数的入口参数无法通过像３２一样的方法查找选择合适的参数</p>
-<h1 id="我的单片机的外设"><a href="#我的单片机的外设" class="headerlink" title="我的单片机的外设"></a>我的单片机的外设</h1><p>红灯PF1  M0PWM5</p>
-<p>蓝灯PF2 M1PWM6</p>
-<p>绿灯PF3 M1PWM7</p>
-<p>按键1 PF4 按下为低电平</p>
-<p>按键2 PF0按下为低电平</p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212200237248.png" alt="image-20201212200237248"></p>
-<h2 id="延时函数"><a href="#延时函数" class="headerlink" title="延时函数"></a>延时函数</h2><p>SysCtlDelay ( SysCtlClockGet() *ms / 3000);</p>
-<hr>
-<h2 id="基本模板"><a href="#基本模板" class="headerlink" title="基本模板"></a>基本模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_types.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_ints.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_pwm.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/debug.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/fpu.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/gpio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pin_map.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/rom.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/rom_map.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/sysctl.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/uart.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;utils/uartstdio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/systick.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/interrupt.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pwm.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line">    FPULazyStackingEnable();</span><br><span class="line">    <span class="comment">//使能系统时钟为50MHz</span></span><br><span class="line">    SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN);</span><br><span class="line">    <span class="comment">//延时函数</span></span><br><span class="line">    ROM_SysCtlDelay ( SysCtlClockGet() *ms / <span class="number">3000</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" data-id="ckmm8ozau001zg43d3bjjbwqr" data-title="单片机总体概述" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/pin_map/" data-id="ckmm8s20f001uto3d6uwy4suh" data-title="该单片机pin map" class="article-share-link">Share</a>
       
       
       
@@ -566,7 +409,65 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/" data-id="ckmm8ozav0023g43d69xlem0c" data-title="基本GPIO操作" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/" data-id="ckmm8s20j0020to3d12mo51pc" data-title="基本GPIO操作" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-总体概述" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/">单片机总体概述</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="微控制器"><a href="#微控制器" class="headerlink" title="微控制器"></a>微控制器</h2><p>这一款单片机的微控制器是TM4C123GH6PMI</p>
+<h2 id="特色"><a href="#特色" class="headerlink" title="特色"></a>特色</h2><p>有TM4C123GH6PMI微控制器USB2.0 设备接口，休眠模块，运动控制脉宽调制模块</p>
+<h2 id="什么是时钟"><a href="#什么是时钟" class="headerlink" title="什么是时钟"></a>什么是时钟</h2><p>时钟就是单片机的心脏。每跳动一下。整个单片机的各个电路就同步的动作一下。就好像我们做广播体操的时候 广播上喊的节拍1234 2234 3234。。。。然后我们全部的同学就按照这个节奏进行一个个动作。节拍越快我们动作越快。节拍越慢我们动作的越慢。</p>
+<h2 id="内部时钟和外部时钟"><a href="#内部时钟和外部时钟" class="headerlink" title="内部时钟和外部时钟?"></a>内部时钟和外部时钟?</h2><p>PIC单片机有许多型号可以设置成 用外部时钟(如外部接个4MHZ的石英晶振)，也可以设置成用内部RC时钟。而且还有许多型号可以选择多种频率的时钟。</p>
+<p>如 PICLF1823 内部时钟最高可以到达32MHZ 最低可以达到 31kHz. 这事实上提供了一条降低功耗的新路子。一般的单片机降低功耗常常用的睡眠，而睡眠期间CPU是什么都不做。如果希望降低功耗，而且CPU也能工作。降低时钟频率无疑是个非常好的选择。</p>
+<h2 id="单片机里内部外设和外设有哪些"><a href="#单片机里内部外设和外设有哪些" class="headerlink" title="单片机里内部外设和外设有哪些"></a>单片机里内部外设和外设有哪些</h2><h4 id="单片机内部的外设"><a href="#单片机内部的外设" class="headerlink" title="单片机内部的外设"></a>单片机内部的外设</h4><p>一般包括：串口控制模块，SPI模块，I2C模块，A/D模块，PWM模块，CAN模块，EEPROM，比较器模块，等等，它们都集成在单片机内部，有相对应的内部控制寄存器，可通过单片机指令直接控制。</p>
+<h4 id="单片机外部的外围功能模块"><a href="#单片机外部的外围功能模块" class="headerlink" title="单片机外部的外围功能模块"></a>单片机外部的外围功能模块</h4><p>比如键盘控制芯片，液晶，A/D转换芯片，等等。外设可通过单片机的I/O，SPI，I2C等总线控制。</p>
+<h2 id="什么是-DSP-中的“内部上拉”和“内部下拉”"><a href="#什么是-DSP-中的“内部上拉”和“内部下拉”" class="headerlink" title="什么是 DSP 中的“内部上拉”和“内部下拉”?"></a>什么是 DSP 中的“内部上拉”和“内部下拉”?</h2><p>DSP 中介绍引脚时，注明 PU,PD 说是“内部上拉”和“内部下拉”，就是说内部已经配置了接电源的上拉电阻或是接地的下拉电阻。这样，当作为输入端口连接 OC 或COMS 芯片或浮空时。信号线平是确定的高/低电平。而不是不确定的浮地电平。内部上拉，相当于输入和电源之间接了一个几十 K 的电阻；下拉，相当于用电阻和地相连。</p>
+<h2 id="VCC、VDD、VSS-是什么"><a href="#VCC、VDD、VSS-是什么" class="headerlink" title="VCC、VDD、VSS 是什么"></a>VCC、VDD、VSS 是什么</h2><p>在电子电路中，VCC 是电路的供电电压，C = circuit,表示电路的意思；VDD 是芯片<br>的工作电压，D = device,表示器件的意思；VSS 是接地或是负极，S = series,表示公共连<br>接的意思。</p>
+<h2 id="TI坑人的一点在哪"><a href="#TI坑人的一点在哪" class="headerlink" title="TI坑人的一点在哪"></a>TI坑人的一点在哪</h2><p>TI不同于３２，TI的函数的入口参数无法通过像３２一样的方法查找选择合适的参数</p>
+<h1 id="我的单片机的外设"><a href="#我的单片机的外设" class="headerlink" title="我的单片机的外设"></a>我的单片机的外设</h1><p>红灯PF1  M0PWM5</p>
+<p>蓝灯PF2 M1PWM6</p>
+<p>绿灯PF3 M1PWM7</p>
+<p>按键1 PF4 按下为低电平</p>
+<p>按键2 PF0按下为低电平</p>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212200237248.png" alt="image-20201212200237248"></p>
+<h2 id="延时函数"><a href="#延时函数" class="headerlink" title="延时函数"></a>延时函数</h2><p>SysCtlDelay ( SysCtlClockGet() *ms / 3000);</p>
+<hr>
+<h2 id="基本模板"><a href="#基本模板" class="headerlink" title="基本模板"></a>基本模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_types.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_ints.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_pwm.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/debug.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/fpu.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/gpio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pin_map.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/rom.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/rom_map.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/sysctl.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/uart.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;utils/uartstdio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/systick.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/interrupt.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pwm.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line">    FPULazyStackingEnable();</span><br><span class="line">    <span class="comment">//使能系统时钟为50MHz</span></span><br><span class="line">    SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN);</span><br><span class="line">    <span class="comment">//延时函数</span></span><br><span class="line">    ROM_SysCtlDelay ( SysCtlClockGet() *ms / <span class="number">3000</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" data-id="ckmm8s20s002bto3dbq2scm6p" data-title="单片机总体概述" class="article-share-link">Share</a>
       
       
       
@@ -613,7 +514,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/15/hello-world/" data-id="ckmm8ozaj001dg43d7kxaewv8" data-title="如何上传博客" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/15/hello-world/" data-id="ckmm8s20a001gto3dd3hah1q3" data-title="如何上传博客" class="article-share-link">Share</a>
       
       
       
@@ -685,7 +586,7 @@
           </li>
         
           <li>
-            <a href="/2021/03/15/%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">单片机概况</a>
+            <a href="/2021/03/15/STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">STM32F103RCT62单片机概况</a>
           </li>
         
           <li>
