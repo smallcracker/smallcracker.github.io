@@ -24,7 +24,7 @@
 <meta property="og:image" content="c:/primary-project/stm32/学习心得/推挽复用输出模式.png">
 <meta property="og:image" content="c:/primary-project/stm32/学习心得/推挽与开漏的区别.jpg">
 <meta property="article:published_time" content="2021-03-22T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-23T16:37:08.531Z">
+<meta property="article:modified_time" content="2021-03-28T08:51:56.765Z">
 <meta property="article:author" content="smallcracker">
 <meta property="article:tag" content="stm32">
 <meta name="twitter:card" content="summary">
@@ -115,8 +115,9 @@
 <ul>
 <li>保护二极管：IO引脚上下两边两个二极管用于防止引脚外部过高、过低的电压输入。当引脚电压高于VDD时，上方的二极管导通；当引脚电压低于VSS时，下方的二极管导通，防止不正常电压引入芯片导致芯片烧毁。但是尽管如此，还是不能直接外接大功率器件，须加大功率及隔离电路驱动，防止烧坏芯片或者外接器件无法正常工作。</li>
 <li>P-MOS管和N-MOS管：由P-MOS管和N-MOS管组成的单元电路使得GPIO具有“推挽输出”和“开漏输出”的模式。这里的电路会在下面很详细地分析到。</li>
-<li>TTL肖特基触发器：信号经过触发器后，模拟信号转化为0和1的数字信号。但是，当GPIO引脚作为ADC采集电压的输入通道时，用其“模拟输入”功能，此时信号不再经过触发器进行TTL电平转换。ADC外设要采集到的原始的模拟信号。<h3 id="浮空输入模式"><a href="#浮空输入模式" class="headerlink" title="浮空输入模式"></a>浮空输入模式</h3><img src="浮空输入.png" alt="浮空输入"><br>浮空输入模式下，I/O端口的电平信号直接进入输入数据寄存器。也就是说，I/O的电平状态是不确定的，完全由外部输入决定；如果在该引脚悬空（在无信号输入）的情况下，读取该端口的电平是不确定的。</li>
+<li>TTL肖特基触发器：信号经过触发器后，模拟信号转化为0和1的数字信号。但是，当GPIO引脚作为ADC采集电压的输入通道时，用其“模拟输入”功能，此时信号不再经过触发器进行TTL电平转换。ADC外设要采集到的原始的模拟信号。<h3 id="浮空输入模式"><a href="#浮空输入模式" class="headerlink" title="浮空输入模式"></a>浮空输入模式</h3></li>
 </ul>
+<p><img src="浮空输入.png" alt="浮空输入"><br>浮空输入模式下，I/O端口的电平信号直接进入输入数据寄存器。也就是说，I/O的电平状态是不确定的，完全由外部输入决定；如果在该引脚悬空（在无信号输入）的情况下，读取该端口的电平是不确定的。</p>
 <h3 id="上拉输入模式"><a href="#上拉输入模式" class="headerlink" title="上拉输入模式"></a>上拉输入模式</h3><p><img src="C:\primary-project\stm32\学习心得\上拉输入模式.png" alt="上拉输入"><br>上拉输入模式下，I/O端口的电平信号直接进入输入数据寄存器。但是在I/O端口悬空（在无信号输入）的情况下，输入端的电平可以保持在高电平；并且在I/O端口输入为低电平的时候，输入端的电平也还是低电平。</p>
 <h3 id="下拉输入模式"><a href="#下拉输入模式" class="headerlink" title="下拉输入模式"></a>下拉输入模式</h3><p><img src="C:\primary-project\stm32\学习心得\下拉输入模式.png" alt="下拉输入模式"></p>
 <p>下拉输入模式下，I/O端口的电平信号直接进入输入数据寄存器。但是在I/O端口悬空（在无信号输入）的情况下，输入端的电平可以保持在低电平；并且在I/O端口输入为高电平的时候，输入端的电平也还是高电平。</p>
@@ -157,7 +158,7 @@
 </ul>
 <h3 id="IDR"><a href="#IDR" class="headerlink" title="IDR"></a>IDR</h3><p>每一个IO口的状态，只是用了低16位</p>
 <h3 id="ODR"><a href="#ODR" class="headerlink" title="ODR"></a>ODR</h3><p>端口输出数据寄存器</p>
-<h2 id="初始化过程"><a href="#初始化过程" class="headerlink" title="初始化过程"></a>初始化过程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RCC-&gt;APB2ENR|=<span class="number">1</span>&lt;&lt;<span class="number">2</span>; <span class="comment">//使能 PORTA 时钟</span></span><br><span class="line">GPIOA-&gt;CRH&amp;=<span class="number">0XFFFFFFF0</span>; <span class="comment">//清除PA8的配置</span></span><br><span class="line">GPIOA-&gt;CRH|=<span class="number">0X00000003</span>;<span class="comment">//PA8 推挽输出</span></span><br><span class="line">GPIOA-&gt;ODR|=<span class="number">1</span>&lt;&lt;<span class="number">8</span>; <span class="comment">//PA8 输出高</span></span><br></pre></td></tr></table></figure>
+<h2 id="初始化过程"><a href="#初始化过程" class="headerlink" title="初始化过程"></a>初始化过程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">   GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOD, ENABLE); <span class="comment">//使能 PA,PD 端口时钟</span></span><br><span class="line">   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8; <span class="comment">//LED0--&gt;PA.8 端口配置</span></span><br><span class="line">   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; <span class="comment">//推挽输出</span></span><br><span class="line">   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; <span class="comment">//IO 口速度为 50MHz</span></span><br><span class="line">   GPIO_Init(GPIOA, &amp;GPIO_InitStructure); <span class="comment">//初始化 GPIOA.8</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//修改电平的操作</span></span><br><span class="line">   GPIO_SetBits(GPIOA,GPIO_Pin_8); <span class="comment">//PA.8 输出高</span></span><br><span class="line"><span class="comment">// 也可以写作 PAout=1；</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//输入设置</span></span><br><span class="line">   GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOC, ENABLE);</span><br><span class="line">   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;</span><br><span class="line">   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;</span><br><span class="line">   GPIO_Init(GPIOC, &amp;GPIO_InitStructure);</span><br><span class="line"></span><br><span class="line"><span class="comment">//读取</span></span><br><span class="line">PCin(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
 <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>可以使用位带操作来进行，例如：我要 PORTA 的第七个 IO 口输出 1，则可以使用 <code>PAout(6)=1;</code>即可实现。我要判断 PORTA 的第 15 个位是否等于 1，则可以使用<code>if(Pain(14)==1)</code>就可以了。位带操作其实读写IDR和ODR的简便写法。</p>
 <hr>
 <h1 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h1><p>本文为CSDN博主「Yngz_Miao」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38410730/article/details/79858906">https://blog.csdn.net/qq_38410730/article/details/79858906</a></p>
@@ -165,7 +166,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/23/002-GPIO/" data-id="ckmm8s1zk0000to3d1229a3ml" data-title="stm32_GPIO" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/23/002-GPIO/" data-id="ckmsxdddd0003jk3dbnox2ye8" data-title="stm32_GPIO" class="article-share-link">Share</a>
       
       
       
@@ -176,6 +177,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2021/03/26/003-systick/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          stm32-systick
+        
+      </div>
+    </a>
   
   
     <a href="/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
@@ -232,23 +242,23 @@
       <ul>
         
           <li>
+            <a href="/2021/03/28/999-project/">stm32_template</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/27/004-USART/">stm32_USART</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/26/003-systick/">stm32-systick</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/23/002-GPIO/">stm32_GPIO</a>
           </li>
         
           <li>
             <a href="/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/">new project</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/15/STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">STM32F103RCT62单片机概况</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/07/permutation/">generate permutation</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/">休眠模块</a>
           </li>
         
       </ul>

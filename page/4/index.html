@@ -75,9 +75,9 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-boosterpacks" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Pulse Width Modulator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/01/29/boosterpacks/" class="article-date">
+    <a href="/2021/01/29/Pulse%20Width%20Modulator/" class="article-date">
   <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
 </a>
     
@@ -89,7 +89,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/boosterpacks/">BoosterPacks使用</a>
+      <a class="p-name article-title" href="/2021/01/29/Pulse%20Width%20Modulator/">PWM</a>
     </h1>
   
 
@@ -97,12 +97,153 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="BoosterPacks的使用"><a href="#BoosterPacks的使用" class="headerlink" title="BoosterPacks的使用"></a>BoosterPacks的使用</h1><p>留坑</p>
+        <h1 id="PWM"><a href="#PWM" class="headerlink" title="PWM"></a>PWM</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has two PWM output signals, which can be operated independently or as a pair of signals with dead band delays inserted. Each generator block also has an interrupt output and a trigger output. The control block determines the polarity of the PWM signals and which signals are passed through to the pins.</p>
+<blockquote>
+<p>每个PWM提供了最多4个PWM发生器和一个输出控制模块，每一个发生器能产生两个PWM输出信号，可以独立操作，也可以作为一对插入了死区延迟的信号运行。每一个生成器块还有一个中断输出和一个触发输出，控制块确定PWM信号的极性以及哪些信号传递到引脚。</p>
+</blockquote>
+<p>Some of the features of the Tiva PWM module are:<br>Up to four generator blocks, each containing<br>• One 16-bit down or up/down counter<br>• Two comparators<br>• PWM generator<br>• Dead band generator</p>
+<blockquote>
+<p>至多4个产生模块，每一个产生模块包括</p>
+<blockquote>
+<p>一个十六位的向上/向下计数器</p>
+<p>两个比较器</p>
+<p>PWM产生器</p>
+<p>死区产生器</p>
+</blockquote>
+</blockquote>
+<p>Control block<br>• PWM output enable<br>• Output polarity control<br>• Synchronization<br>• Fault handling<br>• Interrupt status</p>
+<blockquote>
+<p>控制模块有</p>
+<blockquote>
+<p>PWM输出使能</p>
+<p>输出极性控制</p>
+<p>错误处理</p>
+<p>中断状态</p>
+</blockquote>
+</blockquote>
+<p>This driver is contained in driverlib/pwm.c, with driverlib/pwm.h containing the API declarations for use by applications.</p>
+<h2 id="细节描述"><a href="#细节描述" class="headerlink" title="细节描述"></a>细节描述</h2><p>These functions perform high-level operations on PWM modules.</p>
+<blockquote>
+<p>这些模块表现了高水平的对PWM的操作</p>
+</blockquote>
+<p>The following functions provide the user with a way to configure the PWM for the most common operations, such as setting the period, generating left- and center-aligned pulses, modifying the pulse width, and controlling interrupts, triggers, and output characteristics. However, the PWM module is very versatile and can be configured in a number of different ways, many of which are beyond the scope of this API. In order to fully exploit the many features of the PWM module, users are advised to use register access macros.</p>
+<blockquote>
+<p>接下来的函数为用户提供了一种配置PWM做最普通操作的方式，这些操作有设定周期，产生左对齐/中心对齐的脉冲，调节脉冲宽度，控制中断/触发/输出特征等功能。然而，PWM模块非常的强大，可以用很多种方式设置，许多用的都不是这些API。为了能充分利用PWM模块的诸多功能，我们推荐用户使用寄存器。</p>
+</blockquote>
+<p>When discussing the various components of a PWM module, this API uses the following labeling convention:</p>
+<p>The generator blocks are called Gen0, Gen1, Gen2 and Gen3.</p>
+<blockquote>
+<p>产生器模块被称为Gen0, Gen1, Gen2 and Gen3.</p>
+</blockquote>
+<p>The two PWM output signals associated with each generator block are called OutA and OutB.</p>
+<blockquote>
+<p>与产生器模块相关的两个PWM输出信号被称为OutA和OutB</p>
+</blockquote>
+<p>The output signals are called PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 and PWM7.</p>
+<blockquote>
+<p>输出信号被称为PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 and PWM7.</p>
+</blockquote>
+<p>PWM0 and PWM1 are associated with Gen0, PWM2 and PWM3 are associated with Gen1, PWM4 and PWM5 are associated with Gen2 and PWM6 and PWM7 are associated with Gen3.</p>
+<blockquote>
+<p>PWM0和PWM1与Gen0相关联，PWM2和PWM3与Gen1相关联，PWM4和PWM5与Gen2相关联，PWM6和PWM7与Gen3相关联。</p>
+</blockquote>
+<p>Also, as a simplifying assumption for this API, comparator A for each generator block is used exclusively to adjust the pulse width of the even numbered PWM outputs (PWM0, PWM2, PWM4 and PWM6). In addition, comparator B is used exclusively for the odd numbered PWM outputs (PWM1, PWM3, PWM5 and PWM7).<br>Note that the number of generators and PWM outputs supported varies depending upon the Tiva part in use. Please consult the datasheet for the part you are using to determine whether it supports 1 or 2 modules with 3 or 4 generators each and 6 or 8 outputs each. </p>
+<blockquote>
+<p>另外，作为对此API的简化假设，每个生成器模块的比较器仅用于调整偶数个PWM输出的脉冲高度，比较器A仅用于计数PWM输出</p>
+<p>请注意，支持的生成器和 PWM 输出的数量因使用的 Tiva 部件而异。请参阅您使用的部件的数据表，以确定它是否支持 1 个或 2 个模块，每个模块有 3 个或 4 个生成器，每个模块有 6 个或 8 个输出。</p>
+</blockquote>
+<p><strong>我们这款单片机包括两个PWM模块，总共有16个输出</strong></p>
+<p>这次我们直接看例程</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the PWM0 peripheral</span></span><br><span class="line"><span class="comment">// 使能PWM外设</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Wait for the PWM0 module to be ready.</span></span><br><span class="line"><span class="comment">// 等待PWM模块准备好</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_PWM0))</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Configure the PWM generator for count down mode with immediate updates</span></span><br><span class="line"><span class="comment">// to the parameters.</span></span><br><span class="line"><span class="comment">// 配置PWM产生器，并设置器为向下计数模式，和非同步模式</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenConfigure(PWM_BASE, PWM_GEN_0,PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the period. For a 50 KHz frequency, the period = 1/50,000, or 20</span></span><br><span class="line"><span class="comment">// microseconds. For a 20 MHz clock, this translates to 400 clock ticks.</span></span><br><span class="line"><span class="comment">// Use this value to set the period.</span></span><br><span class="line"><span class="comment">// 设置周期。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenPeriodSet(PWM_BASE, PWM_GEN_0, <span class="number">400</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the pulse width of PWM0 for a 25% duty cycle.</span></span><br><span class="line"><span class="comment">// 脉冲宽度设置</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMPulseWidthSet(PWM_BASE, PWM_OUT_0, <span class="number">100</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the pulse width of PWM1 for a 75% duty cycle.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMPulseWidthSet(PWM_BASE, PWM_OUT_1, <span class="number">300</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Start the timers in generator 0.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenEnable(PWM_BASE, PWM_GEN_0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the outputs.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMOutputState(PWM_BASE, (PWM_OUT_0_BIT | PWM_OUT_1_BIT), <span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="关注如下函数"><a href="#关注如下函数" class="headerlink" title="关注如下函数"></a>关注如下函数</h2><h4 id="PWMGenConfigure"><a href="#PWMGenConfigure" class="headerlink" title="PWMGenConfigure"></a>PWMGenConfigure</h4><p>用于配置PWM</p>
+<p>This function is used to set the mode of operation for a PWM generator. The counting mode, synchronization mode, and debug behavior are all configured. After configuration, the generator is left in the disabled state.</p>
+<blockquote>
+<p>这个函数用于设置PWM产生器的操作模式。计数模式，同步模式，调试模式都在这里设置。设置之后，产生器处于关闭状态。</p>
+</blockquote>
+<p>A PWM generator can count in two different modes: count down mode or count up/down mode. In count down mode, it counts from a value down to zero, and then resets to the preset value, producing left-aligned PWM signals (that is, the rising edge of the two PWM signals produced by the generator occur at the same time). In count up/down mode, it counts up from zero to the preset value, counts back down to zero, and then repeats the process, producing centeraligned PWM signals (that is, the middle of the high/low period of the PWM signals produced by the generator occurs at the same time).</p>
+<blockquote>
+<p>PWM产生器可以用两种计数模式计数，向下计数模式和向上/向下计数模式。</p>
+<p>在向下计数模式中，它从一个值向下数到零，然后恢复到预设值，产生一个左对齐的PWM信号（也就是说，两个产生器产生的信号的升边同时出现）在向上向下计数模式中，它从零数到预设值，再数回到零，反复这个过程，产生的是中心对齐的PWM信号（也就是说，产生器产生的PWM信号的周期的中间时刻是同时发生的）<strong>每个生成器不是能产生两个PWM信号嘛</strong></p>
+</blockquote>
+<p>When the PWM generator parameters (period and pulse width) are modified, their effect on the output PWM signals can be delayed. In synchronous mode, the parameter updates are not applied until a synchronization event occurs. This mode allows multiple parameters to be modified and take effect simultaneously, instead of one at a time. Additionally, parameters to multiple PWM generators in synchronous mode can be updated simultaneously, allowing them to be treated as if they were a unified generator. In non-synchronous mode, the parameter updates are not delayed until a synchronization event. In either mode, the parameter updates only occur when the counter is at zero to help prevent oddly formed PWM signals during the update (that is, a PWM pulse that is too short or too long).</p>
+<blockquote>
+<p>当PWM脉冲产生器的参数（周期和脉冲宽度）被修改时，它们对PWM信号的影响可能会延迟。</p>
+<p>在同步模式下，直到发生同步时间时应用参数才被更新。此模式允许多个参数同时修改并生效，而不是一次一个参数。此外，同步模式下多个 PWM 生成器的参数可以同时更新，从而可以将它们视为统一生成器。</p>
+<p>在非同步模式下，参数 更新不会延迟到同步事件，在任意模式下，参数更新仅在计数器为零时在会发生，用以防止更新期间产生奇怪的PWM信号。</p>
+</blockquote>
+<p>The PWM generator can either pause or continue running when the processor is stopped via the debugger. If configured to pause, it continues to count until it reaches zero, at which point it pauses until the processor is restarted. If configured to continue running, it keeps counting as if nothing had happened.</p>
+<blockquote>
+<p>当调试器使处理器停止时，PWM产生器可以停止/继续运行如果配置为暂停，则它将继续计数，直到达到零，此时它会暂停，直到重新启动处理器。如果配置为继续运行，则继续计数，就像什么都没发生一样。</p>
+</blockquote>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212211525865.png" alt="image-20201212211525865"></p>
+<p>这是这个函数的参数，第一部分是PWM模块的基址，第二部分是PWM产生器，究竟是GEN几，最后是配置参数。</p>
+<p>那么有哪些参数呢？</p>
+<p>PWM_GEN_MODE_DOWN or PWM_GEN_MODE_UP_DOWN to specify the counting<br>mode</p>
+<p><strong>计数模式，就是向上模式还是向上向下模式</strong></p>
+<p>PWM_GEN_MODE_SYNC or PWM_GEN_MODE_NO_SYNC to specify the counter load<br>and comparator update synchronization mode</p>
+<p><strong>不晓得</strong></p>
+<p>PWM_GEN_MODE_DBG_RUN or PWM_GEN_MODE_DBG_STOP to specify the debug<br>behavior</p>
+<p><strong>配置了debug的行为</strong></p>
+<p>PWM_GEN_MODE_GEN_NO_SYNC, PWM_GEN_MODE_GEN_SYNC_LOCAL, or<br>PWM_GEN_MODE_GEN_SYNC_GLOBAL to specify the update synchronization mode<br>for generator counting mode changes</p>
+<p><strong>不晓得</strong></p>
+<p>PWM_GEN_MODE_DB_NO_SYNC, PWM_GEN_MODE_DB_SYNC_LOCAL, or<br>PWM_GEN_MODE_DB_SYNC_GLOBAL to specify the deadband parameter synchronization<br>mode</p>
+<p><strong>指定死区参数同步模式</strong></p>
+<p>PWM_GEN_MODE_FAULT_LATCHED or PWM_GEN_MODE_FAULT_UNLATCHED to<br>specify whether fault conditions are latched or not</p>
+<p><strong>指定是否锁定故障条件</strong></p>
+<p>PWM_GEN_MODE_FAULT_MINPER or PWM_GEN_MODE_FAULT_NO_MINPER to<br>specify whether minimum fault period support is required</p>
+<p><strong>确定是否需要最小错误周期支持</strong></p>
+<p>PWM_GEN_MODE_FAULT_EXT or PWM_GEN_MODE_FAULT_LEGACY to specify<br>whether extended fault source selection support is enabled or not</p>
+<p><strong>指定是否启用扩展故障源选择支持</strong></p>
+<!--死区就是中性区或者是不作用区-->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="ckmsxdddt0015jk3d12138azs" data-title="PWM" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-TIMER_CAPTURE" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/TIMER_CAPTURE/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/TIMER_CAPTURE/">Timer Capture</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="TIMER-CAPTURE"><a href="#TIMER-CAPTURE" class="headerlink" title="TIMER_CAPTURE"></a>TIMER_CAPTURE</h1><h3 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h3><p>计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位</p>
+<p>计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。</p>
+<p>加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，计数器会自动清零重新计数，减计数模式下，计数器会恢复preload值，但是会停止计数，需要重新使能。</p>
+<h3 id="功能一，边沿计数"><a href="#功能一，边沿计数" class="headerlink" title="功能一，边沿计数"></a>功能一，边沿计数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);</span><br><span class="line">    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> ulstatus = TimerIntStatus(TIMER2_BASE, TIMER_CAPA_MATCH | TIMER_CAPB_MATCH);</span><br><span class="line">    TimerIntClear(TIMER2_BASE, ulstatus);</span><br><span class="line">        t++;</span><br><span class="line">        <span class="keyword">if</span>(t%<span class="number">2</span>)&#123;</span><br><span class="line">            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_ccp</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使能GPIO时钟</span></span><br><span class="line">    <span class="comment">//SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span></span><br><span class="line">    <span class="comment">//使能Timer模块</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    <span class="comment">//配置GPIO引脚为Timer捕捉模式</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    <span class="comment">//配置管脚为弱上拉模式</span></span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    <span class="comment">//配置Timer的A模块为边沿触发 加计数模式</span></span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_COUNT_UP);</span><br><span class="line">    <span class="comment">//设置下降沿触发</span></span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_POS_EDGE);</span><br><span class="line">    TimerMatchSet(TIMER2_BASE, TIMER_A, <span class="number">3</span>);</span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_MATCH);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="功能二，边沿计时"><a href="#功能二，边沿计时" class="headerlink" title="功能二，边沿计时"></a>功能二，边沿计时</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> s=TimerIntStatus(TIMER2_BASE,TIMER_CAPA_EVENT);</span><br><span class="line">    TimerIntClear(TIMER2_BASE,s);</span><br><span class="line">    UARTprintf(<span class="string">&quot;Captured Value: 0x%04X\n&quot;</span>, TimerValueGet(TIMER2_BASE, TIMER_A));</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TIMER_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//使能定时器和GPIO</span></span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    <span class="comment">//配置GPIO引脚为timer捕捉模式</span></span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    <span class="comment">//配置管脚为弱上拉模式</span></span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    <span class="comment">//配置Timer模块为沿触发加计时模式</span></span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_TIME_UP);</span><br><span class="line">    <span class="comment">//使用下降沿触发</span></span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_NEG_EDGE);</span><br><span class="line">    <span class="comment">//设置计数范围</span></span><br><span class="line">    TimerLoadSet(TIMER2_BASE, TIMER_A, <span class="number">0x8FFF</span>);</span><br><span class="line">    <span class="comment">//注册定时器中断</span></span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    <span class="comment">//使能中断，定时器，定时器中断</span></span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_EVENT);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/boosterpacks/" data-id="ckmm8s209001cto3d4qa9fezl" data-title="BoosterPacks使用" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/TIMER_CAPTURE/" data-id="ckmsxdddv001ajk3d5t6q7mw9" data-title="Timer Capture" class="article-share-link">Share</a>
       
       
       
@@ -189,7 +330,344 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/UART/" data-id="ckmm8s20a001eto3d9nqm0lqn" data-title="UART" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/UART/" data-id="ckmsxdddw001cjk3db1pz265h" data-title="UART" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Timer" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/Timer/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/Timer/">Timer</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Timer"><a href="#Timer" class="headerlink" title="Timer"></a>Timer</h1><h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>可编程定时器对于驱动定时器输入管脚的外部事件进行计数或计时。</p>
+<blockquote>
+<p>前置知识</p>
+<p>trigger是触发的意思</p>
+<p>本单片机提供了8个定时器</p>
+<p>有定时器/计数器/RTC…模式</p>
+</blockquote>
+<p>定时器实质上就是一个加1计数器。它随着计数器的输入脉冲进行自加1，也就是说当每来一个脉冲，计数器就会自动加1,如果当加到计数器为全1时，再输入一个脉冲就使计数器回零，且计数器的溢出使相应的中断标志位置1，向CPU发出就会发出中断请求。</p>
+<h5 id="以下内容来自机翻"><a href="#以下内容来自机翻" class="headerlink" title="以下内容来自机翻"></a>以下内容来自机翻</h5><p>定时器API提供了一组用于使用定时器模块的函数。这些函数能配置和控制定时器，修改定时器/计数器的值，并管理定时器的中断处理。</p>
+<p>定时器模块可以是两个半宽度的定时器/计数器独立运行或者作为全宽的计时器/Real Time Clock (RTC)运行。</p>
+<p>有些定时器提供了16位半宽定时器和32位全宽定时器，而其他定时器则提供了32位半宽定时器和64位全宽定时器。</p>
+<p>在此API中，提供两个半宽定时器的定时器模块称为TimerA和TimerB，而提供全宽定时器的定时器模块被称为TimerA。</p>
+<p>当配置为全宽或半宽定时器时，可以将定时器设置为单次运行模式。如果配置为单次计时模式，则它在向下计数到零 或者向上计数到 load value 时停止。</p>
+<p>如果配置为连续计数模式下，定时器计数到零（向下计数）或 load value（向上计数），然后重新加载和<br>继续计数。</p>
+<p>当配置为全宽定时器时，定时器也可配置为RTC运行。在这种模式下，定时器希望由32.768KHz外部时钟驱动。<br>被分割成1秒的时钟刻度。<br>在半宽模式下，定时器也可以配置为事件捕获或为PWM generator。当配置为事件捕获时，定时器作为一个计数器。当配置为事件捕获时，定时器作为计数器。<br>可以配置为计算事件之间的时间或事件本身。事件的类型被计数的事件可以配置为正边、负边或两个边。</p>
+<p>当定时器被配置为PWM发生器，用于捕捉事件的输入信号就变成了一个输出信号，而定时器则在该信号上驱动一个边缘对齐的脉冲。<br>定时器模块还提供了控制函数参数的能力，比如输出反转，输出触发，计时器行为等。<br>反转、输出触发器和停顿期间的定时器行为。</p>
+<p>还提供了对中断源和事件的控制。中断可以生成以指示事件表示已被捕获，或表示一定数量的事件已被捕获。当计数器下数到零或者上数到特定值时也会产生中断。</p>
+<p>在某些部件上，来自多个定时器的counter是可以被同步的。同步了的计数器在PWM和边缘时间捕获模式下非常有用。在PWM模式下，来自多个定时器可以通过具有相同的负载值和同步计数器来实现锁步。（意味着计数器的值总是相同的）。同样，通过使用相同的负载值和同步了的计数器在边缘捕捉模式下，两个输入边缘之间的绝对时间可以很容易地测量。<br>这个驱动包含在driverlib/timer.c中，driverlib/timer.h中包含了API。</p>
+<p>The timer API is broken into three groups of functions: those that deal with timer configuration and control, those that deal with timer contents, and those that deal with interrupt handling.</p>
+<p>Timer configuration is handled by TimerConfigure(), which performs the high level setup of the timer module; that is, it is used to set up full- or half-width modes, and to select between PWM, capture, and timer operations.   Timer control is performed by TimerEnable(),  TimerDisable(),  TimerCon- trolLevel(),  TimerControlTrigger(),  TimerControlEvent(),  TimerControlStall(),  TimerRTCEnable(), and imerRTCDisable().</p>
+<p>Timer content is managed with TimerLoadSet(), TimerLoadGet(), TimerLoadSet64(), TimerLoad- Get64(),<br> TimerPrescaleSet(),  TimerPrescaleGet(),  TimerMatchSet(),  TimerMatchGet(),  Timer- MatchSet64(),  TimerMatchGet64(),  TimerPrescaleMatchSet(),  TimerPrescaleMatchGet(),  Timer- ValueGet(), TimerValueGet64(), and TimerSynchronize().</p>
+<p>The interrupt handler for the Timer interrupt is managed with TimerIntRegister() and TimerIntUnreg-<br>ister(). The individual interrupt sources within the timer module are managed with<br>TimerIntEnable(), TimerIntDisable(), TimerIntStatus(), and TimerIntClear().</p>
+<p>即这些函数</p>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201211233946109.png" alt="image-20201211233946109"></p>
+<h2 id="TI怎样配置计时器？"><a href="#TI怎样配置计时器？" class="headerlink" title="TI怎样配置计时器？"></a>TI怎样配置计时器？</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TimerConfigure(TIMER0_BASE, TIMER_CFG_ONE_SHOT);<span class="comment">//单次计数模式</span></span><br><span class="line">TimerConfigure(TIMER0_BASE, TIMER_CFG_PERIODIC);<span class="comment">//周期性计数模式</span></span><br><span class="line">TimerLoadSet(TIMER0_BASE, <span class="number">2222222</span>- <span class="number">1</span>);<span class="comment">//设定预装栽值</span></span><br><span class="line">IntEnable(INT_TIMER0A);  <span class="comment">//使能TIMER0A</span></span><br><span class="line">TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT); <span class="comment">//TIMEOUT标志位触发中断</span></span><br><span class="line"><span class="comment">//TIMER0A开始计数，当计数值等于TimerLoadSet，触发中断 </span></span><br></pre></td></tr></table></figure>
+<p>​    其他资料</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38427678/article/details/94618235">timer笔记</a></p>
+<p><a target="_blank" rel="noopener" href="http://home.eeworld.com.cn/my/space-uid-525682-blogid-237550.html">这里是定时器单次计时，周期计时，数捕获，计时捕获模式的例程</a></p>
+<p>总结如下</p>
+<h1 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h1><p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201211234402578.png" alt="image-20201211234402578"></p>
+<p>这是前两个函数，与ADC（模拟信号转数字信号）功能有关（坑）</p>
+<h1 id="第二部分"><a href="#第二部分" class="headerlink" title="第二部分"></a>第二部分</h1><p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201211234632777.png" alt="image-20201211234632777"></p>
+<p>第一个 能用来获取Timer的时钟源</p>
+<p>第二个 能设置Timer的时钟源</p>
+<p>第三个 能设置Timer模式</p>
+<blockquote>
+<p>现在介绍一下参数长啥样</p>
+<p>全宽模式为TIMER<em>CFG</em>*</p>
+<p>半宽模式为TIMER<em>CFG_A</em><em> and TIMER<em>CFG_B</em></em></p>
+<p>后面的参数有哪些？</p>
+<p>1.SHOT 单次计数</p>
+<p>2.SHOT_UP  向上单次计数（看来上一个就是向下计数了。。）</p>
+<p>3.PERIODIC 周期计数</p>
+<p>4.PERIDIC_UP 向上周期计数</p>
+<p>5.RTC 实时时钟模式</p>
+<p>还有一些只有在全宽模式才有的参数：SPILT_PAIR 两个半宽计时器？</p>
+<p>还有一些只有在半宽模式才有的参数：</p>
+<p>1.CAP_COUNT 计数捕捉</p>
+<p>2.CAP_COUNT_UP 向上计数捕捉</p>
+<p>3.CAP_TIME 沿计数捕捉</p>
+<p>4.CAP_TIME_UP 向上计数捕捉</p>
+<p>5.PWM PWM输出</p>
+<p>还有一些其他action可以引起计数不管了。。</p>
+</blockquote>
+<p>第四个 能控制事件类型（下面是参数）</p>
+<blockquote>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212000342536.png" alt="image-20201212000342536"></p>
+</blockquote>
+<p>第五个 控制输出水平？？好像是针对PWM的。</p>
+<p>第六个 控制stall handling？？</p>
+<p>第七个 使能或着使不能ADC触发输出</p>
+<p>第八个 控制等待触发句柄</p>
+<p>最后一个 使不能Timer</p>
+<h1 id="第三部分"><a href="#第三部分" class="headerlink" title="第三部分"></a>第三部分</h1><p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212123915820.png" alt="image-20201212123915820"></p>
+<p>第一个 第二个 DMA事件的设置和获取</p>
+<p>第三个 使能Timer</p>
+<p>第四个 清除Timer中断源</p>
+<blockquote>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212124644391.png" alt="image-20201212124644391"></p>
+</blockquote>
+<p>第五个 第六个 使能/使不能Timer中断 </p>
+<blockquote>
+<p>有很多种中断源呢，比如说DMA event match(匹配) timeout(溢出) rtc(实时时钟)等等</p>
+</blockquote>
+<p>第七个 注册Timer中断</p>
+<p>第八个 获取当前的中断状态 这个状态就是在使能Timer中断时设置的状态</p>
+<p>第九个 解除注册Timer中断</p>
+<p>倒数第四个 倒数第三个 获取Timer的load value</p>
+<p>最后两个 设置Timer的load value</p>
+<h1 id="第四部分"><a href="#第四部分" class="headerlink" title="第四部分"></a>第四部分</h1><p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212130358326.png" alt="image-20201212130358326"></p>
+<p>第一个 第二个 获取Timer的匹配值</p>
+<p>第三个第四个 设置Timer的匹配值</p>
+<p>第五个 获得prescale的值 （获取预分频的值）</p>
+<blockquote>
+<p>分频就是把系统工作频率分频后当做定时器的工作频率！！例如系统时钟为12MHz，12分频后定时器的工作时钟为1MHz</p>
+</blockquote>
+<p>第六个 设置prescale的值</p>
+<p>第七个 第八个 使能/使不能RTC</p>
+<p>第九个 定时器同步（再问问？）</p>
+<blockquote>
+<p>在一些计数器种同步他们的counter</p>
+</blockquote>
+<p>第十个 定时器更新模式</p>
+<blockquote>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212133616220.png" alt="image-20201212133616220"></p>
+</blockquote>
+<p>第十一个 第十二个 获取定时器当前的值</p>
+<h1 id="这里必须要有这份文档做参考-20-1-pdf"><a href="#这里必须要有这份文档做参考-20-1-pdf" class="headerlink" title="这里必须要有这份文档做参考%20(1).pdf)"></a><a href="file:///C:/Users/smallcannabis/Downloads/TI%20Stellaris%20LM4F%E5%AE%9A%E6%97%B6%E5%99%A8%E6%8C%87%E5%8D%97(Timer">这里必须要有这份文档做参考</a>%20(1).pdf)</h1><p>定时器模式</p>
+<p>看如下代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//控制灯的亮灭</span></span><br><span class="line"><span class="keyword">int</span> t=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">WTimer0BIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//注意！一定要清除当前中断标志</span></span><br><span class="line">    TimerIntClear(WTIMER0_BASE, TIMER_TIMB_TIMEOUT);</span><br><span class="line">    t++;</span><br><span class="line">    <span class="keyword">if</span>(t%<span class="number">2</span>)&#123;</span><br><span class="line">        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3,GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 );</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_WTIMER0);</span><br><span class="line">    <span class="comment">//这里拆分了Wtime0，仅仅使用timer_b</span></span><br><span class="line">    TimerConfigure(WTIMER0_BASE,TIMER_CFG_SPLIT_PAIR|TIMER_CFG_B_PERIODIC);</span><br><span class="line">    <span class="comment">//拆分了的话使用TimerLoadSet 没拆分在后面加上64</span></span><br><span class="line">    <span class="comment">//这里设置为每一秒触发一次中断</span></span><br><span class="line">    TimerLoadSet(WTIMER0_BASE,TIMER_B,<span class="number">1000000</span>);</span><br><span class="line">    <span class="comment">//设置中断处理函数</span></span><br><span class="line">    TimerIntRegister(WTIMER0_BASE,TIMER_B,WTimer0BIntHandler);</span><br><span class="line">    <span class="comment">//接下来是使能中断和使能定时器</span></span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    IntEnable(INT_WTIMER0B);</span><br><span class="line">    TimerIntEnable(WTIMER0_BASE,TIMER_TIMB_TIMEOUT);</span><br><span class="line">    TimerEnable(WTIMER0_BASE,TIMER_B);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/Timer/" data-id="ckmsxdddw001ejk3d37qiex0e" data-title="Timer" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-boosterpacks" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/boosterpacks/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/boosterpacks/">BoosterPacks使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="BoosterPacks的使用"><a href="#BoosterPacks的使用" class="headerlink" title="BoosterPacks的使用"></a>BoosterPacks的使用</h1><p>留坑</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/boosterpacks/" data-id="ckmsxdddx001gjk3d6sta1syg" data-title="BoosterPacks使用" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-c文件和头文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">关于怎样写c文件和头文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="关于怎样写c文件和头文件"><a href="#关于怎样写c文件和头文件" class="headerlink" title="关于怎样写c文件和头文件"></a>关于怎样写c文件和头文件</h1><h2 id="c语言的编译过程"><a href="#c语言的编译过程" class="headerlink" title="c语言的编译过程"></a>c语言的编译过程</h2><h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>预处理主要处理</p>
+<p>1.源程序的宏定义指令</p>
+<p>2.条件编译指令</p>
+<p>3.头文件包含指令</p>
+<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>将源程序转换为汇编代码</p>
+<h3 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h3><p>将汇编语言代 码转化成机器语言</p>
+<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>将各个目标文件中的各段代码进行绝对定位，生成根特定平台相关的可执行文件。（就是生成.exe文件）</p>
+<h2 id="那么-h-和-c-文件怎么用呢？"><a href="#那么-h-和-c-文件怎么用呢？" class="headerlink" title="那么.h 和 .c 文件怎么用呢？"></a>那么.h 和 .c 文件怎么用呢？</h2><p>看如下例子</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//a.h</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//a.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span> </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   foo(); </span><br><span class="line"> 　<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>现在来看一个大佬的解释：</p>
+<blockquote>
+<p>从C编译器角度看，.h和.c皆是浮云，就是改名为.txt、.doc也没有大的分别。换句话说，就是.h和.c没啥必然联系。.h中一般放的是同名.c文件中定义的变量、数组、函数的声明，需要让.c外部使用的声明。这个声明有啥用？只是让需要用这些声明的地方方便引用。<u> 因为 #include “xx.h” 这个宏其实际意思就是把当前这一行删掉，把 xx.h 中的内容原封不动的插入在当前行的位置</u>。由于想写这些函数声明的地方非常多（每一个调用 xx.c 中函数的地方，都要在使用前声明一下子），所以用 #include “xx.h” 这个宏就简化了许多行代码——让预处理器自己替换好了。也就是说，xx.h 其实只是让需要写 xx.c 中函数声明的地方调用（可以少写几行字），至于 include 这个 .h 文件是谁，是 .h 还是 .c，还是与这个 .h 同名的 .c，都没有任何必然关系。<br>  这样你可能会说：啊？那我平时只想调用 xx.c 中的某个函数，却 include了 xx.h 文件，岂不是宏替换后出现了很多无用的声明？没错，确实引入了很多垃圾 ，但是它却省了你不少笔墨，并且整个版面也看起来清爽的多。鱼与熊掌不可得兼，就是这个道理。反正多些声明（.h一般只用来放声明，而放不定义，参见拙著“过马路，左右看”）也无害处，又不会影响编译，何乐而不为呢？</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="ckmsxdddx001ijk3d2iqt4dti" data-title="关于怎样写c文件和头文件" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-System Tick" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/System%20Tick/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/System%20Tick/">SysTick</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="SysTick"><a href="#SysTick" class="headerlink" title="SysTick"></a>SysTick</h1><p>SysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Its<br>intended purpose is to provide a periodic interrupt for an RTOS, but it can be used for other simple<br>timing purposes.<br>The SysTick interrupt handler does not need to clear the SysTick interrupt source as it is cleared<br>automatically by the NVIC when the SysTick interrupt handler is called.<br>This driver is contained in driverlib/systick.c, with driverlib/systick.h containing the<br>API declarations for use by applications.</p>
+<p>大概的翻译一下</p>
+<p>SysTick是一个简单的定时器，是Cortex-M微处理器中NVIXC控制器的一部分。他的目的在于为RTOS提供一个周期性的中断，也可以被用于其他简单的计时目的。</p>
+<p>Systick 中断处理不需要清除Sys tick中断源，当SysTick中断处理被调用时NVIC会自动清理中断源。</p>
+<p>头文件是driverlib/systick.h</p>
+<p>The SysTick API is fairly simple, like SysTick itself. There are functions for configuring and enabling<br>SysTick (SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet()) and functions for dealing with an interrupt handler for SysTick (SysTickIntRegister(),<br>SysTickIntUnregister(), SysTickIntEnable(), and SysTickIntDisable()).</p>
+<p>他所包含的函数也特别少</p>
+<p>主要有设置和使能函数还有处理中断的函数</p>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212171840774.png" alt="image-20201212171840774"></p>
+<p>设置和使能的函数有</p>
+<p>(SysTickEnable(), SysTickDisable(), SysTickPeriodSet(), SysTickPeriodGet(), and<br>SysTickValueGet())</p>
+<p>先看头两个SysTickEnable(), SysTickDisable(), 使能和停止SysTick</p>
+<p>如果中断处理已经注册，那就等中断重启时再停止。</p>
+<p>其中SysTickEnable还有个note</p>
+<blockquote>
+<p>Calling this function causes the SysTick counter to (re)commence counting from its current<br>value. The counter is not automatically reloaded with the period as specified in a previous call<br>to SysTickPeriodSet(). If an immediate reload is required, the NVIC_ST_CURRENT register<br>must be written to force the reload. Any write to this register clears the SysTick counter to 0<br>and causes a reload with the supplied period on the next clock.</p>
+</blockquote>
+<p>上面是使能定时器的函数，接下来是使能定时器中断的函数SysTickIntEnable(), and SysTickIntDisable()</p>
+<p>然后时注册/去除注册的函数SysTickIntRegister(),SysTickIntUnregister(),</p>
+<p>其中SysTickIntRegister(),的参数是一个函数指针，表示中断发生时要调用的函数</p>
+<p>还有两个函数能设置/返回计时器周期</p>
+<p>周期可以设置在1到16777216之间，单位是处理器的时钟数</p>
+<p>最后一个函数是获取定时器counter的函数SysTickValueGet()</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/System%20Tick/" data-id="ckmsxdddz001mjk3d29ebf6pm" data-title="SysTick" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-pin_map" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/pin_map/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/pin_map/">该单片机pin map</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="哪些引脚可以复用哪些功能"><a href="#哪些引脚可以复用哪些功能" class="headerlink" title="哪些引脚可以复用哪些功能"></a>哪些引脚可以复用哪些功能</h1><h1 id="ifdef-PART-TM4C123GH6PM"><a href="#ifdef-PART-TM4C123GH6PM" class="headerlink" title="ifdef PART_TM4C123GH6PM"></a>ifdef PART_TM4C123GH6PM</h1><h1 id="define-GPIO-PA0-U0RX-0x00000001"><a href="#define-GPIO-PA0-U0RX-0x00000001" class="headerlink" title="define GPIO_PA0_U0RX           0x00000001"></a>define GPIO_PA0_U0RX           0x00000001</h1><h1 id="define-GPIO-PA0-CAN1RX-0x00000008"><a href="#define-GPIO-PA0-CAN1RX-0x00000008" class="headerlink" title="define GPIO_PA0_CAN1RX         0x00000008"></a>define GPIO_PA0_CAN1RX         0x00000008</h1><h1 id="define-GPIO-PA1-U0TX-0x00000401"><a href="#define-GPIO-PA1-U0TX-0x00000401" class="headerlink" title="define GPIO_PA1_U0TX           0x00000401"></a>define GPIO_PA1_U0TX           0x00000401</h1><h1 id="define-GPIO-PA1-CAN1TX-0x00000408"><a href="#define-GPIO-PA1-CAN1TX-0x00000408" class="headerlink" title="define GPIO_PA1_CAN1TX         0x00000408"></a>define GPIO_PA1_CAN1TX         0x00000408</h1><h1 id="define-GPIO-PA2-SSI0CLK-0x00000802"><a href="#define-GPIO-PA2-SSI0CLK-0x00000802" class="headerlink" title="define GPIO_PA2_SSI0CLK        0x00000802"></a>define GPIO_PA2_SSI0CLK        0x00000802</h1><h1 id="define-GPIO-PA3-SSI0FSS-0x00000C02"><a href="#define-GPIO-PA3-SSI0FSS-0x00000C02" class="headerlink" title="define GPIO_PA3_SSI0FSS        0x00000C02"></a>define GPIO_PA3_SSI0FSS        0x00000C02</h1><h1 id="define-GPIO-PA4-SSI0RX-0x00001002"><a href="#define-GPIO-PA4-SSI0RX-0x00001002" class="headerlink" title="define GPIO_PA4_SSI0RX         0x00001002"></a>define GPIO_PA4_SSI0RX         0x00001002</h1><h1 id="define-GPIO-PA5-SSI0TX-0x00001402"><a href="#define-GPIO-PA5-SSI0TX-0x00001402" class="headerlink" title="define GPIO_PA5_SSI0TX         0x00001402"></a>define GPIO_PA5_SSI0TX         0x00001402</h1><h1 id="define-GPIO-PA6-I2C1SCL-0x00001803"><a href="#define-GPIO-PA6-I2C1SCL-0x00001803" class="headerlink" title="define GPIO_PA6_I2C1SCL        0x00001803"></a>define GPIO_PA6_I2C1SCL        0x00001803</h1><h1 id="define-GPIO-PA6-M1PWM2-0x00001805"><a href="#define-GPIO-PA6-M1PWM2-0x00001805" class="headerlink" title="define GPIO_PA6_M1PWM2         0x00001805"></a>define GPIO_PA6_M1PWM2         0x00001805</h1><h1 id="define-GPIO-PA7-I2C1SDA-0x00001C03"><a href="#define-GPIO-PA7-I2C1SDA-0x00001C03" class="headerlink" title="define GPIO_PA7_I2C1SDA        0x00001C03"></a>define GPIO_PA7_I2C1SDA        0x00001C03</h1><h1 id="define-GPIO-PA7-M1PWM3-0x00001C05"><a href="#define-GPIO-PA7-M1PWM3-0x00001C05" class="headerlink" title="define GPIO_PA7_M1PWM3         0x00001C05"></a>define GPIO_PA7_M1PWM3         0x00001C05</h1><h1 id="define-GPIO-PB0-U1RX-0x00010001"><a href="#define-GPIO-PB0-U1RX-0x00010001" class="headerlink" title="define GPIO_PB0_U1RX           0x00010001"></a>define GPIO_PB0_U1RX           0x00010001</h1><h1 id="define-GPIO-PB0-T2CCP0-0x00010007"><a href="#define-GPIO-PB0-T2CCP0-0x00010007" class="headerlink" title="define GPIO_PB0_T2CCP0         0x00010007"></a>define GPIO_PB0_T2CCP0         0x00010007</h1><h1 id="define-GPIO-PB1-U1TX-0x00010401"><a href="#define-GPIO-PB1-U1TX-0x00010401" class="headerlink" title="define GPIO_PB1_U1TX           0x00010401"></a>define GPIO_PB1_U1TX           0x00010401</h1><h1 id="define-GPIO-PB1-T2CCP1-0x00010407"><a href="#define-GPIO-PB1-T2CCP1-0x00010407" class="headerlink" title="define GPIO_PB1_T2CCP1         0x00010407"></a>define GPIO_PB1_T2CCP1         0x00010407</h1><h1 id="define-GPIO-PB2-I2C0SCL-0x00010803"><a href="#define-GPIO-PB2-I2C0SCL-0x00010803" class="headerlink" title="define GPIO_PB2_I2C0SCL        0x00010803"></a>define GPIO_PB2_I2C0SCL        0x00010803</h1><h1 id="define-GPIO-PB2-T3CCP0-0x00010807"><a href="#define-GPIO-PB2-T3CCP0-0x00010807" class="headerlink" title="define GPIO_PB2_T3CCP0         0x00010807"></a>define GPIO_PB2_T3CCP0         0x00010807</h1><h1 id="define-GPIO-PB3-I2C0SDA-0x00010C03"><a href="#define-GPIO-PB3-I2C0SDA-0x00010C03" class="headerlink" title="define GPIO_PB3_I2C0SDA        0x00010C03"></a>define GPIO_PB3_I2C0SDA        0x00010C03</h1><h1 id="define-GPIO-PB3-T3CCP1-0x00010C07"><a href="#define-GPIO-PB3-T3CCP1-0x00010C07" class="headerlink" title="define GPIO_PB3_T3CCP1         0x00010C07"></a>define GPIO_PB3_T3CCP1         0x00010C07</h1><h1 id="define-GPIO-PB4-SSI2CLK-0x00011002"><a href="#define-GPIO-PB4-SSI2CLK-0x00011002" class="headerlink" title="define GPIO_PB4_SSI2CLK        0x00011002"></a>define GPIO_PB4_SSI2CLK        0x00011002</h1><h1 id="define-GPIO-PB4-M0PWM2-0x00011004"><a href="#define-GPIO-PB4-M0PWM2-0x00011004" class="headerlink" title="define GPIO_PB4_M0PWM2         0x00011004"></a>define GPIO_PB4_M0PWM2         0x00011004</h1><h1 id="define-GPIO-PB4-T1CCP0-0x00011007"><a href="#define-GPIO-PB4-T1CCP0-0x00011007" class="headerlink" title="define GPIO_PB4_T1CCP0         0x00011007"></a>define GPIO_PB4_T1CCP0         0x00011007</h1><h1 id="define-GPIO-PB4-CAN0RX-0x00011008"><a href="#define-GPIO-PB4-CAN0RX-0x00011008" class="headerlink" title="define GPIO_PB4_CAN0RX         0x00011008"></a>define GPIO_PB4_CAN0RX         0x00011008</h1><h1 id="define-GPIO-PB5-SSI2FSS-0x00011402"><a href="#define-GPIO-PB5-SSI2FSS-0x00011402" class="headerlink" title="define GPIO_PB5_SSI2FSS        0x00011402"></a>define GPIO_PB5_SSI2FSS        0x00011402</h1><h1 id="define-GPIO-PB5-M0PWM3-0x00011404"><a href="#define-GPIO-PB5-M0PWM3-0x00011404" class="headerlink" title="define GPIO_PB5_M0PWM3         0x00011404"></a>define GPIO_PB5_M0PWM3         0x00011404</h1><h1 id="define-GPIO-PB5-T1CCP1-0x00011407"><a href="#define-GPIO-PB5-T1CCP1-0x00011407" class="headerlink" title="define GPIO_PB5_T1CCP1         0x00011407"></a>define GPIO_PB5_T1CCP1         0x00011407</h1><h1 id="define-GPIO-PB5-CAN0TX-0x00011408"><a href="#define-GPIO-PB5-CAN0TX-0x00011408" class="headerlink" title="define GPIO_PB5_CAN0TX         0x00011408"></a>define GPIO_PB5_CAN0TX         0x00011408</h1><h1 id="define-GPIO-PB6-SSI2RX-0x00011802"><a href="#define-GPIO-PB6-SSI2RX-0x00011802" class="headerlink" title="define GPIO_PB6_SSI2RX         0x00011802"></a>define GPIO_PB6_SSI2RX         0x00011802</h1><h1 id="define-GPIO-PB6-M0PWM0-0x00011804"><a href="#define-GPIO-PB6-M0PWM0-0x00011804" class="headerlink" title="define GPIO_PB6_M0PWM0         0x00011804"></a>define GPIO_PB6_M0PWM0         0x00011804</h1><h1 id="define-GPIO-PB6-T0CCP0-0x00011807"><a href="#define-GPIO-PB6-T0CCP0-0x00011807" class="headerlink" title="define GPIO_PB6_T0CCP0         0x00011807"></a>define GPIO_PB6_T0CCP0         0x00011807</h1><h1 id="define-GPIO-PB7-SSI2TX-0x00011C02"><a href="#define-GPIO-PB7-SSI2TX-0x00011C02" class="headerlink" title="define GPIO_PB7_SSI2TX         0x00011C02"></a>define GPIO_PB7_SSI2TX         0x00011C02</h1><h1 id="define-GPIO-PB7-M0PWM1-0x00011C04"><a href="#define-GPIO-PB7-M0PWM1-0x00011C04" class="headerlink" title="define GPIO_PB7_M0PWM1         0x00011C04"></a>define GPIO_PB7_M0PWM1         0x00011C04</h1><h1 id="define-GPIO-PB7-T0CCP1-0x00011C07"><a href="#define-GPIO-PB7-T0CCP1-0x00011C07" class="headerlink" title="define GPIO_PB7_T0CCP1         0x00011C07"></a>define GPIO_PB7_T0CCP1         0x00011C07</h1><h1 id="define-GPIO-PC0-TCK-0x00020001"><a href="#define-GPIO-PC0-TCK-0x00020001" class="headerlink" title="define GPIO_PC0_TCK            0x00020001"></a>define GPIO_PC0_TCK            0x00020001</h1><h1 id="define-GPIO-PC0-SWCLK-0x00020001"><a href="#define-GPIO-PC0-SWCLK-0x00020001" class="headerlink" title="define GPIO_PC0_SWCLK          0x00020001"></a>define GPIO_PC0_SWCLK          0x00020001</h1><h1 id="define-GPIO-PC0-T4CCP0-0x00020007"><a href="#define-GPIO-PC0-T4CCP0-0x00020007" class="headerlink" title="define GPIO_PC0_T4CCP0         0x00020007"></a>define GPIO_PC0_T4CCP0         0x00020007</h1><h1 id="define-GPIO-PC1-TMS-0x00020401"><a href="#define-GPIO-PC1-TMS-0x00020401" class="headerlink" title="define GPIO_PC1_TMS            0x00020401"></a>define GPIO_PC1_TMS            0x00020401</h1><h1 id="define-GPIO-PC1-SWDIO-0x00020401"><a href="#define-GPIO-PC1-SWDIO-0x00020401" class="headerlink" title="define GPIO_PC1_SWDIO          0x00020401"></a>define GPIO_PC1_SWDIO          0x00020401</h1><h1 id="define-GPIO-PC1-T4CCP1-0x00020407"><a href="#define-GPIO-PC1-T4CCP1-0x00020407" class="headerlink" title="define GPIO_PC1_T4CCP1         0x00020407"></a>define GPIO_PC1_T4CCP1         0x00020407</h1><h1 id="define-GPIO-PC2-TDI-0x00020801"><a href="#define-GPIO-PC2-TDI-0x00020801" class="headerlink" title="define GPIO_PC2_TDI            0x00020801"></a>define GPIO_PC2_TDI            0x00020801</h1><h1 id="define-GPIO-PC2-T5CCP0-0x00020807"><a href="#define-GPIO-PC2-T5CCP0-0x00020807" class="headerlink" title="define GPIO_PC2_T5CCP0         0x00020807"></a>define GPIO_PC2_T5CCP0         0x00020807</h1><h1 id="define-GPIO-PC3-SWO-0x00020C01"><a href="#define-GPIO-PC3-SWO-0x00020C01" class="headerlink" title="define GPIO_PC3_SWO            0x00020C01"></a>define GPIO_PC3_SWO            0x00020C01</h1><h1 id="define-GPIO-PC3-TDO-0x00020C01"><a href="#define-GPIO-PC3-TDO-0x00020C01" class="headerlink" title="define GPIO_PC3_TDO            0x00020C01"></a>define GPIO_PC3_TDO            0x00020C01</h1><h1 id="define-GPIO-PC3-T5CCP1-0x00020C07"><a href="#define-GPIO-PC3-T5CCP1-0x00020C07" class="headerlink" title="define GPIO_PC3_T5CCP1         0x00020C07"></a>define GPIO_PC3_T5CCP1         0x00020C07</h1><h1 id="define-GPIO-PC4-U4RX-0x00021001"><a href="#define-GPIO-PC4-U4RX-0x00021001" class="headerlink" title="define GPIO_PC4_U4RX           0x00021001"></a>define GPIO_PC4_U4RX           0x00021001</h1><h1 id="define-GPIO-PC4-U1RX-0x00021002"><a href="#define-GPIO-PC4-U1RX-0x00021002" class="headerlink" title="define GPIO_PC4_U1RX           0x00021002"></a>define GPIO_PC4_U1RX           0x00021002</h1><h1 id="define-GPIO-PC4-M0PWM6-0x00021004"><a href="#define-GPIO-PC4-M0PWM6-0x00021004" class="headerlink" title="define GPIO_PC4_M0PWM6         0x00021004"></a>define GPIO_PC4_M0PWM6         0x00021004</h1><h1 id="define-GPIO-PC4-IDX1-0x00021006"><a href="#define-GPIO-PC4-IDX1-0x00021006" class="headerlink" title="define GPIO_PC4_IDX1           0x00021006"></a>define GPIO_PC4_IDX1           0x00021006</h1><h1 id="define-GPIO-PC4-WT0CCP0-0x00021007"><a href="#define-GPIO-PC4-WT0CCP0-0x00021007" class="headerlink" title="define GPIO_PC4_WT0CCP0        0x00021007"></a>define GPIO_PC4_WT0CCP0        0x00021007</h1><h1 id="define-GPIO-PC4-U1RTS-0x00021008"><a href="#define-GPIO-PC4-U1RTS-0x00021008" class="headerlink" title="define GPIO_PC4_U1RTS          0x00021008"></a>define GPIO_PC4_U1RTS          0x00021008</h1><h1 id="define-GPIO-PC5-U4TX-0x00021401"><a href="#define-GPIO-PC5-U4TX-0x00021401" class="headerlink" title="define GPIO_PC5_U4TX           0x00021401"></a>define GPIO_PC5_U4TX           0x00021401</h1><h1 id="define-GPIO-PC5-U1TX-0x00021402"><a href="#define-GPIO-PC5-U1TX-0x00021402" class="headerlink" title="define GPIO_PC5_U1TX           0x00021402"></a>define GPIO_PC5_U1TX           0x00021402</h1><h1 id="define-GPIO-PC5-M0PWM7-0x00021404"><a href="#define-GPIO-PC5-M0PWM7-0x00021404" class="headerlink" title="define GPIO_PC5_M0PWM7         0x00021404"></a>define GPIO_PC5_M0PWM7         0x00021404</h1><h1 id="define-GPIO-PC5-PHA1-0x00021406"><a href="#define-GPIO-PC5-PHA1-0x00021406" class="headerlink" title="define GPIO_PC5_PHA1           0x00021406"></a>define GPIO_PC5_PHA1           0x00021406</h1><h1 id="define-GPIO-PC5-WT0CCP1-0x00021407"><a href="#define-GPIO-PC5-WT0CCP1-0x00021407" class="headerlink" title="define GPIO_PC5_WT0CCP1        0x00021407"></a>define GPIO_PC5_WT0CCP1        0x00021407</h1><h1 id="define-GPIO-PC5-U1CTS-0x00021408"><a href="#define-GPIO-PC5-U1CTS-0x00021408" class="headerlink" title="define GPIO_PC5_U1CTS          0x00021408"></a>define GPIO_PC5_U1CTS          0x00021408</h1><h1 id="define-GPIO-PC6-U3RX-0x00021801"><a href="#define-GPIO-PC6-U3RX-0x00021801" class="headerlink" title="define GPIO_PC6_U3RX           0x00021801"></a>define GPIO_PC6_U3RX           0x00021801</h1><h1 id="define-GPIO-PC6-PHB1-0x00021806"><a href="#define-GPIO-PC6-PHB1-0x00021806" class="headerlink" title="define GPIO_PC6_PHB1           0x00021806"></a>define GPIO_PC6_PHB1           0x00021806</h1><h1 id="define-GPIO-PC6-WT1CCP0-0x00021807"><a href="#define-GPIO-PC6-WT1CCP0-0x00021807" class="headerlink" title="define GPIO_PC6_WT1CCP0        0x00021807"></a>define GPIO_PC6_WT1CCP0        0x00021807</h1><h1 id="define-GPIO-PC6-USB0EPEN-0x00021808"><a href="#define-GPIO-PC6-USB0EPEN-0x00021808" class="headerlink" title="define GPIO_PC6_USB0EPEN       0x00021808"></a>define GPIO_PC6_USB0EPEN       0x00021808</h1><h1 id="define-GPIO-PC7-U3TX-0x00021C01"><a href="#define-GPIO-PC7-U3TX-0x00021C01" class="headerlink" title="define GPIO_PC7_U3TX           0x00021C01"></a>define GPIO_PC7_U3TX           0x00021C01</h1><h1 id="define-GPIO-PC7-WT1CCP1-0x00021C07"><a href="#define-GPIO-PC7-WT1CCP1-0x00021C07" class="headerlink" title="define GPIO_PC7_WT1CCP1        0x00021C07"></a>define GPIO_PC7_WT1CCP1        0x00021C07</h1><h1 id="define-GPIO-PC7-USB0PFLT-0x00021C08"><a href="#define-GPIO-PC7-USB0PFLT-0x00021C08" class="headerlink" title="define GPIO_PC7_USB0PFLT       0x00021C08"></a>define GPIO_PC7_USB0PFLT       0x00021C08</h1><h1 id="define-GPIO-PD0-SSI3CLK-0x00030001"><a href="#define-GPIO-PD0-SSI3CLK-0x00030001" class="headerlink" title="define GPIO_PD0_SSI3CLK        0x00030001"></a>define GPIO_PD0_SSI3CLK        0x00030001</h1><h1 id="define-GPIO-PD0-SSI1CLK-0x00030002"><a href="#define-GPIO-PD0-SSI1CLK-0x00030002" class="headerlink" title="define GPIO_PD0_SSI1CLK        0x00030002"></a>define GPIO_PD0_SSI1CLK        0x00030002</h1><h1 id="define-GPIO-PD0-I2C3SCL-0x00030003"><a href="#define-GPIO-PD0-I2C3SCL-0x00030003" class="headerlink" title="define GPIO_PD0_I2C3SCL        0x00030003"></a>define GPIO_PD0_I2C3SCL        0x00030003</h1><h1 id="define-GPIO-PD0-M0PWM6-0x00030004"><a href="#define-GPIO-PD0-M0PWM6-0x00030004" class="headerlink" title="define GPIO_PD0_M0PWM6         0x00030004"></a>define GPIO_PD0_M0PWM6         0x00030004</h1><h1 id="define-GPIO-PD0-M1PWM0-0x00030005"><a href="#define-GPIO-PD0-M1PWM0-0x00030005" class="headerlink" title="define GPIO_PD0_M1PWM0         0x00030005"></a>define GPIO_PD0_M1PWM0         0x00030005</h1><h1 id="define-GPIO-PD0-WT2CCP0-0x00030007"><a href="#define-GPIO-PD0-WT2CCP0-0x00030007" class="headerlink" title="define GPIO_PD0_WT2CCP0        0x00030007"></a>define GPIO_PD0_WT2CCP0        0x00030007</h1><h1 id="define-GPIO-PD1-SSI3FSS-0x00030401"><a href="#define-GPIO-PD1-SSI3FSS-0x00030401" class="headerlink" title="define GPIO_PD1_SSI3FSS        0x00030401"></a>define GPIO_PD1_SSI3FSS        0x00030401</h1><h1 id="define-GPIO-PD1-SSI1FSS-0x00030402"><a href="#define-GPIO-PD1-SSI1FSS-0x00030402" class="headerlink" title="define GPIO_PD1_SSI1FSS        0x00030402"></a>define GPIO_PD1_SSI1FSS        0x00030402</h1><h1 id="define-GPIO-PD1-I2C3SDA-0x00030403"><a href="#define-GPIO-PD1-I2C3SDA-0x00030403" class="headerlink" title="define GPIO_PD1_I2C3SDA        0x00030403"></a>define GPIO_PD1_I2C3SDA        0x00030403</h1><h1 id="define-GPIO-PD1-M0PWM7-0x00030404"><a href="#define-GPIO-PD1-M0PWM7-0x00030404" class="headerlink" title="define GPIO_PD1_M0PWM7         0x00030404"></a>define GPIO_PD1_M0PWM7         0x00030404</h1><h1 id="define-GPIO-PD1-M1PWM1-0x00030405"><a href="#define-GPIO-PD1-M1PWM1-0x00030405" class="headerlink" title="define GPIO_PD1_M1PWM1         0x00030405"></a>define GPIO_PD1_M1PWM1         0x00030405</h1><h1 id="define-GPIO-PD1-WT2CCP1-0x00030407"><a href="#define-GPIO-PD1-WT2CCP1-0x00030407" class="headerlink" title="define GPIO_PD1_WT2CCP1        0x00030407"></a>define GPIO_PD1_WT2CCP1        0x00030407</h1><h1 id="define-GPIO-PD2-SSI3RX-0x00030801"><a href="#define-GPIO-PD2-SSI3RX-0x00030801" class="headerlink" title="define GPIO_PD2_SSI3RX         0x00030801"></a>define GPIO_PD2_SSI3RX         0x00030801</h1><h1 id="define-GPIO-PD2-SSI1RX-0x00030802"><a href="#define-GPIO-PD2-SSI1RX-0x00030802" class="headerlink" title="define GPIO_PD2_SSI1RX         0x00030802"></a>define GPIO_PD2_SSI1RX         0x00030802</h1><h1 id="define-GPIO-PD2-M0FAULT0-0x00030804"><a href="#define-GPIO-PD2-M0FAULT0-0x00030804" class="headerlink" title="define GPIO_PD2_M0FAULT0       0x00030804"></a>define GPIO_PD2_M0FAULT0       0x00030804</h1><h1 id="define-GPIO-PD2-WT3CCP0-0x00030807"><a href="#define-GPIO-PD2-WT3CCP0-0x00030807" class="headerlink" title="define GPIO_PD2_WT3CCP0        0x00030807"></a>define GPIO_PD2_WT3CCP0        0x00030807</h1><h1 id="define-GPIO-PD2-USB0EPEN-0x00030808"><a href="#define-GPIO-PD2-USB0EPEN-0x00030808" class="headerlink" title="define GPIO_PD2_USB0EPEN       0x00030808"></a>define GPIO_PD2_USB0EPEN       0x00030808</h1><h1 id="define-GPIO-PD3-SSI3TX-0x00030C01"><a href="#define-GPIO-PD3-SSI3TX-0x00030C01" class="headerlink" title="define GPIO_PD3_SSI3TX         0x00030C01"></a>define GPIO_PD3_SSI3TX         0x00030C01</h1><h1 id="define-GPIO-PD3-SSI1TX-0x00030C02"><a href="#define-GPIO-PD3-SSI1TX-0x00030C02" class="headerlink" title="define GPIO_PD3_SSI1TX         0x00030C02"></a>define GPIO_PD3_SSI1TX         0x00030C02</h1><h1 id="define-GPIO-PD3-IDX0-0x00030C06"><a href="#define-GPIO-PD3-IDX0-0x00030C06" class="headerlink" title="define GPIO_PD3_IDX0           0x00030C06"></a>define GPIO_PD3_IDX0           0x00030C06</h1><h1 id="define-GPIO-PD3-WT3CCP1-0x00030C07"><a href="#define-GPIO-PD3-WT3CCP1-0x00030C07" class="headerlink" title="define GPIO_PD3_WT3CCP1        0x00030C07"></a>define GPIO_PD3_WT3CCP1        0x00030C07</h1><h1 id="define-GPIO-PD3-USB0PFLT-0x00030C08"><a href="#define-GPIO-PD3-USB0PFLT-0x00030C08" class="headerlink" title="define GPIO_PD3_USB0PFLT       0x00030C08"></a>define GPIO_PD3_USB0PFLT       0x00030C08</h1><h1 id="define-GPIO-PD4-U6RX-0x00031001"><a href="#define-GPIO-PD4-U6RX-0x00031001" class="headerlink" title="define GPIO_PD4_U6RX           0x00031001"></a>define GPIO_PD4_U6RX           0x00031001</h1><h1 id="define-GPIO-PD4-WT4CCP0-0x00031007"><a href="#define-GPIO-PD4-WT4CCP0-0x00031007" class="headerlink" title="define GPIO_PD4_WT4CCP0        0x00031007"></a>define GPIO_PD4_WT4CCP0        0x00031007</h1><h1 id="define-GPIO-PD5-U6TX-0x00031401"><a href="#define-GPIO-PD5-U6TX-0x00031401" class="headerlink" title="define GPIO_PD5_U6TX           0x00031401"></a>define GPIO_PD5_U6TX           0x00031401</h1><h1 id="define-GPIO-PD5-WT4CCP1-0x00031407"><a href="#define-GPIO-PD5-WT4CCP1-0x00031407" class="headerlink" title="define GPIO_PD5_WT4CCP1        0x00031407"></a>define GPIO_PD5_WT4CCP1        0x00031407</h1><h1 id="define-GPIO-PD6-U2RX-0x00031801"><a href="#define-GPIO-PD6-U2RX-0x00031801" class="headerlink" title="define GPIO_PD6_U2RX           0x00031801"></a>define GPIO_PD6_U2RX           0x00031801</h1><h1 id="define-GPIO-PD6-M0FAULT0-0x00031804"><a href="#define-GPIO-PD6-M0FAULT0-0x00031804" class="headerlink" title="define GPIO_PD6_M0FAULT0       0x00031804"></a>define GPIO_PD6_M0FAULT0       0x00031804</h1><h1 id="define-GPIO-PD6-PHA0-0x00031806"><a href="#define-GPIO-PD6-PHA0-0x00031806" class="headerlink" title="define GPIO_PD6_PHA0           0x00031806"></a>define GPIO_PD6_PHA0           0x00031806</h1><h1 id="define-GPIO-PD6-WT5CCP0-0x00031807"><a href="#define-GPIO-PD6-WT5CCP0-0x00031807" class="headerlink" title="define GPIO_PD6_WT5CCP0        0x00031807"></a>define GPIO_PD6_WT5CCP0        0x00031807</h1><h1 id="define-GPIO-PD7-U2TX-0x00031C01"><a href="#define-GPIO-PD7-U2TX-0x00031C01" class="headerlink" title="define GPIO_PD7_U2TX           0x00031C01"></a>define GPIO_PD7_U2TX           0x00031C01</h1><h1 id="define-GPIO-PD7-PHB0-0x00031C06"><a href="#define-GPIO-PD7-PHB0-0x00031C06" class="headerlink" title="define GPIO_PD7_PHB0           0x00031C06"></a>define GPIO_PD7_PHB0           0x00031C06</h1><h1 id="define-GPIO-PD7-WT5CCP1-0x00031C07"><a href="#define-GPIO-PD7-WT5CCP1-0x00031C07" class="headerlink" title="define GPIO_PD7_WT5CCP1        0x00031C07"></a>define GPIO_PD7_WT5CCP1        0x00031C07</h1><h1 id="define-GPIO-PD7-NMI-0x00031C08"><a href="#define-GPIO-PD7-NMI-0x00031C08" class="headerlink" title="define GPIO_PD7_NMI            0x00031C08"></a>define GPIO_PD7_NMI            0x00031C08</h1><h1 id="define-GPIO-PE0-U7RX-0x00040001"><a href="#define-GPIO-PE0-U7RX-0x00040001" class="headerlink" title="define GPIO_PE0_U7RX           0x00040001"></a>define GPIO_PE0_U7RX           0x00040001</h1><h1 id="define-GPIO-PE1-U7TX-0x00040401"><a href="#define-GPIO-PE1-U7TX-0x00040401" class="headerlink" title="define GPIO_PE1_U7TX           0x00040401"></a>define GPIO_PE1_U7TX           0x00040401</h1><h1 id="define-GPIO-PE4-U5RX-0x00041001"><a href="#define-GPIO-PE4-U5RX-0x00041001" class="headerlink" title="define GPIO_PE4_U5RX           0x00041001"></a>define GPIO_PE4_U5RX           0x00041001</h1><h1 id="define-GPIO-PE4-I2C2SCL-0x00041003"><a href="#define-GPIO-PE4-I2C2SCL-0x00041003" class="headerlink" title="define GPIO_PE4_I2C2SCL        0x00041003"></a>define GPIO_PE4_I2C2SCL        0x00041003</h1><h1 id="define-GPIO-PE4-M0PWM4-0x00041004"><a href="#define-GPIO-PE4-M0PWM4-0x00041004" class="headerlink" title="define GPIO_PE4_M0PWM4         0x00041004"></a>define GPIO_PE4_M0PWM4         0x00041004</h1><h1 id="define-GPIO-PE4-M1PWM2-0x00041005"><a href="#define-GPIO-PE4-M1PWM2-0x00041005" class="headerlink" title="define GPIO_PE4_M1PWM2         0x00041005"></a>define GPIO_PE4_M1PWM2         0x00041005</h1><h1 id="define-GPIO-PE4-CAN0RX-0x00041008"><a href="#define-GPIO-PE4-CAN0RX-0x00041008" class="headerlink" title="define GPIO_PE4_CAN0RX         0x00041008"></a>define GPIO_PE4_CAN0RX         0x00041008</h1><h1 id="define-GPIO-PE5-U5TX-0x00041401"><a href="#define-GPIO-PE5-U5TX-0x00041401" class="headerlink" title="define GPIO_PE5_U5TX           0x00041401"></a>define GPIO_PE5_U5TX           0x00041401</h1><h1 id="define-GPIO-PE5-I2C2SDA-0x00041403"><a href="#define-GPIO-PE5-I2C2SDA-0x00041403" class="headerlink" title="define GPIO_PE5_I2C2SDA        0x00041403"></a>define GPIO_PE5_I2C2SDA        0x00041403</h1><h1 id="define-GPIO-PE5-M0PWM5-0x00041404"><a href="#define-GPIO-PE5-M0PWM5-0x00041404" class="headerlink" title="define GPIO_PE5_M0PWM5         0x00041404"></a>define GPIO_PE5_M0PWM5         0x00041404</h1><h1 id="define-GPIO-PE5-M1PWM3-0x00041405"><a href="#define-GPIO-PE5-M1PWM3-0x00041405" class="headerlink" title="define GPIO_PE5_M1PWM3         0x00041405"></a>define GPIO_PE5_M1PWM3         0x00041405</h1><h1 id="define-GPIO-PE5-CAN0TX-0x00041408"><a href="#define-GPIO-PE5-CAN0TX-0x00041408" class="headerlink" title="define GPIO_PE5_CAN0TX         0x00041408"></a>define GPIO_PE5_CAN0TX         0x00041408</h1><h1 id="define-GPIO-PF0-U1RTS-0x00050001"><a href="#define-GPIO-PF0-U1RTS-0x00050001" class="headerlink" title="define GPIO_PF0_U1RTS          0x00050001"></a>define GPIO_PF0_U1RTS          0x00050001</h1><h1 id="define-GPIO-PF0-SSI1RX-0x00050002"><a href="#define-GPIO-PF0-SSI1RX-0x00050002" class="headerlink" title="define GPIO_PF0_SSI1RX         0x00050002"></a>define GPIO_PF0_SSI1RX         0x00050002</h1><h1 id="define-GPIO-PF0-CAN0RX-0x00050003"><a href="#define-GPIO-PF0-CAN0RX-0x00050003" class="headerlink" title="define GPIO_PF0_CAN0RX         0x00050003"></a>define GPIO_PF0_CAN0RX         0x00050003</h1><h1 id="define-GPIO-PF0-M1PWM4-0x00050005"><a href="#define-GPIO-PF0-M1PWM4-0x00050005" class="headerlink" title="define GPIO_PF0_M1PWM4         0x00050005"></a>define GPIO_PF0_M1PWM4         0x00050005</h1><h1 id="define-GPIO-PF0-PHA0-0x00050006"><a href="#define-GPIO-PF0-PHA0-0x00050006" class="headerlink" title="define GPIO_PF0_PHA0           0x00050006"></a>define GPIO_PF0_PHA0           0x00050006</h1><h1 id="define-GPIO-PF0-T0CCP0-0x00050007"><a href="#define-GPIO-PF0-T0CCP0-0x00050007" class="headerlink" title="define GPIO_PF0_T0CCP0         0x00050007"></a>define GPIO_PF0_T0CCP0         0x00050007</h1><h1 id="define-GPIO-PF0-NMI-0x00050008"><a href="#define-GPIO-PF0-NMI-0x00050008" class="headerlink" title="define GPIO_PF0_NMI            0x00050008"></a>define GPIO_PF0_NMI            0x00050008</h1><h1 id="define-GPIO-PF0-C0O-0x00050009"><a href="#define-GPIO-PF0-C0O-0x00050009" class="headerlink" title="define GPIO_PF0_C0O            0x00050009"></a>define GPIO_PF0_C0O            0x00050009</h1><h1 id="define-GPIO-PF1-U1CTS-0x00050401"><a href="#define-GPIO-PF1-U1CTS-0x00050401" class="headerlink" title="define GPIO_PF1_U1CTS          0x00050401"></a>define GPIO_PF1_U1CTS          0x00050401</h1><h1 id="define-GPIO-PF1-SSI1TX-0x00050402"><a href="#define-GPIO-PF1-SSI1TX-0x00050402" class="headerlink" title="define GPIO_PF1_SSI1TX         0x00050402"></a>define GPIO_PF1_SSI1TX         0x00050402</h1><h1 id="define-GPIO-PF1-M1PWM5-0x00050405"><a href="#define-GPIO-PF1-M1PWM5-0x00050405" class="headerlink" title="define GPIO_PF1_M1PWM5         0x00050405"></a>define GPIO_PF1_M1PWM5         0x00050405</h1><h1 id="define-GPIO-PF1-PHB0-0x00050406"><a href="#define-GPIO-PF1-PHB0-0x00050406" class="headerlink" title="define GPIO_PF1_PHB0           0x00050406"></a>define GPIO_PF1_PHB0           0x00050406</h1><h1 id="define-GPIO-PF1-T0CCP1-0x00050407"><a href="#define-GPIO-PF1-T0CCP1-0x00050407" class="headerlink" title="define GPIO_PF1_T0CCP1         0x00050407"></a>define GPIO_PF1_T0CCP1         0x00050407</h1><h1 id="define-GPIO-PF1-C1O-0x00050409"><a href="#define-GPIO-PF1-C1O-0x00050409" class="headerlink" title="define GPIO_PF1_C1O            0x00050409"></a>define GPIO_PF1_C1O            0x00050409</h1><h1 id="define-GPIO-PF1-TRD1-0x0005040E"><a href="#define-GPIO-PF1-TRD1-0x0005040E" class="headerlink" title="define GPIO_PF1_TRD1           0x0005040E"></a>define GPIO_PF1_TRD1           0x0005040E</h1><h1 id="define-GPIO-PF2-SSI1CLK-0x00050802"><a href="#define-GPIO-PF2-SSI1CLK-0x00050802" class="headerlink" title="define GPIO_PF2_SSI1CLK        0x00050802"></a>define GPIO_PF2_SSI1CLK        0x00050802</h1><h1 id="define-GPIO-PF2-M0FAULT0-0x00050804"><a href="#define-GPIO-PF2-M0FAULT0-0x00050804" class="headerlink" title="define GPIO_PF2_M0FAULT0       0x00050804"></a>define GPIO_PF2_M0FAULT0       0x00050804</h1><h1 id="define-GPIO-PF2-M1PWM6-0x00050805"><a href="#define-GPIO-PF2-M1PWM6-0x00050805" class="headerlink" title="define GPIO_PF2_M1PWM6         0x00050805"></a>define GPIO_PF2_M1PWM6         0x00050805</h1><h1 id="define-GPIO-PF2-T1CCP0-0x00050807"><a href="#define-GPIO-PF2-T1CCP0-0x00050807" class="headerlink" title="define GPIO_PF2_T1CCP0         0x00050807"></a>define GPIO_PF2_T1CCP0         0x00050807</h1><h1 id="define-GPIO-PF2-TRD0-0x0005080E"><a href="#define-GPIO-PF2-TRD0-0x0005080E" class="headerlink" title="define GPIO_PF2_TRD0           0x0005080E"></a>define GPIO_PF2_TRD0           0x0005080E</h1><h1 id="define-GPIO-PF3-SSI1FSS-0x00050C02"><a href="#define-GPIO-PF3-SSI1FSS-0x00050C02" class="headerlink" title="define GPIO_PF3_SSI1FSS        0x00050C02"></a>define GPIO_PF3_SSI1FSS        0x00050C02</h1><h1 id="define-GPIO-PF3-CAN0TX-0x00050C03"><a href="#define-GPIO-PF3-CAN0TX-0x00050C03" class="headerlink" title="define GPIO_PF3_CAN0TX         0x00050C03"></a>define GPIO_PF3_CAN0TX         0x00050C03</h1><h1 id="define-GPIO-PF3-M1PWM7-0x00050C05"><a href="#define-GPIO-PF3-M1PWM7-0x00050C05" class="headerlink" title="define GPIO_PF3_M1PWM7         0x00050C05"></a>define GPIO_PF3_M1PWM7         0x00050C05</h1><h1 id="define-GPIO-PF3-T1CCP1-0x00050C07"><a href="#define-GPIO-PF3-T1CCP1-0x00050C07" class="headerlink" title="define GPIO_PF3_T1CCP1         0x00050C07"></a>define GPIO_PF3_T1CCP1         0x00050C07</h1><h1 id="define-GPIO-PF3-TRCLK-0x00050C0E"><a href="#define-GPIO-PF3-TRCLK-0x00050C0E" class="headerlink" title="define GPIO_PF3_TRCLK          0x00050C0E"></a>define GPIO_PF3_TRCLK          0x00050C0E</h1><h1 id="define-GPIO-PF4-M1FAULT0-0x00051005"><a href="#define-GPIO-PF4-M1FAULT0-0x00051005" class="headerlink" title="define GPIO_PF4_M1FAULT0       0x00051005"></a>define GPIO_PF4_M1FAULT0       0x00051005</h1><h1 id="define-GPIO-PF4-IDX0-0x00051006"><a href="#define-GPIO-PF4-IDX0-0x00051006" class="headerlink" title="define GPIO_PF4_IDX0           0x00051006"></a>define GPIO_PF4_IDX0           0x00051006</h1><h1 id="define-GPIO-PF4-T2CCP0-0x00051007"><a href="#define-GPIO-PF4-T2CCP0-0x00051007" class="headerlink" title="define GPIO_PF4_T2CCP0         0x00051007"></a>define GPIO_PF4_T2CCP0         0x00051007</h1><h1 id="define-GPIO-PF4-USB0EPEN-0x00051008"><a href="#define-GPIO-PF4-USB0EPEN-0x00051008" class="headerlink" title="define GPIO_PF4_USB0EPEN       0x00051008"></a>define GPIO_PF4_USB0EPEN       0x00051008</h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/pin_map/" data-id="ckmsxdde40020jk3d3tv94v2t" data-title="该单片机pin map" class="article-share-link">Share</a>
       
       
       
@@ -252,100 +730,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/phripheral-list/" data-id="ckmm8s20c001lto3derw4aag7" data-title="该单片机外设清单" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-c文件和头文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">关于怎样写c文件和头文件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="关于怎样写c文件和头文件"><a href="#关于怎样写c文件和头文件" class="headerlink" title="关于怎样写c文件和头文件"></a>关于怎样写c文件和头文件</h1><h2 id="c语言的编译过程"><a href="#c语言的编译过程" class="headerlink" title="c语言的编译过程"></a>c语言的编译过程</h2><h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>预处理主要处理</p>
-<p>1.源程序的宏定义指令</p>
-<p>2.条件编译指令</p>
-<p>3.头文件包含指令</p>
-<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>将源程序转换为汇编代码</p>
-<h3 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h3><p>将汇编语言代 码转化成机器语言</p>
-<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>将各个目标文件中的各段代码进行绝对定位，生成根特定平台相关的可执行文件。（就是生成.exe文件）</p>
-<h2 id="那么-h-和-c-文件怎么用呢？"><a href="#那么-h-和-c-文件怎么用呢？" class="headerlink" title="那么.h 和 .c 文件怎么用呢？"></a>那么.h 和 .c 文件怎么用呢？</h2><p>看如下例子</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//a.h</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//a.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span> </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//main.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;a.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   foo(); </span><br><span class="line"> 　<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-<p>现在来看一个大佬的解释：</p>
-<blockquote>
-<p>从C编译器角度看，.h和.c皆是浮云，就是改名为.txt、.doc也没有大的分别。换句话说，就是.h和.c没啥必然联系。.h中一般放的是同名.c文件中定义的变量、数组、函数的声明，需要让.c外部使用的声明。这个声明有啥用？只是让需要用这些声明的地方方便引用。<u> 因为 #include “xx.h” 这个宏其实际意思就是把当前这一行删掉，把 xx.h 中的内容原封不动的插入在当前行的位置</u>。由于想写这些函数声明的地方非常多（每一个调用 xx.c 中函数的地方，都要在使用前声明一下子），所以用 #include “xx.h” 这个宏就简化了许多行代码——让预处理器自己替换好了。也就是说，xx.h 其实只是让需要写 xx.c 中函数声明的地方调用（可以少写几行字），至于 include 这个 .h 文件是谁，是 .h 还是 .c，还是与这个 .h 同名的 .c，都没有任何必然关系。<br>  这样你可能会说：啊？那我平时只想调用 xx.c 中的某个函数，却 include了 xx.h 文件，岂不是宏替换后出现了很多无用的声明？没错，确实引入了很多垃圾 ，但是它却省了你不少笔墨，并且整个版面也看起来清爽的多。鱼与熊掌不可得兼，就是这个道理。反正多些声明（.h一般只用来放声明，而放不定义，参见拙著“过马路，左右看”）也无害处，又不会影响编译，何乐而不为呢？</p>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/" data-id="ckmm8s20e001sto3d4y8m12m0" data-title="关于怎样写c文件和头文件" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-pin_map" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/pin_map/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/pin_map/">该单片机pin map</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="哪些引脚可以复用哪些功能"><a href="#哪些引脚可以复用哪些功能" class="headerlink" title="哪些引脚可以复用哪些功能"></a>哪些引脚可以复用哪些功能</h1><h1 id="ifdef-PART-TM4C123GH6PM"><a href="#ifdef-PART-TM4C123GH6PM" class="headerlink" title="ifdef PART_TM4C123GH6PM"></a>ifdef PART_TM4C123GH6PM</h1><h1 id="define-GPIO-PA0-U0RX-0x00000001"><a href="#define-GPIO-PA0-U0RX-0x00000001" class="headerlink" title="define GPIO_PA0_U0RX           0x00000001"></a>define GPIO_PA0_U0RX           0x00000001</h1><h1 id="define-GPIO-PA0-CAN1RX-0x00000008"><a href="#define-GPIO-PA0-CAN1RX-0x00000008" class="headerlink" title="define GPIO_PA0_CAN1RX         0x00000008"></a>define GPIO_PA0_CAN1RX         0x00000008</h1><h1 id="define-GPIO-PA1-U0TX-0x00000401"><a href="#define-GPIO-PA1-U0TX-0x00000401" class="headerlink" title="define GPIO_PA1_U0TX           0x00000401"></a>define GPIO_PA1_U0TX           0x00000401</h1><h1 id="define-GPIO-PA1-CAN1TX-0x00000408"><a href="#define-GPIO-PA1-CAN1TX-0x00000408" class="headerlink" title="define GPIO_PA1_CAN1TX         0x00000408"></a>define GPIO_PA1_CAN1TX         0x00000408</h1><h1 id="define-GPIO-PA2-SSI0CLK-0x00000802"><a href="#define-GPIO-PA2-SSI0CLK-0x00000802" class="headerlink" title="define GPIO_PA2_SSI0CLK        0x00000802"></a>define GPIO_PA2_SSI0CLK        0x00000802</h1><h1 id="define-GPIO-PA3-SSI0FSS-0x00000C02"><a href="#define-GPIO-PA3-SSI0FSS-0x00000C02" class="headerlink" title="define GPIO_PA3_SSI0FSS        0x00000C02"></a>define GPIO_PA3_SSI0FSS        0x00000C02</h1><h1 id="define-GPIO-PA4-SSI0RX-0x00001002"><a href="#define-GPIO-PA4-SSI0RX-0x00001002" class="headerlink" title="define GPIO_PA4_SSI0RX         0x00001002"></a>define GPIO_PA4_SSI0RX         0x00001002</h1><h1 id="define-GPIO-PA5-SSI0TX-0x00001402"><a href="#define-GPIO-PA5-SSI0TX-0x00001402" class="headerlink" title="define GPIO_PA5_SSI0TX         0x00001402"></a>define GPIO_PA5_SSI0TX         0x00001402</h1><h1 id="define-GPIO-PA6-I2C1SCL-0x00001803"><a href="#define-GPIO-PA6-I2C1SCL-0x00001803" class="headerlink" title="define GPIO_PA6_I2C1SCL        0x00001803"></a>define GPIO_PA6_I2C1SCL        0x00001803</h1><h1 id="define-GPIO-PA6-M1PWM2-0x00001805"><a href="#define-GPIO-PA6-M1PWM2-0x00001805" class="headerlink" title="define GPIO_PA6_M1PWM2         0x00001805"></a>define GPIO_PA6_M1PWM2         0x00001805</h1><h1 id="define-GPIO-PA7-I2C1SDA-0x00001C03"><a href="#define-GPIO-PA7-I2C1SDA-0x00001C03" class="headerlink" title="define GPIO_PA7_I2C1SDA        0x00001C03"></a>define GPIO_PA7_I2C1SDA        0x00001C03</h1><h1 id="define-GPIO-PA7-M1PWM3-0x00001C05"><a href="#define-GPIO-PA7-M1PWM3-0x00001C05" class="headerlink" title="define GPIO_PA7_M1PWM3         0x00001C05"></a>define GPIO_PA7_M1PWM3         0x00001C05</h1><h1 id="define-GPIO-PB0-U1RX-0x00010001"><a href="#define-GPIO-PB0-U1RX-0x00010001" class="headerlink" title="define GPIO_PB0_U1RX           0x00010001"></a>define GPIO_PB0_U1RX           0x00010001</h1><h1 id="define-GPIO-PB0-T2CCP0-0x00010007"><a href="#define-GPIO-PB0-T2CCP0-0x00010007" class="headerlink" title="define GPIO_PB0_T2CCP0         0x00010007"></a>define GPIO_PB0_T2CCP0         0x00010007</h1><h1 id="define-GPIO-PB1-U1TX-0x00010401"><a href="#define-GPIO-PB1-U1TX-0x00010401" class="headerlink" title="define GPIO_PB1_U1TX           0x00010401"></a>define GPIO_PB1_U1TX           0x00010401</h1><h1 id="define-GPIO-PB1-T2CCP1-0x00010407"><a href="#define-GPIO-PB1-T2CCP1-0x00010407" class="headerlink" title="define GPIO_PB1_T2CCP1         0x00010407"></a>define GPIO_PB1_T2CCP1         0x00010407</h1><h1 id="define-GPIO-PB2-I2C0SCL-0x00010803"><a href="#define-GPIO-PB2-I2C0SCL-0x00010803" class="headerlink" title="define GPIO_PB2_I2C0SCL        0x00010803"></a>define GPIO_PB2_I2C0SCL        0x00010803</h1><h1 id="define-GPIO-PB2-T3CCP0-0x00010807"><a href="#define-GPIO-PB2-T3CCP0-0x00010807" class="headerlink" title="define GPIO_PB2_T3CCP0         0x00010807"></a>define GPIO_PB2_T3CCP0         0x00010807</h1><h1 id="define-GPIO-PB3-I2C0SDA-0x00010C03"><a href="#define-GPIO-PB3-I2C0SDA-0x00010C03" class="headerlink" title="define GPIO_PB3_I2C0SDA        0x00010C03"></a>define GPIO_PB3_I2C0SDA        0x00010C03</h1><h1 id="define-GPIO-PB3-T3CCP1-0x00010C07"><a href="#define-GPIO-PB3-T3CCP1-0x00010C07" class="headerlink" title="define GPIO_PB3_T3CCP1         0x00010C07"></a>define GPIO_PB3_T3CCP1         0x00010C07</h1><h1 id="define-GPIO-PB4-SSI2CLK-0x00011002"><a href="#define-GPIO-PB4-SSI2CLK-0x00011002" class="headerlink" title="define GPIO_PB4_SSI2CLK        0x00011002"></a>define GPIO_PB4_SSI2CLK        0x00011002</h1><h1 id="define-GPIO-PB4-M0PWM2-0x00011004"><a href="#define-GPIO-PB4-M0PWM2-0x00011004" class="headerlink" title="define GPIO_PB4_M0PWM2         0x00011004"></a>define GPIO_PB4_M0PWM2         0x00011004</h1><h1 id="define-GPIO-PB4-T1CCP0-0x00011007"><a href="#define-GPIO-PB4-T1CCP0-0x00011007" class="headerlink" title="define GPIO_PB4_T1CCP0         0x00011007"></a>define GPIO_PB4_T1CCP0         0x00011007</h1><h1 id="define-GPIO-PB4-CAN0RX-0x00011008"><a href="#define-GPIO-PB4-CAN0RX-0x00011008" class="headerlink" title="define GPIO_PB4_CAN0RX         0x00011008"></a>define GPIO_PB4_CAN0RX         0x00011008</h1><h1 id="define-GPIO-PB5-SSI2FSS-0x00011402"><a href="#define-GPIO-PB5-SSI2FSS-0x00011402" class="headerlink" title="define GPIO_PB5_SSI2FSS        0x00011402"></a>define GPIO_PB5_SSI2FSS        0x00011402</h1><h1 id="define-GPIO-PB5-M0PWM3-0x00011404"><a href="#define-GPIO-PB5-M0PWM3-0x00011404" class="headerlink" title="define GPIO_PB5_M0PWM3         0x00011404"></a>define GPIO_PB5_M0PWM3         0x00011404</h1><h1 id="define-GPIO-PB5-T1CCP1-0x00011407"><a href="#define-GPIO-PB5-T1CCP1-0x00011407" class="headerlink" title="define GPIO_PB5_T1CCP1         0x00011407"></a>define GPIO_PB5_T1CCP1         0x00011407</h1><h1 id="define-GPIO-PB5-CAN0TX-0x00011408"><a href="#define-GPIO-PB5-CAN0TX-0x00011408" class="headerlink" title="define GPIO_PB5_CAN0TX         0x00011408"></a>define GPIO_PB5_CAN0TX         0x00011408</h1><h1 id="define-GPIO-PB6-SSI2RX-0x00011802"><a href="#define-GPIO-PB6-SSI2RX-0x00011802" class="headerlink" title="define GPIO_PB6_SSI2RX         0x00011802"></a>define GPIO_PB6_SSI2RX         0x00011802</h1><h1 id="define-GPIO-PB6-M0PWM0-0x00011804"><a href="#define-GPIO-PB6-M0PWM0-0x00011804" class="headerlink" title="define GPIO_PB6_M0PWM0         0x00011804"></a>define GPIO_PB6_M0PWM0         0x00011804</h1><h1 id="define-GPIO-PB6-T0CCP0-0x00011807"><a href="#define-GPIO-PB6-T0CCP0-0x00011807" class="headerlink" title="define GPIO_PB6_T0CCP0         0x00011807"></a>define GPIO_PB6_T0CCP0         0x00011807</h1><h1 id="define-GPIO-PB7-SSI2TX-0x00011C02"><a href="#define-GPIO-PB7-SSI2TX-0x00011C02" class="headerlink" title="define GPIO_PB7_SSI2TX         0x00011C02"></a>define GPIO_PB7_SSI2TX         0x00011C02</h1><h1 id="define-GPIO-PB7-M0PWM1-0x00011C04"><a href="#define-GPIO-PB7-M0PWM1-0x00011C04" class="headerlink" title="define GPIO_PB7_M0PWM1         0x00011C04"></a>define GPIO_PB7_M0PWM1         0x00011C04</h1><h1 id="define-GPIO-PB7-T0CCP1-0x00011C07"><a href="#define-GPIO-PB7-T0CCP1-0x00011C07" class="headerlink" title="define GPIO_PB7_T0CCP1         0x00011C07"></a>define GPIO_PB7_T0CCP1         0x00011C07</h1><h1 id="define-GPIO-PC0-TCK-0x00020001"><a href="#define-GPIO-PC0-TCK-0x00020001" class="headerlink" title="define GPIO_PC0_TCK            0x00020001"></a>define GPIO_PC0_TCK            0x00020001</h1><h1 id="define-GPIO-PC0-SWCLK-0x00020001"><a href="#define-GPIO-PC0-SWCLK-0x00020001" class="headerlink" title="define GPIO_PC0_SWCLK          0x00020001"></a>define GPIO_PC0_SWCLK          0x00020001</h1><h1 id="define-GPIO-PC0-T4CCP0-0x00020007"><a href="#define-GPIO-PC0-T4CCP0-0x00020007" class="headerlink" title="define GPIO_PC0_T4CCP0         0x00020007"></a>define GPIO_PC0_T4CCP0         0x00020007</h1><h1 id="define-GPIO-PC1-TMS-0x00020401"><a href="#define-GPIO-PC1-TMS-0x00020401" class="headerlink" title="define GPIO_PC1_TMS            0x00020401"></a>define GPIO_PC1_TMS            0x00020401</h1><h1 id="define-GPIO-PC1-SWDIO-0x00020401"><a href="#define-GPIO-PC1-SWDIO-0x00020401" class="headerlink" title="define GPIO_PC1_SWDIO          0x00020401"></a>define GPIO_PC1_SWDIO          0x00020401</h1><h1 id="define-GPIO-PC1-T4CCP1-0x00020407"><a href="#define-GPIO-PC1-T4CCP1-0x00020407" class="headerlink" title="define GPIO_PC1_T4CCP1         0x00020407"></a>define GPIO_PC1_T4CCP1         0x00020407</h1><h1 id="define-GPIO-PC2-TDI-0x00020801"><a href="#define-GPIO-PC2-TDI-0x00020801" class="headerlink" title="define GPIO_PC2_TDI            0x00020801"></a>define GPIO_PC2_TDI            0x00020801</h1><h1 id="define-GPIO-PC2-T5CCP0-0x00020807"><a href="#define-GPIO-PC2-T5CCP0-0x00020807" class="headerlink" title="define GPIO_PC2_T5CCP0         0x00020807"></a>define GPIO_PC2_T5CCP0         0x00020807</h1><h1 id="define-GPIO-PC3-SWO-0x00020C01"><a href="#define-GPIO-PC3-SWO-0x00020C01" class="headerlink" title="define GPIO_PC3_SWO            0x00020C01"></a>define GPIO_PC3_SWO            0x00020C01</h1><h1 id="define-GPIO-PC3-TDO-0x00020C01"><a href="#define-GPIO-PC3-TDO-0x00020C01" class="headerlink" title="define GPIO_PC3_TDO            0x00020C01"></a>define GPIO_PC3_TDO            0x00020C01</h1><h1 id="define-GPIO-PC3-T5CCP1-0x00020C07"><a href="#define-GPIO-PC3-T5CCP1-0x00020C07" class="headerlink" title="define GPIO_PC3_T5CCP1         0x00020C07"></a>define GPIO_PC3_T5CCP1         0x00020C07</h1><h1 id="define-GPIO-PC4-U4RX-0x00021001"><a href="#define-GPIO-PC4-U4RX-0x00021001" class="headerlink" title="define GPIO_PC4_U4RX           0x00021001"></a>define GPIO_PC4_U4RX           0x00021001</h1><h1 id="define-GPIO-PC4-U1RX-0x00021002"><a href="#define-GPIO-PC4-U1RX-0x00021002" class="headerlink" title="define GPIO_PC4_U1RX           0x00021002"></a>define GPIO_PC4_U1RX           0x00021002</h1><h1 id="define-GPIO-PC4-M0PWM6-0x00021004"><a href="#define-GPIO-PC4-M0PWM6-0x00021004" class="headerlink" title="define GPIO_PC4_M0PWM6         0x00021004"></a>define GPIO_PC4_M0PWM6         0x00021004</h1><h1 id="define-GPIO-PC4-IDX1-0x00021006"><a href="#define-GPIO-PC4-IDX1-0x00021006" class="headerlink" title="define GPIO_PC4_IDX1           0x00021006"></a>define GPIO_PC4_IDX1           0x00021006</h1><h1 id="define-GPIO-PC4-WT0CCP0-0x00021007"><a href="#define-GPIO-PC4-WT0CCP0-0x00021007" class="headerlink" title="define GPIO_PC4_WT0CCP0        0x00021007"></a>define GPIO_PC4_WT0CCP0        0x00021007</h1><h1 id="define-GPIO-PC4-U1RTS-0x00021008"><a href="#define-GPIO-PC4-U1RTS-0x00021008" class="headerlink" title="define GPIO_PC4_U1RTS          0x00021008"></a>define GPIO_PC4_U1RTS          0x00021008</h1><h1 id="define-GPIO-PC5-U4TX-0x00021401"><a href="#define-GPIO-PC5-U4TX-0x00021401" class="headerlink" title="define GPIO_PC5_U4TX           0x00021401"></a>define GPIO_PC5_U4TX           0x00021401</h1><h1 id="define-GPIO-PC5-U1TX-0x00021402"><a href="#define-GPIO-PC5-U1TX-0x00021402" class="headerlink" title="define GPIO_PC5_U1TX           0x00021402"></a>define GPIO_PC5_U1TX           0x00021402</h1><h1 id="define-GPIO-PC5-M0PWM7-0x00021404"><a href="#define-GPIO-PC5-M0PWM7-0x00021404" class="headerlink" title="define GPIO_PC5_M0PWM7         0x00021404"></a>define GPIO_PC5_M0PWM7         0x00021404</h1><h1 id="define-GPIO-PC5-PHA1-0x00021406"><a href="#define-GPIO-PC5-PHA1-0x00021406" class="headerlink" title="define GPIO_PC5_PHA1           0x00021406"></a>define GPIO_PC5_PHA1           0x00021406</h1><h1 id="define-GPIO-PC5-WT0CCP1-0x00021407"><a href="#define-GPIO-PC5-WT0CCP1-0x00021407" class="headerlink" title="define GPIO_PC5_WT0CCP1        0x00021407"></a>define GPIO_PC5_WT0CCP1        0x00021407</h1><h1 id="define-GPIO-PC5-U1CTS-0x00021408"><a href="#define-GPIO-PC5-U1CTS-0x00021408" class="headerlink" title="define GPIO_PC5_U1CTS          0x00021408"></a>define GPIO_PC5_U1CTS          0x00021408</h1><h1 id="define-GPIO-PC6-U3RX-0x00021801"><a href="#define-GPIO-PC6-U3RX-0x00021801" class="headerlink" title="define GPIO_PC6_U3RX           0x00021801"></a>define GPIO_PC6_U3RX           0x00021801</h1><h1 id="define-GPIO-PC6-PHB1-0x00021806"><a href="#define-GPIO-PC6-PHB1-0x00021806" class="headerlink" title="define GPIO_PC6_PHB1           0x00021806"></a>define GPIO_PC6_PHB1           0x00021806</h1><h1 id="define-GPIO-PC6-WT1CCP0-0x00021807"><a href="#define-GPIO-PC6-WT1CCP0-0x00021807" class="headerlink" title="define GPIO_PC6_WT1CCP0        0x00021807"></a>define GPIO_PC6_WT1CCP0        0x00021807</h1><h1 id="define-GPIO-PC6-USB0EPEN-0x00021808"><a href="#define-GPIO-PC6-USB0EPEN-0x00021808" class="headerlink" title="define GPIO_PC6_USB0EPEN       0x00021808"></a>define GPIO_PC6_USB0EPEN       0x00021808</h1><h1 id="define-GPIO-PC7-U3TX-0x00021C01"><a href="#define-GPIO-PC7-U3TX-0x00021C01" class="headerlink" title="define GPIO_PC7_U3TX           0x00021C01"></a>define GPIO_PC7_U3TX           0x00021C01</h1><h1 id="define-GPIO-PC7-WT1CCP1-0x00021C07"><a href="#define-GPIO-PC7-WT1CCP1-0x00021C07" class="headerlink" title="define GPIO_PC7_WT1CCP1        0x00021C07"></a>define GPIO_PC7_WT1CCP1        0x00021C07</h1><h1 id="define-GPIO-PC7-USB0PFLT-0x00021C08"><a href="#define-GPIO-PC7-USB0PFLT-0x00021C08" class="headerlink" title="define GPIO_PC7_USB0PFLT       0x00021C08"></a>define GPIO_PC7_USB0PFLT       0x00021C08</h1><h1 id="define-GPIO-PD0-SSI3CLK-0x00030001"><a href="#define-GPIO-PD0-SSI3CLK-0x00030001" class="headerlink" title="define GPIO_PD0_SSI3CLK        0x00030001"></a>define GPIO_PD0_SSI3CLK        0x00030001</h1><h1 id="define-GPIO-PD0-SSI1CLK-0x00030002"><a href="#define-GPIO-PD0-SSI1CLK-0x00030002" class="headerlink" title="define GPIO_PD0_SSI1CLK        0x00030002"></a>define GPIO_PD0_SSI1CLK        0x00030002</h1><h1 id="define-GPIO-PD0-I2C3SCL-0x00030003"><a href="#define-GPIO-PD0-I2C3SCL-0x00030003" class="headerlink" title="define GPIO_PD0_I2C3SCL        0x00030003"></a>define GPIO_PD0_I2C3SCL        0x00030003</h1><h1 id="define-GPIO-PD0-M0PWM6-0x00030004"><a href="#define-GPIO-PD0-M0PWM6-0x00030004" class="headerlink" title="define GPIO_PD0_M0PWM6         0x00030004"></a>define GPIO_PD0_M0PWM6         0x00030004</h1><h1 id="define-GPIO-PD0-M1PWM0-0x00030005"><a href="#define-GPIO-PD0-M1PWM0-0x00030005" class="headerlink" title="define GPIO_PD0_M1PWM0         0x00030005"></a>define GPIO_PD0_M1PWM0         0x00030005</h1><h1 id="define-GPIO-PD0-WT2CCP0-0x00030007"><a href="#define-GPIO-PD0-WT2CCP0-0x00030007" class="headerlink" title="define GPIO_PD0_WT2CCP0        0x00030007"></a>define GPIO_PD0_WT2CCP0        0x00030007</h1><h1 id="define-GPIO-PD1-SSI3FSS-0x00030401"><a href="#define-GPIO-PD1-SSI3FSS-0x00030401" class="headerlink" title="define GPIO_PD1_SSI3FSS        0x00030401"></a>define GPIO_PD1_SSI3FSS        0x00030401</h1><h1 id="define-GPIO-PD1-SSI1FSS-0x00030402"><a href="#define-GPIO-PD1-SSI1FSS-0x00030402" class="headerlink" title="define GPIO_PD1_SSI1FSS        0x00030402"></a>define GPIO_PD1_SSI1FSS        0x00030402</h1><h1 id="define-GPIO-PD1-I2C3SDA-0x00030403"><a href="#define-GPIO-PD1-I2C3SDA-0x00030403" class="headerlink" title="define GPIO_PD1_I2C3SDA        0x00030403"></a>define GPIO_PD1_I2C3SDA        0x00030403</h1><h1 id="define-GPIO-PD1-M0PWM7-0x00030404"><a href="#define-GPIO-PD1-M0PWM7-0x00030404" class="headerlink" title="define GPIO_PD1_M0PWM7         0x00030404"></a>define GPIO_PD1_M0PWM7         0x00030404</h1><h1 id="define-GPIO-PD1-M1PWM1-0x00030405"><a href="#define-GPIO-PD1-M1PWM1-0x00030405" class="headerlink" title="define GPIO_PD1_M1PWM1         0x00030405"></a>define GPIO_PD1_M1PWM1         0x00030405</h1><h1 id="define-GPIO-PD1-WT2CCP1-0x00030407"><a href="#define-GPIO-PD1-WT2CCP1-0x00030407" class="headerlink" title="define GPIO_PD1_WT2CCP1        0x00030407"></a>define GPIO_PD1_WT2CCP1        0x00030407</h1><h1 id="define-GPIO-PD2-SSI3RX-0x00030801"><a href="#define-GPIO-PD2-SSI3RX-0x00030801" class="headerlink" title="define GPIO_PD2_SSI3RX         0x00030801"></a>define GPIO_PD2_SSI3RX         0x00030801</h1><h1 id="define-GPIO-PD2-SSI1RX-0x00030802"><a href="#define-GPIO-PD2-SSI1RX-0x00030802" class="headerlink" title="define GPIO_PD2_SSI1RX         0x00030802"></a>define GPIO_PD2_SSI1RX         0x00030802</h1><h1 id="define-GPIO-PD2-M0FAULT0-0x00030804"><a href="#define-GPIO-PD2-M0FAULT0-0x00030804" class="headerlink" title="define GPIO_PD2_M0FAULT0       0x00030804"></a>define GPIO_PD2_M0FAULT0       0x00030804</h1><h1 id="define-GPIO-PD2-WT3CCP0-0x00030807"><a href="#define-GPIO-PD2-WT3CCP0-0x00030807" class="headerlink" title="define GPIO_PD2_WT3CCP0        0x00030807"></a>define GPIO_PD2_WT3CCP0        0x00030807</h1><h1 id="define-GPIO-PD2-USB0EPEN-0x00030808"><a href="#define-GPIO-PD2-USB0EPEN-0x00030808" class="headerlink" title="define GPIO_PD2_USB0EPEN       0x00030808"></a>define GPIO_PD2_USB0EPEN       0x00030808</h1><h1 id="define-GPIO-PD3-SSI3TX-0x00030C01"><a href="#define-GPIO-PD3-SSI3TX-0x00030C01" class="headerlink" title="define GPIO_PD3_SSI3TX         0x00030C01"></a>define GPIO_PD3_SSI3TX         0x00030C01</h1><h1 id="define-GPIO-PD3-SSI1TX-0x00030C02"><a href="#define-GPIO-PD3-SSI1TX-0x00030C02" class="headerlink" title="define GPIO_PD3_SSI1TX         0x00030C02"></a>define GPIO_PD3_SSI1TX         0x00030C02</h1><h1 id="define-GPIO-PD3-IDX0-0x00030C06"><a href="#define-GPIO-PD3-IDX0-0x00030C06" class="headerlink" title="define GPIO_PD3_IDX0           0x00030C06"></a>define GPIO_PD3_IDX0           0x00030C06</h1><h1 id="define-GPIO-PD3-WT3CCP1-0x00030C07"><a href="#define-GPIO-PD3-WT3CCP1-0x00030C07" class="headerlink" title="define GPIO_PD3_WT3CCP1        0x00030C07"></a>define GPIO_PD3_WT3CCP1        0x00030C07</h1><h1 id="define-GPIO-PD3-USB0PFLT-0x00030C08"><a href="#define-GPIO-PD3-USB0PFLT-0x00030C08" class="headerlink" title="define GPIO_PD3_USB0PFLT       0x00030C08"></a>define GPIO_PD3_USB0PFLT       0x00030C08</h1><h1 id="define-GPIO-PD4-U6RX-0x00031001"><a href="#define-GPIO-PD4-U6RX-0x00031001" class="headerlink" title="define GPIO_PD4_U6RX           0x00031001"></a>define GPIO_PD4_U6RX           0x00031001</h1><h1 id="define-GPIO-PD4-WT4CCP0-0x00031007"><a href="#define-GPIO-PD4-WT4CCP0-0x00031007" class="headerlink" title="define GPIO_PD4_WT4CCP0        0x00031007"></a>define GPIO_PD4_WT4CCP0        0x00031007</h1><h1 id="define-GPIO-PD5-U6TX-0x00031401"><a href="#define-GPIO-PD5-U6TX-0x00031401" class="headerlink" title="define GPIO_PD5_U6TX           0x00031401"></a>define GPIO_PD5_U6TX           0x00031401</h1><h1 id="define-GPIO-PD5-WT4CCP1-0x00031407"><a href="#define-GPIO-PD5-WT4CCP1-0x00031407" class="headerlink" title="define GPIO_PD5_WT4CCP1        0x00031407"></a>define GPIO_PD5_WT4CCP1        0x00031407</h1><h1 id="define-GPIO-PD6-U2RX-0x00031801"><a href="#define-GPIO-PD6-U2RX-0x00031801" class="headerlink" title="define GPIO_PD6_U2RX           0x00031801"></a>define GPIO_PD6_U2RX           0x00031801</h1><h1 id="define-GPIO-PD6-M0FAULT0-0x00031804"><a href="#define-GPIO-PD6-M0FAULT0-0x00031804" class="headerlink" title="define GPIO_PD6_M0FAULT0       0x00031804"></a>define GPIO_PD6_M0FAULT0       0x00031804</h1><h1 id="define-GPIO-PD6-PHA0-0x00031806"><a href="#define-GPIO-PD6-PHA0-0x00031806" class="headerlink" title="define GPIO_PD6_PHA0           0x00031806"></a>define GPIO_PD6_PHA0           0x00031806</h1><h1 id="define-GPIO-PD6-WT5CCP0-0x00031807"><a href="#define-GPIO-PD6-WT5CCP0-0x00031807" class="headerlink" title="define GPIO_PD6_WT5CCP0        0x00031807"></a>define GPIO_PD6_WT5CCP0        0x00031807</h1><h1 id="define-GPIO-PD7-U2TX-0x00031C01"><a href="#define-GPIO-PD7-U2TX-0x00031C01" class="headerlink" title="define GPIO_PD7_U2TX           0x00031C01"></a>define GPIO_PD7_U2TX           0x00031C01</h1><h1 id="define-GPIO-PD7-PHB0-0x00031C06"><a href="#define-GPIO-PD7-PHB0-0x00031C06" class="headerlink" title="define GPIO_PD7_PHB0           0x00031C06"></a>define GPIO_PD7_PHB0           0x00031C06</h1><h1 id="define-GPIO-PD7-WT5CCP1-0x00031C07"><a href="#define-GPIO-PD7-WT5CCP1-0x00031C07" class="headerlink" title="define GPIO_PD7_WT5CCP1        0x00031C07"></a>define GPIO_PD7_WT5CCP1        0x00031C07</h1><h1 id="define-GPIO-PD7-NMI-0x00031C08"><a href="#define-GPIO-PD7-NMI-0x00031C08" class="headerlink" title="define GPIO_PD7_NMI            0x00031C08"></a>define GPIO_PD7_NMI            0x00031C08</h1><h1 id="define-GPIO-PE0-U7RX-0x00040001"><a href="#define-GPIO-PE0-U7RX-0x00040001" class="headerlink" title="define GPIO_PE0_U7RX           0x00040001"></a>define GPIO_PE0_U7RX           0x00040001</h1><h1 id="define-GPIO-PE1-U7TX-0x00040401"><a href="#define-GPIO-PE1-U7TX-0x00040401" class="headerlink" title="define GPIO_PE1_U7TX           0x00040401"></a>define GPIO_PE1_U7TX           0x00040401</h1><h1 id="define-GPIO-PE4-U5RX-0x00041001"><a href="#define-GPIO-PE4-U5RX-0x00041001" class="headerlink" title="define GPIO_PE4_U5RX           0x00041001"></a>define GPIO_PE4_U5RX           0x00041001</h1><h1 id="define-GPIO-PE4-I2C2SCL-0x00041003"><a href="#define-GPIO-PE4-I2C2SCL-0x00041003" class="headerlink" title="define GPIO_PE4_I2C2SCL        0x00041003"></a>define GPIO_PE4_I2C2SCL        0x00041003</h1><h1 id="define-GPIO-PE4-M0PWM4-0x00041004"><a href="#define-GPIO-PE4-M0PWM4-0x00041004" class="headerlink" title="define GPIO_PE4_M0PWM4         0x00041004"></a>define GPIO_PE4_M0PWM4         0x00041004</h1><h1 id="define-GPIO-PE4-M1PWM2-0x00041005"><a href="#define-GPIO-PE4-M1PWM2-0x00041005" class="headerlink" title="define GPIO_PE4_M1PWM2         0x00041005"></a>define GPIO_PE4_M1PWM2         0x00041005</h1><h1 id="define-GPIO-PE4-CAN0RX-0x00041008"><a href="#define-GPIO-PE4-CAN0RX-0x00041008" class="headerlink" title="define GPIO_PE4_CAN0RX         0x00041008"></a>define GPIO_PE4_CAN0RX         0x00041008</h1><h1 id="define-GPIO-PE5-U5TX-0x00041401"><a href="#define-GPIO-PE5-U5TX-0x00041401" class="headerlink" title="define GPIO_PE5_U5TX           0x00041401"></a>define GPIO_PE5_U5TX           0x00041401</h1><h1 id="define-GPIO-PE5-I2C2SDA-0x00041403"><a href="#define-GPIO-PE5-I2C2SDA-0x00041403" class="headerlink" title="define GPIO_PE5_I2C2SDA        0x00041403"></a>define GPIO_PE5_I2C2SDA        0x00041403</h1><h1 id="define-GPIO-PE5-M0PWM5-0x00041404"><a href="#define-GPIO-PE5-M0PWM5-0x00041404" class="headerlink" title="define GPIO_PE5_M0PWM5         0x00041404"></a>define GPIO_PE5_M0PWM5         0x00041404</h1><h1 id="define-GPIO-PE5-M1PWM3-0x00041405"><a href="#define-GPIO-PE5-M1PWM3-0x00041405" class="headerlink" title="define GPIO_PE5_M1PWM3         0x00041405"></a>define GPIO_PE5_M1PWM3         0x00041405</h1><h1 id="define-GPIO-PE5-CAN0TX-0x00041408"><a href="#define-GPIO-PE5-CAN0TX-0x00041408" class="headerlink" title="define GPIO_PE5_CAN0TX         0x00041408"></a>define GPIO_PE5_CAN0TX         0x00041408</h1><h1 id="define-GPIO-PF0-U1RTS-0x00050001"><a href="#define-GPIO-PF0-U1RTS-0x00050001" class="headerlink" title="define GPIO_PF0_U1RTS          0x00050001"></a>define GPIO_PF0_U1RTS          0x00050001</h1><h1 id="define-GPIO-PF0-SSI1RX-0x00050002"><a href="#define-GPIO-PF0-SSI1RX-0x00050002" class="headerlink" title="define GPIO_PF0_SSI1RX         0x00050002"></a>define GPIO_PF0_SSI1RX         0x00050002</h1><h1 id="define-GPIO-PF0-CAN0RX-0x00050003"><a href="#define-GPIO-PF0-CAN0RX-0x00050003" class="headerlink" title="define GPIO_PF0_CAN0RX         0x00050003"></a>define GPIO_PF0_CAN0RX         0x00050003</h1><h1 id="define-GPIO-PF0-M1PWM4-0x00050005"><a href="#define-GPIO-PF0-M1PWM4-0x00050005" class="headerlink" title="define GPIO_PF0_M1PWM4         0x00050005"></a>define GPIO_PF0_M1PWM4         0x00050005</h1><h1 id="define-GPIO-PF0-PHA0-0x00050006"><a href="#define-GPIO-PF0-PHA0-0x00050006" class="headerlink" title="define GPIO_PF0_PHA0           0x00050006"></a>define GPIO_PF0_PHA0           0x00050006</h1><h1 id="define-GPIO-PF0-T0CCP0-0x00050007"><a href="#define-GPIO-PF0-T0CCP0-0x00050007" class="headerlink" title="define GPIO_PF0_T0CCP0         0x00050007"></a>define GPIO_PF0_T0CCP0         0x00050007</h1><h1 id="define-GPIO-PF0-NMI-0x00050008"><a href="#define-GPIO-PF0-NMI-0x00050008" class="headerlink" title="define GPIO_PF0_NMI            0x00050008"></a>define GPIO_PF0_NMI            0x00050008</h1><h1 id="define-GPIO-PF0-C0O-0x00050009"><a href="#define-GPIO-PF0-C0O-0x00050009" class="headerlink" title="define GPIO_PF0_C0O            0x00050009"></a>define GPIO_PF0_C0O            0x00050009</h1><h1 id="define-GPIO-PF1-U1CTS-0x00050401"><a href="#define-GPIO-PF1-U1CTS-0x00050401" class="headerlink" title="define GPIO_PF1_U1CTS          0x00050401"></a>define GPIO_PF1_U1CTS          0x00050401</h1><h1 id="define-GPIO-PF1-SSI1TX-0x00050402"><a href="#define-GPIO-PF1-SSI1TX-0x00050402" class="headerlink" title="define GPIO_PF1_SSI1TX         0x00050402"></a>define GPIO_PF1_SSI1TX         0x00050402</h1><h1 id="define-GPIO-PF1-M1PWM5-0x00050405"><a href="#define-GPIO-PF1-M1PWM5-0x00050405" class="headerlink" title="define GPIO_PF1_M1PWM5         0x00050405"></a>define GPIO_PF1_M1PWM5         0x00050405</h1><h1 id="define-GPIO-PF1-PHB0-0x00050406"><a href="#define-GPIO-PF1-PHB0-0x00050406" class="headerlink" title="define GPIO_PF1_PHB0           0x00050406"></a>define GPIO_PF1_PHB0           0x00050406</h1><h1 id="define-GPIO-PF1-T0CCP1-0x00050407"><a href="#define-GPIO-PF1-T0CCP1-0x00050407" class="headerlink" title="define GPIO_PF1_T0CCP1         0x00050407"></a>define GPIO_PF1_T0CCP1         0x00050407</h1><h1 id="define-GPIO-PF1-C1O-0x00050409"><a href="#define-GPIO-PF1-C1O-0x00050409" class="headerlink" title="define GPIO_PF1_C1O            0x00050409"></a>define GPIO_PF1_C1O            0x00050409</h1><h1 id="define-GPIO-PF1-TRD1-0x0005040E"><a href="#define-GPIO-PF1-TRD1-0x0005040E" class="headerlink" title="define GPIO_PF1_TRD1           0x0005040E"></a>define GPIO_PF1_TRD1           0x0005040E</h1><h1 id="define-GPIO-PF2-SSI1CLK-0x00050802"><a href="#define-GPIO-PF2-SSI1CLK-0x00050802" class="headerlink" title="define GPIO_PF2_SSI1CLK        0x00050802"></a>define GPIO_PF2_SSI1CLK        0x00050802</h1><h1 id="define-GPIO-PF2-M0FAULT0-0x00050804"><a href="#define-GPIO-PF2-M0FAULT0-0x00050804" class="headerlink" title="define GPIO_PF2_M0FAULT0       0x00050804"></a>define GPIO_PF2_M0FAULT0       0x00050804</h1><h1 id="define-GPIO-PF2-M1PWM6-0x00050805"><a href="#define-GPIO-PF2-M1PWM6-0x00050805" class="headerlink" title="define GPIO_PF2_M1PWM6         0x00050805"></a>define GPIO_PF2_M1PWM6         0x00050805</h1><h1 id="define-GPIO-PF2-T1CCP0-0x00050807"><a href="#define-GPIO-PF2-T1CCP0-0x00050807" class="headerlink" title="define GPIO_PF2_T1CCP0         0x00050807"></a>define GPIO_PF2_T1CCP0         0x00050807</h1><h1 id="define-GPIO-PF2-TRD0-0x0005080E"><a href="#define-GPIO-PF2-TRD0-0x0005080E" class="headerlink" title="define GPIO_PF2_TRD0           0x0005080E"></a>define GPIO_PF2_TRD0           0x0005080E</h1><h1 id="define-GPIO-PF3-SSI1FSS-0x00050C02"><a href="#define-GPIO-PF3-SSI1FSS-0x00050C02" class="headerlink" title="define GPIO_PF3_SSI1FSS        0x00050C02"></a>define GPIO_PF3_SSI1FSS        0x00050C02</h1><h1 id="define-GPIO-PF3-CAN0TX-0x00050C03"><a href="#define-GPIO-PF3-CAN0TX-0x00050C03" class="headerlink" title="define GPIO_PF3_CAN0TX         0x00050C03"></a>define GPIO_PF3_CAN0TX         0x00050C03</h1><h1 id="define-GPIO-PF3-M1PWM7-0x00050C05"><a href="#define-GPIO-PF3-M1PWM7-0x00050C05" class="headerlink" title="define GPIO_PF3_M1PWM7         0x00050C05"></a>define GPIO_PF3_M1PWM7         0x00050C05</h1><h1 id="define-GPIO-PF3-T1CCP1-0x00050C07"><a href="#define-GPIO-PF3-T1CCP1-0x00050C07" class="headerlink" title="define GPIO_PF3_T1CCP1         0x00050C07"></a>define GPIO_PF3_T1CCP1         0x00050C07</h1><h1 id="define-GPIO-PF3-TRCLK-0x00050C0E"><a href="#define-GPIO-PF3-TRCLK-0x00050C0E" class="headerlink" title="define GPIO_PF3_TRCLK          0x00050C0E"></a>define GPIO_PF3_TRCLK          0x00050C0E</h1><h1 id="define-GPIO-PF4-M1FAULT0-0x00051005"><a href="#define-GPIO-PF4-M1FAULT0-0x00051005" class="headerlink" title="define GPIO_PF4_M1FAULT0       0x00051005"></a>define GPIO_PF4_M1FAULT0       0x00051005</h1><h1 id="define-GPIO-PF4-IDX0-0x00051006"><a href="#define-GPIO-PF4-IDX0-0x00051006" class="headerlink" title="define GPIO_PF4_IDX0           0x00051006"></a>define GPIO_PF4_IDX0           0x00051006</h1><h1 id="define-GPIO-PF4-T2CCP0-0x00051007"><a href="#define-GPIO-PF4-T2CCP0-0x00051007" class="headerlink" title="define GPIO_PF4_T2CCP0         0x00051007"></a>define GPIO_PF4_T2CCP0         0x00051007</h1><h1 id="define-GPIO-PF4-USB0EPEN-0x00051008"><a href="#define-GPIO-PF4-USB0EPEN-0x00051008" class="headerlink" title="define GPIO_PF4_USB0EPEN       0x00051008"></a>define GPIO_PF4_USB0EPEN       0x00051008</h1>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/pin_map/" data-id="ckmm8s20f001uto3d6uwy4suh" data-title="该单片机pin map" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/phripheral-list/" data-id="ckmsxdde50026jk3d9bxfghur" data-title="该单片机外设清单" class="article-share-link">Share</a>
       
       
       
@@ -409,116 +794,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/" data-id="ckmm8s20j0020to3d12mo51pc" data-title="基本GPIO操作" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/" data-id="ckmsxdde60028jk3d0h1a0ob3" data-title="基本GPIO操作" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-总体概述" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/">单片机总体概述</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="微控制器"><a href="#微控制器" class="headerlink" title="微控制器"></a>微控制器</h2><p>这一款单片机的微控制器是TM4C123GH6PMI</p>
-<h2 id="特色"><a href="#特色" class="headerlink" title="特色"></a>特色</h2><p>有TM4C123GH6PMI微控制器USB2.0 设备接口，休眠模块，运动控制脉宽调制模块</p>
-<h2 id="什么是时钟"><a href="#什么是时钟" class="headerlink" title="什么是时钟"></a>什么是时钟</h2><p>时钟就是单片机的心脏。每跳动一下。整个单片机的各个电路就同步的动作一下。就好像我们做广播体操的时候 广播上喊的节拍1234 2234 3234。。。。然后我们全部的同学就按照这个节奏进行一个个动作。节拍越快我们动作越快。节拍越慢我们动作的越慢。</p>
-<h2 id="内部时钟和外部时钟"><a href="#内部时钟和外部时钟" class="headerlink" title="内部时钟和外部时钟?"></a>内部时钟和外部时钟?</h2><p>PIC单片机有许多型号可以设置成 用外部时钟(如外部接个4MHZ的石英晶振)，也可以设置成用内部RC时钟。而且还有许多型号可以选择多种频率的时钟。</p>
-<p>如 PICLF1823 内部时钟最高可以到达32MHZ 最低可以达到 31kHz. 这事实上提供了一条降低功耗的新路子。一般的单片机降低功耗常常用的睡眠，而睡眠期间CPU是什么都不做。如果希望降低功耗，而且CPU也能工作。降低时钟频率无疑是个非常好的选择。</p>
-<h2 id="单片机里内部外设和外设有哪些"><a href="#单片机里内部外设和外设有哪些" class="headerlink" title="单片机里内部外设和外设有哪些"></a>单片机里内部外设和外设有哪些</h2><h4 id="单片机内部的外设"><a href="#单片机内部的外设" class="headerlink" title="单片机内部的外设"></a>单片机内部的外设</h4><p>一般包括：串口控制模块，SPI模块，I2C模块，A/D模块，PWM模块，CAN模块，EEPROM，比较器模块，等等，它们都集成在单片机内部，有相对应的内部控制寄存器，可通过单片机指令直接控制。</p>
-<h4 id="单片机外部的外围功能模块"><a href="#单片机外部的外围功能模块" class="headerlink" title="单片机外部的外围功能模块"></a>单片机外部的外围功能模块</h4><p>比如键盘控制芯片，液晶，A/D转换芯片，等等。外设可通过单片机的I/O，SPI，I2C等总线控制。</p>
-<h2 id="什么是-DSP-中的“内部上拉”和“内部下拉”"><a href="#什么是-DSP-中的“内部上拉”和“内部下拉”" class="headerlink" title="什么是 DSP 中的“内部上拉”和“内部下拉”?"></a>什么是 DSP 中的“内部上拉”和“内部下拉”?</h2><p>DSP 中介绍引脚时，注明 PU,PD 说是“内部上拉”和“内部下拉”，就是说内部已经配置了接电源的上拉电阻或是接地的下拉电阻。这样，当作为输入端口连接 OC 或COMS 芯片或浮空时。信号线平是确定的高/低电平。而不是不确定的浮地电平。内部上拉，相当于输入和电源之间接了一个几十 K 的电阻；下拉，相当于用电阻和地相连。</p>
-<h2 id="VCC、VDD、VSS-是什么"><a href="#VCC、VDD、VSS-是什么" class="headerlink" title="VCC、VDD、VSS 是什么"></a>VCC、VDD、VSS 是什么</h2><p>在电子电路中，VCC 是电路的供电电压，C = circuit,表示电路的意思；VDD 是芯片<br>的工作电压，D = device,表示器件的意思；VSS 是接地或是负极，S = series,表示公共连<br>接的意思。</p>
-<h2 id="TI坑人的一点在哪"><a href="#TI坑人的一点在哪" class="headerlink" title="TI坑人的一点在哪"></a>TI坑人的一点在哪</h2><p>TI不同于３２，TI的函数的入口参数无法通过像３２一样的方法查找选择合适的参数</p>
-<h1 id="我的单片机的外设"><a href="#我的单片机的外设" class="headerlink" title="我的单片机的外设"></a>我的单片机的外设</h1><p>红灯PF1  M0PWM5</p>
-<p>蓝灯PF2 M1PWM6</p>
-<p>绿灯PF3 M1PWM7</p>
-<p>按键1 PF4 按下为低电平</p>
-<p>按键2 PF0按下为低电平</p>
-<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212200237248.png" alt="image-20201212200237248"></p>
-<h2 id="延时函数"><a href="#延时函数" class="headerlink" title="延时函数"></a>延时函数</h2><p>SysCtlDelay ( SysCtlClockGet() *ms / 3000);</p>
-<hr>
-<h2 id="基本模板"><a href="#基本模板" class="headerlink" title="基本模板"></a>基本模板</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdbool.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_types.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_ints.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_memmap.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;inc/hw_pwm.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/debug.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/fpu.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/gpio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pin_map.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/rom.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/rom_map.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/sysctl.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/uart.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;utils/uartstdio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/systick.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/interrupt.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;driverlib/pwm.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line">    FPULazyStackingEnable();</span><br><span class="line">    <span class="comment">//使能系统时钟为50MHz</span></span><br><span class="line">    SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN);</span><br><span class="line">    <span class="comment">//延时函数</span></span><br><span class="line">    ROM_SysCtlDelay ( SysCtlClockGet() *ms / <span class="number">3000</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" data-id="ckmm8s20s002bto3dbq2scm6p" data-title="单片机总体概述" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/15/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2021-01-14T16:00:00.000Z" itemprop="datePublished">2021-01-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/15/hello-world/">如何上传博客</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>进入 博客名/source/_posts </li>
-<li>在这里写博客是需要添加题头 包含title date tag</li>
-<li>然后把博客复制到文件夹中</li>
-<li>最后打开cmd 进入博客文件夹，输入三行代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-等一段时间，就可以成功了</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/15/hello-world/" data-id="ckmm8s20a001gto3dd3hah1q3" data-title="如何上传博客" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/test/" rel="tag">test</a></li></ul>
 
     </footer>
   </div>
@@ -532,7 +812,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -578,23 +858,23 @@
       <ul>
         
           <li>
+            <a href="/2021/03/28/999-project/">stm32_template</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/27/004-USART/">stm32_USART</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/26/003-systick/">stm32-systick</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/23/002-GPIO/">stm32_GPIO</a>
           </li>
         
           <li>
             <a href="/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/">new project</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/15/STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">STM32F103RCT62单片机概况</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/07/permutation/">generate permutation</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/">休眠模块</a>
           </li>
         
       </ul>

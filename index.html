@@ -75,6 +75,168 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-999-project" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/28/999-project/" class="article-date">
+  <time class="dt-published" datetime="2021-03-27T16:00:00.000Z" itemprop="datePublished">2021-03-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/28/999-project/">stm32_template</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>在ti的开发过程中，我常将所有外设的配置以及程序功能的实现全部放在main.c里，随着功能的增加，代码长度也在增加，最终导入一个模板代码就已经将近两百行，为代码的编辑带来很大不便。最近转到stm32上来后，了解到正点原子的项目架构，觉得这样的常见功能封装成库的思路很有益处，因此我采集了正点原子例程中一些调试常用功能，加入一些改造和整合，得到了这样一个模板库：BASIC.h</p>
+<h2 id="使用简介"><a href="#使用简介" class="headerlink" title="使用简介"></a>使用简介</h2><p>创建目录时将BASIC文件夹复制到项目文件夹中，在keil的项目group里加入BASIC里个各个.c文件，在<code>options for target</code>里的c/c++选项include栏目里加入BASIC文件夹即可开始使用。</p>
+<p>使用这个项目只需引用BASIC.h库即可，其他所有库均在这个库里面</p>
+<h2 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h2><h3 id="延时函数"><a href="#延时函数" class="headerlink" title="延时函数"></a>延时函数</h3><blockquote>
+<p>这部分内容由nxs7提供</p>
+</blockquote>
+<p>函数原型：<code>void Wait(u32 time)//time &lt;= 1864</code></p>
+<p>功能：让程序延时time ms</p>
+<h3 id="使能中断"><a href="#使能中断" class="headerlink" title="使能中断"></a>使能中断</h3><blockquote>
+<p>这部分内容由正点原子提供,直接操作寄存器</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置NVIC </span></span><br><span class="line"><span class="comment">//NVIC_PreemptionPriority:抢占优先级</span></span><br><span class="line"><span class="comment">//NVIC_SubPriority       :响应优先级</span></span><br><span class="line"><span class="comment">//NVIC_Channel           :中断编号</span></span><br><span class="line"><span class="comment">//NVIC_Group             :中断分组 0~4</span></span><br><span class="line"><span class="comment">//注意优先级不能超过设定的组的范围!否则会有意想不到的错误</span></span><br><span class="line"><span class="comment">//组划分:</span></span><br><span class="line"><span class="comment">//组0:0位抢占优先级,4位响应优先级</span></span><br><span class="line"><span class="comment">//组1:1位抢占优先级,3位响应优先级</span></span><br><span class="line"><span class="comment">//组2:2位抢占优先级,2位响应优先级</span></span><br><span class="line"><span class="comment">//组3:3位抢占优先级,1位响应优先级</span></span><br><span class="line"><span class="comment">//组4:4位抢占优先级,0位响应优先级</span></span><br><span class="line"><span class="comment">//NVIC_SubPriority和NVIC_PreemptionPriority的原则是,数值越小,越优先	   </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MY_NVIC_Init</span><span class="params">(u8 NVIC_PreemptionPriority,u8 NVIC_SubPriority,u8 NVIC_Channel,u8 NVIC_Group)</span>	 </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">	u32 temp;	</span><br><span class="line">	MY_NVIC_PriorityGroupConfig(NVIC_Group);<span class="comment">//设置分组</span></span><br><span class="line">	temp=NVIC_PreemptionPriority&lt;&lt;(<span class="number">4</span>-NVIC_Group);	  </span><br><span class="line">	temp|=NVIC_SubPriority&amp;(<span class="number">0x0f</span>&gt;&gt;NVIC_Group);</span><br><span class="line">	temp&amp;=<span class="number">0xf</span>;								<span class="comment">//取低四位  </span></span><br><span class="line">	NVIC-&gt;ISER[NVIC_Channel/<span class="number">32</span>]|=(<span class="number">1</span>&lt;&lt;NVIC_Channel%<span class="number">32</span>);<span class="comment">//使能中断位(要清除的话,相反操作就OK) </span></span><br><span class="line">	NVIC-&gt;IP[NVIC_Channel]|=temp&lt;&lt;<span class="number">4</span>;		<span class="comment">//设置响应优先级和抢断优先级   	    	  				   </span></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>这个函数用起来非常方便，比如，我们想为TIM3注册一个TIM3_IRQn中断的话，只需使用<code>MY_NVIC_Init(0,3,TIM3_IRQn,2);</code>即可，无需使用中断初始化结构体。</p>
+<h3 id="按键"><a href="#按键" class="headerlink" title="按键"></a>按键</h3><p>初始化函数：<code>void KEY_init(void)</code></p>
+<p>在这个库中，我们借助TIM3，实现了KEY0，KEY1和WK_UP 的<strong>短按，长按和组合使用</strong>的功能，默认为输出操作信息。欲修改按键功能请到KEY.c文件中修改相关部分。</p>
+<h3 id="LED"><a href="#LED" class="headerlink" title="LED"></a>LED</h3><p>初始化函数： <code>void LED_init(void)</code></p>
+<p>之后点灯的操作非常简单，比如 LED0 = 1；就是让第一个灯亮</p>
+<h3 id="USART"><a href="#USART" class="headerlink" title="USART"></a>USART</h3><p>初始化函数： </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化IO 串口1</span></span><br><span class="line"><span class="comment">//pclk2:PCLK2时钟频率(Mhz)</span></span><br><span class="line"><span class="comment">//bound:波特率 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">USART_init</span><span class="params">(u32 pclk2,u32 bound)</span></span></span><br></pre></td></tr></table></figure>
+<p>之后只需使用<code>printf()</code>即可通过串口输出信息。具备完整的printf功能。（这里就要比ti强很多）</p>
+<p>此外，还提供通过串口的信息接收功能。默认功能是将受到的信息原样发出，通过修改<code>USART.c</code>中的<code>analyseMessage()</code>函数可以实现任意解析接收受到的输出。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/28/999-project/" data-id="ckmsxdddg000ajk3d7xcj65et" data-title="stm32_template" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-004-USART" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/27/004-USART/" class="article-date">
+  <time class="dt-published" datetime="2021-03-26T16:00:00.000Z" itemprop="datePublished">2021-03-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/27/004-USART/">stm32_USART</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="函数学习"><a href="#函数学习" class="headerlink" title="函数学习"></a>函数学习</h2><h3 id="串口时钟使能"><a href="#串口时钟使能" class="headerlink" title="串口时钟使能"></a>串口时钟使能</h3><p><code>RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1)；</code></p>
+<h3 id="串口复位"><a href="#串口复位" class="headerlink" title="串口复位"></a>串口复位</h3><p><code>USART_DeInit(USART1);</code></p>
+<h3 id="串口参数初始化"><a href="#串口参数初始化" class="headerlink" title="串口参数初始化"></a>串口参数初始化</h3><p><code>USART_Init(USART1, &amp;USART_InitStructure);</code></p>
+<p>其中，那个结构体里面要设置的参数有<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">USART_InitStructure.USART_BaudRate = <span class="number">115200</span>;</span><br><span class="line">USART_InitStructure.USART_WordLength = USART_WordLength_8b;</span><br><span class="line">USART_InitStructure.USART_StopBits = USART_StopBits_1; </span><br><span class="line">USART_InitStructure.USART_Parity = USART_Parity_No;</span><br><span class="line">USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;</span><br><span class="line">USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx; </span><br></pre></td></tr></table></figure></p>
+<h3 id="数据发送与接收"><a href="#数据发送与接收" class="headerlink" title="数据发送与接收"></a>数据发送与接收</h3><p>STM32 的发送与接收是通过数据寄存器 USART_DR 来实现的，这是 一个双寄存器，包含了 TDR 和 RDR。当向该寄存器写数据的时候，串口就会自动发送，当收 到收据的时候，也是存在该寄存器内。</p>
+<p>发送数据的函数其实是<code>void USART_SendData(USART_TypeDef* USARTx, uint16_t Data)</code>，但是这样我们操作起来不是很方便，因此我们采用</p>
+<h3 id="查看串口状态"><a href="#查看串口状态" class="headerlink" title="查看串口状态"></a>查看串口状态</h3><p><code>USART_GetFlagStatus(USART1, USART_FLAG_PPPPP);</code>表示查看PPPPP了没</p>
+<h3 id="串口使能"><a href="#串口使能" class="headerlink" title="串口使能"></a>串口使能</h3><p><code>USART_Cmd(USART1, ENABLE);</code></p>
+<h3 id="开启串口响应中断"><a href="#开启串口响应中断" class="headerlink" title="开启串口响应中断"></a>开启串口响应中断</h3><ul>
+<li><p>如果想要在接收数据完成时产生中断</p>
+<p><code>USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);</code></p>
+</li>
+<li><p>如果想要在发送数据完成时产生中断</p>
+<p><code>USART_ITConfig(USART1，USART_IT_TC，ENABLE);</code></p>
+</li>
+</ul>
+<h3 id="获取相应中断状态"><a href="#获取相应中断状态" class="headerlink" title="获取相应中断状态"></a>获取相应中断状态</h3><p><code>USART_GetITStatus(USART1, USART_IT_TC)</code>，如果函数返回值是SET表示是这种中断发生了。</p>
+<h2 id="初始化例程"><a href="#初始化例程" class="headerlink" title="初始化例程"></a>初始化例程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">   GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">   USART_InitTypeDef USART_InitStructure;</span><br><span class="line">   NVIC_InitTypeDef NVIC_InitStructure;</span><br><span class="line"></span><br><span class="line">RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1|RCC_APB2Periph_GPIOA, ENABLE);	<span class="comment">//使能USART1，GPIOA时钟</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">//USART1_TX   GPIOA.9</span></span><br><span class="line">   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9; <span class="comment">//PA.9</span></span><br><span class="line">   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line">   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;	<span class="comment">//复用推挽输出</span></span><br><span class="line">   GPIO_Init(GPIOA, &amp;GPIO_InitStructure);<span class="comment">//初始化GPIOA.9</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">//USART1_RX	  GPIOA.10初始化</span></span><br><span class="line">   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;<span class="comment">//PA10</span></span><br><span class="line">   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;<span class="comment">//浮空输入</span></span><br><span class="line">   GPIO_Init(GPIOA, &amp;GPIO_InitStructure);<span class="comment">//初始化GPIOA.10  </span></span><br><span class="line"></span><br><span class="line">   <span class="comment">//Usart1 NVIC 配置</span></span><br><span class="line">   NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;</span><br><span class="line">   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=<span class="number">3</span> ;<span class="comment">//抢占优先级3</span></span><br><span class="line">   NVIC_InitStructure.NVIC_IRQChannelSubPriority = <span class="number">3</span>;		<span class="comment">//子优先级3</span></span><br><span class="line">   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			<span class="comment">//IRQ通道使能</span></span><br><span class="line">   NVIC_Init(&amp;NVIC_InitStructure);	<span class="comment">//根据指定的参数初始化VIC寄存器</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">//USART 初始化设置</span></span><br><span class="line"></span><br><span class="line">   USART_InitStructure.USART_BaudRate = bound;<span class="comment">//串口波特率</span></span><br><span class="line">   USART_InitStructure.USART_WordLength = USART_WordLength_8b;<span class="comment">//字长为8位数据格式</span></span><br><span class="line">   USART_InitStructure.USART_StopBits = USART_StopBits_1;<span class="comment">//一个停止位</span></span><br><span class="line">   USART_InitStructure.USART_Parity = USART_Parity_No;<span class="comment">//无奇偶校验位</span></span><br><span class="line">   USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;<span class="comment">//无硬件数据流控制</span></span><br><span class="line">   USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;	<span class="comment">//收发模式</span></span><br><span class="line"></span><br><span class="line">   USART_Init(USART1, &amp;USART_InitStructure); <span class="comment">//初始化串口1</span></span><br><span class="line">   USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);<span class="comment">//开启串口接受中断</span></span><br><span class="line">   USART_Cmd(USART1, ENABLE);                    <span class="comment">//使能串口1 </span></span><br></pre></td></tr></table></figure>
+<h2 id="中断服务例程"><a href="#中断服务例程" class="headerlink" title="中断服务例程"></a>中断服务例程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">u8 Res;</span><br><span class="line"><span class="keyword">if</span>(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)  <span class="comment">//接收中断(接收到的数据必须是0x0d 0x0a结尾)</span></span><br><span class="line">&#123;</span><br><span class="line">    Res =USART_ReceiveData(USART1);	<span class="comment">//读取接收到的数据</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>((USART_RX_STA&amp;<span class="number">0x8000</span>)==<span class="number">0</span>)<span class="comment">//接收未完成</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(USART_RX_STA&amp;<span class="number">0x4000</span>)<span class="comment">//接收到了0x0d</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(Res!=<span class="number">0x0a</span>)USART_RX_STA=<span class="number">0</span>;<span class="comment">//接收错误,重新开始</span></span><br><span class="line">            <span class="keyword">else</span> USART_RX_STA|=<span class="number">0x8000</span>;	<span class="comment">//接收完成了 </span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="comment">//还没收到0X0D</span></span><br><span class="line">        &#123;	</span><br><span class="line">            <span class="keyword">if</span>(Res==<span class="number">0x0d</span>)USART_RX_STA|=<span class="number">0x4000</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                USART_RX_BUF[USART_RX_STA&amp;<span class="number">0X3FFF</span>]=Res ;</span><br><span class="line">                USART_RX_STA++;</span><br><span class="line">                <span class="keyword">if</span>(USART_RX_STA&gt;(USART_REC_LEN<span class="number">-1</span>))USART_RX_STA=<span class="number">0</span>;<span class="comment">//接收数据错误,重新开始接收	  </span></span><br><span class="line">            &#125;		 </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;   		 </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/27/004-USART/" data-id="ckmsxddde0005jk3d63j89h5c" data-title="stm32_USART" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-003-systick" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/26/003-systick/" class="article-date">
+  <time class="dt-published" datetime="2021-03-25T16:00:00.000Z" itemprop="datePublished">2021-03-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/26/003-systick/">stm32-systick</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="stm32的Systick简介"><a href="#stm32的Systick简介" class="headerlink" title="stm32的Systick简介"></a>stm32的Systick简介</h2><p>SysTick是一个24位的系统节拍定时器system tick timer,SysTick,具有自动重载和溢出中断功能，所有基于Cortex_M3处理器的微控制器都可以由这个定时器获得一定的时间间隔。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SysTick_Handler</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">    i++;</span><br><span class="line">    <span class="keyword">if</span>(i==<span class="number">600</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        i=<span class="number">0</span>;</span><br><span class="line">        LED1=<span class="number">1</span>-LED1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SYSTICK_init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(SysTick_Config(SystemCoreClock / <span class="number">6000</span>));</span><br><span class="line">    NVIC_SetPriority(SysTick_IRQn,<span class="number">0x00</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/26/003-systick/" data-id="ckmsxddde0004jk3d26svbm25" data-title="stm32-systick" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-002-GPIO" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/03/23/002-GPIO/" class="article-date">
@@ -101,8 +263,9 @@
 <ul>
 <li>保护二极管：IO引脚上下两边两个二极管用于防止引脚外部过高、过低的电压输入。当引脚电压高于VDD时，上方的二极管导通；当引脚电压低于VSS时，下方的二极管导通，防止不正常电压引入芯片导致芯片烧毁。但是尽管如此，还是不能直接外接大功率器件，须加大功率及隔离电路驱动，防止烧坏芯片或者外接器件无法正常工作。</li>
 <li>P-MOS管和N-MOS管：由P-MOS管和N-MOS管组成的单元电路使得GPIO具有“推挽输出”和“开漏输出”的模式。这里的电路会在下面很详细地分析到。</li>
-<li>TTL肖特基触发器：信号经过触发器后，模拟信号转化为0和1的数字信号。但是，当GPIO引脚作为ADC采集电压的输入通道时，用其“模拟输入”功能，此时信号不再经过触发器进行TTL电平转换。ADC外设要采集到的原始的模拟信号。<h3 id="浮空输入模式"><a href="#浮空输入模式" class="headerlink" title="浮空输入模式"></a>浮空输入模式</h3><img src="浮空输入.png" alt="浮空输入"><br>浮空输入模式下，I/O端口的电平信号直接进入输入数据寄存器。也就是说，I/O的电平状态是不确定的，完全由外部输入决定；如果在该引脚悬空（在无信号输入）的情况下，读取该端口的电平是不确定的。</li>
+<li>TTL肖特基触发器：信号经过触发器后，模拟信号转化为0和1的数字信号。但是，当GPIO引脚作为ADC采集电压的输入通道时，用其“模拟输入”功能，此时信号不再经过触发器进行TTL电平转换。ADC外设要采集到的原始的模拟信号。<h3 id="浮空输入模式"><a href="#浮空输入模式" class="headerlink" title="浮空输入模式"></a>浮空输入模式</h3></li>
 </ul>
+<p><img src="浮空输入.png" alt="浮空输入"><br>浮空输入模式下，I/O端口的电平信号直接进入输入数据寄存器。也就是说，I/O的电平状态是不确定的，完全由外部输入决定；如果在该引脚悬空（在无信号输入）的情况下，读取该端口的电平是不确定的。</p>
 <h3 id="上拉输入模式"><a href="#上拉输入模式" class="headerlink" title="上拉输入模式"></a>上拉输入模式</h3><p><img src="C:\primary-project\stm32\学习心得\上拉输入模式.png" alt="上拉输入"><br>上拉输入模式下，I/O端口的电平信号直接进入输入数据寄存器。但是在I/O端口悬空（在无信号输入）的情况下，输入端的电平可以保持在高电平；并且在I/O端口输入为低电平的时候，输入端的电平也还是低电平。</p>
 <h3 id="下拉输入模式"><a href="#下拉输入模式" class="headerlink" title="下拉输入模式"></a>下拉输入模式</h3><p><img src="C:\primary-project\stm32\学习心得\下拉输入模式.png" alt="下拉输入模式"></p>
 <p>下拉输入模式下，I/O端口的电平信号直接进入输入数据寄存器。但是在I/O端口悬空（在无信号输入）的情况下，输入端的电平可以保持在低电平；并且在I/O端口输入为高电平的时候，输入端的电平也还是高电平。</p>
@@ -143,7 +306,7 @@
 </ul>
 <h3 id="IDR"><a href="#IDR" class="headerlink" title="IDR"></a>IDR</h3><p>每一个IO口的状态，只是用了低16位</p>
 <h3 id="ODR"><a href="#ODR" class="headerlink" title="ODR"></a>ODR</h3><p>端口输出数据寄存器</p>
-<h2 id="初始化过程"><a href="#初始化过程" class="headerlink" title="初始化过程"></a>初始化过程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RCC-&gt;APB2ENR|=<span class="number">1</span>&lt;&lt;<span class="number">2</span>; <span class="comment">//使能 PORTA 时钟</span></span><br><span class="line">GPIOA-&gt;CRH&amp;=<span class="number">0XFFFFFFF0</span>; <span class="comment">//清除PA8的配置</span></span><br><span class="line">GPIOA-&gt;CRH|=<span class="number">0X00000003</span>;<span class="comment">//PA8 推挽输出</span></span><br><span class="line">GPIOA-&gt;ODR|=<span class="number">1</span>&lt;&lt;<span class="number">8</span>; <span class="comment">//PA8 输出高</span></span><br></pre></td></tr></table></figure>
+<h2 id="初始化过程"><a href="#初始化过程" class="headerlink" title="初始化过程"></a>初始化过程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">   GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOD, ENABLE); <span class="comment">//使能 PA,PD 端口时钟</span></span><br><span class="line">   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8; <span class="comment">//LED0--&gt;PA.8 端口配置</span></span><br><span class="line">   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; <span class="comment">//推挽输出</span></span><br><span class="line">   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; <span class="comment">//IO 口速度为 50MHz</span></span><br><span class="line">   GPIO_Init(GPIOA, &amp;GPIO_InitStructure); <span class="comment">//初始化 GPIOA.8</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//修改电平的操作</span></span><br><span class="line">   GPIO_SetBits(GPIOA,GPIO_Pin_8); <span class="comment">//PA.8 输出高</span></span><br><span class="line"><span class="comment">// 也可以写作 PAout=1；</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//输入设置</span></span><br><span class="line">   GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA|RCC_APB2Periph_GPIOC, ENABLE);</span><br><span class="line">   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;</span><br><span class="line">   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;</span><br><span class="line">   GPIO_Init(GPIOC, &amp;GPIO_InitStructure);</span><br><span class="line"></span><br><span class="line"><span class="comment">//读取</span></span><br><span class="line">PCin(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
 <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>可以使用位带操作来进行，例如：我要 PORTA 的第七个 IO 口输出 1，则可以使用 <code>PAout(6)=1;</code>即可实现。我要判断 PORTA 的第 15 个位是否等于 1，则可以使用<code>if(Pain(14)==1)</code>就可以了。位带操作其实读写IDR和ODR的简便写法。</p>
 <hr>
 <h1 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h1><p>本文为CSDN博主「Yngz_Miao」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38410730/article/details/79858906">https://blog.csdn.net/qq_38410730/article/details/79858906</a></p>
@@ -151,7 +314,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/23/002-GPIO/" data-id="ckmm8s1zk0000to3d1229a3ml" data-title="stm32_GPIO" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/23/002-GPIO/" data-id="ckmsxdddd0003jk3dbnox2ye8" data-title="stm32_GPIO" class="article-share-link">Share</a>
       
       
       
@@ -203,7 +366,7 @@
 <h2 id="2-Manage-Include-amp-Define"><a href="#2-Manage-Include-amp-Define" class="headerlink" title="2. Manage Include &amp; Define"></a>2. Manage Include &amp; Define</h2><p>Click <code>Project | Options for Target &#39;&lt;target_name&gt;&#39;...</code></p>
 <p>Switch to <code>C/C++</code> tab</p>
 <p>Add following string to <code>Define</code> of <code>Preprocessor Symbols</code>  </p>
-<h2 id="gt-STM32F10X-HD-USE-STDPERIPH-DRIVER"><a href="#gt-STM32F10X-HD-USE-STDPERIPH-DRIVER" class="headerlink" title="&gt;STM32F10X_HD, USE_STDPERIPH_DRIVER"></a>&gt;<code>STM32F10X_HD, USE_STDPERIPH_DRIVER</code></h2><h2 id="3-Configure-crystal-Oscillator"><a href="#3-Configure-crystal-Oscillator" class="headerlink" title="3. Configure crystal Oscillator"></a>3. Configure crystal Oscillator</h2><p>Switch to <code>Target</code> tab of the previous window  </p>
+<h2 id="gt-STM32F10X-HD-USE-STDPERIPH-DRIVER"><a href="#gt-STM32F10X-HD-USE-STDPERIPH-DRIVER" class="headerlink" title="&gt;STM32F10X_HD, USE_STDPERIPH_DRIVER"></a>&gt;STM32F10X_HD, USE_STDPERIPH_DRIVER</h2><h2 id="3-Configure-crystal-Oscillator"><a href="#3-Configure-crystal-Oscillator" class="headerlink" title="3. Configure crystal Oscillator"></a>3. Configure crystal Oscillator</h2><p>Switch to <code>Target</code> tab of the previous window  </p>
 <p>Change the value in <code>Xtal (MHz):</code> textbox to <code>8.0</code>  </p>
 <hr>
 <h2 id="4-upload-the-program"><a href="#4-upload-the-program" class="headerlink" title="4.upload the program"></a>4.upload the program</h2><h3 id="a-To-use-J-Link"><a href="#a-To-use-J-Link" class="headerlink" title="a. To use J-Link:"></a>a. To use J-Link:</h3><p>Switch to <code>Debug</code> tab of the previous window  </p>
@@ -214,11 +377,80 @@
 <h3 id="b-To-be-able-to-download-hex-through-serial-port"><a href="#b-To-be-able-to-download-hex-through-serial-port" class="headerlink" title="b. To be able to download hex through serial port:"></a>b. To be able to download hex through serial port:</h3><p>Switch to <code>Output</code> tab of the previous window  </p>
 <p>Check <code>Create HEX File</code> checkbox  </p>
 <p>project-manage-runtime environment</p>
+<h2 id="For-myself-I-would-like-to-do-these-extra-things"><a href="#For-myself-I-would-like-to-do-these-extra-things" class="headerlink" title="#.For myself ,I would like to do these extra things."></a>#.For myself ,I would like to do these extra things.</h2><h3 id="a-Add-mylib"><a href="#a-Add-mylib" class="headerlink" title="a. Add mylib"></a>a. Add mylib</h3><p>copy the <code>mylib</code> directory to the workspace.</p>
+<p>add <code>mylib.c</code> to a group.</p>
+<p>add the <code>mylib</code> directory to the including path.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/" data-id="ckmm8s1zo0001to3d5qpehz6z" data-title="new project" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/" data-id="ckmsxddd70000jk3d72l7f353" data-title="new project" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-000-STM32F103RCT6单片机概况" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/15/000-STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/" class="article-date">
+  <time class="dt-published" datetime="2021-03-14T16:00:00.000Z" itemprop="datePublished">2021-03-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/15/000-STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">STM32F103RCT62单片机概况</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="STM32F103RCT6单片机概况"><a href="#STM32F103RCT6单片机概况" class="headerlink" title="STM32F103RCT6单片机概况"></a>STM32F103RCT6单片机概况</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="芯片"><a href="#芯片" class="headerlink" title="芯片"></a>芯片</h3><p>STM32F103RCT6</p>
+<h3 id="常用外设"><a href="#常用外设" class="headerlink" title="常用外设"></a>常用外设</h3><ul>
+<li>LED0 PA8</li>
+<li>LED1 PD1</li>
+<li>KEY0 PC1 按下为低电平</li>
+<li>KEY1 PC13 按下为低电平</li>
+<li>WK_UP PA0 按下为高电平<h3 id="系统资源"><a href="#系统资源" class="headerlink" title="系统资源"></a>系统资源</h3></li>
+<li>48KB SRAM(Static Random-Access Memory，SRAM)</li>
+<li>256KB Flash</li>
+<li>两个基本定时器，四个通用定时器，两个高级定时器</li>
+<li>两个DMA控制器，共计12个通道</li>
+<li>三个SPI</li>
+<li>两个I2C</li>
+<li>五个串口</li>
+<li>一个USB</li>
+<li>一个CAN</li>
+<li>三个12位ADC</li>
+<li>1个12位DAC</li>
+<li>1个SDIO接口</li>
+<li>51个通用IO口<h3 id="常见术语"><a href="#常见术语" class="headerlink" title="常见术语"></a>常见术语</h3></li>
+<li>JTAG (Joint Test Action Group，联合测试工作组)是一种国际标准测试协议，主要用于芯片内部测试，现在的多数高级器件都支持JTAG协议，如DSP，FPGA等，标准的JTAG是4线：TMS，TCK，TDI，TDO，分别为模式选择，时钟，数据输入和数据输出线。</li>
+<li>SWD (Serial Wire Debug),SWD 模式比 JTAG 在高速模式下面更加可靠。 在大数据量的情况下面 JTAG 下载程序会失败, 但是 SWD 发生的几率会小很多。基本使用 JTAG 仿真模式的情况下是可以直接使用 SWD 模式的, 只要你的仿真器支持。 所以推荐大家使用这个模式。<h3 id="文件夹结构"><a href="#文件夹结构" class="headerlink" title="文件夹结构"></a>文件夹结构</h3></li>
+<li><strong>USER</strong> 主要存放的是用户代码。<code>system_stm32f10x.c</code>里面存放的是系统时钟初始化函数的相关定义，用户不需修改，<code>stm32f10_it.c</code>存放的是部分中断服务函数。<code>main.c</code>存放的是主函数。</li>
+<li><strong>HARDWARE</strong> 存放的是每个实验的外设驱动代码。他的实现是 通过调用FWLib下面的固件库文件，比如led.c里面调用的<code>stm32f10x_gpio.c</code>里面的函数对led进行初始化。</li>
+<li><strong>SYSTEM</strong> 是一些延时函数，位带操作，串口打印代码等。SYSTEM 文件夹下包含了 <code>delay</code>、<code>sys</code>、<code>usart</code> 等三个文件夹。分别包含了 <code>delay.c</code>、<code>sys.c</code>、<code>usart.c</code> 及其头文件 <code>delay.h</code>,<code>sys.h</code>,<code>usart.h</code>。</li>
+</ul>
+<h1 id="记住：main-函数后面一定要有一个死循环！！"><a href="#记住：main-函数后面一定要有一个死循环！！" class="headerlink" title="记住：main()函数后面一定要有一个死循环！！"></a>记住：main()函数后面一定要有一个死循环！！</h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/15/000-STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/" data-id="ckmsxdddg0008jk3d5g0waqo8" data-title="STM32F103RCT62单片机概况" class="article-share-link">Share</a>
       
       
       
@@ -283,7 +515,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/15/STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/" data-id="ckmm8s2060012to3d3zbdbyai" data-title="STM32F103RCT62单片机概况" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/15/STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/" data-id="ckmsxdddv0018jk3d73u1hnbt" data-title="STM32F103RCT62单片机概况" class="article-share-link">Share</a>
       
       
       
@@ -336,7 +568,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/07/permutation/" data-id="ckmm8s20c001nto3dgn2s9xbc" data-title="generate permutation" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/07/permutation/" data-id="ckmsxdde1001qjk3dappaeacv" data-title="generate permutation" class="article-share-link">Share</a>
       
       
       
@@ -393,7 +625,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/" data-id="ckmm8s20k0024to3d0hqfeqyl" data-title="休眠模块" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/" data-id="ckmsxdde40022jk3dfo3vhewu" data-title="休眠模块" class="article-share-link">Share</a>
       
       
       
@@ -433,177 +665,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/02/1-Wire_Master/" data-id="ckmm8s1zs0004to3daeung2uy" data-title="1-Wire_Master" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-ESP8266" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/03/01/ESP8266/" class="article-date">
-  <time class="dt-published" datetime="2021-02-28T16:00:00.000Z" itemprop="datePublished">2021-03-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/03/01/ESP8266/">esp8266</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="esp8266"><a href="#esp8266" class="headerlink" title="esp8266"></a>esp8266</h1><h2 id="esp8266的三种工作模式"><a href="#esp8266的三种工作模式" class="headerlink" title="esp8266的三种工作模式"></a>esp8266的三种工作模式</h2><ol>
-<li>station 客户端模式，类似手机，小爱音箱等设备(client)</li>
-<li>AP 接入点模式：类似于路由器(server),可以让其他设备访问</li>
-<li>station+AP （客户端+接入点模式）<br><em>注意，配置esp8266的AT指令时每条指令后面都要加上回车再发送</em><h2 id="Station模式"><a href="#Station模式" class="headerlink" title="Station模式"></a>Station模式</h2></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/01/ESP8266/" data-id="ckmm8s1zy000gto3dgihm8l7x" data-title="esp8266" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-bottom" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/03/01/bottom/" class="article-date">
-  <time class="dt-published" datetime="2021-02-28T16:00:00.000Z" itemprop="datePublished">2021-03-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/03/01/bottom/">bottom</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="bottom"><a href="#bottom" class="headerlink" title="bottom"></a>bottom</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> detection_queue[<span class="number">110</span>];</span><br><span class="line"><span class="keyword">int</span> detection_index=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">bool</span> state=<span class="literal">false</span>;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> duration[<span class="number">110</span>];</span><br><span class="line"><span class="keyword">int</span> message_index=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> tick=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> threshold=<span class="number">12</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">WTimer1AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> ulstatus = TimerIntStatus(WTIMER1_BASE,TIMER_TIMA_TIMEOUT);</span><br><span class="line">    TimerIntClear(WTIMER1_BASE, ulstatus);</span><br><span class="line">    <span class="keyword">int</span> ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//检测</span></span><br><span class="line">    <span class="keyword">int</span> flag=((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4);</span><br><span class="line">    detection_queue[detection_index]=flag;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>,sum=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;=threshold;i++)sum+=(<span class="keyword">int</span>)detection_queue[detection_index-i];</span><br><span class="line">    <span class="keyword">if</span>(tick&gt;threshold)&#123;</span><br><span class="line">        <span class="keyword">if</span>(sum==threshold&amp;&amp;state==<span class="literal">false</span>)&#123;</span><br><span class="line">            state=<span class="literal">true</span>;</span><br><span class="line">            duration[message_index]=tick;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(sum==<span class="number">0</span>&amp;&amp;state==<span class="literal">true</span>)&#123;</span><br><span class="line">            state=<span class="literal">false</span>;</span><br><span class="line">            duration[message_index]=tick-duration[message_index];</span><br><span class="line">            UARTprintf(<span class="string">&quot;bottom up. message index is %d\nduration:%d\n&quot;</span>,message_index,duration[message_index]);</span><br><span class="line">            message_index++;</span><br><span class="line">            message_index%=<span class="number">110</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    tick++;</span><br><span class="line">    detection_index++;</span><br><span class="line">    detection_index%=<span class="number">110</span>;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Configurebottom</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ROM_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    GPIODirModeSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_DIR_MODE_IN);</span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_WTIMER1);</span><br><span class="line">    TimerConfigure(WTIMER1_BASE,TIMER_CFG_PERIODIC);</span><br><span class="line">    TimerLoadSet64(WTIMER1_BASE, clock/<span class="number">500</span>);</span><br><span class="line">    TimerIntRegister(WTIMER1_BASE, TIMER_A, WTimer1AIntHandler);</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(WTIMER1_BASE, TIMER_TIMA_TIMEOUT);</span><br><span class="line">    IntEnable(INT_WTIMER1A);</span><br><span class="line">    TimerEnable(WTIMER1_BASE, TIMER_A);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Configurebottom();</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/01/bottom/" data-id="ckmm8s209001ato3d9nsj1hon" data-title="bottom" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-通用定时器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/" class="article-date">
-  <time class="dt-published" datetime="2021-02-27T16:00:00.000Z" itemprop="datePublished">2021-02-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/">通用定时器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="通用定时器"><a href="#通用定时器" class="headerlink" title="通用定时器"></a>通用定时器</h1><h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p><img src="定时器功能.png" alt="timer"></p>
-<h3 id="引脚"><a href="#引脚" class="headerlink" title="引脚"></a>引脚</h3><p><img src="通用定时器引脚.jpg" alt="pin"></p>
-<h2 id="二、使用简介"><a href="#二、使用简介" class="headerlink" title="二、使用简介"></a>二、使用简介</h2><h3 id="1、定时器模式"><a href="#1、定时器模式" class="headerlink" title="1、定时器模式"></a>1、定时器模式</h3><p>这里有单次运行和连续运行模式。该单片机要想使用实时时钟模式，就要在ccp的偶数管引脚上接入一个32768hz的输入信号，所以这里不介绍RTC模式。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">WTimer0AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> ulstatus = TimerIntStatus(WTIMER0_BASE,TIMER_TIMA_TIMEOUT);</span><br><span class="line">    TimerIntClear(WTIMER0_BASE, ulstatus);</span><br><span class="line">    UARTprintf(<span class="string">&quot;hello ,this is the WTIMER!\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigureWTIMER</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_WTIMER0);</span><br><span class="line">    <span class="comment">//单次计时</span></span><br><span class="line">    TimerConfigure(WTIMER0_BASE,TIMER_CFG_ONE_SHOT);</span><br><span class="line">    <span class="comment">//周期计时</span></span><br><span class="line">    <span class="comment">//TimerConfigure(WTIMER0_BASE,TIMER_CFG_PERIODIC);</span></span><br><span class="line">    <span class="comment">//预设值设定</span></span><br><span class="line">    TimerLoadSet64(WTIMER0_BASE, clock*<span class="number">2</span>);</span><br><span class="line">    TimerIntRegister(WTIMER0_BASE, TIMER_A, WTimer0AIntHandler);</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(WTIMER0_BASE, TIMER_TIMA_TIMEOUT);</span><br><span class="line">    IntEnable(INT_WTIMER0A);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//##############</span></span><br><span class="line"><span class="comment">//启动时钟</span></span><br><span class="line"><span class="comment">//##############</span></span><br><span class="line">TimerEnable(WTIMER0_BASE, TIMER_A);</span><br><span class="line"><span class="comment">//##############</span></span><br><span class="line"><span class="comment">//计数值读取</span></span><br><span class="line"><span class="comment">//##############</span></span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> timer_val = TimerValueGet64(WTIMER0_BASE);</span><br></pre></td></tr></table></figure></p>
-<h3 id="捕捉模式"><a href="#捕捉模式" class="headerlink" title="捕捉模式"></a>捕捉模式</h3><h4 id="边沿计时模式"><a href="#边沿计时模式" class="headerlink" title="边沿计时模式"></a>边沿计时模式</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Timer2AIntHandler</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> s=TimerIntStatus(TIMER2_BASE,TIMER_CAPA_EVENT);</span><br><span class="line">    TimerIntClear(TIMER2_BASE,s);</span><br><span class="line">    UARTprintf(<span class="string">&quot;Captured Value: 0x%04X\n&quot;</span>, TimerValueGet(TIMER2_BASE, TIMER_A));</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ConfigureTIMERCCP</span><span class="params">()</span></span>&#123;</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);</span><br><span class="line">    GPIOPinConfigure(GPIO_PF4_T2CCP0);</span><br><span class="line">    GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">    TimerConfigure(TIMER2_BASE, TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_CAP_TIME_UP);</span><br><span class="line">    TimerControlEvent(TIMER2_BASE, TIMER_A, TIMER_EVENT_NEG_EDGE);</span><br><span class="line">    TimerLoadSet(TIMER2_BASE, TIMER_A, <span class="number">0x8FFF</span>);</span><br><span class="line">    TimerIntRegister(TIMER2_BASE, TIMER_A, Timer2AIntHandler);</span><br><span class="line">    IntMasterEnable();</span><br><span class="line">    TimerIntEnable(TIMER2_BASE, TIMER_CAPA_EVENT);</span><br><span class="line">    IntEnable(INT_TIMER2A);</span><br><span class="line">    TimerEnable(TIMER2_BASE,TIMER_A);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="PWM模式"><a href="#PWM模式" class="headerlink" title="PWM模式"></a>PWM模式</h3><p>优先使用集成的PWM</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/" data-id="ckmm8s20j0022to3da7y68t4l" data-title="通用定时器" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-max30102 stm32代码" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/" class="article-date">
-  <time class="dt-published" datetime="2021-02-26T16:00:00.000Z" itemprop="datePublished">2021-02-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/">max30102 stm32代码</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="max30102-stm32代码"><a href="#max30102-stm32代码" class="headerlink" title="max30102 stm32代码"></a>max30102 stm32代码</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;stm32f10x.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;usart.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;ultrasonic.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;stm32f10x_gpio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;stm32f10x_i2c.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;delay.h&quot;</span><span class="comment">//延时函数</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;bsp_i2c_gpio.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*************************************************</span></span><br><span class="line"><span class="comment">函数: fputc(int ch, FILE *f)</span></span><br><span class="line"><span class="comment">功能: 重定向c库函数printf到USART1</span></span><br><span class="line"><span class="comment">参数: 无</span></span><br><span class="line"><span class="comment">返回: 无</span></span><br><span class="line"><span class="comment">**************************************************/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fputc</span><span class="params">(<span class="keyword">int</span> ch, FILE *f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        USART_SendData(USART1, (<span class="keyword">unsigned</span> <span class="keyword">char</span>) ch);</span><br><span class="line">        <span class="keyword">while</span> (!(USART1-&gt;SR &amp; USART_FLAG_TXE));</span><br><span class="line">        <span class="keyword">return</span> (ch);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*************************************************</span></span><br><span class="line"><span class="comment">函数: void main_init(void)</span></span><br><span class="line"><span class="comment">功能: main初始化</span></span><br><span class="line"><span class="comment">参数: 无</span></span><br><span class="line"><span class="comment">返回: 无</span></span><br><span class="line"><span class="comment">**************************************************/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main_init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        Usart_Init();</span><br><span class="line">        <span class="comment">//I2C1_GPIO_Config();</span></span><br><span class="line">        <span class="comment">//I2C1_Mode_config();</span></span><br><span class="line">        <span class="comment">//I2C1_Configuration();</span></span><br><span class="line">        bsp_InitI2C();</span><br><span class="line">        delay_init(<span class="number">72</span>);            <span class="comment">//延时初始化</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">extern</span> u8 <span class="title">max30102_Bus_Read</span><span class="params">(u8 Register_Address)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">max30102_init</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*************************************************</span></span><br><span class="line"><span class="comment">函数: int main(void)</span></span><br><span class="line"><span class="comment">功能: main主函数</span></span><br><span class="line"><span class="comment">参数: 无</span></span><br><span class="line"><span class="comment">返回: 无</span></span><br><span class="line"><span class="comment">**************************************************/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        u8 temp_num=<span class="number">0</span>;</span><br><span class="line">        main_init();</span><br><span class="line">        </span><br><span class="line">        max30102_init();</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\r\n MAX30102  init  \r\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                delay_ms(<span class="number">1000</span>);            </span><br><span class="line">                max30102_init();</span><br><span class="line">                temp_num = max30102_Bus_Read(<span class="number">0x1f</span>);</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;当前温度 = %d\r\n&quot;</span>,temp_num);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> max30102_WR_address 0xAE</span></span><br><span class="line"></span><br><span class="line"><span class="function">u8 <span class="title">max30102_Bus_Write</span><span class="params">(u8 Register_Address, u8 Word_Data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 采用串行EEPROM随机读取指令序列，连续读取若干字节 */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第1步：发起I2C总线启动信号 */</span></span><br><span class="line">        i2c_Start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第2步：发起控制字节，高7bit是地址，bit0是读写控制位，0表示写，1表示读 */</span></span><br><span class="line">        i2c_SendByte(max30102_WR_address | I2C_WR);        <span class="comment">/* 此处是写指令 */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第3步：发送ACK */</span></span><br><span class="line">        <span class="keyword">if</span> (i2c_WaitAck() != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">goto</span> cmd_fail;        <span class="comment">/* EEPROM器件无应答 */</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第4步：发送字节地址 */</span></span><br><span class="line">        i2c_SendByte(Register_Address);</span><br><span class="line">        <span class="keyword">if</span> (i2c_WaitAck() != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">goto</span> cmd_fail;        <span class="comment">/* EEPROM器件无应答 */</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">/* 第5步：开始写入数据 */</span></span><br><span class="line">        i2c_SendByte(Word_Data);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第6步：发送ACK */</span></span><br><span class="line">        <span class="keyword">if</span> (i2c_WaitAck() != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">goto</span> cmd_fail;        <span class="comment">/* EEPROM器件无应答 */</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 发送I2C总线停止信号 */</span></span><br><span class="line">        i2c_Stop();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;        <span class="comment">/* 执行成功 */</span></span><br><span class="line"></span><br><span class="line">cmd_fail: <span class="comment">/* 命令执行失败后，切记发送停止信号，避免影响I2C总线上其他设备 */</span></span><br><span class="line">        <span class="comment">/* 发送I2C总线停止信号 */</span></span><br><span class="line">        i2c_Stop();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">u8 <span class="title">max30102_Bus_Read</span><span class="params">(u8 Register_Address)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        u8  data;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第1步：发起I2C总线启动信号 */</span></span><br><span class="line">        i2c_Start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第2步：发起控制字节，高7bit是地址，bit0是读写控制位，0表示写，1表示读 */</span></span><br><span class="line">        i2c_SendByte(max30102_WR_address | I2C_WR);        <span class="comment">/* 此处是写指令 */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第3步：发送ACK */</span></span><br><span class="line">        <span class="keyword">if</span> (i2c_WaitAck() != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">goto</span> cmd_fail;        <span class="comment">/* EEPROM器件无应答 */</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第4步：发送字节地址， */</span></span><br><span class="line">        i2c_SendByte((<span class="keyword">uint8_t</span>)Register_Address);</span><br><span class="line">        <span class="keyword">if</span> (i2c_WaitAck() != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">goto</span> cmd_fail;        <span class="comment">/* EEPROM器件无应答 */</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第6步：重新启动I2C总线。下面开始读取数据 */</span></span><br><span class="line">        i2c_Start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第7步：发起控制字节，高7bit是地址，bit0是读写控制位，0表示写，1表示读 */</span></span><br><span class="line">        i2c_SendByte(max30102_WR_address | I2C_RD);        <span class="comment">/* 此处是读指令 */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第8步：发送ACK */</span></span><br><span class="line">        <span class="keyword">if</span> (i2c_WaitAck() != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">goto</span> cmd_fail;        <span class="comment">/* EEPROM器件无应答 */</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第9步：读取数据 */</span></span><br><span class="line">        &#123;</span><br><span class="line">                data = i2c_ReadByte();        <span class="comment">/* 读1个字节 */</span></span><br><span class="line"></span><br><span class="line">                i2c_NAck();        <span class="comment">/* 最后1个字节读完后，CPU产生NACK信号(驱动SDA = 1) */</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/* 发送I2C总线停止信号 */</span></span><br><span class="line">        i2c_Stop();</span><br><span class="line">        <span class="keyword">return</span> data;        <span class="comment">/* 执行成功 返回data值 */</span></span><br><span class="line"></span><br><span class="line">cmd_fail: <span class="comment">/* 命令执行失败后，切记发送停止信号，避免影响I2C总线上其他设备 */</span></span><br><span class="line">        <span class="comment">/* 发送I2C总线停止信号 */</span></span><br><span class="line">        i2c_Stop();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">max30102_FIFO_Read</span><span class="params">(u8 Register_Address,u16  Word_Data[][<span class="number">2</span>],u8 count)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        u8 i=<span class="number">0</span>;</span><br><span class="line">        u8 no = count;</span><br><span class="line">        u8 data1, data2;</span><br><span class="line">        <span class="comment">/* 第1步：发起I2C总线启动信号 */</span></span><br><span class="line">        i2c_Start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第2步：发起控制字节，高7bit是地址，bit0是读写控制位，0表示写，1表示读 */</span></span><br><span class="line">        i2c_SendByte(max30102_WR_address | I2C_WR);        <span class="comment">/* 此处是写指令 */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第3步：发送ACK */</span></span><br><span class="line">        <span class="keyword">if</span> (i2c_WaitAck() != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">goto</span> cmd_fail;        <span class="comment">/* EEPROM器件无应答 */</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第4步：发送字节地址， */</span></span><br><span class="line">        i2c_SendByte((<span class="keyword">uint8_t</span>)Register_Address);</span><br><span class="line">        <span class="keyword">if</span> (i2c_WaitAck() != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">goto</span> cmd_fail;        <span class="comment">/* EEPROM器件无应答 */</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第6步：重新启动I2C总线。下面开始读取数据 */</span></span><br><span class="line">        i2c_Start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第7步：发起控制字节，高7bit是地址，bit0是读写控制位，0表示写，1表示读 */</span></span><br><span class="line">        i2c_SendByte(max30102_WR_address | I2C_RD);        <span class="comment">/* 此处是读指令 */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第8步：发送ACK */</span></span><br><span class="line">        <span class="keyword">if</span> (i2c_WaitAck() != <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">goto</span> cmd_fail;        <span class="comment">/* EEPROM器件无应答 */</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 第9步：读取数据 */</span></span><br><span class="line">        <span class="keyword">while</span> (no)</span><br><span class="line">        &#123;</span><br><span class="line">                data1 = i2c_ReadByte();        </span><br><span class="line">                i2c_Ack();</span><br><span class="line">                data2 = i2c_ReadByte();</span><br><span class="line">                i2c_Ack();</span><br><span class="line">                Word_Data[i][<span class="number">0</span>] = (((u16)data1 &lt;&lt; <span class="number">8</span>) | data2);  <span class="comment">//</span></span><br><span class="line"></span><br><span class="line">               </span><br><span class="line">                data1 = i2c_ReadByte();        </span><br><span class="line">                i2c_Ack();</span><br><span class="line">                data2 = i2c_ReadByte();</span><br><span class="line">                <span class="keyword">if</span>(<span class="number">1</span>==no)</span><br><span class="line">                        i2c_NAck();        <span class="comment">/* 最后1个字节读完后，CPU产生NACK信号(驱动SDA = 1) */</span></span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                        i2c_Ack();</span><br><span class="line">                Word_Data[i][<span class="number">1</span>] = (((u16)data1 &lt;&lt; <span class="number">8</span>) | data2);</span><br><span class="line"></span><br><span class="line">                no--;        </span><br><span class="line">                i++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/* 发送I2C总线停止信号 */</span></span><br><span class="line">        i2c_Stop();</span><br><span class="line"></span><br><span class="line">cmd_fail: <span class="comment">/* 命令执行失败后，切记发送停止信号，避免影响I2C总线上其他设备 */</span></span><br><span class="line">        <span class="comment">/* 发送I2C总线停止信号 */</span></span><br><span class="line">        i2c_Stop();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INTERRUPT_REG 0X00</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">max30102_init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        </span><br><span class="line">        max30102_Bus_Write(<span class="number">0x09</span>, <span class="number">0x0b</span>);  <span class="comment">//mode configuration : temp_en[3]      MODE[2:0]=010 HR only enabled    011 SP02 enabled</span></span><br><span class="line">        max30102_Bus_Write(<span class="number">0x01</span>, <span class="number">0xF0</span>); <span class="comment">//open all of interrupt</span></span><br><span class="line">        max30102_Bus_Write(INTERRUPT_REG, <span class="number">0x00</span>); <span class="comment">//all interrupt clear</span></span><br><span class="line">        max30102_Bus_Write(<span class="number">0x03</span>, <span class="number">0x02</span>); <span class="comment">//DIE_TEMP_RDY_EN</span></span><br><span class="line">        max30102_Bus_Write(<span class="number">0x21</span>, <span class="number">0x01</span>); <span class="comment">//SET   TEMP_EN</span></span><br><span class="line"></span><br><span class="line">        max30102_Bus_Write(<span class="number">0x0a</span>, <span class="number">0x47</span>); <span class="comment">//SPO2_SR[4:2]=001  100 per second    LED_PW[1:0]=11  16BITS</span></span><br><span class="line"></span><br><span class="line">        max30102_Bus_Write(<span class="number">0x0c</span>, <span class="number">0x47</span>);</span><br><span class="line">        max30102_Bus_Write(<span class="number">0x0d</span>, <span class="number">0x47</span>);</span><br><span class="line">                                                                                       </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/" data-id="ckmm8s20b001ito3daun36l17" data-title="max30102 stm32代码" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/02/1-Wire_Master/" data-id="ckmsxdddk000fjk3d5t6ge3l1" data-title="1-Wire_Master" class="article-share-link">Share</a>
       
       
       
@@ -621,7 +683,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -667,23 +729,23 @@
       <ul>
         
           <li>
+            <a href="/2021/03/28/999-project/">stm32_template</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/27/004-USART/">stm32_USART</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/26/003-systick/">stm32-systick</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/23/002-GPIO/">stm32_GPIO</a>
           </li>
         
           <li>
             <a href="/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/">new project</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/15/STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">STM32F103RCT62单片机概况</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/07/permutation/">generate permutation</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/">休眠模块</a>
           </li>
         
       </ul>
