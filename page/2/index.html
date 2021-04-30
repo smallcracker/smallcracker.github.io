@@ -75,6 +75,46 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-1-Wire_Master" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/02/1-Wire_Master/" class="article-date">
+  <time class="dt-published" datetime="2021-03-01T16:00:00.000Z" itemprop="datePublished">2021-03-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/02/1-Wire_Master/">1-Wire_Master</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h1 id="例程"><a href="#例程" class="headerlink" title="例程"></a>例程</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_ONEWIRE0);</span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_ONEWIRE0))&#123;&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Initialize the module to use standard speed and read distance.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">OneWireInit(ONEWIRE0_BASE, (ONEWIRE_INIT_READ_STD | ONEWIRE_INIT_SPD_STD));</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Clear any pending interrupts.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">OneWireIntClear(ONEWIRE0_BASE, (ONEWIRE_INT_STUCK | ONEWIRE_INT_NO_SLAVE |ONEWIRE_INT_RESET_DONE |ONEWIRE_INT_OP_DONE));</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the interrupts for operation done and the stuck bus error</span></span><br><span class="line"><span class="comment">// condition.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">OneWireIntEnable(ONEWIRE0_BASE, (ONEWIRE_INT_OP_DONE |</span><br><span class="line">ONEWIRE_INT_BUS_STUCK));</span><br><span class="line">IntEnable(INT_ONEWIRE0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Setup a four byte sequence and a bit count.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">ulData = ((<span class="number">0x01</span> &lt;&lt; <span class="number">24</span>) | (<span class="number">0x12</span> &lt;&lt; <span class="number">16</span>) | (<span class="number">0x10</span> &lt;&lt; <span class="number">8</span>) | <span class="number">0xcc</span>;</span><br><span class="line">ulBitCount = <span class="keyword">sizeof</span>(ulData) * <span class="number">8</span>;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Initiate a Reset and Write operation on the 1-Wire bus.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">OneWireTransaction(ONEWIRE0_BASE, (ONEWIRE_OP_RESET | ONEWIRE_OP_WRITE),ulData, ulBitCount);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/02/1-Wire_Master/" data-id="cko4hr647000arw0kgu62dno2" data-title="1-Wire_Master" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-ESP8266" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/03/01/ESP8266/" class="article-date">
@@ -106,7 +146,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/01/ESP8266/" data-id="ckmsxdddo000pjk3dd2bidi72" data-title="esp8266" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/01/ESP8266/" data-id="cko4hr64h000qrw0kf6jne74y" data-title="esp8266" class="article-share-link">Share</a>
       
       
       
@@ -146,7 +186,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/01/bottom/" data-id="ckmsxdddy001kjk3dezgk4wbe" data-title="bottom" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/01/bottom/" data-id="cko4hr651001orw0k6gf46rn6" data-title="bottom" class="article-share-link">Share</a>
       
       
       
@@ -191,7 +231,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/" data-id="ckmsxdde9002cjk3d0dvr9r61" data-title="通用定时器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/" data-id="cko4hr65g002erw0k8jg90tdo" data-title="通用定时器" class="article-share-link">Share</a>
       
       
       
@@ -231,7 +271,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/" data-id="ckmsxdde2001tjk3dhfpk6u4d" data-title="max30102 stm32代码" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/" data-id="cko4hr654001vrw0kdpqw3rx3" data-title="max30102 stm32代码" class="article-share-link">Share</a>
       
       
       
@@ -348,7 +388,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/27/tasks/" data-id="ckmsxdde3001xjk3d344t0al5" data-title="tasks" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/27/tasks/" data-id="cko4hr6570022rw0k9hho23vc" data-title="tasks" class="article-share-link">Share</a>
       
       
       
@@ -440,7 +480,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/26/IIC/" data-id="ckmsxdddr0011jk3d1qkxftyx" data-title="IIC" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/26/IIC/" data-id="cko4hr64n0014rw0kdbn8cjig" data-title="IIC" class="article-share-link">Share</a>
       
       
       
@@ -481,7 +521,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/24/sg90/" data-id="ckmsxdde2001vjk3dhk1u61vf" data-title="sg90操作" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/02/24/sg90/" data-id="cko4hr65f002crw0k6x8u1ylw" data-title="sg90操作" class="article-share-link">Share</a>
       
       
       
@@ -532,7 +572,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" data-id="ckmsxdddm000ljk3da1564b20" data-title="DHT11温湿度传感器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/" data-id="cko4hr64f000orw0k7wxk0srl" data-title="DHT11温湿度传感器" class="article-share-link">Share</a>
       
       
       
@@ -601,69 +641,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/Analog%20Comparator/" data-id="ckmsxdddk000hjk3degqxdi3d" data-title="Analog Comparator" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Analog Comparator（待完成）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" class="article-date">
-  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">Analog Comparator</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Analog-Comparator"><a href="#Analog-Comparator" class="headerlink" title="Analog Comparator"></a>Analog Comparator</h1><h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、触发ADC采样。它的中断产生逻辑是独立于ADC触发逻辑的，所以，AC可以基于一个事件产生一个中断，ADC可以基于另一个事件产生触发。比如说，让上升沿触发一次中断，让下降沿触发一次ADC。</p>
-<p>该芯片提供了两个独立的模拟比较器。</p>
-<p><img src="image-20210130173507102.png" alt="照片"><br><img src="image-20210130173536884.png" alt="image-20210130173536884"><br>原理演示图<br><img src="image-20210130173642377.png" alt="image-20210130173642377"><br>它的头文件是driverlib/comp.h</p>
-<h3 id="二、函数介绍"><a href="#二、函数介绍" class="headerlink" title="二、函数介绍"></a>二、函数介绍</h3><p><img src="image-20210130100105290.png" alt="image-20210130100105290"></p>
-<ol>
-<li><code>ComparatorConfigure()</code> 用来配置一个AC模块触发ADC模块的条件、触发中断的条件、和谁比较、正常输出还是反转输出</li>
-<li><code>ComparatorIntClear()</code> 用于清除比较器中断标志，<em>（ 小贴士，因为在Contex-M处理器中写入有缓冲，所以执行函数之后过几个周期中断源才可能真正被清除，所以我们推荐在中断函数的一开始就清除中断标识）</em></li>
-<li><code>ComparatorIntDisable()</code> 失能一个比较器中断</li>
-<li><code>ComparatorIntEnable()</code> 使能一个比较器中断</li>
-<li><code>ComparatorIntRegister()</code> 注册中断函数</li>
-<li><code>ComparatorIntStatus()</code> 获取当前中断状态</li>
-<li><code>ComparatorIntUnregister()</code> 注销一个中断函数</li>
-<li><code>ComparatorRefSet()</code> 设定内部参考电压</li>
-<li><code>ComparatorValueGet()</code> 获取当前比较器输出值，<strong>true</strong>表示比较器输出是高，<strong>false</strong>表示比较器输出是低</li>
-</ol>
-<ul>
-<li>此外还需要用到一些GPIO函数来实现比较器功能<ol>
-<li><code>GPIOPinTypeComparator()</code> 配置引脚用于模拟比较器输入</li>
-<li><code>GPIOPinTypeComparatorOutput()</code> 配置引脚作为模拟比较器输出</li>
-</ol>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" data-id="ckmsxdddn000njk3dcpct9ukv" data-title="Analog Comparator" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/30/Analog%20Comparator/" data-id="cko4hr649000drw0k801ge1m2" data-title="Analog Comparator" class="article-share-link">Share</a>
       
       
       
@@ -695,7 +673,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9A%E4%BF%A1/" rel="tag">通信</a></li></ul>
     </div>
   </div>
 
@@ -705,7 +683,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/stm32/" style="font-size: 15px;">stm32</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a>
+      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/stm32/" style="font-size: 15px;">stm32</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">通信</a>
     </div>
   </div>
 
@@ -714,7 +692,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li></ul>
     </div>
   </div>
 
@@ -725,6 +703,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/04/30/cc2541/">CC2541</a>
+          </li>
         
           <li>
             <a href="/2021/03/28/999-project/">stm32_template</a>
@@ -740,10 +722,6 @@
         
           <li>
             <a href="/2021/03/23/002-GPIO/">stm32_GPIO</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/">new project</a>
           </li>
         
       </ul>

@@ -75,6 +75,70 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-基本GPIO操作" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/">基本GPIO操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>单片机工作前需要使能系统时钟</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAP_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN); </span><br></pre></td></tr></table></figure>
+<p>可以将系统时钟设置到50Mhz;</p>
+<p>时钟的学习参见<a target="_blank" rel="noopener" href="https://blog.csdn.net/wxc971231/article/details/95043609">时钟</a></p>
+<p>接下来使能GPIO接口</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使能F组外设时钟</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br></pre></td></tr></table></figure>
+<p>接下来设置GPIO接口模式</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//表示将F口的3引脚设置为输出</span></span><br><span class="line">GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);</span><br><span class="line"><span class="comment">//如果要设置多个pin的话</span></span><br><span class="line">GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2 | GPIO_PIN_4 | GPIO_PIN_5);</span><br></pre></td></tr></table></figure>
+<p>接下来设置输出</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置</span></span><br><span class="line">GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, <span class="number">0</span>);</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIOPinWrite</span><span class="params">(Port,Pins,which_pin)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>GPIO函数一共有三种</p>
+<ol>
+<li>配置GPIO pins的函数</li>
+<li>处理中断的函数</li>
+<li>获取pins value的函数</li>
+</ol>
+<p>配置３２和TI的方式就是不一样的，３２的GPIO是用结构体进行配置，TI则使用函数来进行配置。</p>
+<p>TI的普通配置只需要进行GPIO外设使能和方向控制即可。也不是说前面说到的功能模式就不能配置了，如果有需要可以进行其他类型的配置。<br>如果要进行端口高低电平的输出控制，３２和TI也是一样的调用函数来进行配置，分别是：<code>GPIO_SetBits(GPIOE,GPIO_Pin_5);</code>　和　<code>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0);</code></p>
+<p>注意：TI的输出高低电平使用的是同一个函数GPIOPinWrite（），对于３２则使用的是两个函数：GPIO_SetBits（）和GPIO_ResetBit（）即可输出高低电平。TI呢，则不是这样的，就连入口参数也不是和３２一样那么简单，GPIOPinWrite（）入口参数就有三个，分别是GPIO_PORTｘ_BASE，GPIO＿PIN＿ｘ，和０（低电平时候为０，但是高电平时候不是１，而是GPIO＿PIN＿ｘ）。例如PF１输出高电平　：<br>GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_PIN_1);</p>
+<p>输入输出的模式一般不用管，但应了解浮空输入 上拉输入 下拉输入 模拟输入 开漏输出 推挽输出 复用推挽输出 复用开漏输出</p>
+<p>附：延时函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SysCtlDelay ( SysCtlClockGet() * 秒数 / <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<p>怎样读入呢？</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//检测</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123; <span class="comment">//如果按下</span></span><br><span class="line"></span><br><span class="line">       </span><br><span class="line">            SysCtlDelay(<span class="number">20</span>*(SysCtlClockGet()/<span class="number">3000</span>));<span class="comment">//消抖</span></span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">            ReadPin1 = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4);<span class="comment">//再次检测</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>((ReadPin1&amp;GPIO_PIN_4) != GPIO_PIN_4) &#123;<span class="comment">//再次判断</span></span><br><span class="line">                KeyPress1 = <span class="literal">true</span>;<span class="comment">//如果按下，则置一个标志位</span></span><br><span class="line"></span><br><span class="line">               </span><br><span class="line">                <span class="keyword">while</span>(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4)) &#123;</span><br><span class="line">                    ;<span class="comment">//等按键松开</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/" data-id="cko4hr65b002arw0k6lx5elms" data-title="基本GPIO操作" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-总体概述" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" class="article-date">
@@ -119,7 +183,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" data-id="ckmsxdde6002ajk3d3ly34roy" data-title="单片机总体概述" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/" data-id="cko4hr65h002grw0kesg58lvh" data-title="单片机总体概述" class="article-share-link">Share</a>
       
       
       
@@ -166,7 +230,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/15/hello-world/" data-id="ckmsxdde0001ojk3d5bqs7pjj" data-title="如何上传博客" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/15/hello-world/" data-id="cko4hr652001qrw0k5p0b99h9" data-title="如何上传博客" class="article-share-link">Share</a>
       
       
       
@@ -198,7 +262,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9A%E4%BF%A1/" rel="tag">通信</a></li></ul>
     </div>
   </div>
 
@@ -208,7 +272,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/stm32/" style="font-size: 15px;">stm32</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a>
+      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/stm32/" style="font-size: 15px;">stm32</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">通信</a>
     </div>
   </div>
 
@@ -217,7 +281,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li></ul>
     </div>
   </div>
 
@@ -228,6 +292,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/04/30/cc2541/">CC2541</a>
+          </li>
         
           <li>
             <a href="/2021/03/28/999-project/">stm32_template</a>
@@ -243,10 +311,6 @@
         
           <li>
             <a href="/2021/03/23/002-GPIO/">stm32_GPIO</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/">new project</a>
           </li>
         
       </ul>

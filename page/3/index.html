@@ -75,6 +75,68 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Analog Comparator（待完成）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2021-01-29T16:00:00.000Z" itemprop="datePublished">2021-01-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">Analog Comparator</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Analog-Comparator"><a href="#Analog-Comparator" class="headerlink" title="Analog Comparator"></a>Analog Comparator</h1><h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、触发ADC采样。它的中断产生逻辑是独立于ADC触发逻辑的，所以，AC可以基于一个事件产生一个中断，ADC可以基于另一个事件产生触发。比如说，让上升沿触发一次中断，让下降沿触发一次ADC。</p>
+<p>该芯片提供了两个独立的模拟比较器。</p>
+<p><img src="image-20210130173507102.png" alt="照片"><br><img src="image-20210130173536884.png" alt="image-20210130173536884"><br>原理演示图<br><img src="image-20210130173642377.png" alt="image-20210130173642377"><br>它的头文件是driverlib/comp.h</p>
+<h3 id="二、函数介绍"><a href="#二、函数介绍" class="headerlink" title="二、函数介绍"></a>二、函数介绍</h3><p><img src="image-20210130100105290.png" alt="image-20210130100105290"></p>
+<ol>
+<li><code>ComparatorConfigure()</code> 用来配置一个AC模块触发ADC模块的条件、触发中断的条件、和谁比较、正常输出还是反转输出</li>
+<li><code>ComparatorIntClear()</code> 用于清除比较器中断标志，<em>（ 小贴士，因为在Contex-M处理器中写入有缓冲，所以执行函数之后过几个周期中断源才可能真正被清除，所以我们推荐在中断函数的一开始就清除中断标识）</em></li>
+<li><code>ComparatorIntDisable()</code> 失能一个比较器中断</li>
+<li><code>ComparatorIntEnable()</code> 使能一个比较器中断</li>
+<li><code>ComparatorIntRegister()</code> 注册中断函数</li>
+<li><code>ComparatorIntStatus()</code> 获取当前中断状态</li>
+<li><code>ComparatorIntUnregister()</code> 注销一个中断函数</li>
+<li><code>ComparatorRefSet()</code> 设定内部参考电压</li>
+<li><code>ComparatorValueGet()</code> 获取当前比较器输出值，<strong>true</strong>表示比较器输出是高，<strong>false</strong>表示比较器输出是低</li>
+</ol>
+<ul>
+<li>此外还需要用到一些GPIO函数来实现比较器功能<ol>
+<li><code>GPIOPinTypeComparator()</code> 配置引脚用于模拟比较器输入</li>
+<li><code>GPIOPinTypeComparatorOutput()</code> 配置引脚作为模拟比较器输出</li>
+</ol>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/" data-id="cko4hr64e000krw0k6gku32ot" data-title="Analog Comparator" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-FPU" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/01/30/FPU/" class="article-date">
@@ -109,7 +171,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/30/FPU/" data-id="ckmsxdddo000rjk3d7ent7q7l" data-title="FPU" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/30/FPU/" data-id="cko4hr64k000wrw0kclkqbd9b" data-title="FPU" class="article-share-link">Share</a>
       
       
       
@@ -162,7 +224,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckmsxdde50024jk3dhlv01j6z" data-title="" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="cko4hr65a0028rw0k8ralazsm" data-title="" class="article-share-link">Share</a>
       
       
       
@@ -221,7 +283,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="ckmsxdddb0001jk3d43713jti" data-title="怎样新建一个项目" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/" data-id="cko4hr6410003rw0kf5lkf5qj" data-title="怎样新建一个项目" class="article-share-link">Share</a>
       
       
       
@@ -270,7 +332,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="ckmsxdddj000djk3d76omczvs" data-title="ADC中断" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/ADC%20interrupt/" data-id="cko4hr64c000irw0k2mja9igk" data-title="ADC中断" class="article-share-link">Share</a>
       
       
       
@@ -347,7 +409,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Analog%20to%20Digital%20Converter/" data-id="ckmsxdddm000jjk3d76r75foy" data-title="ADC简介" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Analog%20to%20Digital%20Converter/" data-id="cko4hr64f000mrw0kgw5k0bn7" data-title="ADC简介" class="article-share-link">Share</a>
       
       
       
@@ -405,98 +467,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO_PWM/" data-id="ckmsxdddp000tjk3dgqvo18k4" data-title="GPIO PWM" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-GPIO_interrupt" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/GPIO_interrupt/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/GPIO_interrupt/">GPIO中断</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="GPIO中断"><a href="#GPIO中断" class="headerlink" title="GPIO中断"></a>GPIO中断</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wxc971231/article/details/95173394">资料来源</a></p>
-<h2 id="一、函数介绍"><a href="#一、函数介绍" class="headerlink" title="一、函数介绍"></a>一、函数介绍</h2><h4 id="（1）void-GPIOIntTypeSet-uint32-t-ui32Port-uint8-t-ui8Pins-uint32-t-ui32IntType"><a href="#（1）void-GPIOIntTypeSet-uint32-t-ui32Port-uint8-t-ui8Pins-uint32-t-ui32IntType" class="headerlink" title="（1）void GPIOIntTypeSet(uint32_t ui32Port, uint8_t ui8Pins,uint32_t ui32IntType)"></a>（1）void GPIOIntTypeSet(uint32_t ui32Port, uint8_t ui8Pins,uint32_t ui32IntType)</h4><ol>
-<li>功能：设置指定引脚的中断触发类型.</li>
-<li>参数:<br>（1）ui32Port： GPIO口的基地址<br>（2）ui8Pins： 多个bit-packed格式表示的引脚<br>（3）ui32IntType： 中断触发类型(有以下类型)</li>
-</ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GPIO_FALLING_EDGE       0x00000000  <span class="comment">// Interrupt on falling edge</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GPIO_RISING_EDGE        0x00000004  <span class="comment">// Interrupt on rising edge</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GPIO_BOTH_EDGES         0x00000001  <span class="comment">// Interrupt on both edges</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GPIO_LOW_LEVEL          0x00000002  <span class="comment">// Interrupt on low level</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GPIO_HIGH_LEVEL         0x00000006  <span class="comment">// Interrupt on high level</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GPIO_DISCRETE_INT       0x00010000  <span class="comment">// Interrupt for individual pin</span></span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>中断触发方式是啥？</p>
-<p>就是怎样触发这个中断</p>
-<p>主要有两种方式</p>
-<p>沿触发和电平触发</p>
-<p>沿触发比如说时钟中断，在被响应并被清除时，就不会触发，</p>
-<p>电平触发比如串口中断，在被响应并清除后，从中断态返回SVC态仍可能会触发中断。</p>
-<p>可能顾名思义就可以吧。。</p>
-</blockquote>
-<h4 id="（2）void-GPIOIntRegister-uint32-t-ui32Port-void-pfnIntHandler-void"><a href="#（2）void-GPIOIntRegister-uint32-t-ui32Port-void-pfnIntHandler-void" class="headerlink" title="（2）void GPIOIntRegister(uint32_t ui32Port, void (*pfnIntHandler)(void))"></a>（2）void GPIOIntRegister(uint32_t ui32Port, void (*pfnIntHandler)(void))</h4><ol>
-<li>功能：注册GPIO中断的中断处理程序</li>
-<li>参数:<br>（1）ui32Port ：GPIO口的基地址<br>（2）pfnIntHandler： 是GPIO中断服务程序入口地址指针。</li>
-<li>说明：<br>（1）不管是什么外设触发的中断，都要<strong>先注册中断服务函数</strong>，告诉程序中断发生时去哪里，类似的函数有<code>SysCtlIntRegister</code>、<code>ADCIntRegister</code>等<br>（2）如果不利用这些中断注册函数，也可以在启动文件中修改中断向量表进行手动注册<br>（3）GPIOIntRegister只能<strong>以GPIO组为单位注册，不能精确到判断哪个引脚发生中断</strong>，因此要在中断服务函数中判断触发中断的引脚，以下为一个示例</li>
-</ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//GPIOF中断服务函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">io_interrupt</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;	</span><br><span class="line">	<span class="comment">//获取中断状态</span></span><br><span class="line">	<span class="keyword">uint32_t</span> s = GPIOIntStatus(GPIO_PORTF_BASE, <span class="literal">true</span>);</span><br><span class="line">	<span class="comment">//如果PF4触发中断</span></span><br><span class="line">			<span class="keyword">if</span>((s&amp;GPIO_PIN_4) == GPIO_PIN_4)</span><br><span class="line">	&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="（3）void-GPIOIntEnable-uint32-t-ui32Port-uint32-t-ui32IntFlags"><a href="#（3）void-GPIOIntEnable-uint32-t-ui32Port-uint32-t-ui32IntFlags" class="headerlink" title="（3）void GPIOIntEnable(uint32_t ui32Port, uint32_t ui32IntFlags)"></a>（3）void GPIOIntEnable(uint32_t ui32Port, uint32_t ui32IntFlags)</h4><ol>
-<li>功能：使能<strong>指定引脚</strong>的中断.</li>
-<li>参数:<br>（1）ui32Port ：GPIO口的基地址<br>（2）ui32IntFlags： 被禁止的中断源中断屏蔽位(指示哪些引脚中断被开启，是以下参数的逻辑或)</li>
-</ol>
-<h4 id="（4）void-IntEnable-uint32-t-ui32Interrupt"><a href="#（4）void-IntEnable-uint32-t-ui32Interrupt" class="headerlink" title="（4）void IntEnable(uint32_t ui32Interrupt)"></a>（4）void IntEnable(uint32_t ui32Interrupt)</h4><ol>
-<li>功能：使能一个中断</li>
-<li>参数:<br>（1）ui32Interrupt 指定的被允许的中断.</li>
-<li>说明：这个函数是<strong>中断控制器级</strong>的中断使能控制</li>
-</ol>
-<h4 id="（5）bool-IntMasterEnable-void"><a href="#（5）bool-IntMasterEnable-void" class="headerlink" title="（5）bool IntMasterEnable(void)"></a>（5）bool IntMasterEnable(void)</h4><ol>
-<li>功能：使能处理器中断.</li>
-<li>参数：无</li>
-<li>说明：<br>（1）这是<strong>处理器级</strong>的中断使能控制，它决定处理器要不要处理中断控制器的请求<br>（2）以上三个函数，从低级到高级对应了中断处理通路的三道“开关”，如下图所示</li>
-<li><img src="https://img-blog.csdnimg.cn/20190709124218959.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d4Yzk3MTIzMQ==,size_16,color_FFFFFF,t_70" alt="20190709124218959.png (767×468) (csdnimg.cn)"></li>
-</ol>
-<h5 id="看来要同时有三个级别的中断使能控制。"><a href="#看来要同时有三个级别的中断使能控制。" class="headerlink" title="看来要同时有三个级别的中断使能控制。"></a>看来要同时有三个级别的中断使能控制。</h5><h4 id="（6）uint32-t-GPIOIntStatus-uint32-t-ui32Port-bool-bMasked"><a href="#（6）uint32-t-GPIOIntStatus-uint32-t-ui32Port-bool-bMasked" class="headerlink" title="（6）uint32_t GPIOIntStatus(uint32_t ui32Port, bool bMasked)"></a>（6）uint32_t GPIOIntStatus(uint32_t ui32Port, bool bMasked)</h4><ol>
-<li>功能：读取指定GPIO口的中断状态</li>
-<li>参数：<br>（1）ui32Port： GPIO口的基地址.<br>（2）bMasked： 指定返回屏蔽的中断状态还是原始的中断状态</li>
-<li>说明： 如果bMasked被设置为真，则函数返回被屏蔽的中断状态，否则返回原始的中断状态。解释一下所谓“<strong>被屏蔽的中断状态</strong>”。在<code>GPIOIntEnable</code>这个函数中，没有写在第二个参数<code>ui32IntFlags</code>中的引脚是被屏蔽的（即<strong>不处理它们的中断事件</strong>）。当bMasked为真时，返回GPIOMIS寄存器值，所有被屏蔽的位都是0，否则返回GPIORIS寄存器值，被屏蔽的位也可能是1（因为虽然不处理这些引脚的中断事件，但它们的输入也可能符合中断特征）</li>
-<li>就是输出都那个口在中断状态。</li>
-</ol>
-<h4 id="（7）void-GPIOIntClear-uint32-t-ui32Port-uint32-t-ui32IntFlags"><a href="#（7）void-GPIOIntClear-uint32-t-ui32Port-uint32-t-ui32IntFlags" class="headerlink" title="（7）void GPIOIntClear(uint32_t ui32Port, uint32_t ui32IntFlags)"></a>（7）void GPIOIntClear(uint32_t ui32Port, uint32_t ui32IntFlags)</h4><ol>
-<li><p>功能：清除指定中断源标志</p>
-</li>
-<li><p>参数:<br>（1）ui32Port ：GPIO口的基地址<br>（2）ui32IntFlags ：被清除的中断源中断屏蔽位</p>
-</li>
-<li><p>发生中断后，对应的中断标志位置1，进入中断服务函数，在服务函数中务必清除中断标志，否则程序将不停地进入中断服务函数</p>
-</li>
-</ol>
-<h2 id="二、例程"><a href="#二、例程" class="headerlink" title="二、例程"></a>二、例程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">GPIO_INT_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">   <span class="comment">//使能GPIO组，这里设置的是F口</span></span><br><span class="line">   SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);</span><br><span class="line">   <span class="comment">//设置某引脚为输入，这里设置的是PF4</span></span><br><span class="line">   GPIODirModeSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_DIR_MODE_IN);</span><br><span class="line">   <span class="comment">//设置为推挽输入</span></span><br><span class="line">   GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);</span><br><span class="line">   <span class="comment">//配置中断类型为沿下降</span></span><br><span class="line">   GPIOIntTypeSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_FALLING_EDGE);</span><br><span class="line">   <span class="comment">//注册中断函数</span></span><br><span class="line">   GPIOIntRegister(GPIO_PORTF_BASE, io_interrupt);</span><br><span class="line">   <span class="comment">//开启中断</span></span><br><span class="line">   GPIOIntEnable(GPIO_PORTF_BASE, GPIO_PIN_4);</span><br><span class="line">   IntEnable(INT_GPIOF);</span><br><span class="line">   IntMasterEnable();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//下面是中断函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">io_interrupt</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//中断函数一开始要清除发生的中断标志</span></span><br><span class="line">    <span class="keyword">uint32_t</span> s=GPIOIntStatus(GPIO_PORTF_BASE,<span class="literal">true</span>);</span><br><span class="line">    GPIOIntClear(GPIO_PORTF_BASE, s);</span><br><span class="line">    <span class="comment">//然后判断读取到的是不是设置的引脚</span></span><br><span class="line">    <span class="keyword">if</span>((s&amp;GPIO_PIN_4)==GPIO_PIN_4)<span class="comment">//如果读取到的是PF4</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span>(!GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_4));<span class="comment">//等待按键松开</span></span><br><span class="line">        do_something();<span class="comment">//做想做的事情</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO_interrupt/" data-id="ckmsxdddq000vjk3ddw0qfjkj" data-title="GPIO中断" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO_PWM/" data-id="cko4hr64i000srw0k1evt3t93" data-title="GPIO PWM" class="article-share-link">Share</a>
       
       
       
@@ -561,7 +532,144 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="ckmsxdddq000xjk3d84ua8ge4" data-title="GPIO输入和输出" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/" data-id="cko4hr64j000urw0kaguoa694" data-title="GPIO输入和输出" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Pulse Width Modulator" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/01/29/Pulse%20Width%20Modulator/" class="article-date">
+  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/01/29/Pulse%20Width%20Modulator/">PWM</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="PWM"><a href="#PWM" class="headerlink" title="PWM"></a>PWM</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has two PWM output signals, which can be operated independently or as a pair of signals with dead band delays inserted. Each generator block also has an interrupt output and a trigger output. The control block determines the polarity of the PWM signals and which signals are passed through to the pins.</p>
+<blockquote>
+<p>每个PWM提供了最多4个PWM发生器和一个输出控制模块，每一个发生器能产生两个PWM输出信号，可以独立操作，也可以作为一对插入了死区延迟的信号运行。每一个生成器块还有一个中断输出和一个触发输出，控制块确定PWM信号的极性以及哪些信号传递到引脚。</p>
+</blockquote>
+<p>Some of the features of the Tiva PWM module are:<br>Up to four generator blocks, each containing<br>• One 16-bit down or up/down counter<br>• Two comparators<br>• PWM generator<br>• Dead band generator</p>
+<blockquote>
+<p>至多4个产生模块，每一个产生模块包括</p>
+<blockquote>
+<p>一个十六位的向上/向下计数器</p>
+<p>两个比较器</p>
+<p>PWM产生器</p>
+<p>死区产生器</p>
+</blockquote>
+</blockquote>
+<p>Control block<br>• PWM output enable<br>• Output polarity control<br>• Synchronization<br>• Fault handling<br>• Interrupt status</p>
+<blockquote>
+<p>控制模块有</p>
+<blockquote>
+<p>PWM输出使能</p>
+<p>输出极性控制</p>
+<p>错误处理</p>
+<p>中断状态</p>
+</blockquote>
+</blockquote>
+<p>This driver is contained in driverlib/pwm.c, with driverlib/pwm.h containing the API declarations for use by applications.</p>
+<h2 id="细节描述"><a href="#细节描述" class="headerlink" title="细节描述"></a>细节描述</h2><p>These functions perform high-level operations on PWM modules.</p>
+<blockquote>
+<p>这些模块表现了高水平的对PWM的操作</p>
+</blockquote>
+<p>The following functions provide the user with a way to configure the PWM for the most common operations, such as setting the period, generating left- and center-aligned pulses, modifying the pulse width, and controlling interrupts, triggers, and output characteristics. However, the PWM module is very versatile and can be configured in a number of different ways, many of which are beyond the scope of this API. In order to fully exploit the many features of the PWM module, users are advised to use register access macros.</p>
+<blockquote>
+<p>接下来的函数为用户提供了一种配置PWM做最普通操作的方式，这些操作有设定周期，产生左对齐/中心对齐的脉冲，调节脉冲宽度，控制中断/触发/输出特征等功能。然而，PWM模块非常的强大，可以用很多种方式设置，许多用的都不是这些API。为了能充分利用PWM模块的诸多功能，我们推荐用户使用寄存器。</p>
+</blockquote>
+<p>When discussing the various components of a PWM module, this API uses the following labeling convention:</p>
+<p>The generator blocks are called Gen0, Gen1, Gen2 and Gen3.</p>
+<blockquote>
+<p>产生器模块被称为Gen0, Gen1, Gen2 and Gen3.</p>
+</blockquote>
+<p>The two PWM output signals associated with each generator block are called OutA and OutB.</p>
+<blockquote>
+<p>与产生器模块相关的两个PWM输出信号被称为OutA和OutB</p>
+</blockquote>
+<p>The output signals are called PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 and PWM7.</p>
+<blockquote>
+<p>输出信号被称为PWM0, PWM1, PWM2, PWM3, PWM4, PWM5, PWM6 and PWM7.</p>
+</blockquote>
+<p>PWM0 and PWM1 are associated with Gen0, PWM2 and PWM3 are associated with Gen1, PWM4 and PWM5 are associated with Gen2 and PWM6 and PWM7 are associated with Gen3.</p>
+<blockquote>
+<p>PWM0和PWM1与Gen0相关联，PWM2和PWM3与Gen1相关联，PWM4和PWM5与Gen2相关联，PWM6和PWM7与Gen3相关联。</p>
+</blockquote>
+<p>Also, as a simplifying assumption for this API, comparator A for each generator block is used exclusively to adjust the pulse width of the even numbered PWM outputs (PWM0, PWM2, PWM4 and PWM6). In addition, comparator B is used exclusively for the odd numbered PWM outputs (PWM1, PWM3, PWM5 and PWM7).<br>Note that the number of generators and PWM outputs supported varies depending upon the Tiva part in use. Please consult the datasheet for the part you are using to determine whether it supports 1 or 2 modules with 3 or 4 generators each and 6 or 8 outputs each. </p>
+<blockquote>
+<p>另外，作为对此API的简化假设，每个生成器模块的比较器仅用于调整偶数个PWM输出的脉冲高度，比较器A仅用于计数PWM输出</p>
+<p>请注意，支持的生成器和 PWM 输出的数量因使用的 Tiva 部件而异。请参阅您使用的部件的数据表，以确定它是否支持 1 个或 2 个模块，每个模块有 3 个或 4 个生成器，每个模块有 6 个或 8 个输出。</p>
+</blockquote>
+<p><strong>我们这款单片机包括两个PWM模块，总共有16个输出</strong></p>
+<p>这次我们直接看例程</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the PWM0 peripheral</span></span><br><span class="line"><span class="comment">// 使能PWM外设</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Wait for the PWM0 module to be ready.</span></span><br><span class="line"><span class="comment">// 等待PWM模块准备好</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_PWM0))</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Configure the PWM generator for count down mode with immediate updates</span></span><br><span class="line"><span class="comment">// to the parameters.</span></span><br><span class="line"><span class="comment">// 配置PWM产生器，并设置器为向下计数模式，和非同步模式</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenConfigure(PWM_BASE, PWM_GEN_0,PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the period. For a 50 KHz frequency, the period = 1/50,000, or 20</span></span><br><span class="line"><span class="comment">// microseconds. For a 20 MHz clock, this translates to 400 clock ticks.</span></span><br><span class="line"><span class="comment">// Use this value to set the period.</span></span><br><span class="line"><span class="comment">// 设置周期。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenPeriodSet(PWM_BASE, PWM_GEN_0, <span class="number">400</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the pulse width of PWM0 for a 25% duty cycle.</span></span><br><span class="line"><span class="comment">// 脉冲宽度设置</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMPulseWidthSet(PWM_BASE, PWM_OUT_0, <span class="number">100</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the pulse width of PWM1 for a 75% duty cycle.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMPulseWidthSet(PWM_BASE, PWM_OUT_1, <span class="number">300</span>);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Start the timers in generator 0.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMGenEnable(PWM_BASE, PWM_GEN_0);</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Enable the outputs.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">PWMOutputState(PWM_BASE, (PWM_OUT_0_BIT | PWM_OUT_1_BIT), <span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="关注如下函数"><a href="#关注如下函数" class="headerlink" title="关注如下函数"></a>关注如下函数</h2><h4 id="PWMGenConfigure"><a href="#PWMGenConfigure" class="headerlink" title="PWMGenConfigure"></a>PWMGenConfigure</h4><p>用于配置PWM</p>
+<p>This function is used to set the mode of operation for a PWM generator. The counting mode, synchronization mode, and debug behavior are all configured. After configuration, the generator is left in the disabled state.</p>
+<blockquote>
+<p>这个函数用于设置PWM产生器的操作模式。计数模式，同步模式，调试模式都在这里设置。设置之后，产生器处于关闭状态。</p>
+</blockquote>
+<p>A PWM generator can count in two different modes: count down mode or count up/down mode. In count down mode, it counts from a value down to zero, and then resets to the preset value, producing left-aligned PWM signals (that is, the rising edge of the two PWM signals produced by the generator occur at the same time). In count up/down mode, it counts up from zero to the preset value, counts back down to zero, and then repeats the process, producing centeraligned PWM signals (that is, the middle of the high/low period of the PWM signals produced by the generator occurs at the same time).</p>
+<blockquote>
+<p>PWM产生器可以用两种计数模式计数，向下计数模式和向上/向下计数模式。</p>
+<p>在向下计数模式中，它从一个值向下数到零，然后恢复到预设值，产生一个左对齐的PWM信号（也就是说，两个产生器产生的信号的升边同时出现）在向上向下计数模式中，它从零数到预设值，再数回到零，反复这个过程，产生的是中心对齐的PWM信号（也就是说，产生器产生的PWM信号的周期的中间时刻是同时发生的）<strong>每个生成器不是能产生两个PWM信号嘛</strong></p>
+</blockquote>
+<p>When the PWM generator parameters (period and pulse width) are modified, their effect on the output PWM signals can be delayed. In synchronous mode, the parameter updates are not applied until a synchronization event occurs. This mode allows multiple parameters to be modified and take effect simultaneously, instead of one at a time. Additionally, parameters to multiple PWM generators in synchronous mode can be updated simultaneously, allowing them to be treated as if they were a unified generator. In non-synchronous mode, the parameter updates are not delayed until a synchronization event. In either mode, the parameter updates only occur when the counter is at zero to help prevent oddly formed PWM signals during the update (that is, a PWM pulse that is too short or too long).</p>
+<blockquote>
+<p>当PWM脉冲产生器的参数（周期和脉冲宽度）被修改时，它们对PWM信号的影响可能会延迟。</p>
+<p>在同步模式下，直到发生同步时间时应用参数才被更新。此模式允许多个参数同时修改并生效，而不是一次一个参数。此外，同步模式下多个 PWM 生成器的参数可以同时更新，从而可以将它们视为统一生成器。</p>
+<p>在非同步模式下，参数 更新不会延迟到同步事件，在任意模式下，参数更新仅在计数器为零时在会发生，用以防止更新期间产生奇怪的PWM信号。</p>
+</blockquote>
+<p>The PWM generator can either pause or continue running when the processor is stopped via the debugger. If configured to pause, it continues to count until it reaches zero, at which point it pauses until the processor is restarted. If configured to continue running, it keeps counting as if nothing had happened.</p>
+<blockquote>
+<p>当调试器使处理器停止时，PWM产生器可以停止/继续运行如果配置为暂停，则它将继续计数，直到达到零，此时它会暂停，直到重新启动处理器。如果配置为继续运行，则继续计数，就像什么都没发生一样。</p>
+</blockquote>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212211525865.png" alt="image-20201212211525865"></p>
+<p>这是这个函数的参数，第一部分是PWM模块的基址，第二部分是PWM产生器，究竟是GEN几，最后是配置参数。</p>
+<p>那么有哪些参数呢？</p>
+<p>PWM_GEN_MODE_DOWN or PWM_GEN_MODE_UP_DOWN to specify the counting<br>mode</p>
+<p><strong>计数模式，就是向上模式还是向上向下模式</strong></p>
+<p>PWM_GEN_MODE_SYNC or PWM_GEN_MODE_NO_SYNC to specify the counter load<br>and comparator update synchronization mode</p>
+<p><strong>不晓得</strong></p>
+<p>PWM_GEN_MODE_DBG_RUN or PWM_GEN_MODE_DBG_STOP to specify the debug<br>behavior</p>
+<p><strong>配置了debug的行为</strong></p>
+<p>PWM_GEN_MODE_GEN_NO_SYNC, PWM_GEN_MODE_GEN_SYNC_LOCAL, or<br>PWM_GEN_MODE_GEN_SYNC_GLOBAL to specify the update synchronization mode<br>for generator counting mode changes</p>
+<p><strong>不晓得</strong></p>
+<p>PWM_GEN_MODE_DB_NO_SYNC, PWM_GEN_MODE_DB_SYNC_LOCAL, or<br>PWM_GEN_MODE_DB_SYNC_GLOBAL to specify the deadband parameter synchronization<br>mode</p>
+<p><strong>指定死区参数同步模式</strong></p>
+<p>PWM_GEN_MODE_FAULT_LATCHED or PWM_GEN_MODE_FAULT_UNLATCHED to<br>specify whether fault conditions are latched or not</p>
+<p><strong>指定是否锁定故障条件</strong></p>
+<p>PWM_GEN_MODE_FAULT_MINPER or PWM_GEN_MODE_FAULT_NO_MINPER to<br>specify whether minimum fault period support is required</p>
+<p><strong>确定是否需要最小错误周期支持</strong></p>
+<p>PWM_GEN_MODE_FAULT_EXT or PWM_GEN_MODE_FAULT_LEGACY to specify<br>whether extended fault source selection support is enabled or not</p>
+<p><strong>指定是否启用扩展故障源选择支持</strong></p>
+<!--死区就是中性区或者是不作用区-->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/01/29/Pulse%20Width%20Modulator/" data-id="cko4hr64l000yrw0k5xuocz2n" data-title="PWM" class="article-share-link">Share</a>
       
       
       
@@ -664,294 +772,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/Interrupt%20Controller(NVIC)/" data-id="ckmsxdddr000zjk3d6oneabod" data-title="中断控制器" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/01/29/Interrupt%20Controller(NVIC)/" data-id="cko4hr64m0010rw0k0i3s60dg" data-title="中断控制器" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-MIDI文件格式分析" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" class="article-date">
-  <time class="dt-published" datetime="2021-01-28T16:00:00.000Z" itemprop="datePublished">2021-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/">midi</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="MIDI文件格式分析"><a href="#MIDI文件格式分析" class="headerlink" title="MIDI文件格式分析"></a>MIDI文件格式分析</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/tiankong_/article/details/78754545?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control">感谢这个博客</a></p>
-<h3 id="开头"><a href="#开头" class="headerlink" title="开头"></a>开头</h3><p>每一个MIDI文件的开头都有如下一段内容，4d 54 68 64 00 00 00 06 ff ff nn nn dd dd</p>
-<p>前四个字节是ASCII字符MThd 表示这是一个Midi文件，</p>
-<p>下面四个字节是指明文件头描述部分的字节数，一共是6，所以一定是00 00 00 06</p>
-<p>下面是剩余部分的含义</p>
-<p>ff ff指定Midi的格式</p>
-<blockquote>
-<p>00 00 表示单音轨</p>
-<p>00 01表示多音轨同步（常见）</p>
-<p>00 02表示多音轨不同步</p>
-</blockquote>
-<p>nn nn表示轨道数</p>
-<blockquote>
-<p>实际音轨倒数加上一个全局的音轨</p>
-</blockquote>
-<p>dd dd指定基本时间</p>
-<blockquote>
-<p>一般为120 （00 78）即一个四分音符的tick数，tick是MIDI中最小时间单位</p>
-</blockquote>
-<p>例如下面</p>
-<blockquote>
-<p>4d54 6864 0000 0006 0001 0003 01e0</p>
-<p>表示这是一个MIDI文件 文件头描述部分占6字节 多音轨同步 一共3个音轨 基本时间是01e0（480）</p>
-</blockquote>
-<h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><p>先来看全局音轨 全局音轨包括了歌曲的附加信息（比如标题和版权），歌曲速度和系统码等内容。</p>
-<p>不论是全局音轨还是含有字符的音轨，都以4D 54 72 6B开头，表示”MTrk”后面跟着一个四个字节的整数，表示该音轨的字节数（不包括MTrk和本身的四个字节），然后是记录数据的地方。</p>
-<p>每一个数据都有相同的结构：时间差+事件。</p>
-<h5 id="时间差"><a href="#时间差" class="headerlink" title="时间差"></a>时间差</h5><p>所谓时间差，就是指从前一个事件到这个事件的时间数，单位是tick。一个字节有 8 位,如果仅使用 7 位,它可以表示 0~127 这 128 个数,而剩下的一位,则用来作为标志。(这一位被放在了每个字节的最前端）。如果要表示的数在以上范围,则这个标志为 0,这时,一个7 位的字节可以表示 0~127tick。如果要表示的数 超出了这个范围(比如 240),则把标志设置成 1,然后记录下高 7 位,剩下的留给下一个字节,在该例中 240 可以分解成 128<em> 1+112,这里的 1 就是第一个字节要记录的,加上标志位,应该为 10000001,即十六进制的 81;而 112 是下一个字节记录的,它的十六进制为 70:所以要表示 240 这个时间,要写成 81 70。 同理,如果要表示 65535tick,则可以先计算出65535=1282</em>3+1281<em>127+1280</em>127,然后得出结果:83 FF 7F。 由此,我们反过来也可以知道如何确定时间差:只要标志位为 0,则表示结束读取时间差。比如 82 C0 03 表示 1282<em>2+1281</em>64+1280*3=40963,如果基本时间为 120,则有 341:043 个四分音符。</p>
-<p>以这种方式记录整数的字节称为动态字节,它根据记录的整数改变自身的长度,这在后面还要用到,所以 必须熟练计算。</p>
-<h5 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h5><p>事件可以分为音符，控制器系统信息等几个种类，对于这些事件，都有统一的表达结构：种类+参数</p>
-<p>对于一个音符，由于他的有效范围是0~127，所以直接用00~7F作为种类，也可以认为是个音符，比如3C表示中央C，而一个音符的最重要的参数是力度，比如，3C 64表示一个力度为100的中央C音符。</p>
-<p>因为一个字节有8位，所以第一位如果置1，那么它就可以表示其他信息，</p>
-<p>下表中,x 表示音轨 0~F,比如 81 表示松开第二轨的音符。</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>种类</th>
-<th>参数(十六进制)</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>字节</td>
-<td>含义</td>
-<td></td>
-</tr>
-<tr>
-<td>8x</td>
-<td>松开音符</td>
-<td>音符(00~7F):松开的音符</td>
-</tr>
-<tr>
-<td>力度:00~7F</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>9x</td>
-<td>按下音符</td>
-<td>音符(00~7F):按下的音符</td>
-</tr>
-<tr>
-<td>力度:00~7F</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Ax</td>
-<td>触后音符 (Key After Touch)</td>
-<td>音符:00~7F</td>
-</tr>
-<tr>
-<td>力度:00~7F</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Bx</td>
-<td>控制器</td>
-<td>控制器号码:00~7F</td>
-</tr>
-<tr>
-<td>控制器参数:00~7F</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Cx</td>
-<td>改变乐器</td>
-<td>乐器号码:00~7F</td>
-</tr>
-<tr>
-<td>Dx</td>
-<td>触后通道</td>
-<td>值:00~7F</td>
-</tr>
-<tr>
-<td>Ex</td>
-<td>滑音</td>
-<td>音高(Pitch)低位:Pitch mod 128</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th>音高高位:Pitch div 128</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>F0</td>
-<td>系统码</td>
-<td>系统码字节数:动态字节</td>
-</tr>
-<tr>
-<td>系统码:不含开头的 F0,但包括结尾的 F7</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>FF</td>
-<td>其他格式</td>
-<td>程式种类:00~FF</td>
-</tr>
-<tr>
-<td>数据占用的字节数:动态字节</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>数据:个数由上一参数确定</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>00~7F</td>
-<td>上次激活格式的参数(8x、9x、Ax、Bx、Cx、Dx、Ex)</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td>节拍器时钟</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td>一个四分音符包含的三十二分音符的个数</td>
-</tr>
-<tr>
-<td>59</td>
-<td>调号</td>
-<td>02</td>
-<td>升降号数:-7~-1(降号),0(C),1~7(升号)</td>
-</tr>
-<tr>
-<td>大小调:0(大调),1(小调)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>7F</td>
-<td>音序特定信息</td>
-<td>—</td>
-<td>音序特定信息</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>下表详细地列出了 FF 的详细情况,对于字节数由数据决定的情况,表中以“—”表示。</p>
-<p>种类 字 节</p>
-<p>字节 含义<br>00 设置轨道音序</p>
-<p>数据 数</p>
-<p>02 音序号 00 00~ FF FF</p>
-<p>01</p>
-<p>歌曲备注 文本信息 —</p>
-<p>音轨文本 文本信息</p>
-<p>02 歌曲版权<br>歌曲标题 —</p>
-<p>03</p>
-<p>— 版权信息</p>
-<p>歌曲标题:用于全局音轨,第一次使用表示主标题,第二次表 示副标题</p>
-<p>音轨名称 — 音轨名</p>
-<p>04 乐器名称</p>
-<p>— 音轨文本(同 01/2)</p>
-<p>05歌词 —歌词</p>
-<p>06  标记</p>
-<p>07  开始点</p>
-<p>2F 音轨结束标志</p>
-<p>51 速度</p>
-<p>— 用文本标记(Marker)</p>
-<p>— 用文本记录开始点(同 01/2)</p>
-<p>00 无</p>
-<p>03 3字节整数,1个四分音符的微秒数</p>
-<p>58节拍 04分子</p>
-<p>分母:00(1),01(2),02(4),03(8)等</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-<th>节拍器时钟</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td>一个四分音符包含的三十二分音符的个数</td>
-</tr>
-<tr>
-<td>59</td>
-<td>调号</td>
-<td>02</td>
-<td>升降号数:-7~-1(降号),0(C),1~7(升号)</td>
-</tr>
-<tr>
-<td>大小调:0(大调),1(小调)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>7F</td>
-<td>音序特定信息</td>
-<td>—</td>
-<td>音序特定信息</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/" data-id="ckmsxddds0013jk3d8vet0ogo" data-title="midi" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/midi/" rel="tag">midi</a></li></ul>
 
     </footer>
   </div>
@@ -979,7 +804,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9A%E4%BF%A1/" rel="tag">通信</a></li></ul>
     </div>
   </div>
 
@@ -989,7 +814,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/stm32/" style="font-size: 15px;">stm32</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a>
+      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/stm32/" style="font-size: 15px;">stm32</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">通信</a>
     </div>
   </div>
 
@@ -998,7 +823,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li></ul>
     </div>
   </div>
 
@@ -1009,6 +834,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/04/30/cc2541/">CC2541</a>
+          </li>
         
           <li>
             <a href="/2021/03/28/999-project/">stm32_template</a>
@@ -1024,10 +853,6 @@
         
           <li>
             <a href="/2021/03/23/002-GPIO/">stm32_GPIO</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/">new project</a>
           </li>
         
       </ul>
