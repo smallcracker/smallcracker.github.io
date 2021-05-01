@@ -75,6 +75,223 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-电源及管理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/01/%E7%94%B5%E6%BA%90%E5%8F%8A%E7%AE%A1%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2021-04-30T16:00:00.000Z" itemprop="datePublished">2021-05-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/01/%E7%94%B5%E6%BA%90%E5%8F%8A%E7%AE%A1%E7%90%86/">电源及管理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h1><p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/电压调整率/1498343?fr=aladdin">电压调整率</a></p>
+<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/负载调整率/8283670?fr=aladdin">负载调整率</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wwt18811707971/article/details/80232617">电源防反接小结</a></p>
+<h1 id="线性稳压器"><a href="#线性稳压器" class="headerlink" title="线性稳压器"></a>线性稳压器</h1><h2 id="非LDO"><a href="#非LDO" class="headerlink" title="非LDO"></a>非LDO</h2><p>三端集成稳压器件，压差比较大，一般在2V以上</p>
+<h3 id="固定输出"><a href="#固定输出" class="headerlink" title="固定输出"></a>固定输出</h3><ul>
+<li>78xx</li>
+<li>79xx</li>
+</ul>
+<h3 id="可调输出"><a href="#可调输出" class="headerlink" title="可调输出"></a>可调输出</h3><ul>
+<li>LM317：3端子1.5A可调节正电压稳压器</li>
+<li>LM337：3端子1.5A可调节负电压稳压器</li>
+</ul>
+<h2 id="LDO"><a href="#LDO" class="headerlink" title="LDO"></a>LDO</h2><p>低压差线性稳压器件, 压差可以比较小的情况下仍然能够稳压，但效率仍然是Vout/Vin，在小压差的应用中效率可以做到比开关电源高</p>
+<ul>
+<li>LT1117:具有可调和固定的2.85V、3.3V、5V输出的800mA低压差线性稳压器</li>
+<li>AMS1117</li>
+<li>TL1963A：单路输出LDO，1,5A，可调节（1.21V~20V）快速瞬态响应</li>
+<li>TPS74801：具有可编程软启动功能的1.5A LDO</li>
+<li>TPS7A91：1A高精度低噪音LDO</li>
+</ul>
+<h1 id="开关稳压器"><a href="#开关稳压器" class="headerlink" title="开关稳压器"></a>开关稳压器</h1><ul>
+<li><p>MC34063 </p>
+<blockquote>
+<p>MC34063属于开关型直流稳压芯片（可用于升/降压），此类电路功耗小、效率高、体积小、重量轻、稳压范围宽，但其电路结构较复杂、故障率较高。其工作原理是，升压时其芯片内部通过开关管不断导通（其频率与定时电容有关），储能电感与电容短时间内不断充放电对负载提供能量（电感可以选的大一点）以输出连续的直流电压，另Uo=1.25*(1+R4/R3)（参见手册公式）。</p>
+</blockquote>
+</li>
+<li><p>MIC29302 线性可调稳压器，使用方法与34063电路相仿，可供大电流负载使用，其电压输出公式为Uo=1.242*(1+R1/R2)。</p>
+</li>
+<li><p>LM2596 输出4.5V~40V，3A的<strong>降压</strong>稳压器，仅需4个外部组件</p>
+</li>
+<li><p>LM2576 3A<strong>降压</strong>电压稳压器，有3.3V，5V，12V，15V和可调输出版本（1.23V~37V或者1.23V~57V）</p>
+</li>
+<li><p>UC3842 电流模式PWM控制器<a target="_blank" rel="noopener" href="http://www.elecfans.com/article/83/2020/202009221305539.html">电流型控制模式的特点</a> <a target="_blank" rel="noopener" href="https://www.eefocus.com/analog-power/323085">电流型开关电源中的UC3842电压反馈电路</a></p>
+</li>
+<li><p>TL494 PWM控制电路（？）</p>
+</li>
+<li><p>LM2940 1A低压降稳压器,属串联型线性稳压电路（只用于降压），此类电路结构简单、稳定性高、但功耗大、体积大、滤波效率低，须有较大的输入和输出滤波电容。</p>
+</li>
+<li><p>LM2904 双路通用运算放大器</p>
+</li>
+<li><p>LT3791 60V四开关，同步降压-升压型LED驱动器控制器</p>
+</li>
+<li><p>MAX5033 500mA，76V，高效率，MAXPower降压型DC-DC转换器</p>
+</li>
+<li><p>LTM8048 具LDO后置稳压器的3.1VIN至32VIN隔离式μModule DC/DC转换器</p>
+</li>
+<li><p>TPS5430 5.5V至36V输入，3A降压转换器</p>
+</li>
+<li><p>TPS61088 具有10A开关的13.2V输出，同步升压转换器</p>
+</li>
+<li><p>LM2733 具有40V内部FET开关（采用SOT-23封装）的0.6/1.6MHz升压转换器</p>
+</li>
+<li><p>LM2663 可作为一个简单的负电压转换器，该电压逆变器电路只使用两个外部电容器。</p>
+</li>
+</ul>
+<h1 id="电荷泵"><a href="#电荷泵" class="headerlink" title="电荷泵"></a>电荷泵</h1><ul>
+<li>ICL7660</li>
+<li>TL7660 CMOS电压转换器</li>
+</ul>
+<h1 id="基准源"><a href="#基准源" class="headerlink" title="基准源"></a>基准源</h1><ul>
+<li>REF33xx</li>
+<li>REF34xx</li>
+<li>ADR45xx 超低噪声，高精度3.0V基准电压源</li>
+<li>LM385-xx 可调节微功耗电压基准</li>
+<li>LM 399 并联基准电压</li>
+<li>TL 431 可调精密并联稳压器</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/05/01/%E7%94%B5%E6%BA%90%E5%8F%8A%E7%AE%A1%E7%90%86/" data-id="cko5dp3f600295o0k94xzccde" data-title="电源及管理" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6%E8%AE%BE%E8%AE%A1/" rel="tag">硬件设计</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-网络上一些锂电池3V3输出示例" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/01/%E7%BD%91%E7%BB%9C%E4%B8%8A%E4%B8%80%E4%BA%9B%E9%94%82%E7%94%B5%E6%B1%A03V3%E8%BE%93%E5%87%BA%E7%A4%BA%E4%BE%8B/" class="article-date">
+  <time class="dt-published" datetime="2021-04-30T16:00:00.000Z" itemprop="datePublished">2021-05-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/01/%E7%BD%91%E7%BB%9C%E4%B8%8A%E4%B8%80%E4%BA%9B%E9%94%82%E7%94%B5%E6%B1%A03V3%E8%BE%93%E5%87%BA%E7%A4%BA%E4%BE%8B/">锂电池转3V3设计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一"><a href="#一" class="headerlink" title="一"></a>一</h2><p>芯片：RT6150BGQW</p>
+<p>芯片简介：RT6150A/B是高效率的、以固定频率工作的Buck-Boost转换器，可在输入电压高于、低于或等于输出电压的条件下工作，其内部架构使之能在各种工作模式之间平滑转换，成为单节锂离子电池、多节碱性电池或镍氢电池应用中的理想选择，这些场合的输出电压介于电池电压变化范围内。器件还具有关机电流消耗低、内置软起动、热关机保护和电流限制保护等特性。</p>
+<p>特性:</p>
+<ul>
+<li>仅需一只电感</li>
+<li>无论电池电压如何变化，工作频率保持固定</li>
+<li>采用同步整流方式工作，效率高达90%</li>
+<li>持续负载能力高达800mA</li>
+<li>关机期间输入、输出完全断开连接</li>
+<li>节能模式可控</li>
+<li>关机电流消耗&lt;1μA</li>
+<li>输入电压范围：1.8V~5.5V</li>
+<li>固定3.3V输出；可调输出电压范围：2.5V~5.5V</li>
+<li>提供10引脚WDFN封装</li>
+<li>符合RoHS规范，不含卤素</li>
+</ul>
+<p>电路</p>
+<p><img src="https://i.loli.net/2021/05/01/Dejrxkctm4LH6uF.png" alt="RT"></p>
+<h1 id="二"><a href="#二" class="headerlink" title="二"></a>二</h1><p>芯片： TLV70033DDCR</p>
+<p>特性：低压差线性稳压器（LDO），最大输入电压5.5V，输出电压为固定值3.3V</p>
+<p>电路：</p>
+<p><img src="https://i.loli.net/2021/05/01/VPNI9chiaurOXpJ.png" alt="TLV"></p>
+<h1 id="三"><a href="#三" class="headerlink" title="三"></a>三</h1><p>芯片：TPS62740</p>
+<p>特性：TPS6274x 是业界第一款降压转换器，此转换器特有典型值为 360nA 的静态电流，并且搭配微型 2.2µH 电感和 10µF 输出电容一起工作。 这款基于 DCS-Control™ 的全新器件将轻负载效率范围扩展至 10µA 负载电流以下。 TPS62740 支持高达 300mA 的输出电流，TPS62742 支持高达 400mA 的输出电流。 此器件由可再充电锂离子电池，锂化学电池（例如锂亚硫酰氯 (Li-SOC12)，锂锰电池 (Li-MnO2) 和两节或三节碱性电池）供电运行。 输入电压范围高达 5.5V，也实现由 1 个 USB 端口和薄膜太阳能模块供电运行。 用户可使用 4 个 VSEL 引脚在 1.8V 至 3.3V 范围内选择输出电压（步长 100mV）。 TPS6274x 搭配使用小型输出电容，特有低输出纹波电压和低噪声。 一旦电池电压接近输出电压（接近 100% 占空比），此器件进入无纹波 100% 模式运行，以防止输出纹波电压的增加。 然后，此器件停止开关，并且输出被连接至输入电压。 集成转换率受控负载开关特有典型值为 0.6Ω 的导通电阻，并且将选择的输出电压分配至临时使用的子系统。 TPS6274 采用小型 12 引脚 2mm x 3mm2 WSON 封装，并且支持 31mm2 的总体解决方案尺寸。</p>
+<p>电路：</p>
+<p><img src="https://i.loli.net/2021/05/01/g3zQ6W9YtvIHRE7.png" alt="TPS"></p>
+<h1 id="四"><a href="#四" class="headerlink" title="四"></a>四</h1><p>芯片：ME6209</p>
+<p>特性：（LDO）</p>
+<ul>
+<li>低压差线性稳压器，输入电压最高18V。输出为3.0V~5.0V</li>
+</ul>
+<p>电路</p>
+<p><img src="https://i.loli.net/2021/05/01/aJmhuyRUs32PSw4.png" alt="ME"></p>
+<h1 id="五"><a href="#五" class="headerlink" title="五"></a>五</h1><p>芯片：TPS63000</p>
+<p>特性：（升压降压稳压器）</p>
+<ul>
+<li>Input Voltage Range: 1.8 V to 5.5 V</li>
+<li>Fixed and Adjustable Output Voltage Options from 1.2 V to 5.5 V</li>
+<li>Up to 96% Efficiency</li>
+<li>1200-mA Output Current at 3.3 V in Step-Down Mode (VIN = 3.6 V to 5.5 V)</li>
+<li>Up to 800-mA Output Current at 3.3 V in Boost Mode (VIN &gt; 2.4 V)</li>
+<li>Automatic Transition Between Step-Down and Boost Mode</li>
+<li>Device Quiescent Current less than 50 μA</li>
+<li>Power-Save Mode for Improved Efficiency at Low Output Power</li>
+<li>Forced Fixed Frequency Operation and Synchronization Possible</li>
+<li>Load Disconnect During Shutdown</li>
+<li>Overtemperature Protection</li>
+<li>Available in a Small 3-mm × 3-mm 10-Pin VSON Package (QFN)</li>
+</ul>
+<p>电路：</p>
+<p><img src="https://i.loli.net/2021/05/01/OQv3YKtU8CqiSR2.png" alt="TPS63000"></p>
+<h1 id="六"><a href="#六" class="headerlink" title="六"></a>六</h1><p>芯片：RT9193-33GB （表示3.3V 无卤素无铅 SOT-23-5封装）<br>        特性：（LDO）</p>
+<ul>
+<li>Ultra Low Noise for RF Application</li>
+<li>Ultra Fast Response in Line/Load Transient</li>
+<li>Quick Start-Up (Typically 50μs)</li>
+<li>&lt;0.01μA Standby Current When Shutdown</li>
+<li>Low Dropout : 220mV @ 300mA</li>
+<li>Wide Operating Voltage Ranges : 2.5V to 5.5V</li>
+<li>TTL-Logic-Controlled Shutdown Input</li>
+<li>Low Temperature Coefficient</li>
+<li>Current Limiting Protection</li>
+<li>Thermal Shutdown Protection</li>
+<li>Only 1μF Output Capacitor Required for Stability</li>
+<li>High Power Supply Rejection Ratio</li>
+<li>Custom Voltage Available</li>
+<li>RoHS Compliant and 100% Lead (Pb)-Free</li>
+</ul>
+<p>电路</p>
+<p><img src="https://i.loli.net/2021/05/01/VJHh5AKojr9Gwyk.png" alt="RT9193"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/05/01/%E7%BD%91%E7%BB%9C%E4%B8%8A%E4%B8%80%E4%BA%9B%E9%94%82%E7%94%B5%E6%B1%A03V3%E8%BE%93%E5%87%BA%E7%A4%BA%E4%BE%8B/" data-id="cko5dp3f9002e5o0kecp04r1c" data-title="锂电池转3V3设计" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag">电路设计</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-cc2541" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/04/30/cc2541/" class="article-date">
@@ -131,11 +348,73 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/30/cc2541/" data-id="cko4hr64t001hrw0k8tzk667v" data-title="CC2541" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/04/30/cc2541/" data-id="cko5dp3ev001g5o0k20veddzs" data-title="CC2541" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%80%9A%E4%BF%A1/" rel="tag">通信</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-锂电池" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/24/%E9%94%82%E7%94%B5%E6%B1%A0/" class="article-date">
+  <time class="dt-published" datetime="2021-04-23T16:00:00.000Z" itemprop="datePublished">2021-04-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/24/%E9%94%82%E7%94%B5%E6%B1%A0/">锂电池</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="锂电池的特点"><a href="#锂电池的特点" class="headerlink" title="锂电池的特点"></a>锂电池的特点</h2><ol>
+<li>更好的重量能量比，体积能量比</li>
+<li>电压高，单节锂电池可达3.6V</li>
+<li>自放电小，可长时间存放</li>
+<li>无记忆效应，使用锂电池之前无需放电</li>
+<li>寿命长，可达500次</li>
+<li>可以随意并联使用</li>
+</ol>
+<h2 id="内部结构"><a href="#内部结构" class="headerlink" title="内部结构"></a>内部结构</h2><ul>
+<li>正极是锂和二氧化钴</li>
+<li><p>负极是片状碳材料</p>
+</li>
+<li><p>导电介质是有机电解质溶液</p>
+</li>
+</ul>
+<h2 id="充放电要求"><a href="#充放电要求" class="headerlink" title="充放电要求"></a>充放电要求</h2><ol>
+<li>充电电压：最高充电终止电压为4.2V，不能过充。根据其充放电特点，应该选用专用的恒流恒压充电器进行充电。通常恒流充电至4.2V/节后转入恒压充电。当恒压充电电流减小至100mA以内时，应该停止充电</li>
+<li>充电电流：充电电流应该在0.1~1.5倍电池容量之间。常规常规充电电流可以选择0.5倍电池容量左右，充电时间约2~3小时。</li>
+<li>放电电压：放电的最低电压最好不低于3.0V/节，最低不低于2.5V/节</li>
+<li>放电电流：不应该超过电池容量的3倍</li>
+<li><strong>目前市场上所售锂电池组内部均封有配套的充放电保护板。只要控制好外部的充放电电流即可。</strong></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/04/24/%E9%94%82%E7%94%B5%E6%B1%A0/" data-id="cko5dp3fb002i5o0kb090gba5" data-title="锂电池" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">硬件学习</a></li></ul>
 
     </footer>
   </div>
@@ -192,7 +471,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/28/999-project/" data-id="cko4hr64a000frw0k26wdempe" data-title="stm32_template" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/28/999-project/" data-id="cko5dp3ei000f5o0k62gghe1m" data-title="stm32_template" class="article-share-link">Share</a>
       
       
       
@@ -251,7 +530,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/27/004-USART/" data-id="cko4hr6430004rw0kh5qi056q" data-title="stm32_USART" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/27/004-USART/" data-id="cko5dp3ed00055o0k2s1re3s7" data-title="stm32_USART" class="article-share-link">Share</a>
       
       
       
@@ -293,7 +572,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/26/003-systick/" data-id="cko4hr63y0001rw0kd8eo80b3" data-title="stm32-systick" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/26/003-systick/" data-id="cko5dp3ee00085o0kbnx1bgb5" data-title="stm32-systick" class="article-share-link">Share</a>
       
       
       
@@ -384,73 +663,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/23/002-GPIO/" data-id="cko4hr6460008rw0kdq931rjx" data-title="stm32_GPIO" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-000-STM32F103RCT6单片机概况" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/03/15/000-STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/" class="article-date">
-  <time class="dt-published" datetime="2021-03-14T16:00:00.000Z" itemprop="datePublished">2021-03-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/03/15/000-STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">STM32F103RCT62单片机概况</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="STM32F103RCT6单片机概况"><a href="#STM32F103RCT6单片机概况" class="headerlink" title="STM32F103RCT6单片机概况"></a>STM32F103RCT6单片机概况</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="芯片"><a href="#芯片" class="headerlink" title="芯片"></a>芯片</h3><p>STM32F103RCT6</p>
-<h3 id="常用外设"><a href="#常用外设" class="headerlink" title="常用外设"></a>常用外设</h3><ul>
-<li>LED0 PA8</li>
-<li>LED1 PD1</li>
-<li>KEY0 PC1 按下为低电平</li>
-<li>KEY1 PC13 按下为低电平</li>
-<li>WK_UP PA0 按下为高电平<h3 id="系统资源"><a href="#系统资源" class="headerlink" title="系统资源"></a>系统资源</h3></li>
-<li>48KB SRAM(Static Random-Access Memory，SRAM)</li>
-<li>256KB Flash</li>
-<li>两个基本定时器，四个通用定时器，两个高级定时器</li>
-<li>两个DMA控制器，共计12个通道</li>
-<li>三个SPI</li>
-<li>两个I2C</li>
-<li>五个串口</li>
-<li>一个USB</li>
-<li>一个CAN</li>
-<li>三个12位ADC</li>
-<li>1个12位DAC</li>
-<li>1个SDIO接口</li>
-<li>51个通用IO口<h3 id="常见术语"><a href="#常见术语" class="headerlink" title="常见术语"></a>常见术语</h3></li>
-<li>JTAG (Joint Test Action Group，联合测试工作组)是一种国际标准测试协议，主要用于芯片内部测试，现在的多数高级器件都支持JTAG协议，如DSP，FPGA等，标准的JTAG是4线：TMS，TCK，TDI，TDO，分别为模式选择，时钟，数据输入和数据输出线。</li>
-<li>SWD (Serial Wire Debug),SWD 模式比 JTAG 在高速模式下面更加可靠。 在大数据量的情况下面 JTAG 下载程序会失败, 但是 SWD 发生的几率会小很多。基本使用 JTAG 仿真模式的情况下是可以直接使用 SWD 模式的, 只要你的仿真器支持。 所以推荐大家使用这个模式。<h3 id="文件夹结构"><a href="#文件夹结构" class="headerlink" title="文件夹结构"></a>文件夹结构</h3></li>
-<li><strong>USER</strong> 主要存放的是用户代码。<code>system_stm32f10x.c</code>里面存放的是系统时钟初始化函数的相关定义，用户不需修改，<code>stm32f10_it.c</code>存放的是部分中断服务函数。<code>main.c</code>存放的是主函数。</li>
-<li><strong>HARDWARE</strong> 存放的是每个实验的外设驱动代码。他的实现是 通过调用FWLib下面的固件库文件，比如led.c里面调用的<code>stm32f10x_gpio.c</code>里面的函数对led进行初始化。</li>
-<li><strong>SYSTEM</strong> 是一些延时函数，位带操作，串口打印代码等。SYSTEM 文件夹下包含了 <code>delay</code>、<code>sys</code>、<code>usart</code> 等三个文件夹。分别包含了 <code>delay.c</code>、<code>sys.c</code>、<code>usart.c</code> 及其头文件 <code>delay.h</code>,<code>sys.h</code>,<code>usart.h</code>。</li>
-</ul>
-<h1 id="记住：main-函数后面一定要有一个死循环！！"><a href="#记住：main-函数后面一定要有一个死循环！！" class="headerlink" title="记住：main()函数后面一定要有一个死循环！！"></a>记住：main()函数后面一定要有一个死循环！！</h1>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/15/000-STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/" data-id="cko4hr63s0000rw0k7pyrh1x4" data-title="STM32F103RCT62单片机概况" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/23/002-GPIO/" data-id="cko5dp3ec00045o0kanf7da9d" data-title="stm32_GPIO" class="article-share-link">Share</a>
       
       
       
@@ -520,7 +733,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/" data-id="cko4hr6440005rw0kblk899n2" data-title="new project" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/" data-id="cko5dp3e400005o0k8cbz6f2l" data-title="new project" class="article-share-link">Share</a>
       
       
       
@@ -534,9 +747,9 @@
 
 
   
-    <article id="post-STM32F103RCT6单片机概况" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-000-STM32F103RCT6单片机概况" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/03/15/STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/" class="article-date">
+    <a href="/2021/03/15/000-STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/" class="article-date">
   <time class="dt-published" datetime="2021-03-14T16:00:00.000Z" itemprop="datePublished">2021-03-15</time>
 </a>
     
@@ -548,7 +761,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/03/15/STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">STM32F103RCT62单片机概况</a>
+      <a class="p-name article-title" href="/2021/03/15/000-STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">STM32F103RCT62单片机概况</a>
     </h1>
   
 
@@ -560,8 +773,9 @@
 <h3 id="常用外设"><a href="#常用外设" class="headerlink" title="常用外设"></a>常用外设</h3><ul>
 <li>LED0 PA8</li>
 <li>LED1 PD1</li>
-<li>KEY0 PC1</li>
-<li>KEY1 PC13<h3 id="系统资源"><a href="#系统资源" class="headerlink" title="系统资源"></a>系统资源</h3></li>
+<li>KEY0 PC1 按下为低电平</li>
+<li>KEY1 PC13 按下为低电平</li>
+<li>WK_UP PA0 按下为高电平<h3 id="系统资源"><a href="#系统资源" class="headerlink" title="系统资源"></a>系统资源</h3></li>
 <li>48KB SRAM(Static Random-Access Memory，SRAM)</li>
 <li>256KB Flash</li>
 <li>两个基本定时器，四个通用定时器，两个高级定时器</li>
@@ -581,125 +795,15 @@
 <li><strong>HARDWARE</strong> 存放的是每个实验的外设驱动代码。他的实现是 通过调用FWLib下面的固件库文件，比如led.c里面调用的<code>stm32f10x_gpio.c</code>里面的函数对led进行初始化。</li>
 <li><strong>SYSTEM</strong> 是一些延时函数，位带操作，串口打印代码等。SYSTEM 文件夹下包含了 <code>delay</code>、<code>sys</code>、<code>usart</code> 等三个文件夹。分别包含了 <code>delay.c</code>、<code>sys.c</code>、<code>usart.c</code> 及其头文件 <code>delay.h</code>,<code>sys.h</code>,<code>usart.h</code>。</li>
 </ul>
-
+<h1 id="记住：main-函数后面一定要有一个死循环！！"><a href="#记住：main-函数后面一定要有一个死循环！！" class="headerlink" title="记住：main()函数后面一定要有一个死循环！！"></a>记住：main()函数后面一定要有一个死循环！！</h1>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/15/STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/" data-id="cko4hr64s001drw0kh69y5e7y" data-title="STM32F103RCT62单片机概况" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/15/000-STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/" data-id="cko5dp3ec00035o0k6ez46mz6" data-title="STM32F103RCT62单片机概况" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-permutation" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/03/07/permutation/" class="article-date">
-  <time class="dt-published" datetime="2021-03-06T16:00:00.000Z" itemprop="datePublished">2021-03-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/03/07/permutation/">generate permutation</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="全排列生成算法"><a href="#全排列生成算法" class="headerlink" title="全排列生成算法"></a>全排列生成算法</h1><h2 id="wikipedia上提供的一种方法"><a href="#wikipedia上提供的一种方法" class="headerlink" title="wikipedia上提供的一种方法"></a><em>wikipedia</em>上提供的一种方法</h2><p>这个方法可以以字典序生成一组数的全排列。方法非常简便，在14世纪由<em>Narayana Pandita</em>发现。</p>
-<ol>
-<li><p>Find the largest index k such that a[k] &lt; a[k + 1]. If no such index exists, the permutation is the last permutation.</p>
-</li>
-<li><p>Find the largest index l greater than k such that a[k] &lt; a[l].</p>
-</li>
-<li><p>Swap the value of a[k] with that of a[l].</p>
-</li>
-<li><p>Reverse the sequence from a[k + 1] up to and including the final element a[n].</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">1010</span>]; </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>* x,<span class="keyword">int</span>* y)</span></span>&#123;</span><br><span class="line">	*x^=*y^=*x^=*y;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">		a[i]=i+<span class="number">1</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	<span class="keyword">int</span> k=<span class="number">0</span>,l=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(;;)&#123;</span><br><span class="line">		k=<span class="number">-1</span>,l=<span class="number">-1</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=n<span class="number">-1</span><span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">			<span class="keyword">if</span>(a[i]&lt;a[i+<span class="number">1</span>])&#123;</span><br><span class="line">				k=i;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(k==<span class="number">-1</span>)<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=n<span class="number">-1</span>;i&gt;k;i--)&#123;</span><br><span class="line">			<span class="keyword">if</span>(a[i]&gt;a[k])&#123;</span><br><span class="line">				l=i;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		swap(&amp;a[k],&amp;a[l]);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=k+<span class="number">1</span>;i&lt;(k+<span class="number">1</span>+n<span class="number">-1</span>+<span class="number">1</span>)/<span class="number">2</span>;i++)&#123;</span><br><span class="line">			swap(&amp;a[i],&amp;a[k+<span class="number">1</span>+n<span class="number">-1</span>-i]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="然后是常规的递归生成方法"><a href="#然后是常规的递归生成方法" class="headerlink" title="然后是常规的递归生成方法"></a>然后是常规的递归生成方法</h2></li>
-</ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">int</span> flag,a[<span class="number">100</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> t)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(t==n+<span class="number">1</span>)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,a[i]);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> ;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(!(flag&amp;(<span class="number">1</span>&lt;&lt;i)))&#123;</span><br><span class="line">			a[t]=i;</span><br><span class="line">			flag|=<span class="number">1</span>&lt;&lt;i;</span><br><span class="line">			dfs(t+<span class="number">1</span>);</span><br><span class="line">			flag^=<span class="number">1</span>&lt;&lt;i;			</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">	dfs(<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/07/permutation/" data-id="cko4hr655001xrw0kakm6af7w" data-title="generate permutation" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-休眠模块" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/" class="article-date">
-  <time class="dt-published" datetime="2021-03-05T16:00:00.000Z" itemprop="datePublished">2021-03-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/">休眠模块</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="这份文档没用"><a href="#这份文档没用" class="headerlink" title="这份文档没用"></a>这份文档没用</h1><p>运行多次，每次都卡死在HibernateEnableExpClk(ROM_SysCtlClockGet());函数，上网搜索无果，无法进入休眠状态。知道解决方法的人希望您能与我联系，感激不尽。</p>
-<h1 id="休眠模块"><a href="#休眠模块" class="headerlink" title="休眠模块"></a>休眠模块</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>休眠模块允许通过软件来关闭微控制器，再通过软件或者外部<strong>WAKE</strong>引脚来打开微控制器。官方提供了一些函数可以配置唤醒条件，管理中断，读取状态，保存和恢复程序状态信息，以及打开休眠模式。</p>
-<h2 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h2><ul>
-<li>32位RTC，配有15位亚秒级计数器（部分设备）</li>
-<li>内部低频振荡器</li>
-<li>休眠计数器的日历模式</li>
-<li>篡改检测与反应 ？？</li>
-<li>调整寄存器来微调RTC速率</li>
-<li>一个RTC匹配寄存器来产生RTC事件</li>
-<li>外部WAKE引脚来触发唤醒</li>
-<li>外部RST或者四组GPIO引脚作为可选的唤醒源</li>
-<li>在休眠期间维持GPIO状态</li>
-<li>低电量检测</li>
-<li>16个32字节依靠电池的内存</li>
-<li>可编程的中断源<h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2>driverlib/hibernate.h<h2 id="细节描述"><a href="#细节描述" class="headerlink" title="细节描述"></a>细节描述</h2>休眠模式使用前要使能。使用<code>HibernateEnableExpClk()</code>函数来使能它。<h3 id="配置晶振"><a href="#配置晶振" class="headerlink" title="配置晶振"></a>配置晶振</h3>如果我们要用到晶振来作为时钟源，我们就需要在调用<code>HibernateEnableExpClk()</code>函数后等待一段时间，使晶振稳定。通过查看date sheet可以查询到使晶体稳定时间。如果要用到振荡器，我们就不需要等待。在这个模块使能了之后，时钟源一定要通过调用<code>HibernateClockConfigure()</code>来配置它。 <h3 id="RTC配置"><a href="#RTC配置" class="headerlink" title="RTC配置"></a>RTC配置</h3>为了使用休眠模块的RTC功能，要先调用<code>HibernateRTCEnable()</code>函数来使能RTC（之后我们可以使用<code>HibernateRTCDisable()</code>来失能RTC）。这些函数可以在任何时候被调用来开启、关闭RTC。<br>通过调用<code>HibernateRTCGet()</code>和<code>HibernateRTCSet()</code>可以读取、设定RTC的值。<br>通过调用<code>HibernateRTCMatchGet()</code>和<code>HibernateRTCMatchSet()</code>可以读取、设定RTC的匹配值。<br>通过使用trim寄存器可以调整RTC频率，我们要用到的函数时<code>HibernateRTCTrimGet()</code>和<code>HibernateRTCTrimSet()</code>  <h3 id="RTC亚秒级计数器-subseconds-counter-配置"><a href="#RTC亚秒级计数器-subseconds-counter-配置" class="headerlink" title="RTC亚秒级计数器(subseconds counter)配置"></a>RTC亚秒级计数器(subseconds counter)配置</h3>通过调用<code>HibernateRTCSSGet()</code>可以读取亚秒级计数器的值。<br>亚秒级计数器的匹配值可以通过调用<code>HibernateRTCSSMatchSet()</code>和<code>HibernateRTCSSMatchSet()</code> 来完成。<h3 id="RTC的日历模式"><a href="#RTC的日历模式" class="headerlink" title="RTC的日历模式"></a>RTC的日历模式</h3>有一些设备支持针对RTC的日历模式。在日历模式下，RTC的值可以使用<code>HibernateCalendarGet()</code>和<code>HibernateCalendarSet()</code>来进行读取和设置。<br>匹配值可以使用<code>HibernateCalendarMatchGet()</code>和<code>HibernateCalendarMatchSet()</code>来进行读取和配置<h3 id="破坏"><a href="#破坏" class="headerlink" title="破坏"></a>破坏</h3>破坏机制提供了检测、响应、记录破坏事件的功能。破坏事件可以通过检测特定GPIO的状态转换或者是检测外部振荡器的错误来探测。注意：那些破坏GPIO不需要设置就可以用作破坏功能。查询 data sheet 来确定那些GPIO支持破坏功能。<br>破坏GPIO可以通过使用<code>HibernateTamperIOEnable()</code>和<code>HibernateTamperIODisable()</code>来配置。设置过程中我们不需要调用GPIO API，并且这种配置会覆盖其他GPIO API。外部振荡器状态可以通过函数<code>HibernateTamperExtOscValid()</code>来获取。如果检测到了外部振荡器错误，我们可以通过调用<code>HibernateTamperExtOscRecover()</code>来进行恢复。<br>当出现破坏事件时，模块会给系统控制模块发送一个破坏事件信号。破坏特征还能够被配置去清除全部或者部分休眠内存、恢复状态，使用的是<code>HibernateTamperEventConfig()</code>。探测到的事件会用一个RTC时间戳记录下来。记录到的时间可以使用<code>HibernateTamperEventsGet()</code>和<code>HibernateTamperEventsClear()</code>来管理。<br>总的破坏状态可以通过<code>HibernateTamperStatusGet()</code>来获取。破坏特性可以通过函数<code>HibernateTamperEnable()</code>和<code>HibernateTamperDisable()</code>来进行。  <h3 id="电池供应内存"><a href="#电池供应内存" class="headerlink" title="电池供应内存"></a>电池供应内存</h3>当处理器关闭时，应用状态信息可以储存在电池供应内存里。使用<code>HibernateDataSet()</code>和<code>HibernateDataGet()</code>来使用电池供应内存。  <h3 id="唤醒"><a href="#唤醒" class="headerlink" title="唤醒"></a>唤醒</h3>模块可以配置成当外部<strong>WAKE</strong>引脚触发、RTC匹配出现或者是电池电量达到某一特定水平时。在一些设备上，这个模块可以配置成当一个GPIO引脚被触发或者<strong>RESET</strong>引脚被触发时被触发。在那些支持破坏探测的设备上，模块还能在发生破坏事件时唤醒。使用<code>HibernateWakeSet()</code>函数来设置唤醒条件，通过调用<code>HibernateWakeGet()</code>可以获取当前的配置。<h3 id="低电量检测"><a href="#低电量检测" class="headerlink" title="低电量检测"></a>低电量检测</h3>休眠模块可以检测到电池电量过低并能给处理器发信号，他还能通过设置实现电池电量过低时终止休眠请求，使用<code>HibernateLowBatSet()</code>和<code>HibernateLowBatGet()</code>来配置这些功能，电池电量可以使用<code>HibernateBatCheckStart()</code>和<code>HibernateBatCheckDone()</code>函数来进行检测。<h3 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h3>和其他外设的中断函数形式类似。<h3 id="最终配置"><a href="#最终配置" class="headerlink" title="最终配置"></a>最终配置</h3>当模块被正确配置，状态都被保存，软件应用也准备好休眠时，我们就可以调用<code>HibernateRequest()</code>函数。这个函数可以给处理器断电。重新供电之后，我们可以调用函数<code>HibernateIsActive()</code>来看一看处理器是从休眠中唤醒过来的还是冷启动的。这样，我们之后就可以使用<code>HibernateIntStatus()</code>和<code>HibernateDateGet()</code>来发现唤醒的原因，获取保存的系统状态。  <h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3>老的<code>HibernateEnable()</code>函数已经被新的<code>HibernateEnableExpClk()</code>函数所代替。<code>hibernate.h</code>中提供了旧API到新API的定义，允许现有的应用连接到新API上来运行，我们推荐使用新API。<h2 id="例程"><a href="#例程" class="headerlink" title="例程"></a>例程</h2><h3 id="怎样开始休眠"><a href="#怎样开始休眠" class="headerlink" title="怎样开始休眠"></a>怎样开始休眠</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">uint32_t</span> ui32Status;</span><br><span class="line"><span class="keyword">uint32_t</span> pui32NVData[<span class="number">64</span>];</span><br><span class="line"><span class="comment">//使能休眠外设</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_HIBERNATE);</span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_HIBERNATE))&#123;&#125;</span><br><span class="line"><span class="comment">//使能休眠外设时钟</span></span><br><span class="line">HibernateEnableExpClk(SysCtlClockGet());</span><br><span class="line"><span class="comment">//此处用户应该加入一段延时以等待晶体上电并稳定。</span></span><br><span class="line"><span class="comment">//配置时钟源，使能RTC</span></span><br><span class="line">HibernateClockConfig(HIBERNATE_OSC_LOWDRIVE);</span><br><span class="line">HibernateRTCEnable();</span><br><span class="line"><span class="comment">//设定RTC初值</span></span><br><span class="line">HibernateRTCSet(<span class="number">0</span>);</span><br><span class="line"><span class="comment">//设定匹配值 为30秒后</span></span><br><span class="line"><span class="comment">//设定match0寄存器为30秒后</span></span><br><span class="line">HibernateRTCMatchSet(<span class="number">0</span>, HibernateRTCGet() + <span class="number">30</span>);</span><br><span class="line"><span class="comment">//清除待办中断</span></span><br><span class="line">ui32Status = HibernateIntStatus(<span class="number">0</span>);</span><br><span class="line">HibernateIntClear(ui32Status);</span><br><span class="line"><span class="comment">//保存程序状态，程序状态保存在我们声明的一个数组里，直接将这个数组指针扔进去即可，第二个变量是数组长度，以32位计。</span></span><br><span class="line">HibernateDataSet(pui32NVData, <span class="number">16</span>);</span><br><span class="line"><span class="comment">//设置为RTC match模式</span></span><br><span class="line">HibernateWakeSet(HIBERNATE_WAKE_RTC);</span><br><span class="line"><span class="comment">//开始休眠，断电之前可能要等一会。</span></span><br><span class="line">HibernateRequest();</span><br><span class="line"><span class="comment">//我们使用一个循环来等待断电。</span></span><br><span class="line"><span class="keyword">for</span>(;;)&#123;&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="唤醒后怎样处理"><a href="#唤醒后怎样处理" class="headerlink" title="唤醒后怎样处理"></a>唤醒后怎样处理</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">uint32_t</span> ui32Status;</span><br><span class="line"><span class="keyword">uint32_t</span> pui32NVData[<span class="number">64</span>];</span><br><span class="line"><span class="comment">//使能休眠模块</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_HIBERNATE);</span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_HIBERNATE))&#123;&#125;</span><br><span class="line"><span class="comment">//单片机是不是从休眠状态唤醒的</span></span><br><span class="line"><span class="keyword">if</span>(HibernateIsActive())&#123;</span><br><span class="line"><span class="comment">//如果单片机确实是从次面状态唤醒的，确认唤醒原因</span></span><br><span class="line"><span class="comment">//读取唤醒原因</span></span><br><span class="line">ui32Status = HibernateIntStatus(<span class="literal">false</span>);</span><br><span class="line"><span class="comment">//如果是WAKE引脚唤醒</span></span><br><span class="line"><span class="keyword">if</span>(ui32Status &amp; HIBERNATE_INT_PIN_WAKE)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//如果是RTC match唤醒</span></span><br><span class="line"><span class="keyword">if</span>(ui32Status &amp; HIBERNATE_INT_RTC_MATCH_0)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//恢复程序信息，提供给函数的参数是要存储的位置，以及要读取的word数，以32位计</span></span><br><span class="line">HibernateDataGet(pui32NVData, <span class="number">64</span>);</span><br><span class="line"><span class="comment">//现在唤醒步骤已经完成，程序可以进行正常运行了。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line"><span class="comment">//执行冷启动后的初始化</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/" data-id="cko4hr6580024rw0k3gkt3xvy" data-title="休眠模块" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li></ul>
 
     </footer>
   </div>
@@ -727,7 +831,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9A%E4%BF%A1/" rel="tag">通信</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/midi/" rel="tag">midi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stm32/" rel="tag">stm32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/" rel="tag">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" rel="tag">单片机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" rel="tag">电路设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6%E5%AD%A6%E4%B9%A0/" rel="tag">硬件学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A1%AC%E4%BB%B6%E8%AE%BE%E8%AE%A1/" rel="tag">硬件设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9A%E4%BF%A1/" rel="tag">通信</a></li></ul>
     </div>
   </div>
 
@@ -737,7 +841,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/stm32/" style="font-size: 15px;">stm32</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">通信</a>
+      <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/midi/" style="font-size: 10px;">midi</a> <a href="/tags/stm32/" style="font-size: 15px;">stm32</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/" style="font-size: 20px;">单片机</a> <a href="/tags/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">电路设计</a> <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">硬件学习</a> <a href="/tags/%E7%A1%AC%E4%BB%B6%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">硬件设计</a> <a href="/tags/%E9%80%9A%E4%BF%A1/" style="font-size: 10px;">通信</a>
     </div>
   </div>
 
@@ -746,7 +850,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li></ul>
     </div>
   </div>
 
@@ -759,23 +863,23 @@
       <ul>
         
           <li>
+            <a href="/2021/05/01/%E7%94%B5%E6%BA%90%E5%8F%8A%E7%AE%A1%E7%90%86/">电源及管理</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/01/%E7%BD%91%E7%BB%9C%E4%B8%8A%E4%B8%80%E4%BA%9B%E9%94%82%E7%94%B5%E6%B1%A03V3%E8%BE%93%E5%87%BA%E7%A4%BA%E4%BE%8B/">锂电池转3V3设计</a>
+          </li>
+        
+          <li>
             <a href="/2021/04/30/cc2541/">CC2541</a>
           </li>
         
           <li>
+            <a href="/2021/04/24/%E9%94%82%E7%94%B5%E6%B1%A0/">锂电池</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/28/999-project/">stm32_template</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/27/004-USART/">stm32_USART</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/26/003-systick/">stm32-systick</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/23/002-GPIO/">stm32_GPIO</a>
           </li>
         
       </ul>
