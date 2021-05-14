@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	
+	<!-- title -->
+	
+	<title>
+	
+		midi | 
+	 
+	Welcome to smallcracker&#39;s personal website
+	</title>
+	
+	<!-- keywords,description -->
+	 
+
+	<!-- favicon -->
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+	
+
+
+	<!-- search -->
+	<script>
+		var searchEngine = "https://www.google.com/search?q=";
+		if(typeof searchEngine == "undefined" || searchEngine == null || searchEngine == ""){
+			searchEngine = "https://www.google.com/search?q=";
+		}
+		var homeHost = "wujun234.github.io";
+		if(typeof homeHost == "undefined" || homeHost == null || homeHost == ""){
+			homeHost = window.location.host;
+		}
+	</script>
+
+
+	
+<link rel="stylesheet" href="/css/main.css">
+
+	
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/darcula.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery-pjax@2.0.1/jquery.pjax.min.js"></script>
+
+	
+<script src="/js/main.js"></script>
+
+	
+		
+<script src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+
+		
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+	
+	
+		<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+	<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?3efe99c287df5a1d6f0d02d187e403c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<header id="header">
+    <a id="title" href="/" class="logo">Welcome to smallcracker's personal website</a>
+
+	<ul id="menu">
+		<li class="menu-item">
+			<a href="/about" class="menu-item-link">ABOUT</a>
+		</li>
+	
+		<li class="menu-item">
+			<a href="/tags" class="menu-item-link">标签</a>
+		</li>
+	
+
+	
+		<li class="menu-item">
+			<a href="/categories" class="menu-item-link">分类</a>
+		</li>
+	
+
+		<li class="menu-item">
+			<a href="https://github.com/wujun234/uid-generator-spring-boot-starter" class="menu-item-link" target="_blank">
+				UidGenerator
+			</a>
+		</li>
+		<li class="menu-item">
+			<a href="https://github.com/wujun234" class="menu-item-link" target="_blank">
+				<i class="fa fa-github fa-2x"></i>
+			</a>
+		</li>
+	</ul>
+</header>
+
+	
+<div id="sidebar">
+	<button id="sidebar-toggle" class="toggle" ><i class="fa fa-arrow-right " aria-hidden="true"></i></button>
+	
+	<div id="site-toc">
+		<input id="search-input" class="search-input" type="search" placeholder="按回车全站搜索">
+		<div id="tree">
+			
+
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										C工程知识
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/C%E5%B7%A5%E7%A8%8B%E7%9F%A5%E8%AF%86/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">
+										c文件和头文件
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										MIDI
+									</a>
+									
+							<ul>
+								<li class="file active">
+									<a href="/2021/01/29/MIDI/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/">
+										MIDI文件格式分析
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										stm32
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2021/03/15/stm32/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/">
+										001-新建工程
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/23/stm32/002-GPIO/">
+										002-GPIO
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/26/stm32/003-systick/">
+										003-systick
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/27/stm32/004-USART/">
+										004-USART
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/28/stm32/999-project/">
+										999-project
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/15/stm32/STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">
+										STM32F103RCT6单片机概况
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										tiva tm4c123G
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2021/03/15/tiva%20tm4c123G/000-STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">
+										000-STM32F103RCT6单片机概况
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
+										001-创建项目
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/02/tiva%20tm4c123G/1-Wire_Master/">
+										1-Wire_Master
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/ADC%20interrupt/">
+										ADC interrupt
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
+										Analog Comparator
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
+										Analog Comparator（待完成）
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/Analog%20to%20Digital%20Converter/">
+										Analog to Digital Converter
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/31/tiva%20tm4c123G/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/">
+										DHT11 温湿度传感器
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/30/tiva%20tm4c123G/FPU/">
+										FPU
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/GPIO_PWM/">
+										GPIO_PWM
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/GPIO_interrupt/">
+										GPIO_interrupt
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
+										GPIO输出和输入
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/26/tiva%20tm4c123G/IIC/">
+										IIC
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/Interrupt%20Controller(NVIC)/">
+										Interrupt Controller(NVIC)
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/Pulse%20Width%20Modulator/">
+										Pulse Width Modulator
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/System%20Tick/">
+										System Tick
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/TIMER_CAPTURE/">
+										TIMER_CAPTURE
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/Timer/">
+										Timer
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/UART/">
+										UART
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/boosterpacks/">
+										boosterpacks
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/01/tiva%20tm4c123G/bottom/">
+										bottom
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/06/tiva%20tm4c123G/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/">
+										休眠模块
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
+										创建项目
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/">
+										基本GPIO操作
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/tiva%20tm4c123G/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/">
+										总体概述
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/28/tiva%20tm4c123G/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/">
+										通用定时器
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										传感器
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2021/02/27/%E4%BC%A0%E6%84%9F%E5%99%A8/max30102%20stm32%E4%BB%A3%E7%A0%81/">
+										max30102 stm32代码
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										电路设计
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2021/05/01/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/%E7%94%B5%E6%BA%90%E5%8F%8A%E7%AE%A1%E7%90%86/">
+										电源及管理
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/05/01/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/%E7%BD%91%E7%BB%9C%E4%B8%8A%E4%B8%80%E4%BA%9B%E9%94%82%E7%94%B5%E6%B1%A03V3%E8%BE%93%E5%87%BA%E7%A4%BA%E4%BE%8B/">
+										网络上一些锂电池3V3输出示例
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/04/24/%E7%94%B5%E8%B7%AF%E8%AE%BE%E8%AE%A1/%E9%94%82%E7%94%B5%E6%B1%A0/">
+										锂电池
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										算法
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2021/03/07/%E7%AE%97%E6%B3%95/permutation/">
+										permutation
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										通信模块
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2021/03/01/%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9D%97/ESP8266/">
+										ESP8266
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/04/30/%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9D%97/cc2541/">
+										cc2541
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
+										驱动模块
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2021/02/24/%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9D%97/sg90/">
+										sg90
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+		</div>
+	</div>
+</div>
+
+	<!-- 引入正文 -->
+	<div id="content">
+		<h1 id="article-title">
+
+	MIDI文件格式分析
+</h1>
+<div class="article-meta">
+	
+	<span>smallcracker</span>
+	<span>2021-01-29 00:00:00</span>
+		<div id="article-categories">
+    
+		<span>Categories：</span>
+            
+    
+
+    
+		<span>Tags：</span>
+            
+                
+                    <span>
+                        <i class="fa fa-tag" aria-hidden="true">
+                        <a href="/tags/midi/">midi</a>
+                        </i>
+                    </span>
+                
+            
+    
+		</div>
+
+</div>
+
+<div id="article-content">
+	<h1 id="MIDI文件格式分析"><a href="#MIDI文件格式分析" class="headerlink" title="MIDI文件格式分析"></a>MIDI文件格式分析</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/tiankong_/article/details/78754545?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control">感谢这个博客</a></p>
+<h3 id="开头"><a href="#开头" class="headerlink" title="开头"></a>开头</h3><p>每一个MIDI文件的开头都有如下一段内容，4d 54 68 64 00 00 00 06 ff ff nn nn dd dd</p>
+<p>前四个字节是ASCII字符MThd 表示这是一个Midi文件，</p>
+<p>下面四个字节是指明文件头描述部分的字节数，一共是6，所以一定是00 00 00 06</p>
+<p>下面是剩余部分的含义</p>
+<p>ff ff指定Midi的格式</p>
+<blockquote>
+<p>00 00 表示单音轨</p>
+<p>00 01表示多音轨同步（常见）</p>
+<p>00 02表示多音轨不同步</p>
+</blockquote>
+<p>nn nn表示轨道数</p>
+<blockquote>
+<p>实际音轨倒数加上一个全局的音轨</p>
+</blockquote>
+<p>dd dd指定基本时间</p>
+<blockquote>
+<p>一般为120 （00 78）即一个四分音符的tick数，tick是MIDI中最小时间单位</p>
+</blockquote>
+<p>例如下面</p>
+<blockquote>
+<p>4d54 6864 0000 0006 0001 0003 01e0</p>
+<p>表示这是一个MIDI文件 文件头描述部分占6字节 多音轨同步 一共3个音轨 基本时间是01e0（480）</p>
+</blockquote>
+<h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><p>先来看全局音轨 全局音轨包括了歌曲的附加信息（比如标题和版权），歌曲速度和系统码等内容。</p>
+<p>不论是全局音轨还是含有字符的音轨，都以4D 54 72 6B开头，表示”MTrk”后面跟着一个四个字节的整数，表示该音轨的字节数（不包括MTrk和本身的四个字节），然后是记录数据的地方。</p>
+<p>每一个数据都有相同的结构：时间差+事件。</p>
+<h5 id="时间差"><a href="#时间差" class="headerlink" title="时间差"></a>时间差</h5><p>所谓时间差，就是指从前一个事件到这个事件的时间数，单位是tick。一个字节有 8 位,如果仅使用 7 位,它可以表示 0~127 这 128 个数,而剩下的一位,则用来作为标志。(这一位被放在了每个字节的最前端）。如果要表示的数在以上范围,则这个标志为 0,这时,一个7 位的字节可以表示 0~127tick。如果要表示的数 超出了这个范围(比如 240),则把标志设置成 1,然后记录下高 7 位,剩下的留给下一个字节,在该例中 240 可以分解成 128<em> 1+112,这里的 1 就是第一个字节要记录的,加上标志位,应该为 10000001,即十六进制的 81;而 112 是下一个字节记录的,它的十六进制为 70:所以要表示 240 这个时间,要写成 81 70。 同理,如果要表示 65535tick,则可以先计算出65535=1282</em>3+1281<em>127+1280</em>127,然后得出结果:83 FF 7F。 由此,我们反过来也可以知道如何确定时间差:只要标志位为 0,则表示结束读取时间差。比如 82 C0 03 表示 1282<em>2+1281</em>64+1280*3=40963,如果基本时间为 120,则有 341:043 个四分音符。</p>
+<p>以这种方式记录整数的字节称为动态字节,它根据记录的整数改变自身的长度,这在后面还要用到,所以 必须熟练计算。</p>
+<h5 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h5><p>事件可以分为音符，控制器系统信息等几个种类，对于这些事件，都有统一的表达结构：种类+参数</p>
+<p>对于一个音符，由于他的有效范围是0~127，所以直接用00~7F作为种类，也可以认为是个音符，比如3C表示中央C，而一个音符的最重要的参数是力度，比如，3C 64表示一个力度为100的中央C音符。</p>
+<p>因为一个字节有8位，所以第一位如果置1，那么它就可以表示其他信息，</p>
+<p>下表中,x 表示音轨 0~F,比如 81 表示松开第二轨的音符。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>种类</th>
+<th>参数(十六进制)</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>字节</td>
+<td>含义</td>
+<td></td>
+</tr>
+<tr>
+<td>8x</td>
+<td>松开音符</td>
+<td>音符(00~7F):松开的音符</td>
+</tr>
+<tr>
+<td>力度:00~7F</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>9x</td>
+<td>按下音符</td>
+<td>音符(00~7F):按下的音符</td>
+</tr>
+<tr>
+<td>力度:00~7F</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Ax</td>
+<td>触后音符 (Key After Touch)</td>
+<td>音符:00~7F</td>
+</tr>
+<tr>
+<td>力度:00~7F</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Bx</td>
+<td>控制器</td>
+<td>控制器号码:00~7F</td>
+</tr>
+<tr>
+<td>控制器参数:00~7F</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Cx</td>
+<td>改变乐器</td>
+<td>乐器号码:00~7F</td>
+</tr>
+<tr>
+<td>Dx</td>
+<td>触后通道</td>
+<td>值:00~7F</td>
+</tr>
+<tr>
+<td>Ex</td>
+<td>滑音</td>
+<td>音高(Pitch)低位:Pitch mod 128</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>音高高位:Pitch div 128</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F0</td>
+<td>系统码</td>
+<td>系统码字节数:动态字节</td>
+</tr>
+<tr>
+<td>系统码:不含开头的 F0,但包括结尾的 F7</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>FF</td>
+<td>其他格式</td>
+<td>程式种类:00~FF</td>
+</tr>
+<tr>
+<td>数据占用的字节数:动态字节</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>数据:个数由上一参数确定</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>00~7F</td>
+<td>上次激活格式的参数(8x、9x、Ax、Bx、Cx、Dx、Ex)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>节拍器时钟</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>一个四分音符包含的三十二分音符的个数</td>
+</tr>
+<tr>
+<td>59</td>
+<td>调号</td>
+<td>02</td>
+<td>升降号数:-7~-1(降号),0(C),1~7(升号)</td>
+</tr>
+<tr>
+<td>大小调:0(大调),1(小调)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7F</td>
+<td>音序特定信息</td>
+<td>—</td>
+<td>音序特定信息</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>下表详细地列出了 FF 的详细情况,对于字节数由数据决定的情况,表中以“—”表示。</p>
+<p>种类 字 节</p>
+<p>字节 含义<br>00 设置轨道音序</p>
+<p>数据 数</p>
+<p>02 音序号 00 00~ FF FF</p>
+<p>01</p>
+<p>歌曲备注 文本信息 —</p>
+<p>音轨文本 文本信息</p>
+<p>02 歌曲版权<br>歌曲标题 —</p>
+<p>03</p>
+<p>— 版权信息</p>
+<p>歌曲标题:用于全局音轨,第一次使用表示主标题,第二次表 示副标题</p>
+<p>音轨名称 — 音轨名</p>
+<p>04 乐器名称</p>
+<p>— 音轨文本(同 01/2)</p>
+<p>05歌词 —歌词</p>
+<p>06  标记</p>
+<p>07  开始点</p>
+<p>2F 音轨结束标志</p>
+<p>51 速度</p>
+<p>— 用文本标记(Marker)</p>
+<p>— 用文本记录开始点(同 01/2)</p>
+<p>00 无</p>
+<p>03 3字节整数,1个四分音符的微秒数</p>
+<p>58节拍 04分子</p>
+<p>分母:00(1),01(2),02(4),03(8)等</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th>节拍器时钟</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>一个四分音符包含的三十二分音符的个数</td>
+</tr>
+<tr>
+<td>59</td>
+<td>调号</td>
+<td>02</td>
+<td>升降号数:-7~-1(降号),0(C),1~7(升号)</td>
+</tr>
+<tr>
+<td>大小调:0(大调),1(小调)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>7F</td>
+<td>音序特定信息</td>
+<td>—</td>
+<td>音序特定信息</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+
+
+    <div class="post-guide">
+        <div class="item left">
+            
+              <a href="/2021/01/29/tiva%20tm4c123G/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
+                  <i class="fa fa-angle-left" aria-hidden="true"></i>
+                  创建项目
+              </a>
+            
+        </div>
+        <div class="item right">
+            
+              <a href="/2021/01/29/C%E5%B7%A5%E7%A8%8B%E7%9F%A5%E8%AF%86/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">
+                c文件和头文件
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
+            
+        </div>
+    </div>
+
+
+
+
+<script>
+	
+	
+</script>
+	</div>
+	<div id="footer">
+	<p>
+	©2019-<span id="footerYear"></span> 
+	<a href="/">smallcracker</a> 
+	
+	
+		|
+		<span id="busuanzi_container_site_pv">
+			pv
+			<span id="busuanzi_value_site_pv"></span>
+		</span>
+		|
+		<span id="busuanzi_container_site_uv"> 
+			uv
+			<span id="busuanzi_value_site_uv"></span>
+		</span>
+	
+	<br>
+	Theme <a href="//github.com/wujun234/hexo-theme-tree" target="_blank">Tree</a>
+	by <a href="//github.com/wujun234" target="_blank">WuJun</a>
+	Powered by <a href="//hexo.io" target="_blank">Hexo</a>
+	</p>
+</div>
+<script type="text/javascript"> 
+	document.getElementById('footerYear').innerHTML = new Date().getFullYear() + '';
+</script>
+	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
