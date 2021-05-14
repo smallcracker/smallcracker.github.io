@@ -551,6 +551,27 @@ var _hmt = _hmt || [];
 		<div id="index">
 	
 		<div class="index-li">
+			<a href="/2021/01/29/GPIO_interrupt/">
+				<h2 class="index-title">
+					GPIO_interrupt
+				</h2>
+				<div class="index-brief">
+					GPIO中断资料来源
+一、函数介绍（1）void GPIOIntTypeSet(uint32_t ui32Port, uint8_t ui8Pins,uint32_t ui32IntType)
+功能：设置指定引脚的中断触发类型.
+参数:（1）ui32Port： GPIO口的基地址（2）ui8Pins
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
 			<a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
 				<h2 class="index-title">
 					GPIO输出和输入
@@ -590,15 +611,12 @@ var _hmt = _hmt || [];
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/GPIO_interrupt/">
+			<a href="/2021/01/29/Pulse%20Width%20Modulator/">
 				<h2 class="index-title">
-					GPIO_interrupt
+					Pulse Width Modulator
 				</h2>
 				<div class="index-brief">
-					GPIO中断资料来源
-一、函数介绍（1）void GPIOIntTypeSet(uint32_t ui32Port, uint8_t ui8Pins,uint32_t ui32IntType)
-功能：设置指定引脚的中断触发类型.
-参数:（1）ui32Port： GPIO口的基地址（2）ui8Pins
+					PWM概述Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has 
 					...
 				</div>
 			</a>
@@ -611,12 +629,12 @@ var _hmt = _hmt || [];
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/Pulse%20Width%20Modulator/">
+			<a href="/2021/01/29/System%20Tick/">
 				<h2 class="index-title">
-					Pulse Width Modulator
+					System Tick
 				</h2>
 				<div class="index-brief">
-					PWM概述Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has 
+					SysTickSysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Itsintended purpose is to provide a periodic inte
 					...
 				</div>
 			</a>
@@ -650,12 +668,39 @@ var _hmt = _hmt || [];
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/System%20Tick/">
+			<a href="/2021/01/29/Timer/">
 				<h2 class="index-title">
-					System Tick
+					Timer
 				</h2>
 				<div class="index-brief">
-					SysTickSysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Itsintended purpose is to provide a periodic inte
+					Timer一、简介可编程定时器对于驱动定时器输入管脚的外部事件进行计数或计时。
+
+前置知识
+trigger是触发的意思
+本单片机提供了8个定时器
+有定时器/计数器/RTC…模式
+
+定时器实质上就是一个加1计数器。它随着计数器的输入脉冲进行自加1，也就是说当每来一个脉冲，计数器就会自动加1,如果当加到
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/TIMER_CAPTURE/">
+				<h2 class="index-title">
+					TIMER_CAPTURE
+				</h2>
+				<div class="index-brief">
+					TIMER_CAPTURE功能介绍计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位
+计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。
+加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，
 					...
 				</div>
 			</a>
@@ -689,26 +734,6 @@ var _hmt = _hmt || [];
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/TIMER_CAPTURE/">
-				<h2 class="index-title">
-					TIMER_CAPTURE
-				</h2>
-				<div class="index-brief">
-					TIMER_CAPTURE功能介绍计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位
-计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。
-加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
 			<a href="/2021/01/29/boosterpacks/">
 				<h2 class="index-title">
 					boosterpacks
@@ -716,31 +741,6 @@ var _hmt = _hmt || [];
 				<div class="index-brief">
 					BoosterPacks的使用留坑
 
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/Timer/">
-				<h2 class="index-title">
-					Timer
-				</h2>
-				<div class="index-brief">
-					Timer一、简介可编程定时器对于驱动定时器输入管脚的外部事件进行计数或计时。
-
-前置知识
-trigger是触发的意思
-本单片机提供了8个定时器
-有定时器/计数器/RTC…模式
-
-定时器实质上就是一个加1计数器。它随着计数器的输入脉冲进行自加1，也就是说当每来一个脉冲，计数器就会自动加1,如果当加到
 					...
 				</div>
 			</a>
