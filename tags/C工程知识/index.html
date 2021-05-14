@@ -8,8 +8,6 @@
 	<!-- title -->
 	
 	<title>
-	
-		Analog Comparator | 
 	 
 	Welcome to smallcracker&#39;s personal website
 	</title>
@@ -288,7 +286,7 @@ var _hmt = _hmt || [];
 							</ul>
 			
 							<ul>
-								<li class="file active">
+								<li class="file">
 									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
 										Analog Comparator（待完成）
 									</a>
@@ -613,89 +611,39 @@ var _hmt = _hmt || [];
 
 	<!-- 引入正文 -->
 	<div id="content">
-		<h1 id="article-title">
-
-	Analog Comparator（待完成）
-</h1>
-<div class="article-meta">
+		<div id="index">
 	
-	<span>smallcracker</span>
-	<span>2021-01-30 00:00:00</span>
-		<div id="article-categories">
-    
-		<span>Categories：</span>
-            
-    
-
-    
-		<span>Tags：</span>
-            
-                
-                    <span>
-                        <i class="fa fa-tag" aria-hidden="true">
-                        <a href="/tags/tiva-tm4c123G/">tiva tm4c123G</a>
-                        </i>
-                    </span>
-                
-            
-    
-		</div>
-
+		<div class="index-li">
+			<a href="/2021/01/29/C%E5%B7%A5%E7%A8%8B%E7%9F%A5%E8%AF%86/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">
+				<h2 class="index-title">
+					c文件和头文件
+				</h2>
+				<div class="index-brief">
+					关于怎样写c文件和头文件c语言的编译过程预处理预处理主要处理
+1.源程序的宏定义指令
+2.条件编译指令
+3.头文件包含指令
+编译将源程序转换为汇编代码
+汇编将汇编语言代 码转化成机器语言
+链接将各个目标文件中的各段代码进行绝对定位，生成根特定平台相关的可执行文件。（就是生成.exe文件）
+那么.h 
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+	
+	<div id="index-paginator">
+		
+	</div>
 </div>
 
-<div id="article-content">
-	<h1 id="Analog-Comparator"><a href="#Analog-Comparator" class="headerlink" title="Analog Comparator"></a>Analog Comparator</h1><h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><p>模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、触发ADC采样。它的中断产生逻辑是独立于ADC触发逻辑的，所以，AC可以基于一个事件产生一个中断，ADC可以基于另一个事件产生触发。比如说，让上升沿触发一次中断，让下降沿触发一次ADC。</p>
-<p>该芯片提供了两个独立的模拟比较器。</p>
-<p><img src="image-20210130173507102.png" alt="照片"><br><img src="image-20210130173536884.png" alt="image-20210130173536884"><br>原理演示图<br><img src="image-20210130173642377.png" alt="image-20210130173642377"><br>它的头文件是driverlib/comp.h</p>
-<h3 id="二、函数介绍"><a href="#二、函数介绍" class="headerlink" title="二、函数介绍"></a>二、函数介绍</h3><p><img src="image-20210130100105290.png" alt="image-20210130100105290"></p>
-<ol>
-<li><code>ComparatorConfigure()</code> 用来配置一个AC模块触发ADC模块的条件、触发中断的条件、和谁比较、正常输出还是反转输出</li>
-<li><code>ComparatorIntClear()</code> 用于清除比较器中断标志，<em>（ 小贴士，因为在Contex-M处理器中写入有缓冲，所以执行函数之后过几个周期中断源才可能真正被清除，所以我们推荐在中断函数的一开始就清除中断标识）</em></li>
-<li><code>ComparatorIntDisable()</code> 失能一个比较器中断</li>
-<li><code>ComparatorIntEnable()</code> 使能一个比较器中断</li>
-<li><code>ComparatorIntRegister()</code> 注册中断函数</li>
-<li><code>ComparatorIntStatus()</code> 获取当前中断状态</li>
-<li><code>ComparatorIntUnregister()</code> 注销一个中断函数</li>
-<li><code>ComparatorRefSet()</code> 设定内部参考电压</li>
-<li><code>ComparatorValueGet()</code> 获取当前比较器输出值，<strong>true</strong>表示比较器输出是高，<strong>false</strong>表示比较器输出是低</li>
-</ol>
-<ul>
-<li>此外还需要用到一些GPIO函数来实现比较器功能<ol>
-<li><code>GPIOPinTypeComparator()</code> 配置引脚用于模拟比较器输入</li>
-<li><code>GPIOPinTypeComparatorOutput()</code> 配置引脚作为模拟比较器输出</li>
-</ol>
-</li>
-</ul>
-
-</div>
-
-
-    <div class="post-guide">
-        <div class="item left">
-            
-              <a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
-                  <i class="fa fa-angle-left" aria-hidden="true"></i>
-                  Analog Comparator
-              </a>
-            
-        </div>
-        <div class="item right">
-            
-              <a href="/2021/01/30/tiva%20tm4c123G/FPU/">
-                FPU
-                <i class="fa fa-angle-right" aria-hidden="true"></i>
-              </a>
-            
-        </div>
-    </div>
-
-
-
-
-<script>
-	
-	
-</script>
 	</div>
 	<div id="footer">
 	<p>

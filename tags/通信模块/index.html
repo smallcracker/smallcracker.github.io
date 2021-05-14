@@ -614,17 +614,22 @@ var _hmt = _hmt || [];
 		<div id="index">
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/Pulse%20Width%20Modulator/">
+			<a href="/2021/04/30/%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9D%97/cc2541/">
 				<h2 class="index-title">
-					Pulse Width Modulator
+					cc2541
 				</h2>
 				<div class="index-brief">
-					PWM概述Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has 
+					CC2541的六种设备状态
+待机状态(standby):设备没有传输和发送数据，并且没有连接到任何设备
+广播状态(Advertiser):周期性广播状态
+扫描状态(Scanner):主动寻找正在广播的设备
+发起链接状态(Initiator):主动向扫描设备发起链接
+主设备(Master):作为主设备
 					...
 				</div>
 			</a>
                 <div class="article-meta">
-				    <span>2021-01-29</span>
+				    <span>2021-04-30</span>
                     
                             
                     
@@ -632,145 +637,22 @@ var _hmt = _hmt || [];
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/System%20Tick/">
+			<a href="/2021/03/01/%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9D%97/ESP8266/">
 				<h2 class="index-title">
-					System Tick
+					ESP8266
 				</h2>
 				<div class="index-brief">
-					SysTickSysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Itsintended purpose is to provide a periodic inte
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/UART/">
-				<h2 class="index-title">
-					UART
-				</h2>
-				<div class="index-brief">
-					UARTUART能干什么？
-能用来通信。
-感谢这个人的博客
-基本功能 向上位机输出一个字符1234567891011//使能UART和GPIOSysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);SysCtlPeripheralEnable(SYSCTL_PERIP
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/boosterpacks/">
-				<h2 class="index-title">
-					boosterpacks
-				</h2>
-				<div class="index-brief">
-					BoosterPacks的使用留坑
+					esp8266esp8266的三种工作模式
+station 客户端模式，类似手机，小爱音箱等设备(client)
+AP 接入点模式：类似于路由器(server),可以让其他设备访问
+station+AP （客户端+接入点模式）注意，配置esp8266的AT指令时每条指令后面都要加上回车再发送
 
+St
 					...
 				</div>
 			</a>
                 <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/Timer/">
-				<h2 class="index-title">
-					Timer
-				</h2>
-				<div class="index-brief">
-					Timer一、简介可编程定时器对于驱动定时器输入管脚的外部事件进行计数或计时。
-
-前置知识
-trigger是触发的意思
-本单片机提供了8个定时器
-有定时器/计数器/RTC…模式
-
-定时器实质上就是一个加1计数器。它随着计数器的输入脉冲进行自加1，也就是说当每来一个脉冲，计数器就会自动加1,如果当加到
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/TIMER_CAPTURE/">
-				<h2 class="index-title">
-					TIMER_CAPTURE
-				</h2>
-				<div class="index-brief">
-					TIMER_CAPTURE功能介绍计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位
-计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。
-加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/">
-				<h2 class="index-title">
-					总体概述
-				</h2>
-				<div class="index-brief">
-					微控制器这一款单片机的微控制器是TM4C123GH6PMI
-特色有TM4C123GH6PMI微控制器USB2.0 设备接口，休眠模块，运动控制脉宽调制模块
-什么是时钟时钟就是单片机的心脏。每跳动一下。整个单片机的各个电路就同步的动作一下。就好像我们做广播体操的时候 广播上喊的节拍1234 2234 
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/">
-				<h2 class="index-title">
-					基本GPIO操作
-				</h2>
-				<div class="index-brief">
-					单片机工作前需要使能系统时钟
-1MAP_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN); 
-可以将系统时钟设置到50Mhz;
-时钟的学习参见时钟
-接下来使能GPIO接口
-12
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
+				    <span>2021-03-01</span>
                     
                             
                     
@@ -779,8 +661,6 @@ trigger是触发的意思
 	
 	
 	<div id="index-paginator">
-		
-			<a class="extend prev" rel="prev" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/page/2/">&lt;</a><a class="page-number" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/">1</a><a class="page-number" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/page/2/">2</a><span class="page-number current">3</span>
 		
 	</div>
 </div>

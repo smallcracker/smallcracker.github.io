@@ -614,18 +614,21 @@ var _hmt = _hmt || [];
 		<div id="index">
 	
 		<div class="index-li">
-			<a href="/2021/03/06/tiva%20tm4c123G/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/">
+			<a href="/2021/01/29/tiva%20tm4c123G/ADC%20interrupt/">
 				<h2 class="index-title">
-					休眠模块
+					ADC interrupt
 				</h2>
 				<div class="index-brief">
-					这份文档没用运行多次，每次都卡死在HibernateEnableExpClk(ROM_SysCtlClockGet());函数，上网搜索无果，无法进入休眠状态。知道解决方法的人希望您能与我联系，感激不尽。
-休眠模块简介休眠模块允许通过软件来关闭微控制器，再通过软件或者外部WAKE引脚来打开微控制器。
+					ADC中断一、相关函数介绍
+ADCIntRegister() 和ADCIntUnregister()用于为ADC中断注册（注销）一个中断函数
+ADCIntEnable() 和 ADCIntDisable 使能（失能）一个采样序列中断
+ADCIntClear() 清除采样序列中断源
+ADCIntSta
 					...
 				</div>
 			</a>
                 <div class="article-meta">
-				    <span>2021-03-06</span>
+				    <span>2021-01-29</span>
                     
                             
                     
@@ -633,17 +636,18 @@ var _hmt = _hmt || [];
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/03/02/tiva%20tm4c123G/1-Wire_Master/">
+			<a href="/2021/01/29/tiva%20tm4c123G/Analog%20to%20Digital%20Converter/">
 				<h2 class="index-title">
-					1-Wire_Master
+					Analog to Digital Converter
 				</h2>
 				<div class="index-brief">
-					简介例程1234567891011121314151617181920212223242526SysCtlPeripheralEnable(SYSCTL_PERIPH_ONEWIRE0);while(!SysCtlPeripheralReady(SYSCTL_PERIPH_ONEWIRE0))&#1
+					Analog to Digital Converter（模-数转换器）一、简介这款单片机有两个完全相同的转换器模块，它们共用12个输入通道。该ADC模块的转换分辨率为12位。
+每个ADC模块都包含4个可编程的序列发生器。采样序列发生器（Sample Sequencer 简写为SS）用于采样控制和数据
 					...
 				</div>
 			</a>
                 <div class="article-meta">
-				    <span>2021-03-02</span>
+				    <span>2021-01-29</span>
                     
                             
                     
@@ -651,138 +655,22 @@ var _hmt = _hmt || [];
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/03/01/tiva%20tm4c123G/bottom/">
+			<a href="/2021/01/29/tiva%20tm4c123G/GPIO_PWM/">
 				<h2 class="index-title">
-					bottom
+					GPIO_PWM
 				</h2>
 				<div class="index-brief">
-					bottom1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950bool detection_queue[110];int detection_index=0;bool 
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-03-01</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/03/01/%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9D%97/ESP8266/">
-				<h2 class="index-title">
-					ESP8266
-				</h2>
-				<div class="index-brief">
-					esp8266esp8266的三种工作模式
-station 客户端模式，类似手机，小爱音箱等设备(client)
-AP 接入点模式：类似于路由器(server),可以让其他设备访问
-station+AP （客户端+接入点模式）注意，配置esp8266的AT指令时每条指令后面都要加上回车再发送Stat
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-03-01</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/02/28/tiva%20tm4c123G/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/">
-				<h2 class="index-title">
-					通用定时器
-				</h2>
-				<div class="index-brief">
-					通用定时器一、简介功能
-引脚
-二、使用简介1、定时器模式这里有单次运行和连续运行模式。该单片机要想使用实时时钟模式，就要在ccp的偶数管引脚上接入一个32768hz的输入信号，所以这里不介绍RTC模式。12345678910111213141516171819202122232425262728vo
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-02-28</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/02/27/%E4%BC%A0%E6%84%9F%E5%99%A8/max30102%20stm32%E4%BB%A3%E7%A0%81/">
-				<h2 class="index-title">
-					max30102 stm32代码
-				</h2>
-				<div class="index-brief">
-					max30102 stm32代码12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-02-27</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/02/26/tiva%20tm4c123G/IIC/">
-				<h2 class="index-title">
-					IIC
-				</h2>
-				<div class="index-brief">
-					IIC一、IIC介绍I2C(Inter－Integrated Circuit)总线是80年代PHILIPS公司开发的两线式串行总线，如今已经成为芯片间低速串行通信的事实标准，被广泛使用在消费、控制类电子设备场合。这里的两个关键词两线和低速：两线意味着结构简单，低速意味着好实现，做电路的都知道速度越慢
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-02-26</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/02/24/%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9D%97/sg90/">
-				<h2 class="index-title">
-					sg90
-				</h2>
-				<div class="index-brief">
-					sg90舵机操作模板接线：上线黄色为PWM输入信号；中线橙色接入电源正极；bai下线棕色接入电源负极。
-版本一：使用延时函数实现123456789101112131415int angle;void rotate()&#123;    int cnt=0,door=50;    //定义接入sg90
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-02-24</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/31/tiva%20tm4c123G/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/">
-				<h2 class="index-title">
-					DHT11 温湿度传感器
-				</h2>
-				<div class="index-brief">
-					DHT11温湿度传感器一、外观
-二、参数特性
-三、引脚说明s端是信号端，串行数据，负号端是负极，中间是正极，正极供电电压要求在3.5-5.5V之间
-四、数据格式一次传送40位数据，高位先出。格式规定如下
+					GPIOPinTypePWM一、概述感谢这位老哥
+Configures pin(s) for use by the PWM peripheral.
 
-8位湿度整数数据+8位湿度小数数据+8位温度整数数据+8位温度小数数据+8位校验位
+配置引脚以用作PWM外设
 
-其中校验
+Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 					...
 				</div>
 			</a>
                 <div class="article-meta">
-				    <span>2021-01-31</span>
+				    <span>2021-01-29</span>
                     
                             
                     
@@ -790,18 +678,140 @@ station+AP （客户端+接入点模式）注意，配置esp8266的AT指令时�
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
+			<a href="/2021/01/29/tiva%20tm4c123G/GPIO_interrupt/">
 				<h2 class="index-title">
-					Analog Comparator
+					GPIO_interrupt
 				</h2>
 				<div class="index-brief">
-					Analog Comparator一、简介模拟比较器是一个外设，它能比较两个模拟电压的大小，并通过自身提供的逻辑输出端将比较结果以信号的形式输出。
-模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、
+					GPIO中断资料来源
+一、函数介绍（1）void GPIOIntTypeSet(uint32_t ui32Port, uint8_t ui8Pins,uint32_t ui32IntType)
+功能：设置指定引脚的中断触发类型.
+参数:（1）ui32Port： GPIO口的基地址（2）ui8Pins
 					...
 				</div>
 			</a>
                 <div class="article-meta">
-				    <span>2021-01-30</span>
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/tiva%20tm4c123G/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
+				<h2 class="index-title">
+					GPIO输出和输入
+				</h2>
+				<div class="index-brief">
+					GPIO 输入和输出首先使能GPIO接口SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+接下来设置GPIO模式为输出GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);  
+
+如果要设置多个pin的话GPIO
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/tiva%20tm4c123G/Interrupt%20Controller(NVIC)/">
+				<h2 class="index-title">
+					Interrupt Controller(NVIC)
+				</h2>
+				<div class="index-brief">
+					Interrupt Controller(NVIC)The interrupt controller API provides a set of functions for dealing with the Nested Vectored InterruptController (NVIC). Fu
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/tiva%20tm4c123G/Pulse%20Width%20Modulator/">
+				<h2 class="index-title">
+					Pulse Width Modulator
+				</h2>
+				<div class="index-brief">
+					PWM概述Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has 
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/tiva%20tm4c123G/System%20Tick/">
+				<h2 class="index-title">
+					System Tick
+				</h2>
+				<div class="index-brief">
+					SysTickSysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Itsintended purpose is to provide a periodic inte
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/tiva%20tm4c123G/TIMER_CAPTURE/">
+				<h2 class="index-title">
+					TIMER_CAPTURE
+				</h2>
+				<div class="index-brief">
+					TIMER_CAPTURE功能介绍计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位
+计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。
+加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/tiva%20tm4c123G/Timer/">
+				<h2 class="index-title">
+					Timer
+				</h2>
+				<div class="index-brief">
+					Timer一、简介可编程定时器对于驱动定时器输入管脚的外部事件进行计数或计时。
+
+前置知识
+trigger是触发的意思
+本单片机提供了8个定时器
+有定时器/计数器/RTC…模式
+
+定时器实质上就是一个加1计数器。它随着计数器的输入脉冲进行自加1，也就是说当每来一个脉冲，计数器就会自动加1,如果当加到
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
                     
                             
                     
@@ -811,7 +821,7 @@ station+AP （客户端+接入点模式）注意，配置esp8266的AT指令时�
 	
 	<div id="index-paginator">
 		
-			<span class="page-number current">1</span><a class="page-number" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/page/2/">2</a><a class="page-number" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/page/3/">3</a><a class="extend next" rel="next" href="/tags/%E5%8D%95%E7%89%87%E6%9C%BA/page/2/">&gt;</a>
+			<a class="extend prev" rel="prev" href="/tags/tiva-tm4c123G/">&lt;</a><a class="page-number" href="/tags/tiva-tm4c123G/">1</a><span class="page-number current">2</span><a class="page-number" href="/tags/tiva-tm4c123G/page/3/">3</a><a class="extend next" rel="next" href="/tags/tiva-tm4c123G/page/3/">&gt;</a>
 		
 	</div>
 </div>
