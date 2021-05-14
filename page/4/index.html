@@ -543,6 +543,27 @@ var _hmt = _hmt || [];
 		<div id="index">
 	
 		<div class="index-li">
+			<a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
+				<h2 class="index-title">
+					GPIO输出和输入
+				</h2>
+				<div class="index-brief">
+					GPIO 输入和输出首先使能GPIO接口SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+接下来设置GPIO模式为输出GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);  
+
+如果要设置多个pin的话GPIO
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
 			<a href="/2021/01/29/GPIO_PWM/">
 				<h2 class="index-title">
 					GPIO_PWM
@@ -566,15 +587,15 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
+			<a href="/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/">
 				<h2 class="index-title">
-					GPIO输出和输入
+					MIDI文件格式分析
 				</h2>
 				<div class="index-brief">
-					GPIO 输入和输出首先使能GPIO接口SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-接下来设置GPIO模式为输出GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);  
-
-如果要设置多个pin的话GPIO
+					MIDI文件格式分析感谢这个博客
+开头每一个MIDI文件的开头都有如下一段内容，4d 54 68 64 00 00 00 06 ff ff nn nn dd dd
+前四个字节是ASCII字符MThd 表示这是一个Midi文件，
+下面四个字节是指明文件头描述部分的字节数，一共是6，所以一定是00 00
 					...
 				</div>
 			</a>
@@ -623,65 +644,6 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/System%20Tick/">
-				<h2 class="index-title">
-					System Tick
-				</h2>
-				<div class="index-brief">
-					SysTickSysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Itsintended purpose is to provide a periodic inte
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/">
-				<h2 class="index-title">
-					MIDI文件格式分析
-				</h2>
-				<div class="index-brief">
-					MIDI文件格式分析感谢这个博客
-开头每一个MIDI文件的开头都有如下一段内容，4d 54 68 64 00 00 00 06 ff ff nn nn dd dd
-前四个字节是ASCII字符MThd 表示这是一个Midi文件，
-下面四个字节是指明文件头描述部分的字节数，一共是6，所以一定是00 00
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/TIMER_CAPTURE/">
-				<h2 class="index-title">
-					TIMER_CAPTURE
-				</h2>
-				<div class="index-brief">
-					TIMER_CAPTURE功能介绍计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位
-计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。
-加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
 			<a href="/2021/01/29/Timer/">
 				<h2 class="index-title">
 					Timer
@@ -695,6 +657,24 @@ trigger是触发的意思
 有定时器/计数器/RTC…模式
 
 定时器实质上就是一个加1计数器。它随着计数器的输入脉冲进行自加1，也就是说当每来一个脉冲，计数器就会自动加1,如果当加到
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/System%20Tick/">
+				<h2 class="index-title">
+					System Tick
+				</h2>
+				<div class="index-brief">
+					SysTickSysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Itsintended purpose is to provide a periodic inte
 					...
 				</div>
 			</a>
@@ -735,6 +715,26 @@ trigger是触发的意思
 				<div class="index-brief">
 					BoosterPacks的使用留坑
 
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/TIMER_CAPTURE/">
+				<h2 class="index-title">
+					TIMER_CAPTURE
+				</h2>
+				<div class="index-brief">
+					TIMER_CAPTURE功能介绍计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位
+计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。
+加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，
 					...
 				</div>
 			</a>

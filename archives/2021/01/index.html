@@ -745,17 +745,15 @@ ADCIntSta
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/GPIO_PWM/">
+			<a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
 				<h2 class="index-title">
-					GPIO_PWM
+					GPIO输出和输入
 				</h2>
 				<div class="index-brief">
-					GPIOPinTypePWM一、概述感谢这位老哥
-Configures pin(s) for use by the PWM peripheral.
+					GPIO 输入和输出首先使能GPIO接口SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+接下来设置GPIO模式为输出GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);  
 
-配置引脚以用作PWM外设
-
-Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
+如果要设置多个pin的话GPIO
 					...
 				</div>
 			</a>

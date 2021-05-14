@@ -543,14 +543,17 @@ var _hmt = _hmt || [];
 		<div id="index">
 	
 		<div class="index-li">
-			<a href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/">
+			<a href="/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/">
 				<h2 class="index-title">
-					总体概述
+					基本GPIO操作
 				</h2>
 				<div class="index-brief">
-					微控制器这一款单片机的微控制器是TM4C123GH6PMI
-特色有TM4C123GH6PMI微控制器USB2.0 设备接口，休眠模块，运动控制脉宽调制模块
-什么是时钟时钟就是单片机的心脏。每跳动一下。整个单片机的各个电路就同步的动作一下。就好像我们做广播体操的时候 广播上喊的节拍1234 2234 
+					单片机工作前需要使能系统时钟
+1MAP_SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN); 
+可以将系统时钟设置到50Mhz;
+时钟的学习参见时钟
+接下来使能GPIO接口
+12
 					...
 				</div>
 			</a>
