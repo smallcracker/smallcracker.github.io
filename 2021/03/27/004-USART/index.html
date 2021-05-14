@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	
+	<!-- title -->
+	
+	<title>
+	
+		stm32_USART | 
+	 
+	Welcome to smallcracker&#39;s personal website
+	</title>
+	
+	<!-- keywords,description -->
+	 
+
+	<!-- favicon -->
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+	
+
+
+	<!-- search -->
+	<script>
+		var searchEngine = "https://www.google.com/search?q=";
+		if(typeof searchEngine == "undefined" || searchEngine == null || searchEngine == ""){
+			searchEngine = "https://www.google.com/search?q=";
+		}
+		var homeHost = "wujun234.github.io";
+		if(typeof homeHost == "undefined" || homeHost == null || homeHost == ""){
+			homeHost = window.location.host;
+		}
+	</script>
+
+
+	
+<link rel="stylesheet" href="/css/main.css">
+
+	
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/darcula.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery-pjax@2.0.1/jquery.pjax.min.js"></script>
+
+	
+<script src="/js/main.js"></script>
+
+	
+		
+<script src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+
+		
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+	
+	
+		<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+	<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?3efe99c287df5a1d6f0d02d187e403c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<header id="header">
+    <a id="title" href="/" class="logo">Welcome to smallcracker's personal website</a>
+
+	<ul id="menu">
+		<li class="menu-item">
+			<a href="/about" class="menu-item-link">ABOUT</a>
+		</li>
+	
+
+	
+
+		<li class="menu-item">
+			<a href="https://github.com/wujun234/uid-generator-spring-boot-starter" class="menu-item-link" target="_blank">
+				UidGenerator
+			</a>
+		</li>
+		<li class="menu-item">
+			<a href="https://github.com/wujun234" class="menu-item-link" target="_blank">
+				<i class="fa fa-github fa-2x"></i>
+			</a>
+		</li>
+	</ul>
+</header>
+
+	
+<div id="sidebar">
+	<button id="sidebar-toggle" class="toggle" ><i class="fa fa-arrow-right " aria-hidden="true"></i></button>
+	
+	<div id="site-toc">
+		<input id="search-input" class="search-input" type="search" placeholder="按回车全站搜索">
+		<div id="tree">
+			
+
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/15/000-STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">
+										000-STM32F103RCT6单片机概况
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
+										001-创建项目
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/">
+										001-新建工程
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/23/002-GPIO/">
+										002-GPIO
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/26/003-systick/">
+										003-systick
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file active">
+									<a href="/2021/03/27/004-USART/">
+										004-USART
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/02/1-Wire_Master/">
+										1-Wire_Master
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/28/999-project/">
+										999-project
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/ADC%20interrupt/">
+										ADC interrupt
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/30/Analog%20Comparator/">
+										Analog Comparator
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
+										Analog Comparator（待完成）
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/Analog%20to%20Digital%20Converter/">
+										Analog to Digital Converter
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/">
+										DHT11 温湿度传感器
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/01/ESP8266/">
+										ESP8266
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/30/FPU/">
+										FPU
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/GPIO_PWM/">
+										GPIO_PWM
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/GPIO_interrupt/">
+										GPIO_interrupt
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
+										GPIO输出和输入
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/26/IIC/">
+										IIC
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/Interrupt%20Controller(NVIC)/">
+										Interrupt Controller(NVIC)
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/">
+										MIDI文件格式分析
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/Pulse%20Width%20Modulator/">
+										Pulse Width Modulator
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/15/STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">
+										STM32F103RCT6单片机概况
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/System%20Tick/">
+										System Tick
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/TIMER_CAPTURE/">
+										TIMER_CAPTURE
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/Timer/">
+										Timer
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/UART/">
+										UART
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/boosterpacks/">
+										boosterpacks
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/01/bottom/">
+										bottom
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/04/30/cc2541/">
+										cc2541
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">
+										c文件和头文件
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/15/hello-world/">
+										hello-world
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/">
+										max30102 stm32代码
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/07/permutation/">
+										permutation
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/phripheral-list/">
+										phripheral-list
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/pin_map/">
+										pin_map
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/24/sg90/">
+										sg90
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/27/tasks/">
+										tasks
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/">
+										休眠模块
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
+										创建项目
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/">
+										基本GPIO操作
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/">
+										总体概述
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/05/01/%E7%94%B5%E6%BA%90%E5%8F%8A%E7%AE%A1%E7%90%86/">
+										电源及管理
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/05/01/%E7%BD%91%E7%BB%9C%E4%B8%8A%E4%B8%80%E4%BA%9B%E9%94%82%E7%94%B5%E6%B1%A03V3%E8%BE%93%E5%87%BA%E7%A4%BA%E4%BE%8B/">
+										网络上一些锂电池3V3输出示例
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/">
+										通用定时器
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/04/24/%E9%94%82%E7%94%B5%E6%B1%A0/">
+										锂电池
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+		</div>
+	</div>
+</div>
+
+	<!-- 引入正文 -->
+	<div id="content">
+		<h1 id="article-title">
+
+	004-USART
+</h1>
+<div class="article-meta">
+	
+	<span>smallcracker</span>
+	<span>2021-03-27 00:00:00</span>
+		<div id="article-categories">
+    
+		<span>Categories：</span>
+            
+    
+
+    
+		<span>Tags：</span>
+            
+                
+                    <span>
+                        <i class="fa fa-tag" aria-hidden="true">
+                        <a href="/tags/stm32/">stm32</a>
+                        </i>
+                    </span>
+                
+            
+    
+		</div>
+
+</div>
+
+<div id="article-content">
+	<h2 id="函数学习"><a href="#函数学习" class="headerlink" title="函数学习"></a>函数学习</h2><h3 id="串口时钟使能"><a href="#串口时钟使能" class="headerlink" title="串口时钟使能"></a>串口时钟使能</h3><p><code>RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1)；</code></p>
+<h3 id="串口复位"><a href="#串口复位" class="headerlink" title="串口复位"></a>串口复位</h3><p><code>USART_DeInit(USART1);</code></p>
+<h3 id="串口参数初始化"><a href="#串口参数初始化" class="headerlink" title="串口参数初始化"></a>串口参数初始化</h3><p><code>USART_Init(USART1, &amp;USART_InitStructure);</code></p>
+<p>其中，那个结构体里面要设置的参数有<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">USART_InitStructure.USART_BaudRate = <span class="number">115200</span>;</span><br><span class="line">USART_InitStructure.USART_WordLength = USART_WordLength_8b;</span><br><span class="line">USART_InitStructure.USART_StopBits = USART_StopBits_1; </span><br><span class="line">USART_InitStructure.USART_Parity = USART_Parity_No;</span><br><span class="line">USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;</span><br><span class="line">USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx; </span><br></pre></td></tr></table></figure></p>
+<h3 id="数据发送与接收"><a href="#数据发送与接收" class="headerlink" title="数据发送与接收"></a>数据发送与接收</h3><p>STM32 的发送与接收是通过数据寄存器 USART_DR 来实现的，这是 一个双寄存器，包含了 TDR 和 RDR。当向该寄存器写数据的时候，串口就会自动发送，当收 到收据的时候，也是存在该寄存器内。</p>
+<p>发送数据的函数其实是<code>void USART_SendData(USART_TypeDef* USARTx, uint16_t Data)</code>，但是这样我们操作起来不是很方便，因此我们采用</p>
+<h3 id="查看串口状态"><a href="#查看串口状态" class="headerlink" title="查看串口状态"></a>查看串口状态</h3><p><code>USART_GetFlagStatus(USART1, USART_FLAG_PPPPP);</code>表示查看PPPPP了没</p>
+<h3 id="串口使能"><a href="#串口使能" class="headerlink" title="串口使能"></a>串口使能</h3><p><code>USART_Cmd(USART1, ENABLE);</code></p>
+<h3 id="开启串口响应中断"><a href="#开启串口响应中断" class="headerlink" title="开启串口响应中断"></a>开启串口响应中断</h3><ul>
+<li><p>如果想要在接收数据完成时产生中断</p>
+<p><code>USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);</code></p>
+</li>
+<li><p>如果想要在发送数据完成时产生中断</p>
+<p><code>USART_ITConfig(USART1，USART_IT_TC，ENABLE);</code></p>
+</li>
+</ul>
+<h3 id="获取相应中断状态"><a href="#获取相应中断状态" class="headerlink" title="获取相应中断状态"></a>获取相应中断状态</h3><p><code>USART_GetITStatus(USART1, USART_IT_TC)</code>，如果函数返回值是SET表示是这种中断发生了。</p>
+<h2 id="初始化例程"><a href="#初始化例程" class="headerlink" title="初始化例程"></a>初始化例程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">   GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">   USART_InitTypeDef USART_InitStructure;</span><br><span class="line">   NVIC_InitTypeDef NVIC_InitStructure;</span><br><span class="line"></span><br><span class="line">RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1|RCC_APB2Periph_GPIOA, ENABLE);	<span class="comment">//使能USART1，GPIOA时钟</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">//USART1_TX   GPIOA.9</span></span><br><span class="line">   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9; <span class="comment">//PA.9</span></span><br><span class="line">   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line">   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;	<span class="comment">//复用推挽输出</span></span><br><span class="line">   GPIO_Init(GPIOA, &amp;GPIO_InitStructure);<span class="comment">//初始化GPIOA.9</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">//USART1_RX	  GPIOA.10初始化</span></span><br><span class="line">   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;<span class="comment">//PA10</span></span><br><span class="line">   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;<span class="comment">//浮空输入</span></span><br><span class="line">   GPIO_Init(GPIOA, &amp;GPIO_InitStructure);<span class="comment">//初始化GPIOA.10  </span></span><br><span class="line"></span><br><span class="line">   <span class="comment">//Usart1 NVIC 配置</span></span><br><span class="line">   NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;</span><br><span class="line">   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=<span class="number">3</span> ;<span class="comment">//抢占优先级3</span></span><br><span class="line">   NVIC_InitStructure.NVIC_IRQChannelSubPriority = <span class="number">3</span>;		<span class="comment">//子优先级3</span></span><br><span class="line">   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			<span class="comment">//IRQ通道使能</span></span><br><span class="line">   NVIC_Init(&amp;NVIC_InitStructure);	<span class="comment">//根据指定的参数初始化VIC寄存器</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">//USART 初始化设置</span></span><br><span class="line"></span><br><span class="line">   USART_InitStructure.USART_BaudRate = bound;<span class="comment">//串口波特率</span></span><br><span class="line">   USART_InitStructure.USART_WordLength = USART_WordLength_8b;<span class="comment">//字长为8位数据格式</span></span><br><span class="line">   USART_InitStructure.USART_StopBits = USART_StopBits_1;<span class="comment">//一个停止位</span></span><br><span class="line">   USART_InitStructure.USART_Parity = USART_Parity_No;<span class="comment">//无奇偶校验位</span></span><br><span class="line">   USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;<span class="comment">//无硬件数据流控制</span></span><br><span class="line">   USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;	<span class="comment">//收发模式</span></span><br><span class="line"></span><br><span class="line">   USART_Init(USART1, &amp;USART_InitStructure); <span class="comment">//初始化串口1</span></span><br><span class="line">   USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);<span class="comment">//开启串口接受中断</span></span><br><span class="line">   USART_Cmd(USART1, ENABLE);                    <span class="comment">//使能串口1 </span></span><br></pre></td></tr></table></figure>
+<h2 id="中断服务例程"><a href="#中断服务例程" class="headerlink" title="中断服务例程"></a>中断服务例程</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">u8 Res;</span><br><span class="line"><span class="keyword">if</span>(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)  <span class="comment">//接收中断(接收到的数据必须是0x0d 0x0a结尾)</span></span><br><span class="line">&#123;</span><br><span class="line">    Res =USART_ReceiveData(USART1);	<span class="comment">//读取接收到的数据</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>((USART_RX_STA&amp;<span class="number">0x8000</span>)==<span class="number">0</span>)<span class="comment">//接收未完成</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(USART_RX_STA&amp;<span class="number">0x4000</span>)<span class="comment">//接收到了0x0d</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(Res!=<span class="number">0x0a</span>)USART_RX_STA=<span class="number">0</span>;<span class="comment">//接收错误,重新开始</span></span><br><span class="line">            <span class="keyword">else</span> USART_RX_STA|=<span class="number">0x8000</span>;	<span class="comment">//接收完成了 </span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="comment">//还没收到0X0D</span></span><br><span class="line">        &#123;	</span><br><span class="line">            <span class="keyword">if</span>(Res==<span class="number">0x0d</span>)USART_RX_STA|=<span class="number">0x4000</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                USART_RX_BUF[USART_RX_STA&amp;<span class="number">0X3FFF</span>]=Res ;</span><br><span class="line">                USART_RX_STA++;</span><br><span class="line">                <span class="keyword">if</span>(USART_RX_STA&gt;(USART_REC_LEN<span class="number">-1</span>))USART_RX_STA=<span class="number">0</span>;<span class="comment">//接收数据错误,重新开始接收	  </span></span><br><span class="line">            &#125;		 </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;   		 </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+</div>
+
+
+    <div class="post-guide">
+        <div class="item left">
+            
+              <a href="/2021/03/28/999-project/">
+                  <i class="fa fa-angle-left" aria-hidden="true"></i>
+                  999-project
+              </a>
+            
+        </div>
+        <div class="item right">
+            
+              <a href="/2021/03/26/003-systick/">
+                003-systick
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
+            
+        </div>
+    </div>
+
+
+
+
+<script>
+	
+	
+</script>
+	</div>
+	<div id="footer">
+	<p>
+	©2019-<span id="footerYear"></span> 
+	<a href="/">smallcracker</a> 
+	
+	
+		|
+		<span id="busuanzi_container_site_pv">
+			pv
+			<span id="busuanzi_value_site_pv"></span>
+		</span>
+		|
+		<span id="busuanzi_container_site_uv"> 
+			uv
+			<span id="busuanzi_value_site_uv"></span>
+		</span>
+	
+	<br>
+	Theme <a href="//github.com/wujun234/hexo-theme-tree" target="_blank">Tree</a>
+	by <a href="//github.com/wujun234" target="_blank">WuJun</a>
+	Powered by <a href="//hexo.io" target="_blank">Hexo</a>
+	</p>
+</div>
+<script type="text/javascript"> 
+	document.getElementById('footerYear').innerHTML = new Date().getFullYear() + '';
+</script>
+	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
+</body>
+</html>

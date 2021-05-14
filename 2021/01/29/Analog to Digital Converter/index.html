@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	
+	<!-- title -->
+	
+	<title>
+	
+		ADC简介 | 
+	 
+	Welcome to smallcracker&#39;s personal website
+	</title>
+	
+	<!-- keywords,description -->
+	 
+
+	<!-- favicon -->
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+	
+
+
+	<!-- search -->
+	<script>
+		var searchEngine = "https://www.google.com/search?q=";
+		if(typeof searchEngine == "undefined" || searchEngine == null || searchEngine == ""){
+			searchEngine = "https://www.google.com/search?q=";
+		}
+		var homeHost = "wujun234.github.io";
+		if(typeof homeHost == "undefined" || homeHost == null || homeHost == ""){
+			homeHost = window.location.host;
+		}
+	</script>
+
+
+	
+<link rel="stylesheet" href="/css/main.css">
+
+	
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/darcula.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery-pjax@2.0.1/jquery.pjax.min.js"></script>
+
+	
+<script src="/js/main.js"></script>
+
+	
+		
+<script src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+
+		
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+	
+	
+		<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+	<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?3efe99c287df5a1d6f0d02d187e403c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<header id="header">
+    <a id="title" href="/" class="logo">Welcome to smallcracker's personal website</a>
+
+	<ul id="menu">
+		<li class="menu-item">
+			<a href="/about" class="menu-item-link">ABOUT</a>
+		</li>
+	
+
+	
+
+		<li class="menu-item">
+			<a href="https://github.com/wujun234/uid-generator-spring-boot-starter" class="menu-item-link" target="_blank">
+				UidGenerator
+			</a>
+		</li>
+		<li class="menu-item">
+			<a href="https://github.com/wujun234" class="menu-item-link" target="_blank">
+				<i class="fa fa-github fa-2x"></i>
+			</a>
+		</li>
+	</ul>
+</header>
+
+	
+<div id="sidebar">
+	<button id="sidebar-toggle" class="toggle" ><i class="fa fa-arrow-right " aria-hidden="true"></i></button>
+	
+	<div id="site-toc">
+		<input id="search-input" class="search-input" type="search" placeholder="按回车全站搜索">
+		<div id="tree">
+			
+
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/15/000-STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">
+										000-STM32F103RCT6单片机概况
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
+										001-创建项目
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/">
+										001-新建工程
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/23/002-GPIO/">
+										002-GPIO
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/26/003-systick/">
+										003-systick
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/27/004-USART/">
+										004-USART
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/02/1-Wire_Master/">
+										1-Wire_Master
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/28/999-project/">
+										999-project
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/ADC%20interrupt/">
+										ADC interrupt
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/30/Analog%20Comparator/">
+										Analog Comparator
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
+										Analog Comparator（待完成）
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file active">
+									<a href="/2021/01/29/Analog%20to%20Digital%20Converter/">
+										Analog to Digital Converter
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/">
+										DHT11 温湿度传感器
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/01/ESP8266/">
+										ESP8266
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/30/FPU/">
+										FPU
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/GPIO_PWM/">
+										GPIO_PWM
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/GPIO_interrupt/">
+										GPIO_interrupt
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
+										GPIO输出和输入
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/26/IIC/">
+										IIC
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/Interrupt%20Controller(NVIC)/">
+										Interrupt Controller(NVIC)
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/">
+										MIDI文件格式分析
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/Pulse%20Width%20Modulator/">
+										Pulse Width Modulator
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/15/STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">
+										STM32F103RCT6单片机概况
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/System%20Tick/">
+										System Tick
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/TIMER_CAPTURE/">
+										TIMER_CAPTURE
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/Timer/">
+										Timer
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/UART/">
+										UART
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/boosterpacks/">
+										boosterpacks
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/01/bottom/">
+										bottom
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/04/30/cc2541/">
+										cc2541
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">
+										c文件和头文件
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/15/hello-world/">
+										hello-world
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/">
+										max30102 stm32代码
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/07/permutation/">
+										permutation
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/phripheral-list/">
+										phripheral-list
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/pin_map/">
+										pin_map
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/24/sg90/">
+										sg90
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/27/tasks/">
+										tasks
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/">
+										休眠模块
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
+										创建项目
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/">
+										基本GPIO操作
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/">
+										总体概述
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/05/01/%E7%94%B5%E6%BA%90%E5%8F%8A%E7%AE%A1%E7%90%86/">
+										电源及管理
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/05/01/%E7%BD%91%E7%BB%9C%E4%B8%8A%E4%B8%80%E4%BA%9B%E9%94%82%E7%94%B5%E6%B1%A03V3%E8%BE%93%E5%87%BA%E7%A4%BA%E4%BE%8B/">
+										网络上一些锂电池3V3输出示例
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/">
+										通用定时器
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/04/24/%E9%94%82%E7%94%B5%E6%B1%A0/">
+										锂电池
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+		</div>
+	</div>
+</div>
+
+	<!-- 引入正文 -->
+	<div id="content">
+		<h1 id="article-title">
+
+	Analog to Digital Converter
+</h1>
+<div class="article-meta">
+	
+	<span>smallcracker</span>
+	<span>2021-01-29 00:00:00</span>
+		<div id="article-categories">
+    
+		<span>Categories：</span>
+            
+    
+
+    
+		<span>Tags：</span>
+            
+                
+                    <span>
+                        <i class="fa fa-tag" aria-hidden="true">
+                        <a href="/tags/单片机/">单片机</a>
+                        </i>
+                    </span>
+                
+            
+    
+		</div>
+
+</div>
+
+<div id="article-content">
+	<h1 id="Analog-to-Digital-Converter（模-数转换器）"><a href="#Analog-to-Digital-Converter（模-数转换器）" class="headerlink" title="Analog to Digital Converter（模-数转换器）"></a>Analog to Digital Converter（模-数转换器）</h1><h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>这款单片机有两个完全相同的转换器模块，它们共用12个输入通道。该ADC模块的转换分辨率为12位。</p>
+<p>每个ADC模块都包含4个可编程的序列发生器。采样序列发生器（Sample Sequencer 简写为SS）用于采样控制和数据采集。所有序列发生器的实现方法都是相同的，区别仅在于能够捕捉的采样数和FIFO的深度有所不同，捕捉到的每个采样都要存入FIFO中。这四个采样序列发生器，它们可以同时捕获样本。每个序列都可以配置触发事件。第一个序列发生器至多捕获八个样本，第二个和第三个至多捕获四个样本，第四个序列只能捕获一个样本。每一个样本可以在同一路，不同路，或者其他什么顺序。</p>
+<p><img src="ADC.png" alt="简介"></p>
+<p>如果很多个事件同时被触发的话，可以给样本序列发生器配置优先级确定谁先被捕获。被触发的最高优先级的序列先采样，一定要注意那些频繁触发的事件，如果它们的优先级太高的话，有些低优先级的序列就采不到样了。</p>
+<p>ADV数据的硬件过采样可以用来提高精度。过采样的倍率可以2x 4x 8x 16x 32x 或者是32x，但是这样就会相应倍率地降低一个ADC的吞吐量（<a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_4511506f0102xmxw.html">具体可以看这里</a>）。注意所有采样序列只能设置一个统一的硬件过采样倍率。</p>
+<p>还可以用软件实现过采样的！单片机支持2x 4x 8x 但是它会相应倍率的降低样本序列的深度的。比如说啊，第一份采样序列地深度是8，在4x过采样模式下，它就只能采两个样本了。这是因为头四个样本被拿去过采样了。每一个采样序列都能设置自己地软件过采样倍率。</p>
+<p>一种更加复杂的软件过采样可以用于清除样本深度地减少。如果我们加快ADC触发速率4倍，然后再配置一个4倍地软件过采样，这样就不会减少采样序列容量了，这样做的后果是ADC触发数量就要增加了，因为这种方法需要在ADC驱动本身以外去做调整，所以不被驱动直接支持，如果我们要用这种方法，就不能用驱动里面的函数了。</p>
+<p>函数地头文件是driverlib/adc.c 和driverlib/adc.h</p>
+<h2 id="二、然后再来看都干了啥"><a href="#二、然后再来看都干了啥" class="headerlink" title="二、然后再来看都干了啥"></a>二、然后再来看都干了啥</h2><h3 id="1-首先使能ADC外设"><a href="#1-首先使能ADC外设" class="headerlink" title="1.首先使能ADC外设"></a>1.首先使能ADC外设</h3><p><code>SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);</code></p>
+<h3 id="2-然后开始配置ADC采样序列发生器，主要是配置触发条件和触发优先级"><a href="#2-然后开始配置ADC采样序列发生器，主要是配置触发条件和触发优先级" class="headerlink" title="2.然后开始配置ADC采样序列发生器，主要是配置触发条件和触发优先级"></a>2.然后开始配置ADC采样序列发生器，主要是配置触发条件和触发优先级</h3><p><code>ADCSequenceConfigure();</code><br>这个函数用来配置触发源和采样序列的优先级  </p>
+<blockquote>
+<p>前两个参数选择是哪个采样序列发生器<br>第三个是触发条件<br>第四个是触发优先级  </p>
+</blockquote>
+<p>触发条件有这些：</p>
+<ul>
+<li>处理器触发</li>
+<li>AC模块触发</li>
+<li>GPIO触发</li>
+<li>计时器触发</li>
+<li>PWM触发？？以后可以研究一下</li>
+<li>一直触发<h3 id="3-配置引脚用于ADC输入"><a href="#3-配置引脚用于ADC输入" class="headerlink" title="3.配置引脚用于ADC输入"></a>3.配置引脚用于ADC输入</h3><code>GPIOPINTypeADC()</code> 配置引脚用于ADC输入 ，注意不是每一个引脚能都拿来作为ADC输入的，<h3 id="4-选取通道并进行余下配置"><a href="#4-选取通道并进行余下配置" class="headerlink" title="4.选取通道并进行余下配置"></a>4.选取通道并进行余下配置</h3><code>ADCSequenceStepConfigure();</code><br>配置采样序列发生器的一个step  <blockquote>
+<p>前两个参数选择哪一个采样序列发生器<br>第三个参数是要设置的那个step<br>第四个参数是这个step的设置  </p>
+</blockquote>
+</li>
+</ul>
+<p>参数设置分析：这个参数应该是一系列参数的OR，主要设置了一个step的模式（单端输入还是差分输入），选用哪个输入通道，输入完要不要触发中断，以及选择的数字比较器（？？）</p>
+<h3 id="5-获取采样结果"><a href="#5-获取采样结果" class="headerlink" title="5.获取采样结果"></a>5.获取采样结果</h3><p><code>ADCSequenceDataGet();</code></p>
+<blockquote>
+<p>第一个是ADC的基址<br>第二个是ADC的采样序列数<br>第三个填一个32位地址，表示把数填在这里</p>
+</blockquote>
+<p>其实这个函数还有返回值，返回值就是get到的数</p>
+<h3 id="6-使能ADC采样序列发生器"><a href="#6-使能ADC采样序列发生器" class="headerlink" title="6.使能ADC采样序列发生器"></a>6.使能ADC采样序列发生器</h3><p><code>ADCSequenceEnable()</code></p>
+<blockquote>
+<p>一共两个参数，表示选择的那个采样序列发生器</p>
+</blockquote>
+<h2 id="三、直接上例程！"><a href="#三、直接上例程！" class="headerlink" title="三、直接上例程！"></a>三、直接上例程！</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义变量用于存储采得样本</span></span><br><span class="line"><span class="keyword">uint32_t</span> ui32Value;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使能ADC0模块并等待其准备完成</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);</span><br><span class="line"><span class="keyword">while</span>(!SysCtlPeripheralReady(SYSCTL_PERIPH_ADC0))&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置E3引脚（对应CH0）为这个采样序列发生器的通道</span></span><br><span class="line">SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);</span><br><span class="line">GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_3);</span><br><span class="line"></span><br><span class="line"><span class="comment">//使能第一个采样序列发生器来捕捉CH0的值</span></span><br><span class="line">ADCSequenceConfigure(ADC0_BASE, <span class="number">0</span>, ADC_TRIGGER_PROCESSOR, <span class="number">0</span>);</span><br><span class="line">ADCSequenceStepConfigure(ADC0_BASE, <span class="number">0</span>, <span class="number">0</span>,ADC_CTL_IE | ADC_CTL_END | ADC_CTL_CH0);</span><br><span class="line">ADCSequenceEnable(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//以后每次触发时都要加上这几句</span></span><br><span class="line">ADCProcessorTrigger(ADC0_BASE, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">while</span>(!ADCIntStatus(ADC0_BASE, <span class="number">0</span>, <span class="literal">false</span>))&#123;&#125;</span><br><span class="line">ADCSequenceDataGet(ADC0_BASE, <span class="number">0</span>, &amp;ui32Value);</span><br></pre></td></tr></table></figure>
+<p><img src="ADC引脚.jpg" alt="pin"></p>
+
+</div>
+
+
+    <div class="post-guide">
+        <div class="item left">
+            
+              <a href="/2021/01/29/ADC%20interrupt/">
+                  <i class="fa fa-angle-left" aria-hidden="true"></i>
+                  ADC interrupt
+              </a>
+            
+        </div>
+        <div class="item right">
+            
+              <a href="/2021/01/29/GPIO_interrupt/">
+                GPIO_interrupt
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
+            
+        </div>
+    </div>
+
+
+
+
+<script>
+	
+	
+</script>
+	</div>
+	<div id="footer">
+	<p>
+	©2019-<span id="footerYear"></span> 
+	<a href="/">smallcracker</a> 
+	
+	
+		|
+		<span id="busuanzi_container_site_pv">
+			pv
+			<span id="busuanzi_value_site_pv"></span>
+		</span>
+		|
+		<span id="busuanzi_container_site_uv"> 
+			uv
+			<span id="busuanzi_value_site_uv"></span>
+		</span>
+	
+	<br>
+	Theme <a href="//github.com/wujun234/hexo-theme-tree" target="_blank">Tree</a>
+	by <a href="//github.com/wujun234" target="_blank">WuJun</a>
+	Powered by <a href="//hexo.io" target="_blank">Hexo</a>
+	</p>
+</div>
+<script type="text/javascript"> 
+	document.getElementById('footerYear').innerHTML = new Date().getFullYear() + '';
+</script>
+	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
+</body>
+</html>

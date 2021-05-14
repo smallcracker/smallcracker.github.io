@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	
+	<!-- title -->
+	
+	<title>
+	
+		中断控制器 | 
+	 
+	Welcome to smallcracker&#39;s personal website
+	</title>
+	
+	<!-- keywords,description -->
+	 
+
+	<!-- favicon -->
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+	
+
+
+	<!-- search -->
+	<script>
+		var searchEngine = "https://www.google.com/search?q=";
+		if(typeof searchEngine == "undefined" || searchEngine == null || searchEngine == ""){
+			searchEngine = "https://www.google.com/search?q=";
+		}
+		var homeHost = "wujun234.github.io";
+		if(typeof homeHost == "undefined" || homeHost == null || homeHost == ""){
+			homeHost = window.location.host;
+		}
+	</script>
+
+
+	
+<link rel="stylesheet" href="/css/main.css">
+
+	
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/styles/darcula.min.css">
+
+	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.17.1/build/highlight.min.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery-pjax@2.0.1/jquery.pjax.min.js"></script>
+
+	
+<script src="/js/main.js"></script>
+
+	
+		
+<script src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+
+		
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+
+	
+	
+		<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+	<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?3efe99c287df5a1d6f0d02d187e403c1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<header id="header">
+    <a id="title" href="/" class="logo">Welcome to smallcracker's personal website</a>
+
+	<ul id="menu">
+		<li class="menu-item">
+			<a href="/about" class="menu-item-link">ABOUT</a>
+		</li>
+	
+
+	
+
+		<li class="menu-item">
+			<a href="https://github.com/wujun234/uid-generator-spring-boot-starter" class="menu-item-link" target="_blank">
+				UidGenerator
+			</a>
+		</li>
+		<li class="menu-item">
+			<a href="https://github.com/wujun234" class="menu-item-link" target="_blank">
+				<i class="fa fa-github fa-2x"></i>
+			</a>
+		</li>
+	</ul>
+</header>
+
+	
+<div id="sidebar">
+	<button id="sidebar-toggle" class="toggle" ><i class="fa fa-arrow-right " aria-hidden="true"></i></button>
+	
+	<div id="site-toc">
+		<input id="search-input" class="search-input" type="search" placeholder="按回车全站搜索">
+		<div id="tree">
+			
+
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/15/000-STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">
+										000-STM32F103RCT6单片机概况
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
+										001-创建项目
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/15/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/">
+										001-新建工程
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/23/002-GPIO/">
+										002-GPIO
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/26/003-systick/">
+										003-systick
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/27/004-USART/">
+										004-USART
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/02/1-Wire_Master/">
+										1-Wire_Master
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/28/999-project/">
+										999-project
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/ADC%20interrupt/">
+										ADC interrupt
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/30/Analog%20Comparator/">
+										Analog Comparator
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/30/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
+										Analog Comparator（待完成）
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/Analog%20to%20Digital%20Converter/">
+										Analog to Digital Converter
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/31/DHT11%20%E6%B8%A9%E6%B9%BF%E5%BA%A6%E4%BC%A0%E6%84%9F%E5%99%A8/">
+										DHT11 温湿度传感器
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/01/ESP8266/">
+										ESP8266
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/30/FPU/">
+										FPU
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/GPIO_PWM/">
+										GPIO_PWM
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/GPIO_interrupt/">
+										GPIO_interrupt
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
+										GPIO输出和输入
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/26/IIC/">
+										IIC
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file active">
+									<a href="/2021/01/29/Interrupt%20Controller(NVIC)/">
+										Interrupt Controller(NVIC)
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/">
+										MIDI文件格式分析
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/Pulse%20Width%20Modulator/">
+										Pulse Width Modulator
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/15/STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">
+										STM32F103RCT6单片机概况
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/System%20Tick/">
+										System Tick
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/TIMER_CAPTURE/">
+										TIMER_CAPTURE
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/Timer/">
+										Timer
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/UART/">
+										UART
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/boosterpacks/">
+										boosterpacks
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/01/bottom/">
+										bottom
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/04/30/cc2541/">
+										cc2541
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">
+										c文件和头文件
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/15/hello-world/">
+										hello-world
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/27/max30102%20stm32%E4%BB%A3%E7%A0%81/">
+										max30102 stm32代码
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/07/permutation/">
+										permutation
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/phripheral-list/">
+										phripheral-list
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/pin_map/">
+										pin_map
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/24/sg90/">
+										sg90
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/27/tasks/">
+										tasks
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/03/06/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/">
+										休眠模块
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
+										创建项目
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/%E5%9F%BA%E6%9C%ACGPIO%E6%93%8D%E4%BD%9C/">
+										基本GPIO操作
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/01/29/%E6%80%BB%E4%BD%93%E6%A6%82%E8%BF%B0/">
+										总体概述
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/05/01/%E7%94%B5%E6%BA%90%E5%8F%8A%E7%AE%A1%E7%90%86/">
+										电源及管理
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/05/01/%E7%BD%91%E7%BB%9C%E4%B8%8A%E4%B8%80%E4%BA%9B%E9%94%82%E7%94%B5%E6%B1%A03V3%E8%BE%93%E5%87%BA%E7%A4%BA%E4%BE%8B/">
+										网络上一些锂电池3V3输出示例
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/02/28/%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8/">
+										通用定时器
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/04/24/%E9%94%82%E7%94%B5%E6%B1%A0/">
+										锂电池
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+		</div>
+	</div>
+</div>
+
+	<!-- 引入正文 -->
+	<div id="content">
+		<h1 id="article-title">
+
+	Interrupt Controller(NVIC)
+</h1>
+<div class="article-meta">
+	
+	<span>smallcracker</span>
+	<span>2021-01-29 00:00:00</span>
+		<div id="article-categories">
+    
+		<span>Categories：</span>
+            
+    
+
+    
+		<span>Tags：</span>
+            
+                
+                    <span>
+                        <i class="fa fa-tag" aria-hidden="true">
+                        <a href="/tags/单片机/">单片机</a>
+                        </i>
+                    </span>
+                
+            
+    
+		</div>
+
+</div>
+
+<div id="article-content">
+	<h1 id="Interrupt-Controller-NVIC"><a href="#Interrupt-Controller-NVIC" class="headerlink" title="Interrupt Controller(NVIC)"></a>Interrupt Controller(NVIC)</h1><p>The interrupt controller API provides a set of functions for dealing with the Nested Vectored Interrupt<br>Controller (NVIC). Functions are provided to enable and disable interrupts, register interrupt<br>handlers, and set the priority of interrupts.</p>
+<blockquote>
+<p>中断控制器API提供了一系列与内置向量式中断控制器有关的函数，这些函数能使能/使不能中断，注册中断，设置中断优先级等</p>
+</blockquote>
+<p>The NVIC provides global interrupt masking, prioritization, and handler dispatching. Devices within<br>the Tiva family support up to 154 interrupt sources and eight priority levels. Individual interrupt<br>sources can be masked, and the processor interrupt can be globally masked as well (without affecting<br>the individual source masks).</p>
+<blockquote>
+<p>NVIC提供了全局中断屏蔽，优先级和处理器调度功能，在Tiva系列设备里至多支持154个中断和8个中断级，单个中断源可以被屏蔽，处理器屏蔽也可以被全局屏蔽（不影响单个中断源的屏蔽哦）</p>
+</blockquote>
+<p>The NVIC is tightly coupled with the Cortex-M microprocessor. When the processor responds to<br>an interrupt, the NVIC supplies the address of the function to handle the interrupt directly to the<br>processor. This action eliminates the need for a global interrupt handler that queries the interrupt<br>controller to determine the cause of the interrupt and branch to the appropriate handler, reducing<br>interrupt response time.</p>
+<blockquote>
+<p>NVIC紧密搭配着cortex_M微处理器。当处理器对中断作出反应时，NVIC直接把处理中断的函数的地址提供给处理器，此操作无需使用全局中断处理程序来查询中断控制器以确定中断的原因，并分支到相应的处理程序，从而减少中断响应时间。  </p>
+</blockquote>
+<p>The interrupt prioritization in the NVIC allows higher priority interrupts to be handled before lower<br>priority interrupts, as well as allowing preemption of lower priority interrupt handlers by higher priority<br>interrupts. Again, this helps reduce interrupt response time (for example, a 1 ms system control<br>interrupt is not held off by the execution of a lower priority 1 second housekeeping interrupt handler).</p>
+<blockquote>
+<p>中断处理优先级使得高优先级的中断在低优先级中断之前处理，并允许高优先级中断抢占低优先级中断。这还能减少中断响应时间，比如1ms的系统控制中断不会被更低优先级的1ms中断所延迟。</p>
+</blockquote>
+<p>Sub-prioritization is also possible; instead of having N bits of preemptable prioritization, the NVIC<br>can be configured (via software) for N - M bits of preemptable prioritization and M bits of sub-priority.<br>In this scheme, two interrupts with the same preemptable prioritization but different sub-priorities<br>do not cause a preemption; tail chaining is used instead to process the two interrupts back-to-back.</p>
+<blockquote>
+<p>还可以设置子优先级，如果不设置N位可抢占优先级的话，可以通过软件设置N-M个可抢占优先级和M个子优先级，在这种方案下，两个仅仅子优先级不同的可抢占中断不会导致抢占，单片机会使用尾链来来回处理两个中断</p>
+</blockquote>
+<p>If two interrupts with the same priority (and sub-priority if so configured) are asserted at the same<br>time, the one with the lower interrupt number is processed first. The NVIC keeps track of the nesting<br>of interrupt handlers, allowing the processor to return from interrupt context only once all nested<br>and pending interrupts have been handled.</p>
+<blockquote>
+<p>如果两个中断有相同的优先级（和子优先级）还被同时触发了，中断数更低的有限执行，NVIC会跟踪中断处理程序的嵌套，要求处理器在处理完所有被嵌套和挂起的中断后再返回</p>
+</blockquote>
+<p>Interrupt handlers can be configured in one of two ways; statically at compile time or dynamically at<br>run time. Static configuration of interrupt handlers is accomplished by editing the interrupt handler<br>table in the application’s startup code. When statically configured, the interrupts must be explicitly<br>enabled in the NVIC via IntEnable() before the processor can respond to the interrupt (in addition to<br>any interrupt enabling required within the peripheral itself). Statically configuring the interrupt table<br>provides the fastest interrupt response time because the stacking operation (a write to SRAM) can<br>be performed in parallel with the interrupt handler table fetch (a read from Flash), as well as the<br>prefetch of the interrupt handler itself (assuming it is also in Flash).</p>
+<blockquote>
+<p>中断处理程序可以用两种方式中的一种来设置，编译时设置或者运行时动态设置。静态配置使用的是IntEnable（）函数完成的，运行的时候静态配置的中断处理程序更快一点。</p>
+</blockquote>
+<p>Alternatively, interrupts can be configured at run-time using IntRegister() (or the analog in each<br>individual driver). When using IntRegister(), the interrupt must also be enabled as before; when<br>using the analogue in each individual driver, IntEnable() is called by the driver and does not need<br>to be called by the application. Run-time configuration of interrupts adds a small latency to the<br>interrupt response time because the stacking operation (a write to SRAM) and the interrupt handler<br>table fetch (a read from SRAM) must be performed sequentially.</p>
+<blockquote>
+<p>在运行时设置的话，需要用到IntRegister()函数，会有延迟。</p>
+</blockquote>
+<p>Run-time configuration of interrupt handlers requires that the interrupt handler table be placed on a<br>1-kB boundary in SRAM (typically this is at the beginning of SRAM). Failure to do so results in an<br>incorrect vector address being fetched in response to an interrupt. The vector table is in a section<br>called “vtable” and must be placed appropriately with a linker script.</p>
+<blockquote>
+<p>中断处理程序的配置需要将中断处理表放在SARM1kb的边缘上。。。。。</p>
+</blockquote>
+<p>This driver is contained in driverlib/interrupt.c, with driverlib/interrupt.h containing<br>the API declarations for use by applications.</p>
+<p>他的函数非常少</p>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212164149113.png" alt="image-20201212164149113"></p>
+<p>前两个是使能/使不能一个中断</p>
+<p>第三个 确认一个中断是否在运行，如果一个中断在运行的话，会返回一个非零数</p>
+<p>第四个 第五个 使能/使不能处理器中断</p>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212164210385.png" alt="image-20201212164210385"></p>
+<p>第一个 第二个 挂起/放下一个中断</p>
+<p>第三个 获取一个中断的优先级</p>
+<p>第四个 获取中断控制器的优先级分组 就是返回可抢占优先级的位数</p>
+<p>第五个 设置可抢占优先级的位数</p>
+<p>第六个 获取优先级屏蔽 </p>
+<blockquote>
+<p>This function gets the current setting of the interrupt priority masking level. The value returned is the priority level such that all interrupts of that and lesser priority are masked. A value of 0 means that priority masking is disabled.<br>Smaller numbers correspond to higher interrupt priorities. So for example a priority level mask of 4 allows interrupts of priority level 0-3, and interrupts with a numerical priority of 4 and greater are blocked.<br>The hardware priority mechanism only looks at the upper 3 bits of the priority level, so any prioritization must be performed in those bits.</p>
+</blockquote>
+<p>第七个 设置优先级屏蔽</p>
+<p>第八个 设置中断优先级</p>
+<p><img src="C:\Users\smallcannabis\AppData\Roaming\Typora\typora-user-images\image-20201212165114559.png" alt="image-20201212165114559"></p>
+<p>第一个 注册一个函数，中断发生是就调用它</p>
+<blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// UART 0 interrupt handler.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">void</span></span><br><span class="line">UART0Handler(<span class="keyword">void</span>)</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Handle interrupt.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Set the UART 0 interrupt handler.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">IntRegister(INT_UART0, UART0Handler);</span><br></pre></td></tr></table></figure>
+<p>第二个 触发一个中断 （直接触发）</p>
+</blockquote>
+<p>第三个 解注册一个中断</p>
+<p>所以怎样使用中断呢？</p>
+<p>直接去对应外设那里去查询中断怎样使用，然后回来使能中断即可，有需要就设置优先级啊，子优先级啊，屏蔽啊等等。</p>
+<p>有需要还可以直接触发一个中断的。</p>
+
+</div>
+
+
+    <div class="post-guide">
+        <div class="item left">
+            
+              <a href="/2021/01/29/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
+                  <i class="fa fa-angle-left" aria-hidden="true"></i>
+                  GPIO输出和输入
+              </a>
+            
+        </div>
+        <div class="item right">
+            
+              <a href="/2021/01/29/Pulse%20Width%20Modulator/">
+                Pulse Width Modulator
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </a>
+            
+        </div>
+    </div>
+
+
+
+
+<script>
+	
+	
+</script>
+	</div>
+	<div id="footer">
+	<p>
+	©2019-<span id="footerYear"></span> 
+	<a href="/">smallcracker</a> 
+	
+	
+		|
+		<span id="busuanzi_container_site_pv">
+			pv
+			<span id="busuanzi_value_site_pv"></span>
+		</span>
+		|
+		<span id="busuanzi_container_site_uv"> 
+			uv
+			<span id="busuanzi_value_site_uv"></span>
+		</span>
+	
+	<br>
+	Theme <a href="//github.com/wujun234/hexo-theme-tree" target="_blank">Tree</a>
+	by <a href="//github.com/wujun234" target="_blank">WuJun</a>
+	Powered by <a href="//hexo.io" target="_blank">Hexo</a>
+	</p>
+</div>
+<script type="text/javascript"> 
+	document.getElementById('footerYear').innerHTML = new Date().getFullYear() + '';
+</script>
+	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
+</body>
+</html>
