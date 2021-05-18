@@ -502,6 +502,26 @@ var _hmt = _hmt || [];
 								<li class="directory">
 									<a href="#" class="directory">
 										<i class="fa fa-plus-square-o"></i>
+										版本控制
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2021/05/19/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E5%AD%A6%E4%B9%A0/">
+										版本控制学习
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
 										电路设计
 									</a>
 									
@@ -614,16 +634,25 @@ var _hmt = _hmt || [];
 		<div id="index">
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/ADC%20interrupt/">
+			<a href="/2021/01/29/tiva%20tm4c123G/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
 				<h2 class="index-title">
-					ADC interrupt
+					001-创建项目
 				</h2>
 				<div class="index-brief">
-					ADC中断一、相关函数介绍
-ADCIntRegister() 和ADCIntUnregister()用于为ADC中断注册（注销）一个中断函数
-ADCIntEnable() 和 ADCIntDisable 使能（失能）一个采样序列中断
-ADCIntClear() 清除采样序列中断源
-ADCIntSta
+					怎样新建一个项目第一步
+file- new ccs project
+target里选择c系列
+后面选择对应的单片机
+connection里面选择stellaris
+name里面起一个名字
+下面选择with main.c
+
+第二步
+设置工程
+
+打开projects 的properties
+
+打开bui
 					...
 				</div>
 			</a>
@@ -643,29 +672,6 @@ ADCIntSta
 				<div class="index-brief">
 					Analog to Digital Converter（模-数转换器）一、简介这款单片机有两个完全相同的转换器模块，它们共用12个输入通道。该ADC模块的转换分辨率为12位。
 每个ADC模块都包含4个可编程的序列发生器。采样序列发生器（Sample Sequencer 简写为SS）用于采样控制和数据
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/GPIO_PWM/">
-				<h2 class="index-title">
-					GPIO_PWM
-				</h2>
-				<div class="index-brief">
-					GPIOPinTypePWM一、概述感谢这位老哥
-Configures pin(s) for use by the PWM peripheral.
-
-配置引脚以用作PWM外设
-
-Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 					...
 				</div>
 			</a>
@@ -708,6 +714,29 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 接下来设置GPIO模式为输出GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);  
 
 如果要设置多个pin的话GPIO
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/tiva%20tm4c123G/GPIO_PWM/">
+				<h2 class="index-title">
+					GPIO_PWM
+				</h2>
+				<div class="index-brief">
+					GPIOPinTypePWM一、概述感谢这位老哥
+Configures pin(s) for use by the PWM peripheral.
+
+配置引脚以用作PWM外设
+
+Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 					...
 				</div>
 			</a>
