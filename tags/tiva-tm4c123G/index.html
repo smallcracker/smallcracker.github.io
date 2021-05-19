@@ -572,6 +572,15 @@ var _hmt = _hmt || [];
 								<div class="article-toc" style="display: none;"></div>
 							</ul>
 			
+							<ul>
+								<li class="file">
+									<a href="/2021/05/19/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91%E6%90%9C%E7%B4%A2%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9/">
+										二叉树搜索叶子节点
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
 								</li>
 								
 							</ul>
@@ -808,16 +817,25 @@ WK_UP PA0 按下为高电平系统资源
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/ADC%20interrupt/">
+			<a href="/2021/01/29/tiva%20tm4c123G/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
 				<h2 class="index-title">
-					ADC interrupt
+					001-创建项目
 				</h2>
 				<div class="index-brief">
-					ADC中断一、相关函数介绍
-ADCIntRegister() 和ADCIntUnregister()用于为ADC中断注册（注销）一个中断函数
-ADCIntEnable() 和 ADCIntDisable 使能（失能）一个采样序列中断
-ADCIntClear() 清除采样序列中断源
-ADCIntSta
+					怎样新建一个项目第一步
+file- new ccs project
+target里选择c系列
+后面选择对应的单片机
+connection里面选择stellaris
+name里面起一个名字
+下面选择with main.c
+
+第二步
+设置工程
+
+打开projects 的properties
+
+打开bui
 					...
 				</div>
 			</a>
@@ -865,21 +883,5 @@ ADCIntSta
 	document.getElementById('footerYear').innerHTML = new Date().getFullYear() + '';
 </script>
 	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

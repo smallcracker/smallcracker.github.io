@@ -572,6 +572,15 @@ var _hmt = _hmt || [];
 								<div class="article-toc" style="display: none;"></div>
 							</ul>
 			
+							<ul>
+								<li class="file">
+									<a href="/2021/05/19/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91%E6%90%9C%E7%B4%A2%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9/">
+										二叉树搜索叶子节点
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
 								</li>
 								
 							</ul>
@@ -634,25 +643,16 @@ var _hmt = _hmt || [];
 		<div id="index">
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
+			<a href="/2021/01/29/tiva%20tm4c123G/ADC%20interrupt/">
 				<h2 class="index-title">
-					001-创建项目
+					ADC interrupt
 				</h2>
 				<div class="index-brief">
-					怎样新建一个项目第一步
-file- new ccs project
-target里选择c系列
-后面选择对应的单片机
-connection里面选择stellaris
-name里面起一个名字
-下面选择with main.c
-
-第二步
-设置工程
-
-打开projects 的properties
-
-打开bui
+					ADC中断一、相关函数介绍
+ADCIntRegister() 和ADCIntUnregister()用于为ADC中断注册（注销）一个中断函数
+ADCIntEnable() 和 ADCIntDisable 使能（失能）一个采样序列中断
+ADCIntClear() 清除采样序列中断源
+ADCIntSta
 					...
 				</div>
 			</a>
@@ -672,48 +672,6 @@ name里面起一个名字
 				<div class="index-brief">
 					Analog to Digital Converter（模-数转换器）一、简介这款单片机有两个完全相同的转换器模块，它们共用12个输入通道。该ADC模块的转换分辨率为12位。
 每个ADC模块都包含4个可编程的序列发生器。采样序列发生器（Sample Sequencer 简写为SS）用于采样控制和数据
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/GPIO_interrupt/">
-				<h2 class="index-title">
-					GPIO_interrupt
-				</h2>
-				<div class="index-brief">
-					GPIO中断资料来源
-一、函数介绍（1）void GPIOIntTypeSet(uint32_t ui32Port, uint8_t ui8Pins,uint32_t ui32IntType)
-功能：设置指定引脚的中断触发类型.
-参数:（1）ui32Port： GPIO口的基地址（2）ui8Pins
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
-				<h2 class="index-title">
-					GPIO输出和输入
-				</h2>
-				<div class="index-brief">
-					GPIO 输入和输出首先使能GPIO接口SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-接下来设置GPIO模式为输出GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);  
-
-如果要设置多个pin的话GPIO
 					...
 				</div>
 			</a>
@@ -749,12 +707,54 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
+			<a href="/2021/01/29/tiva%20tm4c123G/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
+				<h2 class="index-title">
+					GPIO输出和输入
+				</h2>
+				<div class="index-brief">
+					GPIO 输入和输出首先使能GPIO接口SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+接下来设置GPIO模式为输出GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);  
+
+如果要设置多个pin的话GPIO
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
 			<a href="/2021/01/29/tiva%20tm4c123G/Interrupt%20Controller(NVIC)/">
 				<h2 class="index-title">
 					Interrupt Controller(NVIC)
 				</h2>
 				<div class="index-brief">
 					Interrupt Controller(NVIC)The interrupt controller API provides a set of functions for dealing with the Nested Vectored InterruptController (NVIC). Fu
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/tiva%20tm4c123G/GPIO_interrupt/">
+				<h2 class="index-title">
+					GPIO_interrupt
+				</h2>
+				<div class="index-brief">
+					GPIO中断资料来源
+一、函数介绍（1）void GPIOIntTypeSet(uint32_t ui32Port, uint8_t ui8Pins,uint32_t ui32IntType)
+功能：设置指定引脚的中断触发类型.
+参数:（1）ui32Port： GPIO口的基地址（2）ui8Pins
 					...
 				</div>
 			</a>
@@ -883,21 +883,5 @@ trigger是触发的意思
 	document.getElementById('footerYear').innerHTML = new Date().getFullYear() + '';
 </script>
 	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

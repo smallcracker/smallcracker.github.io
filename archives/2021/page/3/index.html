@@ -572,6 +572,15 @@ var _hmt = _hmt || [];
 								<div class="article-toc" style="display: none;"></div>
 							</ul>
 			
+							<ul>
+								<li class="file">
+									<a href="/2021/05/19/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91%E6%90%9C%E7%B4%A2%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9/">
+										二叉树搜索叶子节点
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
 								</li>
 								
 							</ul>
@@ -632,6 +641,24 @@ var _hmt = _hmt || [];
 	<!-- 引入正文 -->
 	<div id="content">
 		<div id="index">
+	
+		<div class="index-li">
+			<a href="/2021/02/26/tiva%20tm4c123G/IIC/">
+				<h2 class="index-title">
+					IIC
+				</h2>
+				<div class="index-brief">
+					IIC一、IIC介绍I2C(Inter－Integrated Circuit)总线是80年代PHILIPS公司开发的两线式串行总线，如今已经成为芯片间低速串行通信的事实标准，被广泛使用在消费、控制类电子设备场合。这里的两个关键词两线和低速：两线意味着结构简单，低速意味着好实现，做电路的都知道速度越慢
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-02-26</span>
+                    
+                            
+                    
+                </div>
+		</div>	
 	
 		<div class="index-li">
 			<a href="/2021/02/24/%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9D%97/sg90/">
@@ -785,16 +812,15 @@ name里面起一个名字
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/ADC%20interrupt/">
+			<a href="/2021/01/29/MIDI/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/">
 				<h2 class="index-title">
-					ADC interrupt
+					MIDI文件格式分析
 				</h2>
 				<div class="index-brief">
-					ADC中断一、相关函数介绍
-ADCIntRegister() 和ADCIntUnregister()用于为ADC中断注册（注销）一个中断函数
-ADCIntEnable() 和 ADCIntDisable 使能（失能）一个采样序列中断
-ADCIntClear() 清除采样序列中断源
-ADCIntSta
+					MIDI文件格式分析感谢这个博客
+开头每一个MIDI文件的开头都有如下一段内容，4d 54 68 64 00 00 00 06 ff ff nn nn dd dd
+前四个字节是ASCII字符MThd 表示这是一个Midi文件，
+下面四个字节是指明文件头描述部分的字节数，一共是6，所以一定是00 00
 					...
 				</div>
 			</a>
@@ -826,27 +852,6 @@ name里面起一个名字
 打开projects 的properties
 
 打开bui
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/MIDI/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/">
-				<h2 class="index-title">
-					MIDI文件格式分析
-				</h2>
-				<div class="index-brief">
-					MIDI文件格式分析感谢这个博客
-开头每一个MIDI文件的开头都有如下一段内容，4d 54 68 64 00 00 00 06 ff ff nn nn dd dd
-前四个字节是ASCII字符MThd 表示这是一个Midi文件，
-下面四个字节是指明文件头描述部分的字节数，一共是6，所以一定是00 00
 					...
 				</div>
 			</a>
@@ -894,21 +899,5 @@ name里面起一个名字
 	document.getElementById('footerYear').innerHTML = new Date().getFullYear() + '';
 </script>
 	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
