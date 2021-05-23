@@ -23,7 +23,7 @@
 
 	<!-- search -->
 	<script>
-		var searchEngine = "https://www.google.com/search?q=";
+		var searchEngine = "https://www.baidu.com/s?wd=";
 		if(typeof searchEngine == "undefined" || searchEngine == null || searchEngine == ""){
 			searchEngine = "https://www.google.com/search?q=";
 		}
@@ -278,8 +278,8 @@ var _hmt = _hmt || [];
 			
 							<ul>
 								<li class="file">
-									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
-										Analog Comparator
+									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
+										Analog Comparator（待完成）
 									</a>
 								</li>
 								<div class="article-toc" style="display: none;"></div>
@@ -287,8 +287,8 @@ var _hmt = _hmt || [];
 			
 							<ul>
 								<li class="file">
-									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
-										Analog Comparator（待完成）
+									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
+										Analog Comparator
 									</a>
 								</li>
 								<div class="article-toc" style="display: none;"></div>
@@ -574,7 +574,7 @@ var _hmt = _hmt || [];
 			
 							<ul>
 								<li class="file">
-									<a href="/2021/05/19/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91%E6%90%9C%E7%B4%A2%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9/">
+									<a href="/2021/05/23/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91%E6%90%9C%E7%B4%A2%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9/">
 										二叉树搜索叶子节点
 									</a>
 								</li>
@@ -676,7 +676,7 @@ var _hmt = _hmt || [];
 	</div>
 	<div id="footer">
 	<p>
-	©2019-<span id="footerYear"></span> 
+	©2021-<span id="footerYear"></span> 
 	<a href="/">smallcracker</a> 
 	
 	
@@ -701,5 +701,21 @@ var _hmt = _hmt || [];
 	document.getElementById('footerYear').innerHTML = new Date().getFullYear() + '';
 </script>
 	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

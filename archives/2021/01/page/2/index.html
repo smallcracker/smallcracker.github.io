@@ -23,7 +23,7 @@
 
 	<!-- search -->
 	<script>
-		var searchEngine = "https://www.google.com/search?q=";
+		var searchEngine = "https://www.baidu.com/s?wd=";
 		if(typeof searchEngine == "undefined" || searchEngine == null || searchEngine == ""){
 			searchEngine = "https://www.google.com/search?q=";
 		}
@@ -278,8 +278,8 @@ var _hmt = _hmt || [];
 			
 							<ul>
 								<li class="file">
-									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
-										Analog Comparator
+									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
+										Analog Comparator（待完成）
 									</a>
 								</li>
 								<div class="article-toc" style="display: none;"></div>
@@ -287,8 +287,8 @@ var _hmt = _hmt || [];
 			
 							<ul>
 								<li class="file">
-									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
-										Analog Comparator（待完成）
+									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
+										Analog Comparator
 									</a>
 								</li>
 								<div class="article-toc" style="display: none;"></div>
@@ -574,7 +574,7 @@ var _hmt = _hmt || [];
 			
 							<ul>
 								<li class="file">
-									<a href="/2021/05/19/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91%E6%90%9C%E7%B4%A2%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9/">
+									<a href="/2021/05/23/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91%E6%90%9C%E7%B4%A2%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9/">
 										二叉树搜索叶子节点
 									</a>
 								</li>
@@ -643,29 +643,6 @@ var _hmt = _hmt || [];
 		<div id="index">
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/GPIO_PWM/">
-				<h2 class="index-title">
-					GPIO_PWM
-				</h2>
-				<div class="index-brief">
-					GPIOPinTypePWM一、概述感谢这位老哥
-Configures pin(s) for use by the PWM peripheral.
-
-配置引脚以用作PWM外设
-
-Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
 			<a href="/2021/01/29/tiva%20tm4c123G/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
 				<h2 class="index-title">
 					GPIO输出和输入
@@ -687,12 +664,17 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/Interrupt%20Controller(NVIC)/">
+			<a href="/2021/01/29/tiva%20tm4c123G/GPIO_PWM/">
 				<h2 class="index-title">
-					Interrupt Controller(NVIC)
+					GPIO_PWM
 				</h2>
 				<div class="index-brief">
-					Interrupt Controller(NVIC)The interrupt controller API provides a set of functions for dealing with the Nested Vectored InterruptController (NVIC). Fu
+					GPIOPinTypePWM一、概述感谢这位老哥
+Configures pin(s) for use by the PWM peripheral.
+
+配置引脚以用作PWM外设
+
+Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 					...
 				</div>
 			</a>
@@ -744,12 +726,55 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
+			<a href="/2021/01/29/tiva%20tm4c123G/Timer/">
+				<h2 class="index-title">
+					Timer
+				</h2>
+				<div class="index-brief">
+					Timer一、简介可编程定时器对于驱动定时器输入管脚的外部事件进行计数或计时。
+
+前置知识
+trigger是触发的意思
+本单片机提供了8个定时器
+有定时器/计数器/RTC…模式
+
+定时器实质上就是一个加1计数器。它随着计数器的输入脉冲进行自加1，也就是说当每来一个脉冲，计数器就会自动加1,如果当加到
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
 			<a href="/2021/01/29/tiva%20tm4c123G/System%20Tick/">
 				<h2 class="index-title">
 					System Tick
 				</h2>
 				<div class="index-brief">
 					SysTickSysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Itsintended purpose is to provide a periodic inte
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/tiva%20tm4c123G/Interrupt%20Controller(NVIC)/">
+				<h2 class="index-title">
+					Interrupt Controller(NVIC)
+				</h2>
+				<div class="index-brief">
+					Interrupt Controller(NVIC)The interrupt controller API provides a set of functions for dealing with the Nested Vectored InterruptController (NVIC). Fu
 					...
 				</div>
 			</a>
@@ -782,19 +807,15 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/Timer/">
+			<a href="/2021/01/29/tiva%20tm4c123G/UART/">
 				<h2 class="index-title">
-					Timer
+					UART
 				</h2>
 				<div class="index-brief">
-					Timer一、简介可编程定时器对于驱动定时器输入管脚的外部事件进行计数或计时。
-
-前置知识
-trigger是触发的意思
-本单片机提供了8个定时器
-有定时器/计数器/RTC…模式
-
-定时器实质上就是一个加1计数器。它随着计数器的输入脉冲进行自加1，也就是说当每来一个脉冲，计数器就会自动加1,如果当加到
+					UARTUART能干什么？
+能用来通信。
+感谢这个人的博客
+基本功能 向上位机输出一个字符1234567891011//使能UART和GPIOSysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);SysCtlPeripheralEnable(SYSCTL_PERIP
 					...
 				</div>
 			</a>
@@ -825,27 +846,6 @@ trigger是触发的意思
                 </div>
 		</div>	
 	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/UART/">
-				<h2 class="index-title">
-					UART
-				</h2>
-				<div class="index-brief">
-					UARTUART能干什么？
-能用来通信。
-感谢这个人的博客
-基本功能 向上位机输出一个字符1234567891011//使能UART和GPIOSysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);SysCtlPeripheralEnable(SYSCTL_PERIP
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
 	
 	<div id="index-paginator">
 		
@@ -857,7 +857,7 @@ trigger是触发的意思
 	</div>
 	<div id="footer">
 	<p>
-	©2019-<span id="footerYear"></span> 
+	©2021-<span id="footerYear"></span> 
 	<a href="/">smallcracker</a> 
 	
 	
@@ -882,5 +882,21 @@ trigger是触发的意思
 	document.getElementById('footerYear').innerHTML = new Date().getFullYear() + '';
 </script>
 	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

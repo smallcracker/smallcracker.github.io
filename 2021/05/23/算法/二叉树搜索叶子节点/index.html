@@ -9,7 +9,7 @@
 	
 	<title>
 	
-		二叉树搜索叶子节点 | 
+		二叉树操作 | 
 	 
 	Welcome to smallcracker&#39;s personal website
 	</title>
@@ -25,7 +25,7 @@
 
 	<!-- search -->
 	<script>
-		var searchEngine = "https://www.google.com/search?q=";
+		var searchEngine = "https://www.baidu.com/s?wd=";
 		if(typeof searchEngine == "undefined" || searchEngine == null || searchEngine == ""){
 			searchEngine = "https://www.google.com/search?q=";
 		}
@@ -280,8 +280,8 @@ var _hmt = _hmt || [];
 			
 							<ul>
 								<li class="file">
-									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
-										Analog Comparator
+									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
+										Analog Comparator（待完成）
 									</a>
 								</li>
 								<div class="article-toc" style="display: none;"></div>
@@ -289,8 +289,8 @@ var _hmt = _hmt || [];
 			
 							<ul>
 								<li class="file">
-									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
-										Analog Comparator（待完成）
+									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
+										Analog Comparator
 									</a>
 								</li>
 								<div class="article-toc" style="display: none;"></div>
@@ -576,7 +576,7 @@ var _hmt = _hmt || [];
 			
 							<ul>
 								<li class="file active">
-									<a href="/2021/05/19/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91%E6%90%9C%E7%B4%A2%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9/">
+									<a href="/2021/05/23/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91%E6%90%9C%E7%B4%A2%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9/">
 										二叉树搜索叶子节点
 									</a>
 								</li>
@@ -649,7 +649,7 @@ var _hmt = _hmt || [];
 <div class="article-meta">
 	
 	<span>smallcracker</span>
-	<span>2021-05-19 19:50:13</span>
+	<span>2021-05-23 00:00:00</span>
 		<div id="article-categories">
     
 		<span>Categories：</span>
@@ -659,13 +659,26 @@ var _hmt = _hmt || [];
     
 		<span>Tags：</span>
             
+                
+                    <span>
+                        <i class="fa fa-tag" aria-hidden="true">
+                        <a href="/tags/算法/">算法</a>
+                        </i>
+                    </span>
+                
+            
     
 		</div>
 
 </div>
 
 <div id="article-content">
-	
+	<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n,tem;</span><br><span class="line"><span class="keyword">int</span> top;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> num;</span><br><span class="line">	<span class="keyword">int</span> depth;</span><br><span class="line">	Node *lchild=<span class="literal">NULL</span>;</span><br><span class="line">	Node *rchild=<span class="literal">NULL</span>;</span><br><span class="line">&#125; *node[<span class="number">200010</span>],*<span class="built_in">stack</span>[<span class="number">200010</span>];</span><br><span class="line">Node p[<span class="number">200010</span>];</span><br></pre></td></tr></table></figure>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    node[i]=&amp;p[i];</span><br><span class="line">&#125;</span><br><span class="line">build_tree();</span><br></pre></td></tr></table></figure>
+<h2 id="建树"><a href="#建树" class="headerlink" title="建树"></a>建树</h2><p>鉴于嵌入式设备的特点，主要使用循环的方法来进行。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build_tree</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Node *cur_node=node[<span class="number">1</span>];</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;tem);</span><br><span class="line">	node[<span class="number">1</span>]-&gt;num=tem;</span><br><span class="line">	node[<span class="number">1</span>]-&gt;depth=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">if</span>(n==<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> ;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;tem);</span><br><span class="line">		cur_node=node[<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">do</span>&#123;</span><br><span class="line">			<span class="keyword">if</span>((tem&lt;cur_node-&gt;num)&amp;&amp;(cur_node-&gt;lchild==<span class="literal">NULL</span>))</span><br><span class="line">			&#123;   </span><br><span class="line">				node[i]-&gt;num=tem;</span><br><span class="line">				node[i]-&gt;depth=cur_node-&gt;depth+<span class="number">1</span>;</span><br><span class="line">				cur_node-&gt;lchild=node[i];</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>((tem&gt;=cur_node-&gt;num)&amp;&amp;(cur_node-&gt;rchild==<span class="literal">NULL</span>))</span><br><span class="line">			&#123;</span><br><span class="line">				node[i]-&gt;num=tem;</span><br><span class="line">				node[i]-&gt;depth=cur_node-&gt;depth+<span class="number">1</span>;</span><br><span class="line">				cur_node-&gt;rchild=node[i];</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(tem&lt;cur_node-&gt;num) cur_node=cur_node-&gt;lchild; </span><br><span class="line">			<span class="keyword">else</span> cur_node=cur_node-&gt;rchild;</span><br><span class="line">		&#125;<span class="keyword">while</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="搜索叶子节点"><a href="#搜索叶子节点" class="headerlink" title="搜索叶子节点"></a>搜索叶子节点</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">void dfs()</span><br><span class="line">&#123;</span><br><span class="line">	stack[1]&#x3D;node[1];</span><br><span class="line">	top&#x3D;1;</span><br><span class="line">	Node *temp;</span><br><span class="line">	while(top)</span><br><span class="line">	&#123;</span><br><span class="line">		temp&#x3D;stack[top--];</span><br><span class="line">		bool isLeaf&#x3D;true;</span><br><span class="line">		if(temp-&gt;rchild!&#x3D;NULL)</span><br><span class="line">		&#123;</span><br><span class="line">			stack[++top]&#x3D;temp-&gt;rchild;</span><br><span class="line">			isLeaf&#x3D;false;</span><br><span class="line">		&#125;</span><br><span class="line">		if(temp-&gt;lchild!&#x3D;NULL)</span><br><span class="line">		&#123;</span><br><span class="line">			stack[++top]&#x3D;temp-&gt;lchild;</span><br><span class="line">			isLeaf&#x3D;false;</span><br><span class="line">		&#125;</span><br><span class="line">		if(isLeaf)</span><br><span class="line">		&#123;</span><br><span class="line">			printf(&quot;%d %d\n&quot;,temp-&gt;num,temp-&gt;depth);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 </div>
 
 
@@ -693,7 +706,7 @@ var _hmt = _hmt || [];
 	</div>
 	<div id="footer">
 	<p>
-	©2019-<span id="footerYear"></span> 
+	©2021-<span id="footerYear"></span> 
 	<a href="/">smallcracker</a> 
 	
 	
@@ -718,5 +731,21 @@ var _hmt = _hmt || [];
 	document.getElementById('footerYear').innerHTML = new Date().getFullYear() + '';
 </script>
 	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>

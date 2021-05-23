@@ -23,7 +23,7 @@
 
 	<!-- search -->
 	<script>
-		var searchEngine = "https://www.google.com/search?q=";
+		var searchEngine = "https://www.baidu.com/s?wd=";
 		if(typeof searchEngine == "undefined" || searchEngine == null || searchEngine == ""){
 			searchEngine = "https://www.google.com/search?q=";
 		}
@@ -278,8 +278,8 @@ var _hmt = _hmt || [];
 			
 							<ul>
 								<li class="file">
-									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
-										Analog Comparator
+									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
+										Analog Comparator（待完成）
 									</a>
 								</li>
 								<div class="article-toc" style="display: none;"></div>
@@ -287,8 +287,8 @@ var _hmt = _hmt || [];
 			
 							<ul>
 								<li class="file">
-									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
-										Analog Comparator（待完成）
+									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
+										Analog Comparator
 									</a>
 								</li>
 								<div class="article-toc" style="display: none;"></div>
@@ -574,7 +574,7 @@ var _hmt = _hmt || [];
 			
 							<ul>
 								<li class="file">
-									<a href="/2021/05/19/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91%E6%90%9C%E7%B4%A2%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9/">
+									<a href="/2021/05/23/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91%E6%90%9C%E7%B4%A2%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9/">
 										二叉树搜索叶子节点
 									</a>
 								</li>
@@ -761,13 +761,12 @@ WK_UP PA0 按下为高电平系统资源
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
+			<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
 				<h2 class="index-title">
-					Analog Comparator
+					Analog Comparator（待完成）
 				</h2>
 				<div class="index-brief">
-					Analog Comparator一、简介模拟比较器是一个外设，它能比较两个模拟电压的大小，并通过自身提供的逻辑输出端将比较结果以信号的形式输出。
-模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、
+					Analog Comparator一、简介模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、触发ADC采样。它的中断产生逻辑是独立于ADC触发逻辑的，所以，AC可以基于一个事件产生一个中断，ADC可
 					...
 				</div>
 			</a>
@@ -780,12 +779,13 @@ WK_UP PA0 按下为高电平系统资源
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
+			<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
 				<h2 class="index-title">
-					Analog Comparator（待完成）
+					Analog Comparator
 				</h2>
 				<div class="index-brief">
-					Analog Comparator一、简介模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、触发ADC采样。它的中断产生逻辑是独立于ADC触发逻辑的，所以，AC可以基于一个事件产生一个中断，ADC可
+					Analog Comparator一、简介模拟比较器是一个外设，它能比较两个模拟电压的大小，并通过自身提供的逻辑输出端将比较结果以信号的形式输出。
+模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、
 					...
 				</div>
 			</a>
@@ -817,25 +817,16 @@ WK_UP PA0 按下为高电平系统资源
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
+			<a href="/2021/01/29/tiva%20tm4c123G/ADC%20interrupt/">
 				<h2 class="index-title">
-					001-创建项目
+					ADC interrupt
 				</h2>
 				<div class="index-brief">
-					怎样新建一个项目第一步
-file- new ccs project
-target里选择c系列
-后面选择对应的单片机
-connection里面选择stellaris
-name里面起一个名字
-下面选择with main.c
-
-第二步
-设置工程
-
-打开projects 的properties
-
-打开bui
+					ADC中断一、相关函数介绍
+ADCIntRegister() 和ADCIntUnregister()用于为ADC中断注册（注销）一个中断函数
+ADCIntEnable() 和 ADCIntDisable 使能（失能）一个采样序列中断
+ADCIntClear() 清除采样序列中断源
+ADCIntSta
 					...
 				</div>
 			</a>
@@ -858,7 +849,7 @@ name里面起一个名字
 	</div>
 	<div id="footer">
 	<p>
-	©2019-<span id="footerYear"></span> 
+	©2021-<span id="footerYear"></span> 
 	<a href="/">smallcracker</a> 
 	
 	
@@ -883,5 +874,21 @@ name里面起一个名字
 	document.getElementById('footerYear').innerHTML = new Date().getFullYear() + '';
 </script>
 	<button id="totop-toggle" class="toggle"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
