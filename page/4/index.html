@@ -278,8 +278,8 @@ var _hmt = _hmt || [];
 			
 							<ul>
 								<li class="file">
-									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
-										Analog Comparator（待完成）
+									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
+										Analog Comparator
 									</a>
 								</li>
 								<div class="article-toc" style="display: none;"></div>
@@ -287,8 +287,8 @@ var _hmt = _hmt || [];
 			
 							<ul>
 								<li class="file">
-									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
-										Analog Comparator
+									<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
+										Analog Comparator（待完成）
 									</a>
 								</li>
 								<div class="article-toc" style="display: none;"></div>
@@ -502,6 +502,26 @@ var _hmt = _hmt || [];
 								<li class="directory">
 									<a href="#" class="directory">
 										<i class="fa fa-plus-square-o"></i>
+										嵌入式系统
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2021/05/26/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F/UCOSII/">
+										UCOSII
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
 										版本控制
 									</a>
 									
@@ -674,13 +694,16 @@ name里面起一个名字
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/Analog%20to%20Digital%20Converter/">
+			<a href="/2021/01/29/tiva%20tm4c123G/ADC%20interrupt/">
 				<h2 class="index-title">
-					Analog to Digital Converter
+					ADC interrupt
 				</h2>
 				<div class="index-brief">
-					Analog to Digital Converter（模-数转换器）一、简介这款单片机有两个完全相同的转换器模块，它们共用12个输入通道。该ADC模块的转换分辨率为12位。
-每个ADC模块都包含4个可编程的序列发生器。采样序列发生器（Sample Sequencer 简写为SS）用于采样控制和数据
+					ADC中断一、相关函数介绍
+ADCIntRegister() 和ADCIntUnregister()用于为ADC中断注册（注销）一个中断函数
+ADCIntEnable() 和 ADCIntDisable 使能（失能）一个采样序列中断
+ADCIntClear() 清除采样序列中断源
+ADCIntSta
 					...
 				</div>
 			</a>
@@ -693,15 +716,34 @@ name里面起一个名字
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
+			<a href="/2021/01/29/tiva%20tm4c123G/GPIO_interrupt/">
 				<h2 class="index-title">
-					GPIO输出和输入
+					GPIO_interrupt
 				</h2>
 				<div class="index-brief">
-					GPIO 输入和输出首先使能GPIO接口SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-接下来设置GPIO模式为输出GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);  
-
-如果要设置多个pin的话GPIO
+					GPIO中断资料来源
+一、函数介绍（1）void GPIOIntTypeSet(uint32_t ui32Port, uint8_t ui8Pins,uint32_t ui32IntType)
+功能：设置指定引脚的中断触发类型.
+参数:（1）ui32Port： GPIO口的基地址（2）ui8Pins
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/tiva%20tm4c123G/Analog%20to%20Digital%20Converter/">
+				<h2 class="index-title">
+					Analog to Digital Converter
+				</h2>
+				<div class="index-brief">
+					Analog to Digital Converter（模-数转换器）一、简介这款单片机有两个完全相同的转换器模块，它们共用12个输入通道。该ADC模块的转换分辨率为12位。
+每个ADC模块都包含4个可编程的序列发生器。采样序列发生器（Sample Sequencer 简写为SS）用于采样控制和数据
 					...
 				</div>
 			</a>
@@ -737,76 +779,15 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/GPIO_interrupt/">
+			<a href="/2021/01/29/tiva%20tm4c123G/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
 				<h2 class="index-title">
-					GPIO_interrupt
+					GPIO输出和输入
 				</h2>
 				<div class="index-brief">
-					GPIO中断资料来源
-一、函数介绍（1）void GPIOIntTypeSet(uint32_t ui32Port, uint8_t ui8Pins,uint32_t ui32IntType)
-功能：设置指定引脚的中断触发类型.
-参数:（1）ui32Port： GPIO口的基地址（2）ui8Pins
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/Pulse%20Width%20Modulator/">
-				<h2 class="index-title">
-					Pulse Width Modulator
-				</h2>
-				<div class="index-brief">
-					PWM概述Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has 
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/Timer/">
-				<h2 class="index-title">
-					Timer
-				</h2>
-				<div class="index-brief">
-					Timer一、简介可编程定时器对于驱动定时器输入管脚的外部事件进行计数或计时。
+					GPIO 输入和输出首先使能GPIO接口SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+接下来设置GPIO模式为输出GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);  
 
-前置知识
-trigger是触发的意思
-本单片机提供了8个定时器
-有定时器/计数器/RTC…模式
-
-定时器实质上就是一个加1计数器。它随着计数器的输入脉冲进行自加1，也就是说当每来一个脉冲，计数器就会自动加1,如果当加到
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/System%20Tick/">
-				<h2 class="index-title">
-					System Tick
-				</h2>
-				<div class="index-brief">
-					SysTickSysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Itsintended purpose is to provide a periodic inte
+如果要设置多个pin的话GPIO
 					...
 				</div>
 			</a>
@@ -837,14 +818,55 @@ trigger是触发的意思
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/TIMER_CAPTURE/">
+			<a href="/2021/01/29/tiva%20tm4c123G/Pulse%20Width%20Modulator/">
 				<h2 class="index-title">
-					TIMER_CAPTURE
+					Pulse Width Modulator
 				</h2>
 				<div class="index-brief">
-					TIMER_CAPTURE功能介绍计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位
-计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。
-加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，
+					PWM概述Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has 
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/tiva%20tm4c123G/System%20Tick/">
+				<h2 class="index-title">
+					System Tick
+				</h2>
+				<div class="index-brief">
+					SysTickSysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Itsintended purpose is to provide a periodic inte
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/tiva%20tm4c123G/Timer/">
+				<h2 class="index-title">
+					Timer
+				</h2>
+				<div class="index-brief">
+					Timer一、简介可编程定时器对于驱动定时器输入管脚的外部事件进行计数或计时。
+
+前置知识
+trigger是触发的意思
+本单片机提供了8个定时器
+有定时器/计数器/RTC…模式
+
+定时器实质上就是一个加1计数器。它随着计数器的输入脉冲进行自加1，也就是说当每来一个脉冲，计数器就会自动加1,如果当加到
 					...
 				</div>
 			</a>

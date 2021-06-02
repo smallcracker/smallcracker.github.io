@@ -663,206 +663,25 @@ var _hmt = _hmt || [];
 		<div id="index">
 	
 		<div class="index-li">
-			<a href="/2021/03/28/stm32/999-project/">
+			<a href="/2021/05/26/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F/UCOSII/">
 				<h2 class="index-title">
-					999-project
+					UCOSII
 				</h2>
 				<div class="index-brief">
-					简介在ti的开发过程中，我常将所有外设的配置以及程序功能的实现全部放在main.c里，随着功能的增加，代码长度也在增加，最终导入一个模板代码就已经将近两百行，为代码的编辑带来很大不便。最近转到stm32上来后，了解到正点原子的项目架构，觉得这样的常见功能封装成库的思路很有益处，因此我采集了正点原子例
+					入门使用任务设置
+设置任务优先级 
+1#define *****_TASK_PRIO      			10
+设置任务堆栈大小
+1#define *****_STK_SIZE  				64
+声明任务堆栈
+1OS_STK *****_TASK_STK[*****_STK_SIZE];
+声明任务函数
+1
 					...
 				</div>
 			</a>
                 <div class="article-meta">
-				    <span>2021-03-28</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/03/27/stm32/004-USART/">
-				<h2 class="index-title">
-					004-USART
-				</h2>
-				<div class="index-brief">
-					函数学习串口时钟使能RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1)；
-串口复位USART_DeInit(USART1);
-串口参数初始化USART_Init(USART1, &amp;USART_InitStructure);
-其中，那个结构体里面要设置的
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-03-27</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/03/26/stm32/003-systick/">
-				<h2 class="index-title">
-					003-systick
-				</h2>
-				<div class="index-brief">
-					stm32的Systick简介SysTick是一个24位的系统节拍定时器system tick timer,SysTick,具有自动重载和溢出中断功能，所有基于Cortex_M3处理器的微控制器都可以由这个定时器获得一定的时间间隔。
-123456789101112131415161718void S
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-03-26</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/03/23/stm32/002-GPIO/">
-				<h2 class="index-title">
-					002-GPIO
-				</h2>
-				<div class="index-brief">
-					stm32 GPIOGPIO基本结构说明：  
-
-保护二极管：IO引脚上下两边两个二极管用于防止引脚外部过高、过低的电压输入。当引脚电压高于VDD时，上方的二极管导通；当引脚电压低于VSS时，下方的二极管导通，防止不正常电压引入芯片导致芯片烧毁。但是尽管如此，还是不能直接外接大功率器件，须加大功率及
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-03-23</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/03/15/stm32/001-%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B/">
-				<h2 class="index-title">
-					001-新建工程
-				</h2>
-				<div class="index-brief">
-					new project1.Create ProjectCreate a project directory  
-Create an empty C Source in it
-Click Project | New μVision Project...  
-Select STMicroelectron
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-03-15</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/03/15/tiva%20tm4c123G/000-STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">
-				<h2 class="index-title">
-					000-STM32F103RCT6单片机概况
-				</h2>
-				<div class="index-brief">
-					STM32F103RCT6单片机概况简介芯片STM32F103RCT6
-常用外设
-LED0 PA8
-LED1 PD1
-KEY0 PC1 按下为低电平
-KEY1 PC13 按下为低电平
-WK_UP PA0 按下为高电平系统资源
-48KB SRAM(Static Random-Access Memory
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-03-15</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/03/15/stm32/STM32F103RCT6%E5%8D%95%E7%89%87%E6%9C%BA%E6%A6%82%E5%86%B5/">
-				<h2 class="index-title">
-					STM32F103RCT6单片机概况
-				</h2>
-				<div class="index-brief">
-					STM32F103RCT6单片机概况简介芯片STM32F103RCT6
-常用外设
-LED0 PA8
-LED1 PD1
-KEY0 PC1
-KEY1 PC13系统资源
-48KB SRAM(Static Random-Access Memory，SRAM)
-256KB Flash
-两个基本定时器，四个通用
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-03-15</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/03/07/%E7%AE%97%E6%B3%95/permutation/">
-				<h2 class="index-title">
-					permutation
-				</h2>
-				<div class="index-brief">
-					全排列生成算法wikipedia上提供的一种方法这个方法可以以字典序生成一组数的全排列。方法非常简便，在14世纪由Narayana Pandita发现。
-
-Find the largest index k such that a[k] &lt; a[k + 1]. If no such index 
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-03-07</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/03/06/tiva%20tm4c123G/%E4%BC%91%E7%9C%A0%E6%A8%A1%E5%9D%97/">
-				<h2 class="index-title">
-					休眠模块
-				</h2>
-				<div class="index-brief">
-					这份文档没用运行多次，每次都卡死在HibernateEnableExpClk(ROM_SysCtlClockGet());函数，上网搜索无果，无法进入休眠状态。知道解决方法的人希望您能与我联系，感激不尽。
-休眠模块简介休眠模块允许通过软件来关闭微控制器，再通过软件或者外部WAKE引脚来打开微控制器。
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-03-06</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/03/02/tiva%20tm4c123G/1-Wire_Master/">
-				<h2 class="index-title">
-					1-Wire_Master
-				</h2>
-				<div class="index-brief">
-					简介例程1234567891011121314151617181920212223242526SysCtlPeripheralEnable(SYSCTL_PERIPH_ONEWIRE0);while(!SysCtlPeripheralReady(SYSCTL_PERIPH_ONEWIRE0))&#1
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-03-02</span>
+				    <span>2021-05-26</span>
                     
                             
                     
@@ -871,8 +690,6 @@ Find the largest index k such that a[k] &lt; a[k + 1]. If no such index
 	
 	
 	<div id="index-paginator">
-		
-			<span class="page-number current">1</span><a class="page-number" href="/archives/2021/03/page/2/">2</a><a class="extend next" rel="next" href="/archives/2021/03/page/2/">&gt;</a>
 		
 	</div>
 </div>
