@@ -172,6 +172,26 @@ var _hmt = _hmt || [];
 								<li class="directory">
 									<a href="#" class="directory">
 										<i class="fa fa-plus-square-o"></i>
+										linux
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2021/08/23/linux/linux%E5%9F%BA%E7%A1%80/">
+										linux基础
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
 										stm32
 									</a>
 									
@@ -769,12 +789,12 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/Interrupt%20Controller(NVIC)/">
+			<a href="/2021/01/29/tiva%20tm4c123G/Pulse%20Width%20Modulator/">
 				<h2 class="index-title">
-					Interrupt Controller(NVIC)
+					Pulse Width Modulator
 				</h2>
 				<div class="index-brief">
-					Interrupt Controller(NVIC)The interrupt controller API provides a set of functions for dealing with the Nested Vectored InterruptController (NVIC). Fu
+					PWM概述Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has 
 					...
 				</div>
 			</a>
@@ -787,12 +807,12 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/Pulse%20Width%20Modulator/">
+			<a href="/2021/01/29/tiva%20tm4c123G/Interrupt%20Controller(NVIC)/">
 				<h2 class="index-title">
-					Pulse Width Modulator
+					Interrupt Controller(NVIC)
 				</h2>
 				<div class="index-brief">
-					PWM概述Each instance of a Tiva PWM module provides up to four instances of a PWM generator block, and an output control block. Each generator block has 
+					Interrupt Controller(NVIC)The interrupt controller API provides a set of functions for dealing with the Nested Vectored InterruptController (NVIC). Fu
 					...
 				</div>
 			</a>
@@ -823,19 +843,14 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/Timer/">
+			<a href="/2021/01/29/tiva%20tm4c123G/TIMER_CAPTURE/">
 				<h2 class="index-title">
-					Timer
+					TIMER_CAPTURE
 				</h2>
 				<div class="index-brief">
-					Timer一、简介可编程定时器对于驱动定时器输入管脚的外部事件进行计数或计时。
-
-前置知识
-trigger是触发的意思
-本单片机提供了8个定时器
-有定时器/计数器/RTC…模式
-
-定时器实质上就是一个加1计数器。它随着计数器的输入脉冲进行自加1，也就是说当每来一个脉冲，计数器就会自动加1,如果当加到
+					TIMER_CAPTURE功能介绍计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位
+计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。
+加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，
 					...
 				</div>
 			</a>
@@ -848,14 +863,15 @@ trigger是触发的意思
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/TIMER_CAPTURE/">
+			<a href="/2021/01/29/tiva%20tm4c123G/UART/">
 				<h2 class="index-title">
-					TIMER_CAPTURE
+					UART
 				</h2>
 				<div class="index-brief">
-					TIMER_CAPTURE功能介绍计时器模块可以捕捉io脚的电平边沿，硬件上要求电平保持时间大于两个时钟周期，在这个模式下，技术范围扩展到24/48位
-计数值可以为加计数、减计数，加计数的范围是零到预设值，减计数是Preload到预设值。
-加计数和减计数的另一个差异是计数终止时的差异，加计数模式下，
+					UARTUART能干什么？
+能用来通信。
+感谢这个人的博客
+基本功能 向上位机输出一个字符1234567891011//使能UART和GPIOSysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);SysCtlPeripheralEnable(SYSCTL_PERIP
 					...
 				</div>
 			</a>

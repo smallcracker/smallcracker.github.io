@@ -172,6 +172,26 @@ var _hmt = _hmt || [];
 								<li class="directory">
 									<a href="#" class="directory">
 										<i class="fa fa-plus-square-o"></i>
+										linux
+									</a>
+									
+							<ul>
+								<li class="file">
+									<a href="/2021/08/23/linux/linux%E5%9F%BA%E7%A1%80/">
+										linux基础
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+								</li>
+								
+							</ul>
+			
+							<ul>
+								<li class="directory">
+									<a href="#" class="directory">
+										<i class="fa fa-plus-square-o"></i>
 										stm32
 									</a>
 									
@@ -663,6 +683,27 @@ var _hmt = _hmt || [];
 		<div id="index">
 	
 		<div class="index-li">
+			<a href="/2021/01/29/MIDI/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/">
+				<h2 class="index-title">
+					MIDI文件格式分析
+				</h2>
+				<div class="index-brief">
+					MIDI文件格式分析感谢这个博客
+开头每一个MIDI文件的开头都有如下一段内容，4d 54 68 64 00 00 00 06 ff ff nn nn dd dd
+前四个字节是ASCII字符MThd 表示这是一个Midi文件，
+下面四个字节是指明文件头描述部分的字节数，一共是6，所以一定是00 00
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
 			<a href="/2021/01/29/tiva%20tm4c123G/001-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
 				<h2 class="index-title">
 					001-创建项目
@@ -800,24 +841,6 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/Interrupt%20Controller(NVIC)/">
-				<h2 class="index-title">
-					Interrupt Controller(NVIC)
-				</h2>
-				<div class="index-brief">
-					Interrupt Controller(NVIC)The interrupt controller API provides a set of functions for dealing with the Nested Vectored InterruptController (NVIC). Fu
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
 			<a href="/2021/01/29/tiva%20tm4c123G/Pulse%20Width%20Modulator/">
 				<h2 class="index-title">
 					Pulse Width Modulator
@@ -836,12 +859,12 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/System%20Tick/">
+			<a href="/2021/01/29/tiva%20tm4c123G/Interrupt%20Controller(NVIC)/">
 				<h2 class="index-title">
-					System Tick
+					Interrupt Controller(NVIC)
 				</h2>
 				<div class="index-brief">
-					SysTickSysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Itsintended purpose is to provide a periodic inte
+					Interrupt Controller(NVIC)The interrupt controller API provides a set of functions for dealing with the Nested Vectored InterruptController (NVIC). Fu
 					...
 				</div>
 			</a>
@@ -854,19 +877,12 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/Timer/">
+			<a href="/2021/01/29/tiva%20tm4c123G/System%20Tick/">
 				<h2 class="index-title">
-					Timer
+					System Tick
 				</h2>
 				<div class="index-brief">
-					Timer一、简介可编程定时器对于驱动定时器输入管脚的外部事件进行计数或计时。
-
-前置知识
-trigger是触发的意思
-本单片机提供了8个定时器
-有定时器/计数器/RTC…模式
-
-定时器实质上就是一个加1计数器。它随着计数器的输入脉冲进行自加1，也就是说当每来一个脉冲，计数器就会自动加1,如果当加到
+					SysTickSysTick is a simple timer that is part of the NVIC controller in the Cortex-M microprocessor. Itsintended purpose is to provide a periodic inte
 					...
 				</div>
 			</a>
