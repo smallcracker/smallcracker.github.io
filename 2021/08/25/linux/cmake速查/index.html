@@ -731,12 +731,7 @@ var _hmt = _hmt || [];
 </div>
 
 <div id="article-content">
-	<h1 id="针对C-项目的CMakeLists"><a href="#针对C-项目的CMakeLists" class="headerlink" title="针对C++项目的CMakeLists"></a>针对C++项目的CMakeLists</h1><p>```bash</p>
-<h1 id="版本要求"><a href="#版本要求" class="headerlink" title="版本要求"></a>版本要求</h1><p>cmake_minimum_required(VERSION 3.0)</p>
-<h1 id="项目名称"><a href="#项目名称" class="headerlink" title="项目名称"></a>项目名称</h1><p>project( project_name )</p>
-<h1 id="编译选项"><a href="#编译选项" class="headerlink" title="编译选项"></a>编译选项</h1><p>set(CMAKE_CXX_FLAGS “${CMAKE_CXX_FLAGS} -std=c++11 -g -Wall”)</p>
-<h1 id="头文件路径"><a href="#头文件路径" class="headerlink" title="头文件路径"></a>头文件路径</h1><p>include_directories(“${CMAKE_SOURCE_DIR}/include”)</p>
-<h1 id="生成可执行文件"><a href="#生成可执行文件" class="headerlink" title="生成可执行文件"></a>生成可执行文件</h1><p>add_executable( exe_name all.cpp)</p>
+	<h1 id="针对C-项目的CMakeLists"><a href="#针对C-项目的CMakeLists" class="headerlink" title="针对C++项目的CMakeLists"></a>针对C++项目的CMakeLists</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required(VERSION 3.0)<span class="comment"># 版本要求</span></span><br><span class="line">project( project_name )<span class="comment"># 项目名称</span></span><br><span class="line"><span class="built_in">set</span>(CMAKE_CXX_FLAGS <span class="string">&quot;<span class="variable">$&#123;CMAKE_CXX_FLAGS&#125;</span> -std=c++11 -g -Wall&quot;</span>)<span class="comment"># 编译选项</span></span><br><span class="line">include_directories(<span class="string">&quot;<span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/include&quot;</span>)<span class="comment"># 头文件路径</span></span><br><span class="line">add_executable( exe_name all.cpp)<span class="comment"># 生成可执行文件</span></span><br></pre></td></tr></table></figure>
 
 </div>
 
@@ -747,8 +742,8 @@ var _hmt = _hmt || [];
         </div>
         <div class="item right">
             
-              <a href="/2021/08/24/linux/gcc%20%E7%BC%96%E8%AF%91%E5%99%A8/">
-                gcc 编译器
+              <a href="/2021/08/24/linux/linux%E5%9F%BA%E7%A1%80/">
+                linux基础
                 <i class="fa fa-angle-right" aria-hidden="true"></i>
               </a>
             
