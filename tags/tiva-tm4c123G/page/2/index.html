@@ -765,15 +765,15 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/GPIO_interrupt/">
+			<a href="/2021/01/29/tiva%20tm4c123G/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
 				<h2 class="index-title">
-					GPIO_interrupt
+					GPIO输出和输入
 				</h2>
 				<div class="index-brief">
-					GPIO中断资料来源
-一、函数介绍（1）void GPIOIntTypeSet(uint32_t ui32Port, uint8_t ui8Pins,uint32_t ui32IntType)
-功能：设置指定引脚的中断触发类型.
-参数:（1）ui32Port： GPIO口的基地址（2）ui8Pins
+					GPIO 输入和输出首先使能GPIO接口SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+接下来设置GPIO模式为输出GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);  
+
+如果要设置多个pin的话GPIO
 					...
 				</div>
 			</a>
@@ -786,15 +786,15 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
+			<a href="/2021/01/29/tiva%20tm4c123G/GPIO_interrupt/">
 				<h2 class="index-title">
-					GPIO输出和输入
+					GPIO_interrupt
 				</h2>
 				<div class="index-brief">
-					GPIO 输入和输出首先使能GPIO接口SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-接下来设置GPIO模式为输出GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);  
-
-如果要设置多个pin的话GPIO
+					GPIO中断资料来源
+一、函数介绍（1）void GPIOIntTypeSet(uint32_t ui32Port, uint8_t ui8Pins,uint32_t ui32IntType)
+功能：设置指定引脚的中断触发类型.
+参数:（1）ui32Port： GPIO口的基地址（2）ui8Pins
 					...
 				</div>
 			</a>
