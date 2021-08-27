@@ -177,8 +177,35 @@ var _hmt = _hmt || [];
 									
 							<ul>
 								<li class="file">
-									<a href="/2021/08/23/linux/linux%E5%9F%BA%E7%A1%80/">
+									<a href="/2021/08/25/linux/cmake%E9%80%9F%E6%9F%A5/">
+										cmake速查
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/08/24/linux/gcc%20%E7%BC%96%E8%AF%91%E5%99%A8/">
+										gcc 编译器
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/08/24/linux/linux%E5%9F%BA%E7%A1%80/">
 										linux基础
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/08/24/linux/vscode%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">
+										vscode使用技巧
 									</a>
 								</li>
 								<div class="article-toc" style="display: none;"></div>
@@ -605,6 +632,15 @@ var _hmt = _hmt || [];
 									
 							<ul>
 								<li class="file">
+									<a href="/2021/08/24/%E7%A3%81%E6%8E%A7%E6%9C%BA%E5%99%A8%E4%BA%BA/%E5%85%B6%E4%BB%96%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">
+										其他一些思考
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
 									<a href="/2021/08/23/%E7%A3%81%E6%8E%A7%E6%9C%BA%E5%99%A8%E4%BA%BA/%E5%9F%BA%E4%BA%8E%E7%9F%A9%E5%BD%A2%E7%94%B5%E7%A3%81%E7%BA%BF%E5%9C%88%E7%9A%84%E5%BE%AE%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%A3%81%E9%A9%B1%E5%8A%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E9%98%85%E8%AF%BB/">
 										基于矩形电磁线圈的微机器人磁驱动系统设计-阅读
 									</a>
@@ -663,15 +699,6 @@ var _hmt = _hmt || [];
 									
 							<ul>
 								<li class="file">
-									<a href="/2021/03/01/%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9D%97/ESP8266/">
-										ESP8266
-									</a>
-								</li>
-								<div class="article-toc" style="display: none;"></div>
-							</ul>
-			
-							<ul>
-								<li class="file">
 									<a href="/2021/04/30/%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9D%97/cc2541/">
 										cc2541
 									</a>
@@ -712,6 +739,62 @@ var _hmt = _hmt || [];
 		<div id="index">
 	
 		<div class="index-li">
+			<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator/">
+				<h2 class="index-title">
+					Analog Comparator
+				</h2>
+				<div class="index-brief">
+					Analog Comparator一、简介模拟比较器是一个外设，它能比较两个模拟电压的大小，并通过自身提供的逻辑输出端将比较结果以信号的形式输出。
+模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-30</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/30/tiva%20tm4c123G/Analog%20Comparator%EF%BC%88%E5%BE%85%E5%AE%8C%E6%88%90%EF%BC%89/">
+				<h2 class="index-title">
+					Analog Comparator（待完成）
+				</h2>
+				<div class="index-brief">
+					Analog Comparator一、简介模拟比较器可以将一个测试电压和一个独立的外部参考电压，共用的外部参考电压或共用的内部参考电压进行比较。它可以把比较结果输出到引脚上，也可以用于触发中断、触发ADC采样。它的中断产生逻辑是独立于ADC触发逻辑的，所以，AC可以基于一个事件产生一个中断，ADC可
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-30</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/30/tiva%20tm4c123G/FPU/">
+				<h2 class="index-title">
+					FPU
+				</h2>
+				<div class="index-brief">
+					FPU简介FPU指的是浮点运算单元。默认情况下，我们不能使用浮点数，只有使能了FPU才能浮点数。如果不打开浮点运算单元就用浮点数的话，单片机就会产生一个NOCP错误。（RTOS可以利用这个特性判断哪一项任务使用了浮点运算单元，以此只在涉及到这些任务的task switch中执行FPU。）
+当处理器执
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-30</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
 			<a href="/2021/01/29/tiva%20tm4c123G/%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE/">
 				<h2 class="index-title">
 					创建项目
@@ -738,27 +821,6 @@ name里面起一个名字
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/MIDI/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/">
-				<h2 class="index-title">
-					MIDI文件格式分析
-				</h2>
-				<div class="index-brief">
-					MIDI文件格式分析感谢这个博客
-开头每一个MIDI文件的开头都有如下一段内容，4d 54 68 64 00 00 00 06 ff ff nn nn dd dd
-前四个字节是ASCII字符MThd 表示这是一个Midi文件，
-下面四个字节是指明文件头描述部分的字节数，一共是6，所以一定是00 00
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
 			<a href="/2021/01/29/C%E5%B7%A5%E7%A8%8B%E7%9F%A5%E8%AF%86/c%E6%96%87%E4%BB%B6%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6/">
 				<h2 class="index-title">
 					c文件和头文件
@@ -772,6 +834,27 @@ name里面起一个名字
 汇编将汇编语言代 码转化成机器语言
 链接将各个目标文件中的各段代码进行绝对定位，生成根特定平台相关的可执行文件。（就是生成.exe文件）
 那么.h 
+					...
+				</div>
+			</a>
+                <div class="article-meta">
+				    <span>2021-01-29</span>
+                    
+                            
+                    
+                </div>
+		</div>	
+	
+		<div class="index-li">
+			<a href="/2021/01/29/MIDI/MIDI%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%88%86%E6%9E%90/">
+				<h2 class="index-title">
+					MIDI文件格式分析
+				</h2>
+				<div class="index-brief">
+					MIDI文件格式分析感谢这个博客
+开头每一个MIDI文件的开头都有如下一段内容，4d 54 68 64 00 00 00 06 ff ff nn nn dd dd
+前四个字节是ASCII字符MThd 表示这是一个Midi文件，
+下面四个字节是指明文件头描述部分的字节数，一共是6，所以一定是00 00
 					...
 				</div>
 			</a>
@@ -837,69 +920,6 @@ ADCIntSta
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/Analog%20to%20Digital%20Converter/">
-				<h2 class="index-title">
-					Analog to Digital Converter
-				</h2>
-				<div class="index-brief">
-					Analog to Digital Converter（模-数转换器）一、简介这款单片机有两个完全相同的转换器模块，它们共用12个输入通道。该ADC模块的转换分辨率为12位。
-每个ADC模块都包含4个可编程的序列发生器。采样序列发生器（Sample Sequencer 简写为SS）用于采样控制和数据
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/GPIO_PWM/">
-				<h2 class="index-title">
-					GPIO_PWM
-				</h2>
-				<div class="index-brief">
-					GPIOPinTypePWM一、概述感谢这位老哥
-Configures pin(s) for use by the PWM peripheral.
-
-配置引脚以用作PWM外设
-
-Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/GPIO_interrupt/">
-				<h2 class="index-title">
-					GPIO_interrupt
-				</h2>
-				<div class="index-brief">
-					GPIO中断资料来源
-一、函数介绍（1）void GPIOIntTypeSet(uint32_t ui32Port, uint8_t ui8Pins,uint32_t ui32IntType)
-功能：设置指定引脚的中断触发类型.
-参数:（1）ui32Port： GPIO口的基地址（2）ui8Pins
-					...
-				</div>
-			</a>
-                <div class="article-meta">
-				    <span>2021-01-29</span>
-                    
-                            
-                    
-                </div>
-		</div>	
-	
-		<div class="index-li">
 			<a href="/2021/01/29/tiva%20tm4c123G/GPIO%E8%BE%93%E5%87%BA%E5%92%8C%E8%BE%93%E5%85%A5/">
 				<h2 class="index-title">
 					GPIO输出和输入
@@ -921,12 +941,13 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 		</div>	
 	
 		<div class="index-li">
-			<a href="/2021/01/29/tiva%20tm4c123G/Interrupt%20Controller(NVIC)/">
+			<a href="/2021/01/29/tiva%20tm4c123G/Analog%20to%20Digital%20Converter/">
 				<h2 class="index-title">
-					Interrupt Controller(NVIC)
+					Analog to Digital Converter
 				</h2>
 				<div class="index-brief">
-					Interrupt Controller(NVIC)The interrupt controller API provides a set of functions for dealing with the Nested Vectored InterruptController (NVIC). Fu
+					Analog to Digital Converter（模-数转换器）一、简介这款单片机有两个完全相同的转换器模块，它们共用12个输入通道。该ADC模块的转换分辨率为12位。
+每个ADC模块都包含4个可编程的序列发生器。采样序列发生器（Sample Sequencer 简写为SS）用于采样控制和数据
 					...
 				</div>
 			</a>
@@ -941,7 +962,7 @@ Prototype:voidGPIOPinTypePWM(uint32_t ui32Port,uint8_t ui8Pin
 	
 	<div id="index-paginator">
 		
-			<a class="extend prev" rel="prev" href="/archives/2021/page/3/">&lt;</a><a class="page-number" href="/archives/2021/">1</a><a class="page-number" href="/archives/2021/page/2/">2</a><a class="page-number" href="/archives/2021/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/2021/page/5/">5</a><a class="extend next" rel="next" href="/archives/2021/page/5/">&gt;</a>
+			<a class="extend prev" rel="prev" href="/archives/2021/page/3/">&lt;</a><a class="page-number" href="/archives/2021/">1</a><a class="page-number" href="/archives/2021/page/2/">2</a><a class="page-number" href="/archives/2021/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/2021/page/5/">5</a><a class="page-number" href="/archives/2021/page/6/">6</a><a class="extend next" rel="next" href="/archives/2021/page/5/">&gt;</a>
 		
 	</div>
 </div>

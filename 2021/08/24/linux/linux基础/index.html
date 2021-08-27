@@ -178,9 +178,36 @@ var _hmt = _hmt || [];
 									</a>
 									
 							<ul>
+								<li class="file">
+									<a href="/2021/08/25/linux/cmake%E9%80%9F%E6%9F%A5/">
+										cmake速查
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/08/24/linux/gcc%20%E7%BC%96%E8%AF%91%E5%99%A8/">
+										gcc 编译器
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
 								<li class="file active">
-									<a href="/2021/08/23/linux/linux%E5%9F%BA%E7%A1%80/">
+									<a href="/2021/08/24/linux/linux%E5%9F%BA%E7%A1%80/">
 										linux基础
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
+									<a href="/2021/08/24/linux/vscode%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">
+										vscode使用技巧
 									</a>
 								</li>
 								<div class="article-toc" style="display: none;"></div>
@@ -607,6 +634,15 @@ var _hmt = _hmt || [];
 									
 							<ul>
 								<li class="file">
+									<a href="/2021/08/24/%E7%A3%81%E6%8E%A7%E6%9C%BA%E5%99%A8%E4%BA%BA/%E5%85%B6%E4%BB%96%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">
+										其他一些思考
+									</a>
+								</li>
+								<div class="article-toc" style="display: none;"></div>
+							</ul>
+			
+							<ul>
+								<li class="file">
 									<a href="/2021/08/23/%E7%A3%81%E6%8E%A7%E6%9C%BA%E5%99%A8%E4%BA%BA/%E5%9F%BA%E4%BA%8E%E7%9F%A9%E5%BD%A2%E7%94%B5%E7%A3%81%E7%BA%BF%E5%9C%88%E7%9A%84%E5%BE%AE%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%A3%81%E9%A9%B1%E5%8A%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E9%98%85%E8%AF%BB/">
 										基于矩形电磁线圈的微机器人磁驱动系统设计-阅读
 									</a>
@@ -665,15 +701,6 @@ var _hmt = _hmt || [];
 									
 							<ul>
 								<li class="file">
-									<a href="/2021/03/01/%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9D%97/ESP8266/">
-										ESP8266
-									</a>
-								</li>
-								<div class="article-toc" style="display: none;"></div>
-							</ul>
-			
-							<ul>
-								<li class="file">
 									<a href="/2021/04/30/%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9D%97/cc2541/">
 										cc2541
 									</a>
@@ -718,7 +745,7 @@ var _hmt = _hmt || [];
 <div class="article-meta">
 	
 	<span>smallcracker</span>
-	<span>2021-08-23 00:56:39</span>
+	<span>2021-08-24 00:00:00</span>
 		<div id="article-categories">
     
 		<span>Categories：</span>
@@ -728,24 +755,50 @@ var _hmt = _hmt || [];
     
 		<span>Tags：</span>
             
+                
+                    <span>
+                        <i class="fa fa-tag" aria-hidden="true">
+                        <a href="/tags/linux/">linux</a>
+                        </i>
+                    </span>
+                
+            
     
 		</div>
 
 </div>
 
 <div id="article-content">
-	
+	<h1 id="linux目录认识"><a href="#linux目录认识" class="headerlink" title="linux目录认识"></a>linux目录认识</h1><ul>
+<li>Bin 保存二进制文件</li>
+<li>Dev 存放外接设备，例如盘、其他的光盘等。在其中的外接设备是需要挂载后使用（类似window下的分配盘符）</li>
+<li>Etc：主要存储一些配置文件。</li>
+<li>Home：表示“家”，表示除了root用户以外其他用户的家目录，类似于windows下的User/用户目录，使用波浪线表示该用户的home目录。</li>
+<li>Proc：全称process，表示进程，该目录中存储的是Linux运行时候的进程。</li>
+<li>Root：该目录是root用户自己的家目录。</li>
+<li>Sbin：全称super binary，该目录也是存储一些可以被执行的二进制文件，但是必须得有super权限的用户才能执行。</li>
+<li>Tmp：表示“临时”的，当系统运行时候产生的临时文件会在这个目录存着。</li>
+<li>Usr：存放的是用户自己安装的软件。类似于windows下的program files。</li>
+<li>Var：存放的程序/系统的日志文件的目录。</li>
+<li>Mnt：当外接设备需要挂载的时候，就需要挂载到mnt目录下。<h1 id="linux常用指令"><a href="#linux常用指令" class="headerlink" title="linux常用指令"></a>linux常用指令</h1>```bash<br>pwd<br>ls [-lah]<br>cd<br>mkdir [-p] #可以一次创建多个目录<br>tree<br>touch # 创建新文件 后面的文件名可以加上路径<br>rm # 删除文件夹使用 -rf 参数<br>cp # 复制文件夹时使用参数-r<br>mv # 移动文件，同时也可以重命名文件<br>man # 查看某一个linux命令的用法<br>reboot # 重启linux系统<br>shutdown # 关机</li>
+</ul>
+
 </div>
 
 
     <div class="post-guide">
         <div class="item left">
             
+              <a href="/2021/08/24/linux/gcc%20%E7%BC%96%E8%AF%91%E5%99%A8/">
+                  <i class="fa fa-angle-left" aria-hidden="true"></i>
+                  gcc 编译器
+              </a>
+            
         </div>
         <div class="item right">
             
-              <a href="/2021/08/23/%E7%A3%81%E6%8E%A7%E6%9C%BA%E5%99%A8%E4%BA%BA/%E5%9F%BA%E4%BA%8E%E7%9F%A9%E5%BD%A2%E7%94%B5%E7%A3%81%E7%BA%BF%E5%9C%88%E7%9A%84%E5%BE%AE%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%A3%81%E9%A9%B1%E5%8A%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E9%98%85%E8%AF%BB/">
-                基于矩形电磁线圈的微机器人磁驱动系统设计-阅读
+              <a href="/2021/08/24/linux/vscode%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">
+                vscode使用技巧
                 <i class="fa fa-angle-right" aria-hidden="true"></i>
               </a>
             
